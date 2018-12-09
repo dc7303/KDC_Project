@@ -68,3 +68,6 @@ tmp/**/*
 
 #server
 Servers/
+
+# DataSource values
+dbInfo.properties
