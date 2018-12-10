@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	
+	
+    <!-- 
+        권한 종류
+        관리자 : ROLE_ADMIN
+        강사 : ROLE_TEACHER
+        수강생 : ROLE_STUDENT
+        기업 : ROLE_COMPANY
+        일반회원 : ROLE_MEMBER
+     -->
+    <!--  PasswordEncoder를 빈으로 등록 -->
+    <bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    
+	<!-- Spring Security 인증처리로직를 정의한 클래스 -->
+	<sec:http use-expressions="true" auto-config="true">
+	<sec:intercept-url pattern="/adminTest"  access="hasRole('ROLE_ADMIN')"/>
+	<!-- <sec:intercept-url pattern="/**"  access="permitAll"/> -->
+	<sec:form-login
+		login-page="/loginForm"
+		login-processing-url="/j_spring_security_check"
+		username-parameter="userId"
+		password-parameter="userPwd"
+		default-target-url="/"
+        authentication-failure-handler-ref="memberAuthenticationFailureHandler"
+	/>
+	 
+	<sec:logout
+		invalidate-session="true"
+		delete-cookies="JSESSIONID"
+		logout-url="/logout" 
+		logout-success-url="/"
+	/> 
+</sec:http>
+
+<sec:authentication-manager>
+	<sec:authentication-provider ref="userAuthenticationProvider"/>
+</sec:authentication-manager>
+
+<context:component-scan base-package="edu.kosta.kdc.security"/>
+
+
+</beans>
+
