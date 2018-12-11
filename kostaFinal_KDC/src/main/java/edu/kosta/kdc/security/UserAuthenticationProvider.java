@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 
 import edu.kosta.kdc.dao.AuthDAO;
 import edu.kosta.kdc.dao.UserInfoDAO;
-import edu.kosta.kdc.dto.AuthDTO;
-import edu.kosta.kdc.dto.UserInfoDTO;
+import edu.kosta.kdc.dto.AuthorityDTO;
+import edu.kosta.kdc.dto.MemberDTO;
 
 @Service 
 public class UserAuthenticationProvider implements AuthenticationProvider {
@@ -48,7 +48,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 		
 		//2. 인증됬다면, 인수로 받는 user정보를 가지고 디비에 존재하는지 체크(id check)
 		String userId = auth.getName();
-		UserInfoDTO userDTO = null;
+		MemberDTO userDTO = null;
         try {
             userDTO = userDAO.findByUserId(userId);
         } catch (SQLException e) {
@@ -71,7 +71,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         ////////////    여기까지 왔다면 인증에 성공함  ///////////////// 
         //4. id, password 모두가 일치하면 Authentication를 만들어서 리턴.
         // 사용자의 권한을 조회 : 하나의 사용자는 여러개의 권한을 가짐.
-        List<AuthDTO> list = null;
+        List<AuthorityDTO> list = null;
         try {
             list = authDAO.findAuthByUserId(userId);
         } catch (SQLException e) {
@@ -87,7 +87,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         //db에서 가지고 온 권한을 GrantedAuthority 로 변환해야함.
         List<SimpleGrantedAuthority> authList = new ArrayList<SimpleGrantedAuthority>();
         
-        for(AuthDTO authority : list){
+        for(AuthorityDTO authority : list){
             authList.add(new SimpleGrantedAuthority(authority.getAuthName()));
         }
         //UsernamePasswordAuthenticationToken(Object principal, Object credentials, authorities)

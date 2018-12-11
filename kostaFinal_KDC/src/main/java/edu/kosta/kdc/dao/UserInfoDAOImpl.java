@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import edu.kosta.kdc.dto.UserInfoDTO;
+import edu.kosta.kdc.dto.MemberDTO;
 
 @Repository
 public class UserInfoDAOImpl implements UserInfoDAO {
@@ -15,13 +15,13 @@ public class UserInfoDAOImpl implements UserInfoDAO {
     private SqlSession session;
     
     @Override
-    public int insert(UserInfoDTO userDTO) throws SQLException {
+    public int insert(MemberDTO userDTO) throws SQLException {
         
         return session.insert("userMapper.userInsert", userDTO);
     }
 
     @Override
-    public UserInfoDTO findByUserId(String userId) throws SQLException {
+    public MemberDTO findByUserId(String userId) throws SQLException {
         
         return session.selectOne("userMapper.findByUserId", userId);
     }

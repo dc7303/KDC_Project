@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import edu.kosta.kdc.dto.AuthDTO;
+import edu.kosta.kdc.dto.AuthorityDTO;
 
 @Repository
 public class AuthDAOImpl implements AuthDAO {
@@ -16,13 +16,13 @@ public class AuthDAOImpl implements AuthDAO {
     private SqlSession session;
     
     @Override
-    public List<AuthDTO> findAuthByUserId(String userId) throws SQLException {
+    public List<AuthorityDTO> findAuthByUserId(String userId) throws SQLException {
         
         return session.selectList("authMapper.authSelect", userId);
     }
     
     @Override
-    public int insertAuth(AuthDTO authDTO) {
+    public int insertAuth(AuthorityDTO authDTO) {
         
         return session.insert("authMapper.authInsert", authDTO);
     }

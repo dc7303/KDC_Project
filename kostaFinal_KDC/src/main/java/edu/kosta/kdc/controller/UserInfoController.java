@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import edu.kosta.kdc.dto.UserInfoDTO;
+import edu.kosta.kdc.dto.MemberDTO;
 import edu.kosta.kdc.service.UserInfoService;
 
 @Controller
@@ -16,7 +16,7 @@ public class UserInfoController {
     private UserInfoService service;
     
     @RequestMapping("/insert")
-    public String insert(UserInfoDTO userDTO) {
+    public String insert(MemberDTO userDTO) {
         
         try {
             service.insert(userDTO);

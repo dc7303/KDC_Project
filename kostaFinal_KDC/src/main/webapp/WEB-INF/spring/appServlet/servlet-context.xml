@@ -21,20 +21,15 @@
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
-        <beans:property name="order" value="2"/>
+        <beans:property name="order" value="3"/>
 	</beans:bean>
 	
 	<context:component-scan base-package="edu.kosta.kdc" />
 	
     
     
-    <!-- 
-        tiles 사용시 UrlBeasedViewResolver order값과 겹치지 않도록
-        상위 InternalResourceViewResolver order값 3으로 수정해줘야함.
-        현 프로젝트에 맞게 수정해야할 부분 수정해야함.
-     -->
-    <!-- 
-    tiles 등록하기
+
+    <!-- tiles 등록하기  -->
     <beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
         <beans:property name="order" value="2"/>
@@ -49,7 +44,12 @@
         </beans:property>
     </beans:bean>
   
-    <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+  
+    <!-- 
+        ExceptionResolver 
+        사용시 주석 풀것 
+    -->
+<!--     <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <beans:property name="exceptionMappings">
             <beans:props>
                 <beans:prop key="java.lang.Exception">
@@ -57,12 +57,12 @@
                 </beans:prop>
             </beans:props>
         </beans:property>  
-    </beans:bean>
+    </beans:bean> -->
     
-    세션 유무체크하는 AOP설정하기
+    <!-- AOP설정 -->
     <aop:aspectj-autoproxy/>
     
-    뒤로 가기 했을때 Cache에 기억된 정보를 가져오지 않고 새로고침으로 데이터 읽어오기 설정
+    <!-- 뒤로 가기 했을때 Cache에 기억된 정보를 가져오지 않고 새로고침으로 데이터 읽어오기 설정 -->
     <interceptors>
         <beans:bean class="org.springframework.web.servlet.mvc.WebContentInterceptor">
             <beans:property name="cacheSeconds" value="0"/>
@@ -71,6 +71,5 @@
             <beans:property name="useCacheControlNoStore" value="true"/>
         </beans:bean>
     </interceptors>
-	 -->
 	
 </beans:beans>
