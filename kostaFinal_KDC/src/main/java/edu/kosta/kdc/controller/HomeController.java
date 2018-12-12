@@ -3,6 +3,8 @@ package edu.kosta.kdc.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import edu.kosta.kdc.model.dto.ClassRoomInfoDTO;
+
 @Controller
 public class HomeController {
 
@@ -11,4 +13,5 @@ public class HomeController {
         
         return "index";
     }
+    
 }

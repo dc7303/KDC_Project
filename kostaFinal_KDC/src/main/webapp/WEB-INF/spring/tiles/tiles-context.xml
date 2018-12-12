@@ -4,12 +4,16 @@
 
 <tiles-definitions>
   <definition name="layout" template="/WEB-INF/views/tiles/layout.jsp">
-    <put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp"/>
+    <put-attribute name="nav" value="/WEB-INF/views/tiles/nav.jsp"/>
     <put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
   </definition>
   
   <definition extends="layout" name="*">
     <put-attribute name="content" value="/WEB-INF/views/{1}.jsp"/>
+  </definition>
+  
+  <definition extends="layout" name="*/*">
+    <put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp"/>
   </definition>
   
 </tiles-definitions>

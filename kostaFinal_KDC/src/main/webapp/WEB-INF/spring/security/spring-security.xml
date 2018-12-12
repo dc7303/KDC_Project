@@ -24,10 +24,10 @@
 	<sec:intercept-url pattern="/adminTest"  access="hasRole('ROLE_ADMIN')"/>
 	<!-- <sec:intercept-url pattern="/**"  access="permitAll"/> -->
 	<sec:form-login
-		login-page="/loginForm"
+		login-page="/member/signInForm"
 		login-processing-url="/j_spring_security_check"
-		username-parameter="userId"
-		password-parameter="userPwd"
+		username-parameter="memberId"
+		password-parameter="memberPwd"
 		default-target-url="/"
         authentication-failure-handler-ref="memberAuthenticationFailureHandler"
 	/>
@@ -35,7 +35,7 @@
 	<sec:logout
 		invalidate-session="true"
 		delete-cookies="JSESSIONID"
-		logout-url="/logout" 
+		logout-url="/member/logout" 
 		logout-success-url="/"
 	/> 
 </sec:http>

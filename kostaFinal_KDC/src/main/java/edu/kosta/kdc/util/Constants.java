@@ -4,6 +4,7 @@ package edu.kosta.kdc.util;
  * ROLE에 해당하는 상수필드 정의
  * */
 public interface Constants {
+    
 	/**
 	 * 일반사용자 ROLE
 	 * */

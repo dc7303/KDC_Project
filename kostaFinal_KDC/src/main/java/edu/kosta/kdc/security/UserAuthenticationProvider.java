@@ -15,19 +15,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import edu.kosta.kdc.dao.AuthDAO;
-import edu.kosta.kdc.dao.UserInfoDAO;
-import edu.kosta.kdc.dto.AuthorityDTO;
-import edu.kosta.kdc.dto.MemberDTO;
+import edu.kosta.kdc.model.dao.AuthorityDAO;
+import edu.kosta.kdc.model.dao.MemberDAO;
+import edu.kosta.kdc.model.dto.AuthorityDTO;
+import edu.kosta.kdc.model.dto.MemberDTO;
 
 @Service 
 public class UserAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
-	private UserInfoDAO userDAO;
+	private MemberDAO memberDAO;
 	
 	@Autowired
-	private AuthDAO authDAO;
+	private AuthorityDAO authorityDAO;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -47,41 +47,32 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 		}
 		
 		//2. 인증됬다면, 인수로 받는 user정보를 가지고 디비에 존재하는지 체크(id check)
-		String userId = auth.getName();
-		MemberDTO userDTO = null;
-        try {
-            userDTO = userDAO.findByUserId(userId);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+		String memberId = auth.getName();
+		MemberDTO memberDTO = null;
+        
+		memberDTO = memberDAO.memberSelectByMemberId(memberId);
 		
         
-		if(userDTO == null){
+		if(memberDTO == null){
 			throw new UsernameNotFoundException("정보가 일치하지 않습니다.");//spring exception
 		}
 		
 		//3.비밀번호 비교
-		String userPwd = (String)auth.getCredentials();
+		String memberPwd = (String)auth.getCredentials();
 		
-		if(!passwordEncoder.matches(userPwd, userDTO.getUserPwd())){
+		if(!passwordEncoder.matches(memberPwd, memberDTO.getMemberPwd())){
 			throw new BadCredentialsException("정보가 일치하지 않습니다.");
 		}
-		
-        ////////////    여기까지 왔다면 인증에 성공함  ///////////////// 
+
+
         //4. id, password 모두가 일치하면 Authentication를 만들어서 리턴.
         // 사용자의 권한을 조회 : 하나의 사용자는 여러개의 권한을 가짐.
         List<AuthorityDTO> list = null;
-        try {
-            list = authDAO.findAuthByUserId(userId);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
+        list = authorityDAO.authoritySelectByMemberId(memberId);
+
         if(list.isEmpty()){
             //아무 권한이 없는경우....
-            throw new UsernameNotFoundException(userId + "는 아무 권한이 없습니다.");
+            throw new UsernameNotFoundException(memberId + "는 아무 권한이 없습니다.");
         }
         
         //db에서 가지고 온 권한을 GrantedAuthority 로 변환해야함.
@@ -93,7 +84,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         //UsernamePasswordAuthenticationToken(Object principal, Object credentials, authorities)
         //UsernamePasswordAuthenticationToken는 Authentication의 자식객체
         //인증완료된 결과로 UsernamePasswordAuthenticationToken를 리턴한다.
-        return new UsernamePasswordAuthenticationToken(userDTO, null, authList);
+        return new UsernamePasswordAuthenticationToken(memberDTO, null, authList);
     }
 
     /**

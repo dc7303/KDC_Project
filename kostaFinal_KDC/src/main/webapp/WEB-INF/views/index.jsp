@@ -7,18 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-  <h1>myBatis, security 테스트</h1>
-  <form action="${pageContext.request.contextPath }/insert" method="post">
-    <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-    ID:<input type="text" name="userId" placeholder="id입력"/><br/>
-    PW:<input type="password" name="userPwd" placeholder="pw입력"/><br/>
-    NAME:<input type="text" name="userName" placeholder="이름"/><br/>
-    <select name="auth">
-      <option value="ROLE_ADMIN">ROLE_ADMIN</select><br/>
-    </select>
-    <input type="submit" value="가입"/>
-  </form>
+  <h1>Index입니다</h1>
   
-  <h3><a href="${pageContext.request.contextPath }/adminTest">admin Test</a></h3>
 </body>
 </html>
