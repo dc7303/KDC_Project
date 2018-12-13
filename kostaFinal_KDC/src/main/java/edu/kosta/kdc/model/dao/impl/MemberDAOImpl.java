@@ -18,8 +18,8 @@ public class MemberDAOImpl implements MemberDAO {
      */
     @Override
     public int memberInsert(MemberDTO memberDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+        
+        return sqlSession.insert("memberMapper.insert", memberDTO);
     }
 
     /**

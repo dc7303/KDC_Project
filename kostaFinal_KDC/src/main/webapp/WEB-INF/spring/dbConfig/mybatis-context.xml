@@ -21,6 +21,7 @@
         </beans:property>
     </beans:bean>
 
+
     <!-- dataSource 설정  -->
     <beans:bean id="dataSource" 
         class="org.apache.commons.dbcp.BasicDataSource"
@@ -33,6 +34,7 @@
         <beans:property name="dataSource" ref="dataSource" />
         <beans:property name="mapperLocations" value="classpath:edu/kosta/kdc/mapper/*Mapper.xml" />
         <beans:property name="typeAliasesPackage" value="edu.kosta.kdc.model.dto" />
+        <beans:property name="typeHandlers" value="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     </beans:bean>
 
     <!-- SqlSessionTemplate는 SqlSession의 구현객체로 SqlSession의 모든 기능을 가지고 있다. -->

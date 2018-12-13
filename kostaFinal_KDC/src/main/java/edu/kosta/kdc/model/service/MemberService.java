@@ -10,7 +10,7 @@ public interface MemberService {
      * @param memberDTO
      * @return
      */
-    int memberInsert(MemberDTO memberDTO);
+    int memberInsert(MemberDTO memberDTO, String authCode);
     
     /**
      * 멤버 정보 수정.

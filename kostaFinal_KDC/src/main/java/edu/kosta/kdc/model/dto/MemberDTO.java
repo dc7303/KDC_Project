@@ -2,105 +2,104 @@ package edu.kosta.kdc.model.dto;
 
 public class MemberDTO {
     
-    private String MemberId;          //유저ID
-    private String MemberPwd;         //유저PWD
-    private String MemberName;        //유저 이름
-    private String MemberNickName;    //닉네임
-    private String MemberBirth;       //생일
-    private String MemberPhone;       //휴대폰 번호
-    private String MemberEmail;       //유저 이메일
-    private boolean MemberIsWithdrawal;  //탈퇴여부
-    private String MemberDate;        //유저 가입일
+    private String memberId;          //유저ID
+    private String memberPwd;         //유저PWD
+    private String memberName;        //유저 이름
+    private String memberNickName;    //닉네임
+    private String memberBirth;       //생일
+    private String memberPhone;       //휴대폰 번호
+    private String memberEmail;       //유저 이메일
+    private boolean memberIsWithdrawal;  //탈퇴여부
+    private String memberDate;        //유저 가입일
     
     public MemberDTO() {}
 
     public MemberDTO(String memberId, String memberPwd, String memberName, String memberNickName, String memberBirth,
             String memberPhone, String memberEmail, boolean memberIsWithdrawal, String memberDate) {
         super();
-        MemberId = memberId;
-        MemberPwd = memberPwd;
-        MemberName = memberName;
-        MemberNickName = memberNickName;
-        MemberBirth = memberBirth;
-        MemberPhone = memberPhone;
-        MemberEmail = memberEmail;
-        MemberIsWithdrawal = memberIsWithdrawal;
-        MemberDate = memberDate;
+        this.memberId = memberId;
+        this.memberPwd = memberPwd;
+        this.memberName = memberName;
+        this.memberNickName = memberNickName;
+        this.memberBirth = memberBirth;
+        this.memberPhone = memberPhone;
+        this.memberEmail = memberEmail;
+        this.memberIsWithdrawal = memberIsWithdrawal;
+        this.memberDate = memberDate;
     }
 
-
-
     public String getMemberId() {
-        return MemberId;
+        return memberId;
     }
 
     public void setMemberId(String memberId) {
-        MemberId = memberId;
+        this.memberId = memberId;
     }
 
     public String getMemberPwd() {
-        return MemberPwd;
+        return memberPwd;
     }
 
     public void setMemberPwd(String memberPwd) {
-        MemberPwd = memberPwd;
+        this.memberPwd = memberPwd;
     }
 
     public String getMemberName() {
-        return MemberName;
+        return memberName;
     }
 
     public void setMemberName(String memberName) {
-        MemberName = memberName;
+        this.memberName = memberName;
     }
 
     public String getMemberNickName() {
-        return MemberNickName;
+        return memberNickName;
     }
 
     public void setMemberNickName(String memberNickName) {
-        MemberNickName = memberNickName;
+        this.memberNickName = memberNickName;
     }
 
     public String getMemberBirth() {
-        return MemberBirth;
+        return memberBirth;
     }
 
     public void setMemberBirth(String memberBirth) {
-        MemberBirth = memberBirth;
+        this.memberBirth = memberBirth;
     }
 
     public String getMemberPhone() {
-        return MemberPhone;
+        return memberPhone;
     }
 
     public void setMemberPhone(String memberPhone) {
-        MemberPhone = memberPhone;
+        this.memberPhone = memberPhone;
     }
 
     public String getMemberEmail() {
-        return MemberEmail;
+        return memberEmail;
     }
 
     public void setMemberEmail(String memberEmail) {
-        MemberEmail = memberEmail;
+        this.memberEmail = memberEmail;
     }
 
     public boolean isMemberIsWithdrawal() {
-        return MemberIsWithdrawal;
+        return memberIsWithdrawal;
     }
 
     public void setMemberIsWithdrawal(boolean memberIsWithdrawal) {
-        MemberIsWithdrawal = memberIsWithdrawal;
+        this.memberIsWithdrawal = memberIsWithdrawal;
     }
 
     public String getMemberDate() {
-        return MemberDate;
+        return memberDate;
     }
 
     public void setMemberDate(String memberDate) {
-        MemberDate = memberDate;
+        this.memberDate = memberDate;
     }
 
+    
     
 }
