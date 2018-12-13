@@ -9,13 +9,13 @@ public class MemberDTO {
     private String MemberBirth;       //생일
     private String MemberPhone;       //휴대폰 번호
     private String MemberEmail;       //유저 이메일
-    private boolean MemberIsWithdrawal;  //탈퇴여부
+    private String MemberIsWithdrawal;  //탈퇴여부
     private String MemberDate;        //유저 가입일
     
     public MemberDTO() {}
 
     public MemberDTO(String memberId, String memberPwd, String memberName, String memberNickName, String memberBirth,
-            String memberPhone, String memberEmail, boolean memberIsWithdrawal, String memberDate) {
+            String memberPhone, String memberEmail, String memberIsWithdrawal, String memberDate) {
         super();
         MemberId = memberId;
         MemberPwd = memberPwd;
@@ -86,11 +86,11 @@ public class MemberDTO {
         MemberEmail = memberEmail;
     }
 
-    public boolean isMemberIsWithdrawal() {
+    public String isMemberIsWithdrawal() {
         return MemberIsWithdrawal;
     }
 
-    public void setMemberIsWithdrawal(boolean memberIsWithdrawal) {
+    public void setMemberIsWithdrawal(String memberIsWithdrawal) {
         MemberIsWithdrawal = memberIsWithdrawal;
     }
 

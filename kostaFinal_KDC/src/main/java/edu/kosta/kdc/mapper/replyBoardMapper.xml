@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="replyBoardMapper">
-    
+
+<resultMap type="replyBoardDTO" id="replyBoardMap">
+    <id column="REPLY_BOARD_PK" property="replyBoardPk"/>
+    <result column="REPLY_BOARD_CLASSIFICATION" property="replyBoardClassification"/>
+    <result column="REPLY_BOARD_REPLY_NO" property="replyBoardIsReply"/>
+    <result column="REPLY_BOARD_TITLE" property="replyBoardTitle"/>
+    <result column="REPLY_BOARD_WRITER_ID" property="replyBoardWriterId"/>
+    <result column="REPLY_BOARD_WRITE_DATE" property="replyBoardDate"/>
+    <result column="REPLY_BOARD_CONTENTS" property="replyBoardContents"/>
+    <result column="REPLY_BOARD_VIEWS" property="replyBoardViews"/>
+    <result column="REPLY_BOARD_MENTION" property="replyBoardMention"/>
+    <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete"/>
+</resultMap>
+
+<resultMap type="replyBoardDTO" id="replyBoardSelectAllMap">
+    <id column="REPLY_BOARD_PK" property="replyBoardPk"/>
+    <result column="REPLY_BOARD_CLASSIFICATION" property="replyBoardClassification"/>
+    <result column="REPLY_BOARD_REPLY_NO" property="replyBoardIsReply"/>
+    <result column="REPLY_BOARD_TITLE" property="replyBoardTitle"/>
+    <result column="REPLY_BOARD_WRITER_ID" property="replyBoardWriterId"/>
+    <result column="REPLY_BOARD_WRITE_DATE" property="replyBoardDate"/>
+    <result column="REPLY_BOARD_CONTENTS" property="replyBoardContents"/>
+    <result column="REPLY_BOARD_VIEWS" property="replyBoardViews"/>
+    <result column="REPLY_BOARD_MENTION" property="replyBoardMention"/>
+    <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete"/>
+    <result column="likeNum" property="likeNum"/>
+    <result column="replyNum" property="replyNum"/>
+    <association property="member" javaType="memberDTO">
+        <id column="MEMBER_ID" property="MemberId"/>
+        <result column="MEMBER_PW" property="MemberPwd"/>
+        <result column="MEMBER_NAME" property="MemberName"/>
+        <result column="MEMBER_NICKNAME" property="MemberNickName"/>
+        <result column="MEMBER_BIRTHDAY" property="MemberBirth"/>
+        <result column="MEMBER_PHONENUMBER" property="MemberPhone"/>
+        <result column="MEMBER_EMAIL" property="MemberEmail"/>
+        <result column="MEMBER_ISWITHDRAWAL" property="MemberIsWithdrawal"/>
+        <result column="MEMBER_JOIN_DATE" property="MemberDate"/>
+    </association>
+    <association property="updown" javaType="upDownDTO">
+        <id column="UPDOWN_PK" property="updownPk"/>
+        <result column="UPDOWN_REPLY_BOARD_PK" property="updownReplyBoardPk"/>
+        <result column="UPDOWN_USER_ID" property="updownMemberId"/>
+        <result column="UPDOWN_ISUP" property="isUp"/>
+    </association>
+</resultMap>
+
+<select id="replyBoardSelectAll" parameterType="String" resultMap="replyBoardMap">
+SELECT A.*
+, B.MEMBER_NICKNAME
+, (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'TRUE')
+- (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'FALSE') likeNum
+, (SELECT COUNT(C.REPLY_BOARD_PK) FROM REPLY_BOARD C WHERE C.REPLY_BOARD_REPLY_NO = A.REPLY_BOARD_PK) replyNum
+FROM REPLY_BOARD A, MEMBER B
+WHERE A.REPLY_BOARD_CLASSIFICATION = #{_parameter}
+AND A.REPLY_BOARD_ISDELETE = 'FALSE'
+AND A.REPLY_BOARD_REPLY_NO IS NULL
+AND A.REPLY_BOARD_WRITER_ID = B.MEMBER_ID
+ORDER BY A.REPLY_BOARD_PK
+</select>
+
+<insert id="replyBoardInsert" parameterType="replyBoardDTO">
+    INSERT INTO REPLY_BOARD 
+    VALUES (REPLY_BOARD_SEQ.NEXTVAL, #{replyBoardClassification}, null, #{replyBoardTitle}, 'lake', SYSDATE, #{replyBoardContents}, '0', NULL, 'FALSE')
+</insert>
+
+<update id="readnumUpdate" parameterType="String">
+    update REPLY_BOARD set REPLY_BOARD_VIEWS = REPLY_BOARD_VIEWS + 1 where REPLY_BOARD_TITLE= #{replyBoardTitle}
+</update>
 
 </mapper>
