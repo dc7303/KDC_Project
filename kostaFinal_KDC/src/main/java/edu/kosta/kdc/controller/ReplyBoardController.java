@@ -3,7 +3,6 @@ package edu.kosta.kdc.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,11 +55,15 @@ public class ReplyBoardController {
      * 상세보기
      * */
     @RequestMapping("/read")
-    public String read(HttpSession session, @RequestParam(value="replyBoardTitle")String replyBoardTitle, HttpServletRequest request) {
+    public String read(@RequestParam(value="replyBoardPk")int replyBoardPk, @RequestParam(value="classification") String title,ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model) {
         boolean state = request.getParameter("state")== null? true : false;
-        ReplyBoardDTO replyBoardDTO = replyBoardService.selectByReplyBoardTitle(replyBoardTitle, state);
-        request.setAttribute("elec", replyBoardDTO);
-        
-        return "board/read";
+        replyBoardDTODB.setReplyBoardClassification(title);
+
+        List<ReplyBoardDTO> replyBoardDTO = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
+        //request.setAttribute("replyBoardDTO", replyBoardDTO);
+        for(ReplyBoardDTO dto : replyBoardDTO) {
+        }
+        model.addAttribute("replyBoardDTO",replyBoardDTO);
+        return "/replyBoard/read";
     }
 }

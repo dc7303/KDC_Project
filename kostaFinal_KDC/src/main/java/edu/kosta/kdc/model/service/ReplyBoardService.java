@@ -21,6 +21,6 @@ public interface ReplyBoardService {
      * @param: state true이면 조회수증가, false이면 조회증가안함.
      *                transaction으로 묶여야한다. 
      * */
-    ReplyBoardDTO selectByReplyBoardTitle(String replyBoardTitle, boolean state);
+    List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB, boolean state);
     
 }

@@ -19,10 +19,10 @@ public interface ReplyBoardDAO {
     /**
      * 게시글 눌럿을때 조회수 올리기
      * */
-    int readnumUpdate(String replyBoardTitle);
+    int readnumUpdate(int replyBoardPk);
 
     /**
      * 게시글 제목에 해당하는 상세보기
      * */
-    ReplyBoardDTO selectByReplyBoardTitle(String replyBoardTitle);
+    List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB);
 }

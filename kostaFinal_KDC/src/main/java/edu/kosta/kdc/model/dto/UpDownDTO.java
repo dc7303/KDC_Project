@@ -42,12 +42,12 @@ public class UpDownDTO {
         this.updownMemberId = updownMemberId;
     }
 
-    public String isUp() {
+    public String getIsUp() {
         return isUp;
     }
 
-    public void setUp(String isUp) {
+    public void setIsUp(String isUp) {
         this.isUp = isUp;
     }
-    
+
 }

@@ -55,7 +55,6 @@ function checkValid() {
         <input type=reset value=다시쓰기></span></b></td>
     </tr>
 </table>
-
 </form>
 
 <hr>

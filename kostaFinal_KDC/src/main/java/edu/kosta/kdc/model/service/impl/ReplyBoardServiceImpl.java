@@ -26,12 +26,12 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     }
 
     @Override
-    public ReplyBoardDTO selectByReplyBoardTitle(String replyBoardTitle, boolean state) {
+    public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB, boolean state) {
         if(state) {
-            int result = replyBoardDAO.readnumUpdate(replyBoardTitle);
+            int result = replyBoardDAO.readnumUpdate(replyBoardDTODB.getReplyBoardPk());
             if(result==0) throw new RuntimeException("조회수 증가 오류 입니다.");
         }
-        return replyBoardDAO.selectByReplyBoardTitle(replyBoardTitle);
+        return replyBoardDAO.selectByReplyBoardPK(replyBoardDTODB);
     }
 
 }

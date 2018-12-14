@@ -26,13 +26,17 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
     }
 
     @Override
-    public int readnumUpdate(String replyBoardTitle) {
-        return session.update("replyBoardMapper.readnumUpdate", replyBoardTitle);
+    public int readnumUpdate(int replyBoardPk) {
+        return session.update("replyBoardMapper.readnumUpdate", replyBoardPk);
     }
 
     @Override
-    public ReplyBoardDTO selectByReplyBoardTitle(String replyBoardTitle) {
-        return session.selectOne("replyBoardMapper.boardByModelNum", replyBoardTitle);
+    public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB) {
+        List<ReplyBoardDTO> list = session.selectList("replyBoardMapper.boardByModelNum", replyBoardDTODB);
+        for(ReplyBoardDTO dto:list) {
+            System.out.println(dto.getUpdown());
+        }
+        return list;
     }
 
 }
