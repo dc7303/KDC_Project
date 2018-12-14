@@ -5,20 +5,28 @@ import edu.kosta.kdc.model.dto.MemberDTO;
 public interface MemberDAO {
 
     /**
+     * 멤버 아이디로 조회
+     * 
+     * @param memberId
+     * @return
+     */
+    boolean memberSelectById(String memberId);
+    
+    /**
+     * 멤버 닉네임으로 조회
+     * 
+     * @param memberNickName
+     * @return
+     */
+    boolean memberSelectByNickName(String memberNickName);
+    
+    /**
      * 회원가입 프로세서에서 memberDTO insert하는 메소드
      * 
      * @param memberDTO
      * @return
      */
     int memberInsert(MemberDTO memberDTO);
-    
-    /**
-     * 멤버 아이디로 정보 조회
-     * 
-     * @param memberId
-     * @return
-     */
-    MemberDTO memberSelectByMemberId(String memberId);
     
     /**
      * 멤버 정보 수정.

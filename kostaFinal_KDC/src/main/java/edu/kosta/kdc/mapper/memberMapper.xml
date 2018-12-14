@@ -10,17 +10,21 @@
         <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
         <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
         <result column="MEMBER_EMAIL" property="memberEmail"/>
-        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" javaType="java.lang.Boolean" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler" />
+        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal"/>
         <result column="MEMBER_JOIN_DATE" property="memberDate"/>
     </resultMap>
     
     
     <insert id="insert" parameterType="memberDTO" >
         insert into member values 
-        (#{memberId}, #{memberPwd}, #{memberName}, #{memberNickName}, #{memberBirth}, #{memberPhone}, #{memberEmail}, #{memberIsWithdrawal,jdbcType=boolean}, #{memberDate}))
+        (#{memberId}, #{memberPwd}, #{memberName}, #{memberNickName}, #{memberBirth}, #{memberPhone}, #{memberEmail}, 'FALSE', sysdate)
     </insert>
     
-    <select id="selectByMemberId" parameterType="String" resultType="memberDTO">
-        
+    <select id="selectByMemberId" parameterType="String" resultMap="memberDTO">
+        select * from member where member_id = #{_parameter}
+    </select>
+    
+    <select id="selectByMemberNickName" parameterType="String" resultMap="memberDTO">
+        select * from member where member_nickname = #{_parameter}
     </select>
 </mapper>

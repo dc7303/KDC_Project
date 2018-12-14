@@ -3,6 +3,22 @@ package edu.kosta.kdc.model.service;
 import edu.kosta.kdc.model.dto.MemberDTO;
 
 public interface MemberService {
+    
+    /**
+     * 멤버 아이디 체크
+     * 
+     * @param memberId
+     * @return
+     */
+    boolean memberSelectById(String memberId);
+    
+    /**
+     * 멤버 닉네임 체크
+     * 
+     * @param memberNickName
+     * @return
+     */
+    boolean memberSelectByNickName(String memberNickName);
 
     /**
      * 회원가입 프로세서에서 memberDTO insert하는 메소드
@@ -28,4 +44,5 @@ public interface MemberService {
      * @return
      */
     int memberDelete(MemberDTO memberDTO);
+    
 }

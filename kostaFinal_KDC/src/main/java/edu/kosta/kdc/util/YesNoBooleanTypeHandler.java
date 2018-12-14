@@ -10,40 +10,33 @@ import javax.servlet.annotation.HandlesTypes;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
+import org.apache.ibatis.type.MappedTypes;
 
-@MappedJdbcTypes(value = JdbcType.VARCHAR)
 public class YesNoBooleanTypeHandler extends BaseTypeHandler<Boolean> {
 
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, Boolean parameter, JdbcType jdbcType)
             throws SQLException {
-        ps.setString(i, convert(parameter));
+        ps.setString(i, parameter ? "TRUE" : "FALSE");
+        
     }
 
     @Override
-    public Boolean getNullableResult(ResultSet rs, String columnName)
-            throws SQLException {
-        return convert(rs.getString(columnName));
+    public Boolean getNullableResult(ResultSet rs, String columnName) throws SQLException {
+        
+        return rs.getString(columnName) != null && "TRUE".equalsIgnoreCase(rs.getString(columnName));
     }
 
     @Override
-    public Boolean getNullableResult(ResultSet rs, int columnIndex)
-            throws SQLException {
-        return convert(rs.getString(columnIndex));
+    public Boolean getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+        
+        return rs.getString(columnIndex) != null && "TRUE".equalsIgnoreCase(rs.getString(columnIndex));
     }
 
     @Override
-    public Boolean getNullableResult(CallableStatement cs, int columnIndex)
-            throws SQLException {
-        return convert(cs.getString(columnIndex));
-    }
-
-    private String convert(Boolean b) {
-        return b ? "true" : "false";
-    }
-
-    private Boolean convert(String s) {
-        return s.equals("true");
+    public Boolean getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+        
+        return cs.getString(columnIndex) != null && "TRUE".equalsIgnoreCase(cs.getString(columnIndex));
     }
 
 }

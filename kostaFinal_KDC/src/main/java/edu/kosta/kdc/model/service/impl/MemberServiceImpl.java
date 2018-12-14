@@ -24,6 +24,24 @@ public class MemberServiceImpl implements MemberService {
     private PasswordEncoder passwordEncoder;//Insert, update, delete시 패스워드 인코딩 
 
     /**
+     * 멤버 아이디 체크
+     */
+    @Override
+    public boolean memberSelectById(String memberId) {
+        
+        return memberDAO.memberSelectById(memberId);
+    }
+
+    /**
+     * 멤버 닉네임 체크
+     */
+    @Override
+    public boolean memberSelectByNickName(String memberNickName) {
+
+        return memberDAO.memberSelectByNickName(memberNickName);
+    }
+    
+    /**
      * 멤버 회원가입
      */
     @Override
@@ -59,8 +77,7 @@ public class MemberServiceImpl implements MemberService {
     public int memberDelete(MemberDTO memberDTO) {
         // TODO Auto-generated method stub
         return 0;
-    }
-    
+    }    
     
     
 }

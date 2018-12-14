@@ -1,10 +1,12 @@
 package edu.kosta.kdc.controller;
 
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -31,7 +33,7 @@ public class MemberController {
     public void memberSignUpForm() {}
     
     /**
-     * ¾ÆÀÌµð Ã¼Å©
+     * È¸¿ø°¡ÀÔ ¾ÆÀÌµð Ã¼Å©
      * 
      * @param memberId
      * @return
@@ -40,14 +42,31 @@ public class MemberController {
     @ResponseBody
     public String memberIdCheck(String memberId) {
         
-        String message = "";
+        String message = "";        //AJAX ¸Þ¼¼Áö
+        String regex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{5,12}$";       //À¯È¿¼º Á¤±Ô½Ä Ç¥Çö
         
+        Pattern pattern = Pattern.compile(regex);
+
+        Matcher matcher = pattern.matcher(memberId);
+
+        if(!matcher.find()) {
+            message = "»ç¿ëÇÒ ¼ö ¾ø´Â ¾ÆÀÌµðÀÔ´Ï´Ù.";
+        }
+        else {
+            message = "»ç¿ë°¡´ÉÇÑ ¾ÆÀÌµðÀÔ´Ï´Ù.";
+        
+            //¾ÆÀÌµð Á¸Àç¿©ºÎ DB¿¡¼­ Ã¼Å©
+            boolean checkResult = memberService.memberSelectById(memberId);
+            //true¸é ÀÌ¹ÌÁ¸Àç false¸é »ç¿ë°¡´É
+            if(checkResult) message = "ÀÌ¹Ì Á¸ÀçÇÏ´Â ¾ÆÀÌµðÀÔ´Ï´Ù.";
+            else message = "»ç¿ë°¡´ÉÇÑ ¾ÆÀÌµðÀÔ´Ï´Ù.";
+        }
         
         return message;
     }
     
     /**
-     * Çã¿ë°¡´ÉÇÑ ºñ¹Ð¹øÈ£ Ã¼Å©
+     * È¸¿ø°¡ÀÔ Çã¿ë°¡´ÉÇÑ ºñ¹Ð¹øÈ£ Ã¼Å©
      * 
      * @param memberPwd
      * @return
@@ -56,24 +75,23 @@ public class MemberController {
     @ResponseBody
     public String memberPwdCheck(String memberPwd) {
         
-        System.out.println(memberPwd);
         String message = "";
         
-        Pattern p1 = Pattern.compile("[0-9]"); // Number 0 through 9
-        Pattern p2 = Pattern.compile("[a-z]"); // Characters a through z
-        Pattern p3 = Pattern.compile("[A-Z]"); // Characters A through Z
-        Pattern p4 = Pattern.compile("[^A-Za-z0-9]"); // Any character except ( A through Z and a through z and 0 through 9)
+        Pattern pattern1 = Pattern.compile("[0-9]"); // Number 0 through 9
+        Pattern pattern2 = Pattern.compile("[a-z]"); // Characters a through z
+        Pattern pattern3 = Pattern.compile("[A-Z]"); // Characters A through Z
+        Pattern pattern4 = Pattern.compile("[^A-Za-z0-9]"); // Any character except ( A through Z and a through z and 0 through 9)
 
-        Matcher m1 = p1.matcher(memberPwd);
-        Matcher m2 = p2.matcher(memberPwd);
-        Matcher m3 = p3.matcher(memberPwd);
-        Matcher m4 = p4.matcher(memberPwd);
+        Matcher matcher1 = pattern1.matcher(memberPwd);
+        Matcher matcher2 = pattern2.matcher(memberPwd);
+        Matcher matcher3 = pattern3.matcher(memberPwd);
+        Matcher matcher4 = pattern4.matcher(memberPwd);
 
-        if(memberPwd.length() < 8) message = "ÆÐ½º¿öµå ±æÀÌ°¡ 8ÀÚ¸® ¹Ì¸¸ÀÔ´Ï´Ù.";
-        else if (!m1.find()) message = "ÆÐ½º¿öµå¿¡ ¼ýÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
-        else if (!m2.find()) message = "ÆÐ½º¿öµå¿¡ ¼Ò¹®ÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
-        else if (!m3.find()) message = "ÆÐ½º¿öµå¿¡ ´ë¹®ÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
-        else if (!m4.find()) message = "ÆÐ½º¿öµå¿¡ Æ¯¼ö¹®ÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
+        if(memberPwd.length() < 8 || memberPwd.length() > 14) message = "ÆÐ½º¿öµå ±æÀÌ´Â 8~14 ÀÚ¸®ÀÔ´Ï´Ù.";
+        else if (!matcher1.find()) message = "ÆÐ½º¿öµå¿¡ ¼ýÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
+        else if (!matcher2.find()) message = "ÆÐ½º¿öµå¿¡ ¼Ò¹®ÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
+        else if (matcher3.find()) message = "ÆÐ½º¿öµå´Â ´ë¹®ÀÚ ¼Ò¹®ÀÚ¸¦ ±¸ºÐÇÕ´Ï´Ù.";
+        else if (!matcher4.find()) message = "ÆÐ½º¿öµå¿¡ Æ¯¼ö¹®ÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
         else message = "»ç¿ë°¡´ÉÇÑ ºñ¹Ð¹øÈ£ÀÔ´Ï´Ù.";
 
         
@@ -81,7 +99,7 @@ public class MemberController {
     }
     
     /**
-     * ºñ¹Ð¹øÈ£¿Í ºñ¹Ð¹øÈ£ È®ÀÎ ÀÔ·Â°ª ºñ±³ ÈÄ ajax·Î ¸Þ¼¼Áö ¸®ÅÏ
+     * È¸¿ø°¡ÀÔ ºñ¹Ð¹øÈ£¿Í ºñ¹Ð¹øÈ£ È®ÀÎ ÀÔ·Â°ª ºñ±³ ÈÄ ajax·Î ¸Þ¼¼Áö ¸®ÅÏ
      * 
      * @return
      */
@@ -99,6 +117,44 @@ public class MemberController {
     }
     
     /**
+     * È¸¿ø°¡ÀÔ ´Ð³×ÀÓ Ã¼Å©
+     * 
+     * @param memberNickName
+     * @return
+     */
+    @RequestMapping(value = "/nickNameCheck", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String memberNickNameCheck(String memberNickName) {
+        
+        String message = "»ç¿ë°¡´ÉÇÑ ´Ð³×ÀÓÀÔ´Ï´Ù.";
+        
+        String regex = "^[a-zA-Z0-9°¡-ÆR]*$";
+        
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(memberNickName);
+        
+        if(!matcher.find()) {
+            message = "»ç¿ëºÒ°¡´ÉÇÑ ´Ð³×ÀÓÀÔ´Ï´Ù.";
+        }else if(memberNickName.length() < 2 || memberNickName.length() > 8) {
+            message = "»ç¿ëºÒ°¡´ÉÇÑ ´Ð³×ÀÓÀÔ´Ï´Ù.";
+        }else {
+            boolean checkResult = memberService.memberSelectByNickName(memberNickName);
+            if(checkResult) message = "ÀÌ¹Ì »ç¿ëÁßÀÎ ´Ð³×ÀÓÀÔ´Ï´Ù.";
+        }
+        
+        return message;
+    }
+    
+    @RequestMapping("/phoneCheck")
+    @ResponseBody
+    public String memberPhoneCheck(String memberPhone) {
+        
+        String message = "";
+        
+        return message;
+    }
+    
+    /**
      * È¸¿ø°¡ÀÔ
      * 
      * @return
@@ -106,8 +162,8 @@ public class MemberController {
     @RequestMapping("/memberInsert")
     public String memberInsert(MemberDTO memberDTO, String authCode) {
         
-        memberService.memberInsert(memberDTO, authCode);
-        
+        String memberPwd = memberDTO.getMemberPwd();
+
         return "/";
     }
 }

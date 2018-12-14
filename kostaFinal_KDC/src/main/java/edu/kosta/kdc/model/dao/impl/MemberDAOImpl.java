@@ -10,6 +10,37 @@ import edu.kosta.kdc.model.dto.MemberDTO;
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 
+    /**
+     * 멤버 아이디 체크
+     */
+    @Override
+    public boolean memberSelectById(String memberId) {
+        
+        boolean result = false;
+        
+        MemberDTO memberDTO = sqlSession.selectOne("memberMapper.selectByMemberId", memberId);
+        
+        //존재한다면 true , 존재하지 않다면 false
+        if(memberDTO != null) result = true;
+
+        return result;
+    }
+
+    /**
+     * 멤버 닉네임 체크
+     */
+    @Override
+    public boolean memberSelectByNickName(String memberNickName) {
+        
+        boolean result = false;
+        
+      //존재한다면 true , 존재하지 않다면 false
+        MemberDTO memberDTO = sqlSession.selectOne("memberMapper.selectByMemberNickName", memberNickName);
+        if(memberDTO != null) result = true;
+        
+        return result;
+    }
+    
     @Autowired
     private SqlSession sqlSession;
     
@@ -22,14 +53,6 @@ public class MemberDAOImpl implements MemberDAO {
         return sqlSession.insert("memberMapper.insert", memberDTO);
     }
 
-    /**
-     * 멤버 아이디로 조회
-     */
-    @Override
-    public MemberDTO memberSelectByMemberId(String memberId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     /**
      * 멤버 정보 수정
