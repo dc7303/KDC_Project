@@ -27,18 +27,23 @@ public class MemberServiceImpl implements MemberService {
      * 멤버 아이디 체크
      */
     @Override
-    public boolean memberSelectById(String memberId) {
+    public boolean memberSelectByMemberId(String memberId) {
         
-        return memberDAO.memberSelectById(memberId);
+        boolean result = false;
+        MemberDTO memberDTO= memberDAO.memberSelectByMemberId(memberId);
+        
+        if(memberDTO != null) result = true;
+        
+        return result;
     }
 
     /**
      * 멤버 닉네임 체크
      */
     @Override
-    public boolean memberSelectByNickName(String memberNickName) {
+    public boolean memberSelectByMemberNickName(String memberNickName) {
 
-        return memberDAO.memberSelectByNickName(memberNickName);
+        return memberDAO.memberSelectByMemberNickName(memberNickName);
     }
     
     /**

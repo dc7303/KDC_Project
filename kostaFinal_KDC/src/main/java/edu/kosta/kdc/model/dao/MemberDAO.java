@@ -10,7 +10,7 @@ public interface MemberDAO {
      * @param memberId
      * @return
      */
-    boolean memberSelectById(String memberId);
+    MemberDTO memberSelectByMemberId(String memberId);
     
     /**
      * 멤버 닉네임으로 조회
@@ -18,7 +18,7 @@ public interface MemberDAO {
      * @param memberNickName
      * @return
      */
-    boolean memberSelectByNickName(String memberNickName);
+    boolean memberSelectByMemberNickName(String memberNickName);
     
     /**
      * 회원가입 프로세서에서 memberDTO insert하는 메소드

@@ -14,23 +14,16 @@ public class MemberDAOImpl implements MemberDAO {
      * 멤버 아이디 체크
      */
     @Override
-    public boolean memberSelectById(String memberId) {
-        
-        boolean result = false;
-        
-        MemberDTO memberDTO = sqlSession.selectOne("memberMapper.selectByMemberId", memberId);
-        
-        //존재한다면 true , 존재하지 않다면 false
-        if(memberDTO != null) result = true;
+    public MemberDTO memberSelectByMemberId(String memberId) {
 
-        return result;
+        return sqlSession.selectOne("memberMapper.selectByMemberId", memberId);
     }
 
     /**
      * 멤버 닉네임 체크
      */
     @Override
-    public boolean memberSelectByNickName(String memberNickName) {
+    public boolean memberSelectByMemberNickName(String memberNickName) {
         
         boolean result = false;
         
@@ -50,7 +43,10 @@ public class MemberDAOImpl implements MemberDAO {
     @Override
     public int memberInsert(MemberDTO memberDTO) {
         
-        return sqlSession.insert("memberMapper.insert", memberDTO);
+        int result = sqlSession.insert("memberMapper.insert", memberDTO);
+        System.out.println(result);
+        
+        return result;
     }
 
 

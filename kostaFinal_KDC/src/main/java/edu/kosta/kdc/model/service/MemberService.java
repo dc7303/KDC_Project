@@ -10,7 +10,7 @@ public interface MemberService {
      * @param memberId
      * @return
      */
-    boolean memberSelectById(String memberId);
+    boolean memberSelectByMemberId(String memberId);
     
     /**
      * 멤버 닉네임 체크
@@ -18,7 +18,7 @@ public interface MemberService {
      * @param memberNickName
      * @return
      */
-    boolean memberSelectByNickName(String memberNickName);
+    boolean memberSelectByMemberNickName(String memberNickName);
 
     /**
      * 회원가입 프로세서에서 memberDTO insert하는 메소드

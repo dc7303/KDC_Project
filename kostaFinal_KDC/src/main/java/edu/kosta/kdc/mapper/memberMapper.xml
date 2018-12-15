@@ -10,7 +10,7 @@
         <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
         <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
         <result column="MEMBER_EMAIL" property="memberEmail"/>
-        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal"/>
+        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
         <result column="MEMBER_JOIN_DATE" property="memberDate"/>
     </resultMap>
     

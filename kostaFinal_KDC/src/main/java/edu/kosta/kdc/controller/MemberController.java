@@ -56,7 +56,7 @@ public class MemberController {
             message = "사용가능한 아이디입니다.";
         
             //아이디 존재여부 DB에서 체크
-            boolean checkResult = memberService.memberSelectById(memberId);
+            boolean checkResult = memberService.memberSelectByMemberId(memberId);
             //true면 이미존재 false면 사용가능
             if(checkResult) message = "이미 존재하는 아이디입니다.";
             else message = "사용가능한 아이디입니다.";
@@ -138,7 +138,7 @@ public class MemberController {
         }else if(memberNickName.length() < 2 || memberNickName.length() > 8) {
             message = "사용불가능한 닉네임입니다.";
         }else {
-            boolean checkResult = memberService.memberSelectByNickName(memberNickName);
+            boolean checkResult = memberService.memberSelectByMemberNickName(memberNickName);
             if(checkResult) message = "이미 사용중인 닉네임입니다.";
         }
         
@@ -162,7 +162,7 @@ public class MemberController {
     @RequestMapping("/memberInsert")
     public String memberInsert(MemberDTO memberDTO, String authCode) {
         
-        String memberPwd = memberDTO.getMemberPwd();
+        memberService.memberInsert(memberDTO, authCode);
 
         return "/";
     }

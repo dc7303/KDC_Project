@@ -9,15 +9,13 @@ public class MemberDTO {
     private String memberBirth;       //생일
     private String memberPhone;       //휴대폰 번호
     private String memberEmail;       //유저 이메일
-    private String memberIsWithdrawal;  //탈퇴여부
+    private boolean memberIsWithdrawal;  //탈퇴여부
     private String memberDate;        //유저 가입일
     
     public MemberDTO() {}
 
-
-
     public MemberDTO(String memberId, String memberPwd, String memberName, String memberNickName, String memberBirth,
-            String memberPhone, String memberEmail, String memberIsWithdrawal, String memberDate) {
+            String memberPhone, String memberEmail, boolean memberIsWithdrawal, String memberDate) {
         super();
         this.memberId = memberId;
         this.memberPwd = memberPwd;
@@ -29,8 +27,6 @@ public class MemberDTO {
         this.memberIsWithdrawal = memberIsWithdrawal;
         this.memberDate = memberDate;
     }
-
-
 
     public String getMemberId() {
         return memberId;
@@ -88,19 +84,13 @@ public class MemberDTO {
         this.memberEmail = memberEmail;
     }
 
-
-
-    public String getMemberIsWithdrawal() {
+    public boolean isMemberIsWithdrawal() {
         return memberIsWithdrawal;
     }
 
-
-
-    public void setMemberIsWithdrawal(String memberIsWithdrawal) {
+    public void setMemberIsWithdrawal(boolean memberIsWithdrawal) {
         this.memberIsWithdrawal = memberIsWithdrawal;
     }
-
-
 
     public String getMemberDate() {
         return memberDate;
