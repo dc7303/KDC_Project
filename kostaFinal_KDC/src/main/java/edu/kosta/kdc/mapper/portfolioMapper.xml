@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="portfolioMapper">
+    <resultMap type="portfolioDTO" id="selectMap">
+        <id column="portfolio_user_id" property="portFolioMemberId"/>
+        <result column="portfolio_main_image" property="portFolioMainImage"/>
+        <result column="portfolio_main_title" property="portFolioMainTitle"/>
+       <!--   <result column="portfolio_visibility" property="portFolioVisibility"/>
+        -->
+        <result property="portFolioVisibility" column="portfolio_visibility" javaType="java.lang.Boolean" jdbcType="VARCHAR" typeHandler="BooleanHandler"/>
+        <!-- <result column="portfolio_isdelete" property="portFolioIsDelete"/>
+        -->
+        <result property="portFolioIsDelete" column="portfolio_isdelete" javaType="java.lang.Boolean" jdbcType="VARCHAR" typeHandler="BooleanHandler"/>
+    </resultMap>
+    
+    <!-- INSERT -->
+    <insert id="insertPortfolio" parameterType="portfolioDTO">
+        insert
+        into PORTFOLIO
+        values(#{portFolioMemberId},
+            #{portFolioMainImage},
+            #{portFolioMainTitle},
+            #{portFolioVisibility},
+            #{portFolioIsDelete}
+        )
+    </insert>
     
 
 </mapper>
