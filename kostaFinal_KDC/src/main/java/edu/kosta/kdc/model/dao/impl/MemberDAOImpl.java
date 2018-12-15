@@ -23,15 +23,9 @@ public class MemberDAOImpl implements MemberDAO {
      * 멤버 닉네임 체크
      */
     @Override
-    public boolean memberSelectByMemberNickName(String memberNickName) {
+    public MemberDTO memberSelectByMemberNickName(String memberNickName) {
         
-        boolean result = false;
-        
-      //존재한다면 true , 존재하지 않다면 false
-        MemberDTO memberDTO = sqlSession.selectOne("memberMapper.selectByMemberNickName", memberNickName);
-        if(memberDTO != null) result = true;
-        
-        return result;
+        return sqlSession.selectOne("memberMapper.selectByMemberNickName", memberNickName);
     }
     
     @Autowired

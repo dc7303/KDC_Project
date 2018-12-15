@@ -1,17 +1,19 @@
 package edu.kosta.kdc.controller;
 
-import java.sql.SQLException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.service.MemberService;
+import edu.kosta.kdc.util.Constants;
 
 @Controller
 @RequestMapping("/member")
@@ -75,8 +77,18 @@ public class MemberController {
     @ResponseBody
     public String memberPwdCheck(String memberPwd) {
         
-        String message = "";
+        String message = "사용가능한 비밀번호입니다.";
         
+        //숫자, 영문, 특수기호 포함 8자리 이상
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$";
+        
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(memberPwd);
+        
+        if(!matcher.find()) message = "사용 불가능한 비밀번호입니다.";
+        
+        //비밀번호 정책 회의 필요
+        /* 
         Pattern pattern1 = Pattern.compile("[0-9]"); // Number 0 through 9
         Pattern pattern2 = Pattern.compile("[a-z]"); // Characters a through z
         Pattern pattern3 = Pattern.compile("[A-Z]"); // Characters A through Z
@@ -93,7 +105,7 @@ public class MemberController {
         else if (matcher3.find()) message = "패스워드는 대문자 소문자를 구분합니다.";
         else if (!matcher4.find()) message = "패스워드에 특수문자가 포함되지 않았습니다.";
         else message = "사용가능한 비밀번호입니다.";
-
+        */
         
         return message;
     }
@@ -145,11 +157,81 @@ public class MemberController {
         return message;
     }
     
-    @RequestMapping("/phoneCheck")
+    /**
+     * 전화번호 체크
+     * 
+     * @param memberPhone
+     * @return
+     */
+    @RequestMapping(value = "/phoneCheck", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public String memberPhoneCheck(String memberPhone) {
+        String message = "전화번호체크";
+        
+        //숫자만 허용
+        String regex = "^[0-9]*$";
+        
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(memberPhone);
+        
+        if(!matcher.find()) {
+            message = "숫자만 입력해주세요.";
+        }
+        
+        return message;
+    }
+    
+    /**
+     * 이메일 체크 
+     * 
+     * @param memberEmail
+     * @return
+     */
+    @RequestMapping(value = "/emailCheck", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String emailCheck(String memberEmail) {
+        
+        String message = "이메일입력";
+        System.out.println(memberEmail);
+        String regex = "(\\w+\\.)*\\w+@(\\w+\\.)+[A-Za-z]+";
+        
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(memberEmail);
+        
+        if(!matcher.find()) {
+            message = "이메일형식이 아닙니다.";
+        }
+        return message;
+    }
+    
+    @RequestMapping(value = "/authCheck", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String authCheck(String authName) {
         
         String message = "";
+        /*
+            권한 종류
+            관리자 : ROLE_ADMIN
+            강사 : ROLE_TEACHER
+            수강생 : ROLE_STUDENT
+            기업 : ROLE_COMPANY
+            일반회원 : ROLE_MEMBER
+        */
+        
+        /*
+         *  reflect 사용해서 필드 값 배열을 이용해 for문으로 비교할 수 있을 듯 보이지만,
+         *  이미 상수로 정의된 필드값이기 때문에 메모리를 추가 사용하지 않고
+         *  if문으로 논리연산하여 결과값 출력할 수 있도록 구현.
+         */
+        if(Constants.ROLE_ADMIN.equals(authName) || 
+                Constants.ROLE_TEACHER.equals(authName) || 
+                Constants.ROLE_STUDENT.equals(authName) || 
+                Constants.ROLE_COMPANY.equals(authName) || 
+                Constants.ROLE_MEMBER.equals(authName)) {
+            message = "사용가능한 코드입니다.";
+        }else {
+            message = "사용 불가능한 코드입니다.";
+        }
         
         return message;
     }

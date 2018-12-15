@@ -18,7 +18,7 @@ public interface MemberDAO {
      * @param memberNickName
      * @return
      */
-    boolean memberSelectByMemberNickName(String memberNickName);
+    MemberDTO memberSelectByMemberNickName(String memberNickName);
     
     /**
      * 회원가입 프로세서에서 memberDTO insert하는 메소드

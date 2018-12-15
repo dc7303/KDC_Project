@@ -32,6 +32,7 @@ public class MemberServiceImpl implements MemberService {
         boolean result = false;
         MemberDTO memberDTO= memberDAO.memberSelectByMemberId(memberId);
         
+        //검색 결과 DTO 존재할 경우 True 반환
         if(memberDTO != null) result = true;
         
         return result;
@@ -43,7 +44,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean memberSelectByMemberNickName(String memberNickName) {
 
-        return memberDAO.memberSelectByMemberNickName(memberNickName);
+        boolean result = false;
+        MemberDTO memberDTO = memberDAO.memberSelectByMemberNickName(memberNickName);
+        
+        //검색 결과 DTO 존재할 경우 True 반환
+        if(memberDTO != null) result = true;
+        
+        return result;
     }
     
     /**
@@ -53,15 +60,24 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public int memberInsert(MemberDTO memberDTO, String authCode) {
 
+        //password 인코딩
         String encodePwd = passwordEncoder.encode(memberDTO.getMemberPwd());
-        
+        //인코딩된 password 셋팅
         memberDTO.setMemberPwd(encodePwd);
         
         int result = 0;
         
+        //회원 정보 Insert
         result = memberDAO.memberInsert(memberDTO);
+        if(result == 0) {
+            throw new RuntimeException("회원 정보 입력이 잘못되었습니다.");
+        }
         
+        //권한 Insert
         result = authorityDAO.authorityInsert(new AuthorityDTO(memberDTO.getMemberId(), authCode));
+        if(result == 0) {
+            throw new RuntimeException("권한 입력이 잘못되었습니다.");
+        }
         
         return result;
     }

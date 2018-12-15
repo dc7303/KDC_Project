@@ -29,8 +29,8 @@ public class AuthorityDAOImpl implements AuthorityDAO {
      */
     @Override
     public int authorityInsert(AuthorityDTO authorityDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+        
+        return sqlSession.insert("authMapper.insert", authorityDTO);
     }
 
 }

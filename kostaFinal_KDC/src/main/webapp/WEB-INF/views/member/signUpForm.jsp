@@ -53,7 +53,7 @@
 
   				<tr>
   					<td>Password</td>
-  					<td><input type="password" name="memberPwd" placeholder="  특수기호포함, 8~14자입력"/></td>
+  					<td><input type="password" name="memberPwd" placeholder="숫자, 영문, 특수기호 포함 8자리 이상"/></td>
               <td class="ajax"> 비밀번호입력 </td>
   				</tr>
 
@@ -83,17 +83,17 @@
   				<tr>
   					<td>전화번호</td>
   					<td><input type="text" name="memberPhone" placeholder="'-' 제외하고 입력"/></td>
-              <td class="ajax"> 전화번호입력 </td>
+              <td class="ajax"> 전화번호체크 </td>
   				</tr>
   				<tr>
   					<td>Email</td>
   					<td><input type="text" name="memberEmail" /></td>
-              <td class="ajax"> ajax 영역 </td>
+              <td class="ajax"> 이메일입력 </td>
   				</tr>
   				<tr>
   					<td>인증번호ex(ROLE_ADMIN)</td>
   					<td><input type="text" name="authCode" placeholder=" 인증번호를 입력하세요"/></td>
-              <td class="ajax"> ajax: 인증번호가 틀렸음</td>
+              <td class="ajax"></td>
   				</tr>
 
 
@@ -115,13 +115,21 @@
   
   <script type="text/javascript">
   	const jq = jQuery.noConflict();
-  	const memberId = 'input[name=memberId]';				//아이디 Selector
-  	const memberPwd = 'input[name=memberPwd]';				//비밀번호 Selector
-	const memberPwdConfirm = 'input[name=memberPwdConfirm]';//비밀번호확인 Selector
-	const memberNickName = 'input[name=memberNickName]';	//닉네임 Selector
   	
   	//ID유효성검사
   	jq(function() {
+  	  const contextPath = '${pageContext.request.contextPath}';
+  	  const csrfName = '${_csrf.headerName}';
+  	  let csrfToken = '${_csrf.token}';
+  	  
+      const memberId = 'input[name=memberId]';				//아이디 Selector
+      const memberPwd = 'input[name=memberPwd]';				//비밀번호 Selector
+  	  const memberPwdConfirm = 'input[name=memberPwdConfirm]';//비밀번호확인 Selector
+  	  const memberNickName = 'input[name=memberNickName]';	//닉네임 Selector
+  	  const memberPhone = 'input[name=memberPhone]';		//전화번호 Selector
+  	  const memberEmail = 'input[name=memberEmail]';		//Email Selector
+  	  const authCode = 'input[name=authCode]';				//권한코드
+  	  
   	  jq(memberId).on('keyup', function() {
   	    jq.ajax({
   	      url: '${pageContext.request.contextPath}/member/idCheck',
@@ -161,6 +169,9 @@
   	        $('.ajax').eq(1).text(result);
   	        if($(memberPwd).val() === '') {
   	          $('.ajax').eq(1).text('비밀번호입력');
+  	          if($(memberPwdConfirm).val() === ''){
+  	            $('.ajax').eq(2).text('비밀번호확인');
+  	          }
   	        }else if($(memberPwd).val() !== $(memberPwdConfirm).val()) {
   	          $('.ajax').eq(2).text('비밀번호가 일치하지 않습니다.');
   	        }
@@ -218,6 +229,78 @@
   	        console.log(err);
   	      }
 		});
+  	  });
+  	  
+  	  //전화번호 체크
+  	  jq(memberPhone).on('keyup', function() {
+  		jq.ajax({
+  		  url: '${pageContext.request.contextPath}/member/phoneCheck',
+  		  type: 'post',
+  		  beforeSend: function(xhr) {
+  		    xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+  		  },
+  		  dataType: 'text',
+  		  data: {
+  		    memberPhone: $(memberPhone).val(),
+  		  },
+  		  success: function(result) {
+  		    $('.ajax').eq(4).text(result);
+  		    if($(memberPhone).val() === '') {
+  		      $('.ajax').eq(4).text('전화번호체크');
+  		    }
+  		  },
+  		  error: function(err) {
+  		    console.log(result);
+  		  }
+  		});
+  	  });
+  	  
+  	  //이메일 체크
+  	  jq(memberEmail).on('keyup', function() {
+		jq.ajax({
+	      url: '${pageContext.request.contextPath}/member/emailCheck',
+	      type: 'post',
+	      beforeSend: function(xhr) {
+	        xhr.setRequestHeader(csrfName, csrfToken);
+	      },
+	      dataType: 'text',
+	      data: {
+	        memberEmail: $(memberEmail).val(),
+	      },
+	      success: function(result) {
+	        $('.ajax').eq(5).text(result);
+	        if($(memberEmail).val() === '') {
+	          $('.ajax').eq(5).text('이메일입력');
+	        }
+	      },
+	      error: function(err) {
+	        console.log(err);
+	      }
+		});
+  	  });
+  	  
+  	  //권한코드 체크
+  	  jq(authCode).on('keyup', function() {
+  	    jq.ajax({
+  	      url: '${pageContext.request.contextPath}/member/authCheck',
+  	      type: 'post',
+  	      beforeSend: function(xhr) {
+  	        xhr.setRequestHeader(csrfName, csrfToken);
+  	      },
+  	      dataType: 'text',
+  	      data: {
+  	        authName: $(authCode).val(),
+  	      },
+  	      success: function(result) {
+  			jq('.ajax').eq(6).text(result);
+  			if(jq(authCode).val() === '') {
+  			  jq('.ajax').eq(6).text('');
+  			}
+  	      },
+  	      error: function(err) {
+  	        console.log(err);
+  	      }
+  	    });
   	  });
   	});
   </script>
