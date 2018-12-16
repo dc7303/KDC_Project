@@ -29,9 +29,12 @@
             제목: </p>
             대표이미지: <img src="${pageContext.request.contextPath}/">
             개시여부: </p>
-     </div> 
-  </c:otherwise>
+     </div>
+     
+    </c:otherwise>
+    
   </c:choose>
+  <a href="${pageContext.request.contextPath }/portfolio/detailForm">포트폴리오 상세 추가</a>
   
 </body>
 </html>

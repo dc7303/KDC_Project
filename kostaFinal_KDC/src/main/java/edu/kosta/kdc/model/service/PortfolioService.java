@@ -1,21 +1,36 @@
 package edu.kosta.kdc.model.service;
 
+import java.util.List;
+
 import edu.kosta.kdc.model.dto.PortfolioDTO;
+import edu.kosta.kdc.model.dto.PortfolioDetailDTO;
 
 public interface PortfolioService {
 
-    // 삽입
+    // 포트폴리오 삽입
     int insertPortfolio(PortfolioDTO portfolioDTO);
 
-    // 조회
+    // 포트폴리오 조회
     PortfolioDTO selectPortfolioByMemberId(String memberId);
 
-    // 수정
+    // 포트폴리오 수정
     int updatePortfolio(PortfolioDTO portfolioDTO);
 
-    // 삭제
+    // 포트폴리오 삭제
     int deletePortfolioByMemberId(String memberId);
 
     // ID에 해당하는 포트폴리오가 이미 존재하는지select
     boolean selectByMemberId(String memberId);
+    
+    // 상세 삽입
+    int insertDetail(PortfolioDetailDTO portfolioDetailDTO);
+    
+    // 상세 조회(by memberid)
+    List<PortfolioDetailDTO> selectDetailByMemberId(String memberId);
+    
+    // 상세 수정
+    int updateDetail(PortfolioDetailDTO portfolioDetailDTO);
+    
+    // 상세 삭제(by PortfolioDetail_pk)
+    int deleteDetail(int PortfolioDetailPk);
 }
