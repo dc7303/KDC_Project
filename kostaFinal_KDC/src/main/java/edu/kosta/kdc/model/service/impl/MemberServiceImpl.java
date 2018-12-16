@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dao.AuthorityDAO;
 import edu.kosta.kdc.model.dao.MemberDAO;
 import edu.kosta.kdc.model.dto.AuthorityDTO;
@@ -70,13 +71,13 @@ public class MemberServiceImpl implements MemberService {
         //회원 정보 Insert
         result = memberDAO.memberInsert(memberDTO);
         if(result == 0) {
-            throw new RuntimeException("회원 정보 입력이 잘못되었습니다.");
+            throw new KdcException("회원 정보 입력이 잘못되었습니다.");
         }
         
         //권한 Insert
         result = authorityDAO.authorityInsert(new AuthorityDTO(memberDTO.getMemberId(), authCode));
         if(result == 0) {
-            throw new RuntimeException("권한 입력이 잘못되었습니다.");
+            throw new KdcException("권한 입력이 잘못되었습니다.");
         }
         
         return result;
