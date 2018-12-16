@@ -52,7 +52,7 @@
      <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <beans:property name="exceptionMappings">
             <beans:props>
-                <beans:prop key="edu.kosta.kdc.util.KdcException">
+                <beans:prop key="edu.kosta.kdc.exception.KdcException">
                     error/errorView
                 </beans:prop>
             </beans:props>

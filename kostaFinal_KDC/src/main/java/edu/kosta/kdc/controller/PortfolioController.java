@@ -9,9 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dto.PortfolioDTO;
 import edu.kosta.kdc.model.service.PortfolioService;
-import edu.kosta.kdc.util.KdcException;
 
 /**
  * 포트폴리오 CRUD 
@@ -34,20 +34,29 @@ public class PortfolioController {
     //폼에서 생성요청시 처리할 controller
     @RequestMapping("/insertPortfolio")
     public String insertPortfolio(HttpSession session, PortfolioDTO portfolioDTO)throws KdcException {
-        
-        //대표이미지가 저장될 위치
-        String path = session.getServletContext().getRealPath("/resources/testimg/photos");
-        //사용자가 첨부한 파일
-        MultipartFile file = portfolioDTO.getMainImageFile();
-        //파일명을 DTO에 setter를 이용해 대입
-        portfolioDTO.setPortFolioMainImage(file.getOriginalFilename());
-        try {
-            file.transferTo(new File(path+"/"+portfolioDTO.getPortFolioMainImage()));
-        }catch (Exception e) {
-            e.printStackTrace();
+        //해당 아이디에 대한 포트폴리오가 존재하는지 중복검사
+        if(service.selectByMemberId(portfolioDTO.getPortFolioMemberId())) {
+            //이미 포트폴리오가 존재하는경우
+            throw new KdcException("포트폴리오 생성을 실패했습니다.");
         }
-        System.out.println(portfolioDTO);
+        
+        //이미지를 등록하지 않을경우 파일생성안함
+        if(!portfolioDTO.getMainImageFile().isEmpty()) {
+            //대표이미지가 저장될 위치
+            String path = session.getServletContext().getRealPath("/resources/testimg/photos");
+            //사용자가 첨부한 파일
+            MultipartFile file = portfolioDTO.getMainImageFile();
+            //파일명을 DTO에 setter를 이용해 대입
+            portfolioDTO.setPortFolioMainImage(file.getOriginalFilename());
+            try {
+                file.transferTo(new File(path+"/"+portfolioDTO.getPortFolioMainImage()));
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+       
         int result = service.insertPortfolio(portfolioDTO);
+        
         if(result==0) throw new KdcException("포트폴리오 생성을 실패했습니다.");
        
         return "portfolio/myPageDummy";

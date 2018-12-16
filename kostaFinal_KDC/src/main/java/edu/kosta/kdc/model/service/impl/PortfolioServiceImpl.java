@@ -10,14 +10,13 @@ import edu.kosta.kdc.model.dto.PortfolioDTO;
 public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.PortfolioService {
 
     @Autowired 
-    PortfolioDAO dao;
+    private PortfolioDAO dao;
     
     @Override
     public int insertPortfolio(PortfolioDTO portfolioDTO) {
-        int result = 0;
-        result = dao.insertPortfolio(portfolioDTO);
-        return 0;
+        return dao.insertPortfolio(portfolioDTO);
     }
+    
 
     @Override
     public PortfolioDTO selectPortfolioByMemberId(String memberId) {
@@ -36,5 +35,12 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
         // TODO Auto-generated method stub
         return 0;
     }
+
+
+    @Override
+    public boolean selectByMemberId(String memberId) {
+        return dao.selectByMemberId(memberId);
+    }
+
 
 }

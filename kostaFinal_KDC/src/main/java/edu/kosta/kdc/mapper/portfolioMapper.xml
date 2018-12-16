@@ -5,12 +5,8 @@
         <id column="portfolio_user_id" property="portFolioMemberId"/>
         <result column="portfolio_main_image" property="portFolioMainImage"/>
         <result column="portfolio_main_title" property="portFolioMainTitle"/>
-       <!--   <result column="portfolio_visibility" property="portFolioVisibility"/>
-        -->
-        <result property="portFolioVisibility" column="portfolio_visibility" javaType="java.lang.Boolean" jdbcType="VARCHAR" typeHandler="BooleanHandler"/>
-        <!-- <result column="portfolio_isdelete" property="portFolioIsDelete"/>
-        -->
-        <result property="portFolioIsDelete" column="portfolio_isdelete" javaType="java.lang.Boolean" jdbcType="VARCHAR" typeHandler="BooleanHandler"/>
+        <result column="portfolio_visibility" property="portFolioVisibility" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <result column="portfolio_isdelete" property="portFolioIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     </resultMap>
     
     <!-- INSERT -->
@@ -20,10 +16,25 @@
         values(#{portFolioMemberId},
             #{portFolioMainImage},
             #{portFolioMainTitle},
-            #{portFolioVisibility},
-            #{portFolioIsDelete}
+            <choose>
+                <when test="portFolioVisibility==null">
+                    'FALSE',
+                </when>
+                <otherwise>
+                    'TRUE',
+                </otherwise>
+            </choose>
+            'FALSE'
+            
         )
     </insert>
+    
+    <!-- select(포트폴리오 존재여부 체크) -->
+    <select id="selectByMemberId" parameterType="string" resultType="string">
+        select portfolio_user_id
+        from PORTFOLIO
+        where portfolio_user_id = #{_parameter}
+    </select>
     
 
 </mapper>
