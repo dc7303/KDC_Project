@@ -38,16 +38,17 @@ public class ReplyBoardController {
     @RequestMapping("/write")
     public String writePage(@RequestParam(value="title") String title, Model model) {
         model.addAttribute("title",title);
-        return "/replyBoard/write";
+        return "replyBoard/write";
     }
     
     /**
      * 등록하기
      * */
     @RequestMapping("/insert")
-    public String techBoardInsert(@RequestParam(value="title") String title, ReplyBoardDTO replyBoardDTO) {
+    public String techBoardInsert(@RequestParam(value="title") String title, ReplyBoardDTO replyBoardDTO, String hashTagName) {
         replyBoardDTO.setReplyBoardClassification(title);
-        replyBoardService.insert(replyBoardDTO);
+        replyBoardService.insertReply(replyBoardDTO);
+        replyBoardService.insertHashTag(hashTagName);
         return "redirect:tech?title="+title;
     }
     
@@ -60,10 +61,20 @@ public class ReplyBoardController {
         replyBoardDTODB.setReplyBoardClassification(title);
 
         List<ReplyBoardDTO> replyBoardDTO = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
-        //request.setAttribute("replyBoardDTO", replyBoardDTO);
-        for(ReplyBoardDTO dto : replyBoardDTO) {
-        }
+
         model.addAttribute("replyBoardDTO",replyBoardDTO);
-        return "/replyBoard/read";
+        return "replyBoard/read";
     }
+    
+    /**
+     * 수정하기 폼
+     * */
+/*    @RequestMapping("/updateForm")
+    public ModelAndView updateForm(HttpSession session, ReplyBoardDTO replyBoardDTODB) {
+//        ReplyBoardDTO replyBoardDTO = ReplyBoardDTO.selectByReplyBoardPK(replyBoardDTODB, false);
+        return new ModelAndView("replyBoard/update", "replyBoardDTO", replyBoardDTO);
+    }*/
+    
+    
+    
 }

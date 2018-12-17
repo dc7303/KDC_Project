@@ -14,7 +14,9 @@ public interface ReplyBoardService {
     /**
      * 레코드 삽입
      */
-    int insert(ReplyBoardDTO replyBoardDTO);
+    int insertReply(ReplyBoardDTO replyBoardDTO);
+    
+    int insertHashTag(String hashTagName);
 
     /**
      * 게시글 제목에 해당하는 상세보기
@@ -22,5 +24,6 @@ public interface ReplyBoardService {
      *                transaction으로 묶여야한다. 
      * */
     List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB, boolean state);
+
     
 }

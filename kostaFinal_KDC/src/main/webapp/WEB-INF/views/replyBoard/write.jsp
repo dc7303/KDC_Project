@@ -51,6 +51,14 @@ function checkValid() {
 		<input type=text name="replyBoardContents" size="50"></span></b></td>
     </tr>
     <tr>
+        <td width="150" height="20">
+            <p align="right"><b><span style="font-size:9pt;">해시태그</span></b></p>
+        </td>
+        <td width="450" height="20" ><b><span style="font-size:9pt;">
+    <input type=text name="hashTagName" size="50"></span></b></td>
+    </tr>
+    
+    <tr>
         <td width="450" height="20" colspan="2" align="center"><b><span style="font-size:9pt;"><input type=submit value=글쓰기> 
         <input type=reset value=다시쓰기></span></b></td>
     </tr>

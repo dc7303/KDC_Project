@@ -14,8 +14,9 @@ public interface ReplyBoardDAO {
     /**
      * 레코드 삽입
      */
-    int insert(ReplyBoardDTO replyBoardDTO);
+    int insertReply(ReplyBoardDTO replyBoardDTO);
 
+    int insertHashTag(String hashTags);
     /**
      * 게시글 눌럿을때 조회수 올리기
      * */

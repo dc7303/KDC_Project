@@ -21,9 +21,14 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
     }
     
     @Override
-    public int insert(ReplyBoardDTO replyBoardDTO) {
+    public int insertReply(ReplyBoardDTO replyBoardDTO) {
         return session.insert("replyBoardMapper.replyBoardInsert", replyBoardDTO);
     }
+
+    @Override
+    public int insertHashTag(String hashTagName) {
+        return session.insert("replyBoardMapper.hashTagInsert",hashTagName);
+    }    
 
     @Override
     public int readnumUpdate(int replyBoardPk) {
@@ -32,11 +37,8 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
 
     @Override
     public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB) {
-        List<ReplyBoardDTO> list = session.selectList("replyBoardMapper.boardByModelNum", replyBoardDTODB);
-        for(ReplyBoardDTO dto:list) {
-            System.out.println(dto.getUpdown());
-        }
-        return list;
+        return session.selectList("replyBoardMapper.boardByModelNum", replyBoardDTODB);
     }
+
 
 }

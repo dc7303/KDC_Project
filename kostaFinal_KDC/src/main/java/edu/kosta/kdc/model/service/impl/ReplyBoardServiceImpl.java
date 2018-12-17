@@ -2,6 +2,7 @@ package edu.kosta.kdc.model.service.impl;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,20 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     }
 
     @Override
-    public int insert(ReplyBoardDTO replyBoardDTO) {
-        return replyBoardDAO.insert(replyBoardDTO);
+    public int insertReply(ReplyBoardDTO replyBoardDTO) {
+        return replyBoardDAO.insertReply(replyBoardDTO);
     }
+
+    @Override
+    public int insertHashTag(String hashTagName) {
+        int result=0;
+        String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
+        for(String s: hashTags) {
+            result += replyBoardDAO.insertHashTag(s);
+        }
+        
+        return result;
+    }   
 
     @Override
     public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB, boolean state) {
@@ -33,5 +45,6 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
         }
         return replyBoardDAO.selectByReplyBoardPK(replyBoardDTODB);
     }
+
 
 }
