@@ -2,8 +2,14 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
-<HEAD>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
+    
+    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 
 <SCRIPT language=javascript>
 $(function(){
@@ -27,20 +33,22 @@ $(function(){
 })
 </script>
 
+  </head>
 
-</HEAD>
+<body>
 
-<table align="center" border="1" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
+
+
+
+<table>
 
        <thead>
-          <tr>
-            <th colspan="2">글제목</th>
-            <th>글쓴이</th>
-            <th>등록날짜</th>
-            <th>좋아요여부</th>
-            <th>좋아요수</th>
-            <th>댓글수</th>
-            <th>조회수</th>
+          <tr class="titel-color">
+            <td colspan="4">글제목</td>
+            <td>글쓴이</td>
+            <td>등록날짜</td>
+            <td>좋아요여부</td>
+            <td>조회수</td>
           </tr>
         </thead>
 
@@ -49,7 +57,7 @@ $(function(){
 <c:choose>
 <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
     <tr>
-      <td colspan="2">
+      <td colspan="4">
       <span>${replyBoardDTO.replyBoardTitle}</span>
       </td>
       <td>
@@ -61,22 +69,18 @@ $(function(){
       <td>
       <span>${replyBoardDTO.updown.isUp}</span>
       </td>
-      <td>
-      <span>${replyBoardDTO.likeNum}</span>
-      </td>
-      <td>
-      <span>${replyBoardDTO.replyNum}</span>
-      </td>
+
       <td>
       <span>${replyBoardDTO.replyBoardViews}</span>
       </td>
     </tr>
     <tr>
-      <td colspan="8">
+      <td class="tech-content" colspan="8">
       <span>${replyBoardDTO.replyBoardContents}</span>
       </td>
     </tr>
     <tr>
+   
       <td colspan="8">
       <span>${replyBoardDTO.hashTag.hashTagName}</span>
       </td>
@@ -86,7 +90,7 @@ $(function(){
 </c:choose>
 </c:forEach>
 
-    <tr>
+    <tr class="titel-color">
     <td>댓글번호</td>
     <td>멘션</td>
     <td>댓글작성자</td>
@@ -138,7 +142,7 @@ $(function(){
     
     <tr>
     <td>${replyBoardDTO.replyNum+1}</td>
-    <td><input type=text placeholder="멘션입력"></td>
+    <td><input type=text value="@" placeholder="@   멘션입력"></td>
     <td>본인닉네임표출</td>
     <td colspan="4"><input type=text placeholder="댓글내용입력"></td>
     <td><input type=button value="등록" ></td>
@@ -149,7 +153,7 @@ $(function(){
 </c:forEach>
 
     <tr>
-      <td colspan="8" height="20" colspan="4" align="center" valign="middle">
+      <td colspan="8"colspan="4" align="center" valign="middle">
       <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
       <form name="requestForm" method=post  id="requestForm">
         <input type=hidden name="modelNum" value="${elec.modelNum}">
@@ -162,4 +166,7 @@ $(function(){
 </table>
 
 <hr>
-<div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/board/list">리스트로 돌아가기</a>&gt;</span></div>
+<div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/replyBoardList">리스트로 돌아가기</a>&gt;</span></div>
+
+
+</body>

@@ -18,6 +18,11 @@ public interface ReplyBoardService {
     
     int insertHashTag(String hashTagName);
 
+
+    int replyInsert(ReplyBoardDTO replyBoardDTO);
+
+    
+    
     /**
      * 게시글 제목에 해당하는 상세보기
      * @param: state true이면 조회수증가, false이면 조회증가안함.
@@ -25,5 +30,9 @@ public interface ReplyBoardService {
      * */
     List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB, boolean state);
 
-    
+    /**
+     * 게시글 수정하기
+     * */
+    int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String hashTagName);
+
 }

@@ -38,6 +38,11 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     }   
 
     @Override
+    public int replyInsert(ReplyBoardDTO replyBoardDTO) {
+        return replyBoardDAO.replyInsert(replyBoardDTO);
+    }
+    
+    @Override
     public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB, boolean state) {
         if(state) {
             int result = replyBoardDAO.readnumUpdate(replyBoardDTODB.getReplyBoardPk());
@@ -45,6 +50,22 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
         }
         return replyBoardDAO.selectByReplyBoardPK(replyBoardDTODB);
     }
+
+    @Override
+    public int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String hashTagName) {
+        
+        replyBoardDAO.hashTagUpdateDelete(replyBoardDTO);
+        replyBoardDAO.replyBoardUpdate(replyBoardDTO);
+        int result=0;
+        String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
+        for(String s: hashTags) {
+            result += replyBoardDAO.hashTagUpdateInsert(replyBoardDTO, s);
+        }
+        return 1;
+    }
+    
+
+    
 
 
 }

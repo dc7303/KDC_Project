@@ -27,7 +27,7 @@ function checkValid() {
 </head>
 <body>
 
-<form name="writeForm" method="post" action="${pageContext.request.contextPath}/reply/insert?title=${requestScope.title}">
+<form name="writeForm" method="post" action="${pageContext.request.contextPath}/reply/insert?classification=${requestScope.classification}">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 <table align="center" cellpadding="5" cellspacing="2" width="600" border="1" >
 
@@ -66,7 +66,7 @@ function checkValid() {
 </form>
 
 <hr>
-<div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?title=${requestScope.title}">리스트로 돌아가기</a>&gt;</span></div>
+<div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?classification=${requestScope.classification}">리스트로 돌아가기</a>&gt;</span></div>
 
 </BODY>
 </HTML>

@@ -16,11 +16,11 @@
   <body>
 
 
-    <h2>${requestScope.title}</h2>
+    <h2>${requestScope.classification}</h2>
     <br/><br/>
 
     <div class="write-button">
-      <a href="write?title=${requestScope.title}" class="button">글쓰기</a>
+      <a href="write?classification=${requestScope.classification}" class="button">글쓰기</a>
     </div> <br/><br/>
 
     <div class="table-wrapper">
@@ -51,7 +51,7 @@
           
           <tr>
             <td>${state.count}</td>
-            <td><a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.title}">
+            <td><a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}">
                 ${replyBoardDTO.replyBoardTitle}</a></td>
             <td>${replyBoardDTO.member.memberNickName}</td>
             <td>${replyBoardDTO.replyBoardDate}</td>
