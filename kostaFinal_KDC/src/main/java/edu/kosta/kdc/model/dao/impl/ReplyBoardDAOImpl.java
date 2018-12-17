@@ -66,4 +66,24 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
         return session.insert("replyBoardMapper.hashTagUpdateInsert", map);
     }
 
+    @Override
+    public int replyBoardDelete(String replyBoardPk) {
+        return session.update("replyBoardMapper.replyBoardDelete", replyBoardPk);
+    }
+
+    @Override
+    public int replyBoardReplyDelete(String replyBoardPk) {
+        return session.update("replyBoardMapper.replyBoardReplyDelete", replyBoardPk);
+    }
+
+    @Override
+    public int replyBoardHashTagDelete(String replyBoardPk) {
+        return session.update("replyBoardMapper.replyBoardHashTagDelete", replyBoardPk);
+    }
+
+    @Override
+    public int replyBoardUpDownDelete(String replyBoardPk) {
+        return session.update("replyBoardMapper.replyBoardUpDownDelete", replyBoardPk);
+    }
+
 }

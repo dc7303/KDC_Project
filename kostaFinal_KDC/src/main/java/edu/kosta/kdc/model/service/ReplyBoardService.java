@@ -14,11 +14,8 @@ public interface ReplyBoardService {
     /**
      * 레코드 삽입
      */
-    int insertReply(ReplyBoardDTO replyBoardDTO);
+    int insertReply(ReplyBoardDTO replyBoardDTO,String hashTagName);
     
-    int insertHashTag(String hashTagName);
-
-
     int replyInsert(ReplyBoardDTO replyBoardDTO);
 
     
@@ -34,5 +31,10 @@ public interface ReplyBoardService {
      * 게시글 수정하기
      * */
     int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String hashTagName);
+
+    /**
+     * 게시글 삭제하기
+     * */
+    int replyBoardDelete(String replyBoardPk);
 
 }

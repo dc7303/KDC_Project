@@ -22,20 +22,16 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     }
 
     @Override
-    public int insertReply(ReplyBoardDTO replyBoardDTO) {
-        return replyBoardDAO.insertReply(replyBoardDTO);
-    }
-
-    @Override
-    public int insertHashTag(String hashTagName) {
+    public int insertReply(ReplyBoardDTO replyBoardDTO, String hashTagName) {
+        replyBoardDAO.insertReply(replyBoardDTO);
         int result=0;
         String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
         for(String s: hashTags) {
             result += replyBoardDAO.insertHashTag(s);
         }
         
-        return result;
-    }   
+        return 1;
+    }
 
     @Override
     public int replyInsert(ReplyBoardDTO replyBoardDTO) {
@@ -61,6 +57,15 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
         for(String s: hashTags) {
             result += replyBoardDAO.hashTagUpdateInsert(replyBoardDTO, s);
         }
+        return 1;
+    }
+
+    @Override
+    public int replyBoardDelete(String replyBoardPk) {
+        replyBoardDAO.replyBoardDelete(replyBoardPk);
+        replyBoardDAO.replyBoardReplyDelete(replyBoardPk);
+        replyBoardDAO.replyBoardHashTagDelete(replyBoardPk);
+        replyBoardDAO.replyBoardUpDownDelete(replyBoardPk);
         return 1;
     }
     

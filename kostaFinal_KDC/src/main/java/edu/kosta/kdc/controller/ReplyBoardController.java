@@ -3,14 +3,12 @@ package edu.kosta.kdc.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 import edu.kosta.kdc.model.service.ReplyBoardService;
@@ -49,8 +47,7 @@ public class ReplyBoardController {
     @RequestMapping("/insert")
     public String techBoardInsert(@RequestParam(value="classification") String classification, ReplyBoardDTO replyBoardDTO, String hashTagName) {
         replyBoardDTO.setReplyBoardClassification(classification);
-        replyBoardService.insertReply(replyBoardDTO);
-        replyBoardService.insertHashTag(hashTagName);
+        replyBoardService.insertReply(replyBoardDTO, hashTagName);
         
         return "redirect:tech?classification="+classification;
     }
@@ -66,7 +63,7 @@ public class ReplyBoardController {
         
         model.addAttribute("classification",classification);
         
-        return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
+        return "redirect:read?replyBoardPk="+replyBoardPk;
     }
     
     
@@ -109,11 +106,16 @@ public class ReplyBoardController {
     @RequestMapping("/replyBoardUpdate")
     public String replyBoardUpdate(@RequestParam(value="classification") String classification, @RequestParam(value="replyBoardPk")int replyBoardPk,ReplyBoardDTO replyBoardDTO, String hashTagName) {
         replyBoardDTO.setReplyBoardPk(replyBoardPk);
-        System.out.println(replyBoardDTO.getReplyBoardPk());
-        System.out.println(replyBoardPk);
         replyBoardService.replyBoardUpdate(replyBoardDTO, hashTagName);
         return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
     }
     
-    
+    /**
+     * 게시글 삭제하기
+     * */
+    @RequestMapping("/delete")
+    public String replyBoardDelete(String replyBoardPk,String classification) {
+        replyBoardService.replyBoardDelete(replyBoardPk);
+        return "redirect:"+classification+"?classification="+classification;
+    }
 }

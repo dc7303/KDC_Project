@@ -44,4 +44,24 @@ public interface ReplyBoardDAO {
      * 게시글 수정후 해시태그 다시 insert
      * */
     int hashTagUpdateInsert(ReplyBoardDTO replyBoardDTO, String hashTagName);
+
+    /**
+     * 게시글 삭제하기
+     * */
+    int replyBoardDelete(String replyBoardPk);
+    
+    /**
+     * 게시글의 댓글 삭제하기
+     * */
+    int replyBoardReplyDelete(String replyBoardPk);
+    
+    /**
+     * 게시글의 해시태그 삭제하기
+     * */
+    int replyBoardHashTagDelete(String replyBoardPk);
+    
+    /**
+     * 게시글의 좋아요수 삭제하기
+     * */
+    int replyBoardUpDownDelete(String replyBoardPk);
 }
