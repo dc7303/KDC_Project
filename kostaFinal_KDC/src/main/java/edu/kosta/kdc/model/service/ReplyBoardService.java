@@ -19,7 +19,6 @@ public interface ReplyBoardService {
     int replyInsert(ReplyBoardDTO replyBoardDTO);
 
     
-    
     /**
      * 게시글 제목에 해당하는 상세보기
      * @param: state true이면 조회수증가, false이면 조회증가안함.

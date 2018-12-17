@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kosta.kdc.model.dao.ReplyBoardDAO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
@@ -22,6 +23,7 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     }
 
     @Override
+    @Transactional
     public int insertReply(ReplyBoardDTO replyBoardDTO, String hashTagName) {
         replyBoardDAO.insertReply(replyBoardDTO);
         int result=0;
