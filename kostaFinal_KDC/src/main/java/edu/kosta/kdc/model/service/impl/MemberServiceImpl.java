@@ -74,6 +74,12 @@ public class MemberServiceImpl implements MemberService {
             throw new KdcException("회원 정보 입력이 잘못되었습니다.");
         }
         
+        //코드입력이 없을 시 멤버로 가입됨
+        if(authCode.equals("") || authCode == null) {
+            authCode = "ROLE_MEMBER";
+        }
+        
+        System.out.println("authCode : " + authCode);
         //권한 Insert
         result = authorityDAO.authorityInsert(new AuthorityDTO(memberDTO.getMemberId(), authCode));
         if(result == 0) {
@@ -96,7 +102,7 @@ public class MemberServiceImpl implements MemberService {
      * 회원정보 삭제
      */
     @Override 
-    public int memberDelete(MemberDTO memberDTO) {
+    public int memberDelete(MemberDTO memberDTO) throws KdcException {
         // TODO Auto-generated method stub
         return 0;
     }    

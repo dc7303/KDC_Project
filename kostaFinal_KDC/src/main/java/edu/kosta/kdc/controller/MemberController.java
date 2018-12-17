@@ -45,7 +45,8 @@ public class MemberController {
     public String memberIdCheck(String memberId) {
         
         String message = "";        //AJAX ¸Þ¼¼Áö
-        String regex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{5,12}$";       //À¯È¿¼º Á¤±Ô½Ä Ç¥Çö
+        //String regex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{5,12}$";       //À¯È¿¼º Á¤±Ô½Ä Ç¥Çö
+        String regex = "^[a-zA-Z0-9_]{5,12}$";
         
         Pattern pattern = Pattern.compile(regex);
 
@@ -80,33 +81,12 @@ public class MemberController {
         String message = "»ç¿ë°¡´ÉÇÑ ºñ¹Ð¹øÈ£ÀÔ´Ï´Ù.";
         
         //¼ýÀÚ, ¿µ¹®, Æ¯¼ö±âÈ£ Æ÷ÇÔ 8ÀÚ¸® ÀÌ»ó
-        String regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$";
-        
+        String regex = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(memberPwd);
         
         if(!matcher.find()) message = "»ç¿ë ºÒ°¡´ÉÇÑ ºñ¹Ð¹øÈ£ÀÔ´Ï´Ù.";
-        
-        //ºñ¹Ð¹øÈ£ Á¤Ã¥ È¸ÀÇ ÇÊ¿ä
-        /* 
-        Pattern pattern1 = Pattern.compile("[0-9]"); // Number 0 through 9
-        Pattern pattern2 = Pattern.compile("[a-z]"); // Characters a through z
-        Pattern pattern3 = Pattern.compile("[A-Z]"); // Characters A through Z
-        Pattern pattern4 = Pattern.compile("[^A-Za-z0-9]"); // Any character except ( A through Z and a through z and 0 through 9)
-
-        Matcher matcher1 = pattern1.matcher(memberPwd);
-        Matcher matcher2 = pattern2.matcher(memberPwd);
-        Matcher matcher3 = pattern3.matcher(memberPwd);
-        Matcher matcher4 = pattern4.matcher(memberPwd);
-
-        if(memberPwd.length() < 8 || memberPwd.length() > 14) message = "ÆÐ½º¿öµå ±æÀÌ´Â 8~14 ÀÚ¸®ÀÔ´Ï´Ù.";
-        else if (!matcher1.find()) message = "ÆÐ½º¿öµå¿¡ ¼ýÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
-        else if (!matcher2.find()) message = "ÆÐ½º¿öµå¿¡ ¼Ò¹®ÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
-        else if (matcher3.find()) message = "ÆÐ½º¿öµå´Â ´ë¹®ÀÚ ¼Ò¹®ÀÚ¸¦ ±¸ºÐÇÕ´Ï´Ù.";
-        else if (!matcher4.find()) message = "ÆÐ½º¿öµå¿¡ Æ¯¼ö¹®ÀÚ°¡ Æ÷ÇÔµÇÁö ¾Ê¾Ò½À´Ï´Ù.";
-        else message = "»ç¿ë°¡´ÉÇÑ ºñ¹Ð¹øÈ£ÀÔ´Ï´Ù.";
-        */
-        
+                
         return message;
     }
     
@@ -140,14 +120,12 @@ public class MemberController {
         
         String message = "»ç¿ë°¡´ÉÇÑ ´Ð³×ÀÓÀÔ´Ï´Ù.";
         
-        String regex = "^[a-zA-Z0-9°¡-ÆR]*$";
+        String regex = "^[a-zA-Z0-9°¡-ÆR]{1,8}$";
         
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(memberNickName);
         
         if(!matcher.find()) {
-            message = "»ç¿ëºÒ°¡´ÉÇÑ ´Ð³×ÀÓÀÔ´Ï´Ù.";
-        }else if(memberNickName.length() < 2 || memberNickName.length() > 8) {
             message = "»ç¿ëºÒ°¡´ÉÇÑ ´Ð³×ÀÓÀÔ´Ï´Ù.";
         }else {
             boolean checkResult = memberService.memberSelectByMemberNickName(memberNickName);
@@ -192,8 +170,8 @@ public class MemberController {
     public String emailCheck(String memberEmail) {
         
         String message = "ÀÌ¸ÞÀÏÀÔ·Â";
-        System.out.println(memberEmail);
-        String regex = "(\\w+\\.)*\\w+@(\\w+\\.)+[A-Za-z]+";
+        
+        String regex = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(memberEmail);
@@ -204,6 +182,12 @@ public class MemberController {
         return message;
     }
     
+    /**
+     * ±ÇÇÑ À¯È¿¼º °Ë»ç.
+     * 
+     * @param authName
+     * @return
+     */
     @RequestMapping(value = "/authCheck", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public String authCheck(String authName) {

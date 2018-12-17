@@ -2,9 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="authMapper">
     
+    <resultMap type="authorityDTO" id="authorityDTO">
+        <id column="authority_id" property="memberId"/>
+        <id column="authority_role" property="authName"/>
+    </resultMap>
+    
     <insert id="insert" parameterType="authorityDTO">
         insert into authority values (#{memberId}, #{authName})
     </insert>
     
+    <select id="selectByMemberId" resultMap="authorityDTO">
+        select * from authority where authority_id = #{_parameter}
+    </select>
     
 </mapper>

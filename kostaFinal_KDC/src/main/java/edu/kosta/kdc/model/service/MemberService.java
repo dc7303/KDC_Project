@@ -1,5 +1,6 @@
 package edu.kosta.kdc.model.service;
 
+import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dto.MemberDTO;
 
 public interface MemberService {

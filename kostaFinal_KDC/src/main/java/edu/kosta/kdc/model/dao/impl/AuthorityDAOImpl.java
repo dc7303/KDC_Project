@@ -20,8 +20,8 @@ public class AuthorityDAOImpl implements AuthorityDAO {
      */
     @Override
     public List<AuthorityDTO> authoritySelectByMemberId(String memberId) {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return sqlSession.selectList("authMapper.selectByMemberId", memberId);
     }
 
     /**
