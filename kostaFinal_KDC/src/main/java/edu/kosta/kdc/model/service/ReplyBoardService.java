@@ -10,7 +10,12 @@ public interface ReplyBoardService {
      * selectAll(전체 정렬)
      * */
     List<ReplyBoardDTO> selectAll(String title);
-    
+
+    /**
+     * 정렬하여 select
+     * */
+    List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort);
+
     /**
      * 레코드 삽입
      */
@@ -32,6 +37,11 @@ public interface ReplyBoardService {
     int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String hashTagName);
 
     /**
+     * 댓글 수정하기
+     * */
+    int replyUpdate(ReplyBoardDTO replyBoardDTO);
+    
+    /**
      * 게시글 삭제하기
      * */
     int replyBoardDelete(String replyBoardPk);
@@ -40,5 +50,8 @@ public interface ReplyBoardService {
      * 댓글 삭제 하기
      * */
     int replyDelete(int replyBoardReplyPk);
+
+
+    
 
 }

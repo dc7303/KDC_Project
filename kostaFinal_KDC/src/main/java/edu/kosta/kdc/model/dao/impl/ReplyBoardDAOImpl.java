@@ -91,4 +91,18 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
         return session.update("replyBoardMapper.replyDelete",replyBoardReplyPk);
     }
 
+    @Override
+    public int replyUpdate(ReplyBoardDTO replyBoardDTO) {
+        System.out.println("dao ³»¿ë : "+replyBoardDTO.getReplyBoardContents());
+        return session.update("replyBoardMapper.replyUpdate", replyBoardDTO);
+    }
+
+    @Override
+    public List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("classification", classification);
+        map.put("sort", sort);
+        return session.selectList("replyBoardMapper.replyBoardSelectAllOrderBy",map);
+    }
+
 }

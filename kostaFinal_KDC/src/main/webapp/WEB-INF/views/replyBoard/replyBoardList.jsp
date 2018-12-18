@@ -30,10 +30,10 @@
             <th>글번호</th>
             <th>글제목</th>
             <th>글쓴이</th>
-            <th>등록날짜</th>
-            <th>좋아요수</th>
-            <th>댓글수</th>
-            <th>조회수</th>
+            <th><a href="${pageContext.request.contextPath}/reply/dateOrderby?sort=reply_board_write_date&classification=${requestScope.classification}">등록날짜</a></th>
+            <th><a href="${pageContext.request.contextPath}/reply/likeOrderby?sort=likeNum&classification=${requestScope.classification}">좋아요수</a></th>
+            <th><a href="${pageContext.request.contextPath}/reply/replyOrderby?sort=replyNum&classification=${requestScope.classification}">댓글수</a></th>
+            <th><a href="${pageContext.request.contextPath}/reply/viewOrderby?sort=REPLY_BOARD_VIEWS&classification=${requestScope.classification}">조회수</a></th>
           </tr>
         </thead>
         <tbody>
@@ -71,6 +71,7 @@
 
     <div class="field half">
 
+    <form action="${pageContext.request.contextPath}/reply/replyBoardListSearch">
         <select name="department" id="department">
           <option value="">- 분류 -</option>
           <option value="1">제목</option>
@@ -79,9 +80,9 @@
           <option value="4">헤시태그</option>
         </select>
 
-        <input class="tech-board-search" type="text" name="tech-board-search" />
-        <a href="#" class="button">검색</a>
-
+        <input class="tech-board-search" type="text" name="boardSearch" />
+        <input type="submit" value="검색"/>
+    </form>
      </div>
 
 

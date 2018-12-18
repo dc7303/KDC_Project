@@ -26,12 +26,19 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     @Transactional
     public int insertReply(ReplyBoardDTO replyBoardDTO, String hashTagName) {
-        replyBoardDAO.insertReply(replyBoardDTO);
+        String tagName = hashTagName.replaceAll(" ","");
+        int rs=0;
+        rs = replyBoardDAO.insertReply(replyBoardDTO);
         int result=0;
-        String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
-        for(String s: hashTags) {
-            result += replyBoardDAO.insertHashTag(s);
+        if(rs!=0 && tagName.length()!=0) {
+            String [] hashTags = tagName.split(",");
+
+            for(String s: hashTags) {
+                result += replyBoardDAO.insertHashTag(s);
+            }
         }
+        
+        //if(rs==0) throw new KdcException(replyBoardDTO.getReplyBoardClassification() + "게시판 글 쓰기 오류");
         
         return 1;
     }
@@ -52,16 +59,19 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
 
     @Override
     public int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String hashTagName) {
+        String tagName = hashTagName.replaceAll(" ","");
         int result=0;
         int rs=0;
         rs=replyBoardDAO.hashTagUpdateDelete(replyBoardDTO);
         replyBoardDAO.replyBoardUpdate(replyBoardDTO);
-        if(rs!=0) {
-            String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
+        if(rs!=0 && tagName.length()!=0) {
+            String [] hashTags = tagName.split(",");
+
             for(String s: hashTags) {
                 result += replyBoardDAO.hashTagUpdateInsert(replyBoardDTO, s);
             }
         }
+        
         return 1;
     }
 
@@ -78,9 +88,15 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     public int replyDelete(int replyBoardReplyPk) {
         return replyBoardDAO.replyDelete(replyBoardReplyPk);
     }
-    
 
-    
+    @Override
+    public int replyUpdate(ReplyBoardDTO replyBoardDTO) {
+        return replyBoardDAO.replyUpdate(replyBoardDTO);
+    }
 
+    @Override
+    public List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort) {
+        return replyBoardDAO.replyBoardSelectAllOrderBy(classification, sort);
+    }
 
 }

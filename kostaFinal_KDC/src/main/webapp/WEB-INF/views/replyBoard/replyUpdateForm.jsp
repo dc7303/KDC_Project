@@ -70,7 +70,7 @@ $(function(){
       </td>
     </tr>
     <tr>
-      <td class="tech-content" colspan="10" >
+      <td class="tech-content" colspan="10">
       <span>${replyBoardDTO.replyBoardContents}</span>
       </td>
     </tr>
@@ -99,8 +99,58 @@ $(function(){
     </tr>
         
 <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
-
 <c:choose>
+<c:when test="${replyBoardDTO.replyBoardPk==replyBoardReplyPk}">
+ <form id="replyUpdate" method="post" action="${pageContext.request.contextPath}/reply/replyUpdate">
+  <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+      <td>
+      <span>${state.count-1}</span>
+      </td>
+      <td>
+      <span><input type="text" name="mentionNickName" value="${replyBoardDTO.mentionNickName}"></span>
+      </td>
+      <td>
+      <span><input type="text" name="replyBoardContents" value="${replyBoardDTO.replyBoardContents}"></span>
+      </td>      
+      <td>
+      <span>${replyBoardDTO.replyBoardDate}</span>
+      </td>
+      <td>
+      <span>${replyBoardDTO.updown.isUp}</span>
+      </td>
+      <td>
+      <span>${replyBoardDTO.likeNum}</span>
+      </td>
+      <td>
+      <span>${replyBoardDTO.member.memberNickName}</span>
+      </td>
+      
+      <td> <!-- 여기에다가 수정된 댓글내용 저장되도록 하면됨 -->
+        
+        <input type="hidden" name="replyBoardPk" value="${requestScope.replyBoardPk}"/>
+        <input type="hidden" name="classification" value="${requestScope.classification}"/>
+        <input type="hidden" name="replyBoardReplyNo" value="${replyBoardDTO.replyBoardPk}"/>
+        <input type="submit" value="저장">
+      
+      </td>
+  </form>    
+      <td><span>
+          <form id="replyDelete" method="post" action="${pageContext.request.contextPath}/reply/replyDelete">
+            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+            <input type="hidden" name="state" value="true"/>
+            <input type="hidden" name="replyBoardPk" value="${requestScope.replyBoardPk}"/>
+            <input type="hidden" name="classification" value="${requestScope.classification}"/>
+            <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}"/>            
+            <input type="submit" value="삭제">            
+          </form>
+       </span>
+      </td>     
+      
+      <td>
+      <input type="button" value="신고">
+      </td>
+
+</c:when>
 <c:when test="${replyBoardDTO.replyBoardReplyNo>0}">
     <tr>
       <td>
@@ -142,9 +192,9 @@ $(function(){
             <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
             <input type="hidden" name="state" value="true"/>
             <input type="hidden" name="replyBoardPk" value="${requestScope.replyBoardPk}"/>
-            <input type="hidden" name="classification" value="${requestScope.classification}">
-            <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}">            
-            <input type="submit" value="삭제">           
+            <input type="hidden" name="classification" value="${requestScope.classification}"/>
+            <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}"/>            
+            <input type="submit" value="삭제">            
           </form>
         </span>
         </td>
@@ -167,8 +217,8 @@ $(function(){
      
       <tr>
         <td>${replyBoardDTO.replyNum+1}</td>
-        <td><input type="text" value="@" name="replyBoardMention" style="width:150px;"></td>
-        <td colspan="6"><input type="text" placeholder="댓글내용입력" name="replyBoardContents"></td>
+        <td><input type=text value="@" name="replyBoardMention" style="width:150px;"></td>
+        <td colspan="6"><input type=text placeholder="댓글내용입력" name="replyBoardContents"></td>
         <td>본인닉네임표출</td>
         <td><input type=submit value="등록" ></td>
       </tr>

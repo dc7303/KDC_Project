@@ -33,6 +33,17 @@ public class ReplyBoardController {
     }
     
     /**
+     * 정렬하기 select
+     * */
+    @RequestMapping(value= {"/dateOrderby","/likeOrderby","/viewOrderby","/replyOrderby"})
+    public String SelectOrderby(String classification, String sort, Model model) {
+        List<ReplyBoardDTO> list = replyBoardService.replyBoardSelectAllOrderBy(classification, sort);
+        model.addAttribute("classification",classification);
+        model.addAttribute("list",list);
+        return "replyBoard/replyBoardList";
+    }
+    
+    /**
      * 등록 폼
      * */
     @RequestMapping("/write")
@@ -45,7 +56,7 @@ public class ReplyBoardController {
      * 게시글 등록하기
      * */
     @RequestMapping("/insert")
-    public String techBoardInsert(@RequestParam(value="classification") String classification, ReplyBoardDTO replyBoardDTO, String hashTagName) {
+    public String techBoardInsert(String classification, ReplyBoardDTO replyBoardDTO, String hashTagName) {
         replyBoardDTO.setReplyBoardClassification(classification);
         replyBoardService.insertReply(replyBoardDTO, hashTagName);
         
@@ -65,7 +76,6 @@ public class ReplyBoardController {
         
         return "redirect:read?replyBoardPk="+replyBoardPk;
     }
-    
     
     /**
      * 상세보기
@@ -111,6 +121,36 @@ public class ReplyBoardController {
     }
     
     /**
+     * 댓글 수정 폼
+     * */
+    @RequestMapping("/replyUpdateForm")
+    public String replyUpdateForm(int replyBoardReplyPk, String classification, int replyBoardPk, Model model, ReplyBoardDTO replyBoardDTODB, HttpServletRequest request) {       
+        boolean state = request.getParameter("state")== null? true : false;
+        
+        replyBoardDTODB.setReplyBoardClassification(classification);
+        
+        List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
+        
+        model.addAttribute("replyBoardDTO",list);
+        model.addAttribute("replyBoardPk", replyBoardPk);
+        model.addAttribute("classification",classification);
+        model.addAttribute("replyBoardReplyPk",replyBoardReplyPk);
+
+        return "replyBoard/replyUpdateForm";
+    }
+    
+    /**
+     * 댓글 수정하기
+     * */
+    @RequestMapping("/replyUpdate")
+    public String replyUpdate(String classification, int replyBoardReplyNo,int replyBoardPk, ReplyBoardDTO replyBoardDTO, String replyBoardContents) {
+        replyBoardService.replyUpdate(replyBoardDTO);
+        
+        return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
+    }
+    
+    
+    /**
      * 게시글 삭제하기
      * */
     @RequestMapping("/delete")
@@ -128,7 +168,17 @@ public class ReplyBoardController {
         return "redirect:read?replyBoardPk="+replyBoardPk+"&classification="+classification;
     }
     
-    /*@requestMapping("/replyUpdate")
-    public String*/
+    /**
+     * replyBoardList 검색하기
+     * */
+    @RequestMapping("/replyBoardListSearch")
+    public String replyDelete(String department, String boardSearch,String classification, Model model) {
+        //List<ReplyBoardDTO> list = replyBoardService.replyBoardSelectAllOrderBy(classification);
+        model.addAttribute("classification",classification);
+        System.out.println(department);
+        System.out.println(boardSearch);
+       // model.addAttribute("list",list);
+        return "replyBoard/replyBoardList";
+    }
     
 }

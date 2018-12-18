@@ -12,7 +12,15 @@ public interface ReplyBoardDAO {
     List<ReplyBoardDTO> selectAll(String title);
 
     /**
+     * 정렬하여 select
+     * */
+    List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort);
+    
+    /**
      * 레코드 삽입
+     * 1)게시글 insert
+     * 2)해시태그 insert
+     * 3)게시글의 댓글 insert
      */
     int insertReply(ReplyBoardDTO replyBoardDTO);
 
@@ -35,6 +43,11 @@ public interface ReplyBoardDAO {
      * */
     int replyBoardUpdate(ReplyBoardDTO replyBoardDTO);
 
+    /**
+     * 댓글 수정하기
+     * */
+    int replyUpdate(ReplyBoardDTO replyBoardDTO);
+    
    /**
     * 게시글 수정시 해시태그 삭제
     * */
@@ -69,4 +82,7 @@ public interface ReplyBoardDAO {
      * 댓글 삭제 하기
      * */
     int replyDelete(int replyBoardReplyPk);
+
+
+    
 }
