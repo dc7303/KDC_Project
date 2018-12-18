@@ -1,6 +1,8 @@
 package edu.kosta.kdc.model.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,8 @@ public class PortfolioDetailDAOImpl implements PortfolioDetailDAO {
     }
 
     @Override
-    public List<PortfolioDetailDTO> selectDetailByMemberId(String memberId) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<PortfolioDetailDTO> selectDetailsByMemberId(String memberId) {
+        return sqlSession.selectList("portfolioDetailMapper.selectDetailsByMemberId", memberId);
     }
 
     @Override
@@ -37,6 +38,16 @@ public class PortfolioDetailDAOImpl implements PortfolioDetailDAO {
     public int deleteDetail(int PortfolioDetailPk) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    @Override
+    public int insertHashTag(String hashTagName) {  
+        return sqlSession.insert("portfolioDetailMapper.insertHashTag", hashTagName);
+    }
+
+    @Override
+    public PortfolioDetailDTO selectDetailByPk(int detailPk) {
+        return sqlSession.selectOne("portfolioDetailMapper.selectDetailByPk", detailPk);
     }
 
 }

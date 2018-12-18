@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-
+import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dao.PortfolioDAO;
 import edu.kosta.kdc.model.dao.PortfolioDetailDAO;
 import edu.kosta.kdc.model.dto.PortfolioDTO;
@@ -19,25 +20,31 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
     
     @Autowired
     private PortfolioDetailDAO portfolioDetailDAO;
-
+    
     // 포트폴리오 삽입
     @Override
-    public int insertPortfolio(PortfolioDTO portfolioDTO) {
-        return portfolioDAO.insertPortfolio(portfolioDTO);
+    public int insertPortfolio(PortfolioDTO portfolioDTO){
+        // 유저의 포트폴리오가 이미 존재하거나 
+        // INSERT결과가 0인 경우 사용자 Exception 발생
+        if(portfolioDAO.selectPortfolioByMemberId(portfolioDTO.getPortFolioMemberId())!=null) throw new KdcException("포트폴리오 생성을 실패했습니다.");
+        int result = portfolioDAO.insertPortfolio(portfolioDTO);
+        if(result==0) throw new KdcException("포트폴리오 생성을 실패했습니다.");
+        
+        return result;
     }
 
     // 포트폴리오 조회
     @Override
     public PortfolioDTO selectPortfolioByMemberId(String memberId) {
-        // TODO Auto-generated method stub
-        return null;
+        return portfolioDAO.selectPortfolioByMemberId(memberId);
     }
 
     // 포트폴리오 수정
     @Override
     public int updatePortfolio(PortfolioDTO portfolioDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+        int result = portfolioDAO.updatePortfolio(portfolioDTO);
+        if(result == 0) throw new KdcException("포트폴리오 생성을 실패했습니다.");
+        return result;
     }
 
     // 포트폴리오 삭제
@@ -46,24 +53,38 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
         // TODO Auto-generated method stub
         return 0;
     }
+    
 
-    // ID에 해당하는 포트폴리오가 이미 존재하는지select
+    // 상세 삽입(해쉬태그포함)
     @Override
-    public boolean selectByMemberId(String memberId) {
-        return portfolioDAO.selectByMemberId(memberId);
-    }
-
-    // 상세 삽입
-    @Override
-    public int insertDetail(PortfolioDetailDTO portfolioDetailDTO) {
-        return portfolioDetailDAO.insertDetail(portfolioDetailDTO);
+    @Transactional
+    public int insertDetail(PortfolioDetailDTO portfolioDetailDTO, String hashTagName) {
+        int result = portfolioDetailDAO.insertDetail(portfolioDetailDTO);
+        if(result==0) throw new KdcException("포트폴리오 상세 생성에 실패했습니다.");
+        if(hashTagName != null) {
+            String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
+            for(String s: hashTags) {
+                result = portfolioDetailDAO.insertHashTag(s);
+                if(result==0) throw new KdcException("포트폴리오 상세 생성에 실패했습니다.");
+            }
+        }
+        
+        return result;
     }
 
     // 상세 조회(by memberid)
     @Override
-    public List<PortfolioDetailDTO> selectDetailByMemberId(String memberId) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<PortfolioDetailDTO> selectDetailsByMemberId(String memberId) {       
+        return portfolioDetailDAO.selectDetailsByMemberId(memberId);
+    }
+    
+    // 상세 조회(by pk)
+    @Override
+    public PortfolioDetailDTO selectDetailByPk(int detailPk) {
+        PortfolioDetailDTO portfolioDetailDTO = portfolioDetailDAO.selectDetailByPk(detailPk);
+        if(portfolioDetailDTO==null) throw new KdcException("없는 포트폴리오 입니다.");
+        
+        return portfolioDetailDTO;
     }
 
     // 상세 수정
@@ -79,5 +100,6 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
         // TODO Auto-generated method stub
         return 0;
     }
+
 
 }

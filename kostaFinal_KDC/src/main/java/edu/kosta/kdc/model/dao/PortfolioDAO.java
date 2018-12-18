@@ -1,6 +1,9 @@
 package edu.kosta.kdc.model.dao;
 
+import java.util.List;
+
 import edu.kosta.kdc.model.dto.PortfolioDTO;
+import edu.kosta.kdc.model.dto.PortfolioDetailDTO;
 
 public interface PortfolioDAO {
     // 삽입
@@ -15,6 +18,5 @@ public interface PortfolioDAO {
     // 삭제
     int deletePortfolioByMemberId(String memberId);
 
-    // ID에 해당하는 포트폴리오가 이미 존재하는지select
-    boolean selectByMemberId(String memberId);
+    
 }

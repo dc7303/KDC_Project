@@ -1,10 +1,13 @@
 package edu.kosta.kdc.model.dao.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kosta.kdc.model.dto.PortfolioDTO;
+import edu.kosta.kdc.model.dto.PortfolioDetailDTO;
 
 @Repository
 public class PortfolioDAOImpl implements edu.kosta.kdc.model.dao.PortfolioDAO {
@@ -21,16 +24,15 @@ public class PortfolioDAOImpl implements edu.kosta.kdc.model.dao.PortfolioDAO {
         return result;
     }
 
+    //포트폴리오 조회
     @Override
     public PortfolioDTO selectPortfolioByMemberId(String memberId) {
-        // TODO Auto-generated method stub
-        return null;
+        return sqlSession.selectOne("portfolioMapper.selectPortfolioByMemberId", memberId);
     }
 
     @Override
     public int updatePortfolio(PortfolioDTO portfolioDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+        return sqlSession.update("portfolioMapper.updatePortfolio", portfolioDTO);
     }
 
     @Override
@@ -39,16 +41,6 @@ public class PortfolioDAOImpl implements edu.kosta.kdc.model.dao.PortfolioDAO {
         return 0;
     }
     
-    /**
-     * ID에 해당하는 
-     * @return true = 이미존재, false = 생성가능 
-     * */
-    @Override
-    public boolean selectByMemberId(String memberId) {
-        // 아이디에 해당하는 포트폴리오가 있으면 true, 없으면 false를 result에 대입 
-        boolean result = 
-                sqlSession.selectOne("portfolioMapper.selectByMemberId", memberId)!=null?true:false;
-        return result;
-    }
+    
 
 }

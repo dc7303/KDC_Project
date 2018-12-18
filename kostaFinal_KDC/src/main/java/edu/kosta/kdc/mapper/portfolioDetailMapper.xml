@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="portfolioDetailMapper">
+    <resultMap type="portfolioDetailDTO" id="selectDetailMap">
+        <id column="PORTFOLIO_DETAIL_PK" property="portFolioDetailPk"/>
+        <result column="PORTFOLIO_DETAIL_USER_ID" property="portFolioDetailMemberId"/>
+        <result column="PORTFOLIO_DETAIL_PROJECT_NAME" property="portfolioDetailProjectName"/>
+        <result column="PORTFOLIO_DETAIL_PROJECT_IMAGE" property="portfolioDeltailProjectImage"/>
+        <result column="PORTFOLIO_DETAIL_DESCRIPTION" property="portfolioDetailDescription"/>
+        <result column="PORTFOLIO_DETAIL_DATE" property="portfolioDetailDate"/>
+        <result column="PORTFOLIO_DETAIL_ISDELETE" property="portfolioDetailIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <collection property="portfolioDetailHashTagList" ofType="hashTagDTO">
+                <id column="HASHTAG_PK" property="hashTagPk"/>
+                <result column="HASHTAG_REPLY_BOARD_PK" property="hashTagReplyBoardPk"/>
+                <result column="HASHTAG_PORTFOLIO_DETAIL_PK" property="hashTagPortfolioDetailPk"/>
+                <result column="HASHTAG_NAME" property="hashTagName"/>
+                <result column="HASHTAG_ISDELETE" property="hashTagIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        </collection>
+    </resultMap>
     
     <!-- 상세삽입 -->
     <insert id="insertDetail" parameterType="portfolioDetailDTO">
@@ -11,8 +27,34 @@
         #{portfolioDetailProjectName},
         #{portfolioDeltailProjectImage},
         #{portfolioDetailDescription},
+        SYSDATE,
         'FALSE'
         )
     </insert>
+    
+    <!-- 해쉬태그 삽입 -->
+    <insert id="insertHashTag" parameterType="string">
+        INSERT INTO HASHTAG 
+        VALUES (HASHTAG_SEQ.NEXTVAL, NULL, (SELECT MAX(PORTFOLIO_DETAIL_PK) FROM PORTFOLIO_DETAIL),
+         #{_parameter},
+         'FALSE')    
+    </insert>
+    
+    <!-- id에 해당하는 상세들 select(상세들만) -->
+    <select id="selectDetailsByMemberId" parameterType="string" resultMap="selectDetailMap">
+        SELECT PORTFOLIO_DETAIL.*, HASHTAG.*
+        FROM PORTFOLIO
+        RIGHT JOIN PORTFOLIO_DETAIL ON PORTFOLIO.PORTFOLIO_USER_ID = PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_USER_ID
+        LEFT JOIN HASHTAG ON PORTFOLIO_DETAIL_PK = HASHTAG_PORTFOLIO_DETAIL_PK
+        WHERE PORTFOLIO.PORTFOLIO_ISDELETE = 'FALSE' AND PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_ISDELETE = 'FALSE'
+        AND PORTFOLIO_USER_ID = #{_parameter}
+    </select>
+    
+    <!-- pk에 해당하는 상세 select(하나) -->
+    <select id="selectDetailByPk" parameterType="int" resultMap="selectDetailMap">
+        SELECT *
+        FROM PORTFOLIO_DETAIL
+        WHERE PORTFOLIO_DETAIL_PK = #{_parameter}
+    </select>
 
 </mapper>

@@ -1,0 +1,8 @@
+/.bower.json
+/bower.json
+/license.txt
+/raphael.js
+/raphael.min.js
+/raphael.no-deps.js
+/raphael.no-deps.min.js
+/webpack.config.js

@@ -10,7 +10,7 @@ public interface PortfolioService {
     // 포트폴리오 삽입
     int insertPortfolio(PortfolioDTO portfolioDTO);
 
-    // 포트폴리오 조회
+    // 포트폴리오 조회(상세미포함)
     PortfolioDTO selectPortfolioByMemberId(String memberId);
 
     // 포트폴리오 수정
@@ -19,18 +19,18 @@ public interface PortfolioService {
     // 포트폴리오 삭제
     int deletePortfolioByMemberId(String memberId);
 
-    // ID에 해당하는 포트폴리오가 이미 존재하는지select
-    boolean selectByMemberId(String memberId);
-    
     // 상세 삽입
-    int insertDetail(PortfolioDetailDTO portfolioDetailDTO);
-    
+    int insertDetail(PortfolioDetailDTO portfolioDetailDTO, String hashTagName);
+
     // 상세 조회(by memberid)
-    List<PortfolioDetailDTO> selectDetailByMemberId(String memberId);
-    
+    List<PortfolioDetailDTO> selectDetailsByMemberId(String memberId);
+
     // 상세 수정
     int updateDetail(PortfolioDetailDTO portfolioDetailDTO);
-    
+
     // 상세 삭제(by PortfolioDetail_pk)
     int deleteDetail(int PortfolioDetailPk);
+
+    // 상세 조회(by pk)
+    PortfolioDetailDTO selectDetailByPk(int detailPk);
 }
