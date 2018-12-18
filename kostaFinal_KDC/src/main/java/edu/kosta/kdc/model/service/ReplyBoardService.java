@@ -35,5 +35,10 @@ public interface ReplyBoardService {
      * 게시글 삭제하기
      * */
     int replyBoardDelete(String replyBoardPk);
+    
+    /**
+     * 댓글 삭제 하기
+     * */
+    int replyDelete(int replyBoardReplyPk);
 
 }

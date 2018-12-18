@@ -4,7 +4,11 @@
 <HTML>
 <HEAD>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
+    
+    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 
 <SCRIPT language=javascript>
 function checkValid() {
@@ -27,43 +31,54 @@ function checkValid() {
 </head>
 <body>
 
+
 <form name="writeForm" method="post" action="${pageContext.request.contextPath}/reply/insert?classification=${requestScope.classification}">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-<table align="center" cellpadding="5" cellspacing="2" width="600" border="1" >
+
+<table>
+       <thead>
+          <tr class="titel-color">
+            <td colspan="6">글제목</td>
+            <td>글쓴이</td>
+            <td>등록날짜</td>
+          </tr>
+        </thead>
 
     <tr>
-        <td width="1220" height="20" colspan="2" bgcolor="#00cc00">
-            <p align="center"><font color="white" size="3"><b> 게시글 등록 </b></font></p>
-        </td>
-    </tr>
-    <tr>
-        <td width="150" height="20">
-            <p align="right"><b><span style="font-size:9pt;">글 제목</span></b></p>
-        </td>
-        <td width="450" height="20"><b><span style="font-size:9pt;">
-		<input type=text name="replyBoardTitle" size="30"></span></b></td>
-    </tr>
-    <tr>
-        <td width="150" height="20">
-            <p align="right"><b><span style="font-size:9pt;">글 내용</span></b></p>
-        </td>
-        <td width="450" height="20" ><b><span style="font-size:9pt;">
-		<input type=text name="replyBoardContents" size="50"></span></b></td>
-    </tr>
-    <tr>
-        <td width="150" height="20">
-            <p align="right"><b><span style="font-size:9pt;">해시태그</span></b></p>
-        </td>
-        <td width="450" height="20" ><b><span style="font-size:9pt;">
-    <input type=text name="hashTagName" size="50"></span></b></td>
+      <td colspan="6">
+      <span><input type=text name="replyBoardTitle" placeholder="게시글 제목 작성"></span>
+      </td>
+      <td>
+      <span>글쓴이닉네임표출</span>
+      </td>
+      <td>
+      <span>현재시간표출</span>
+      </td>
     </tr>
     
     <tr>
-        <td width="450" height="20" colspan="2" align="center"><b><span style="font-size:9pt;"><input type=submit value=글쓰기> 
-        <input type=reset value=다시쓰기></span></b></td>
+      <td class="tech-content" colspan="8">
+      <input type=text name="replyBoardContents" placeholder="게시글 내용 작성" style="height:100%;">
+      </td>
+    </tr>
+    <tr>
+   
+      <td colspan="8">
+      <span><input type=text name="hashTagName" placeholder="해시태그 작성" size="50"></span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="8" height="20" colspan="4" align="center" valign="middle">
+
+      <input type=submit value="글쓰기">
+      <input type=reset value="다시쓰기">
+
+      </td>
     </tr>
 </table>
 </form>
+
 
 <hr>
 <div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?classification=${requestScope.classification}">리스트로 돌아가기</a>&gt;</span></div>

@@ -86,4 +86,9 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
         return session.update("replyBoardMapper.replyBoardUpDownDelete", replyBoardPk);
     }
 
+    @Override
+    public int replyDelete(int replyBoardReplyPk) {
+        return session.update("replyBoardMapper.replyDelete",replyBoardReplyPk);
+    }
+
 }

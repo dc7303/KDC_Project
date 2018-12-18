@@ -56,7 +56,7 @@ public class ReplyBoardController {
      * 댓글 등록하기
      * */
     @RequestMapping("/replyInsert")
-    public String replyInsert(@RequestParam(value="classification") String classification, @RequestParam(value="replyBoardPk")int replyBoardPk, ReplyBoardDTO replyBoardDTO, Model model) {
+    public String replyInsert(String classification,int replyBoardPk, ReplyBoardDTO replyBoardDTO, Model model) {
         replyBoardDTO.setReplyBoardClassification(classification);
         //replyBoardDTO.setReplyBoardPk(replyBoardPk);
         replyBoardService.replyInsert(replyBoardDTO);
@@ -71,13 +71,13 @@ public class ReplyBoardController {
      * 상세보기
      * */
     @RequestMapping("/read")
-    public String read(@RequestParam(value="replyBoardPk")int replyBoardPk, @RequestParam(value="classification") String classification,ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model) {
+    public String read(int replyBoardPk,String classification,ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model) {
         boolean state = request.getParameter("state")== null? true : false;
         replyBoardDTODB.setReplyBoardClassification(classification);
 
-        List<ReplyBoardDTO> replyBoardDTO = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
+        List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
 
-        model.addAttribute("replyBoardDTO",replyBoardDTO);
+        model.addAttribute("replyBoardDTO",list);
         model.addAttribute("classification",classification);
         model.addAttribute("replyBoardPk",replyBoardPk);
         return "replyBoard/read";
@@ -87,7 +87,7 @@ public class ReplyBoardController {
      * 수정하기 폼
      * */
     @RequestMapping("/updateForm")
-    public String updateForm(@RequestParam(value="replyBoardPk")int replyBoardPk, @RequestParam(value="classification") String classification, ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model){
+    public String updateForm(int replyBoardPk, String classification, ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model){
         boolean state = request.getParameter("state")== null? true : false;
         replyBoardDTODB.setReplyBoardClassification(classification);
         
@@ -104,7 +104,7 @@ public class ReplyBoardController {
      * 게시글 수정하기
      * */
     @RequestMapping("/replyBoardUpdate")
-    public String replyBoardUpdate(@RequestParam(value="classification") String classification, @RequestParam(value="replyBoardPk")int replyBoardPk,ReplyBoardDTO replyBoardDTO, String hashTagName) {
+    public String replyBoardUpdate(String classification, int replyBoardPk, ReplyBoardDTO replyBoardDTO, String hashTagName) {
         replyBoardDTO.setReplyBoardPk(replyBoardPk);
         replyBoardService.replyBoardUpdate(replyBoardDTO, hashTagName);
         return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
@@ -118,4 +118,17 @@ public class ReplyBoardController {
         replyBoardService.replyBoardDelete(replyBoardPk);
         return "redirect:"+classification+"?classification="+classification;
     }
+    
+    /**
+     * 댓글 삭제하기
+     * */
+    @RequestMapping("/replyDelete")
+    public String replyDelete(int replyBoardReplyPk, String classification, ReplyBoardDTO replyBoardDTO, int replyBoardPk) {
+        replyBoardService.replyDelete(replyBoardReplyPk);
+        return "redirect:read?replyBoardPk="+replyBoardPk+"&classification="+classification;
+    }
+    
+    /*@requestMapping("/replyUpdate")
+    public String*/
+    
 }

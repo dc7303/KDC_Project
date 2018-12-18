@@ -64,4 +64,9 @@ public interface ReplyBoardDAO {
      * 게시글의 좋아요수 삭제하기
      * */
     int replyBoardUpDownDelete(String replyBoardPk);
+    
+    /**
+     * 댓글 삭제 하기
+     * */
+    int replyDelete(int replyBoardReplyPk);
 }
