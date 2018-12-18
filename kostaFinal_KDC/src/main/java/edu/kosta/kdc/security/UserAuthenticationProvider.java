@@ -58,6 +58,11 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 			throw new UsernameNotFoundException("정보가 일치하지 않습니다.");//spring exception
 		}
 		
+		//isMemberIsWithdrawal이 TURE라면 탈퇴한 회원임으로 실패.
+		if(memberDTO.isMemberIsWithdrawal()) {
+		    throw new UsernameNotFoundException("정보가 일치하지 않습니다.");
+		}
+		
 		//3.비밀번호 비교
 		String memberPwd = (String)auth.getCredentials();
 		

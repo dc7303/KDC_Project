@@ -14,17 +14,33 @@
         <result column="MEMBER_JOIN_DATE" property="memberDate"/>
     </resultMap>
     
-    
+    <!-- 회원가입 -->
     <insert id="insert" parameterType="memberDTO" >
         insert into member values 
         (#{memberId}, #{memberPwd}, #{memberName}, #{memberNickName}, #{memberBirth}, #{memberPhone}, #{memberEmail}, 'FALSE', sysdate)
     </insert>
     
+    <!-- 아이디로 조회 -->
     <select id="selectByMemberId" parameterType="String" resultMap="memberDTO">
         select * from member where member_id = #{_parameter}
     </select>
     
+    <!-- 닉네임으로 조회 -->
     <select id="selectByMemberNickName" parameterType="String" resultMap="memberDTO">
         select * from member where member_nickname = #{_parameter}
     </select>
+    
+    <!-- 회원정보 수정 -->
+    <update id="updateByMemberInfo" parameterType="memberDTO">
+        update member 
+        set member_pw = #{memberPwd}, member_birthday = #{memberBirth}, member_phonenumber = #{memberPhone}, member_email = #{memberEmail} 
+        where member_id = #{memberId}
+    </update>
+    
+    <!-- 회원탈퇴 -->
+    <update id="updateByIsWithDrawal" parameterType="string">
+        update member
+        set member_IsWithDrawal = 'TRUE'
+        where member_id = #{_parameter}
+    </update>
 </mapper>

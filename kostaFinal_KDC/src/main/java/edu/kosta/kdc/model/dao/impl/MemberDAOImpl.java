@@ -37,10 +37,7 @@ public class MemberDAOImpl implements MemberDAO {
     @Override
     public int memberInsert(MemberDTO memberDTO) {
         
-        int result = sqlSession.insert("memberMapper.insert", memberDTO);
-        System.out.println(result);
-        
-        return result;
+        return sqlSession.insert("memberMapper.insert", memberDTO);
     }
 
 
@@ -48,18 +45,18 @@ public class MemberDAOImpl implements MemberDAO {
      * ¸â¹ö Á¤º¸ ¼öÁ¤
      */
     @Override
-    public int memberUpdate(MemberDTO memberDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int updateByMemberInfo(MemberDTO memberDTO) {
+        
+        return sqlSession.update("memberMapper.updateByMemberInfo", memberDTO);
     }
 
     /**
      * È¸¿øÅ»Åð
      */
     @Override
-    public int memberDelete(MemberDTO memberDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int updateByIsWithDrawal(String memberId) {
+        
+        return sqlSession.update("memberMapper.updateByIsWithDrawal", memberId);
     }
 
 }

@@ -79,7 +79,6 @@ public class MemberServiceImpl implements MemberService {
             authCode = "ROLE_MEMBER";
         }
         
-        System.out.println("authCode : " + authCode);
         //권한 Insert
         result = authorityDAO.authorityInsert(new AuthorityDTO(memberDTO.getMemberId(), authCode));
         if(result == 0) {
@@ -93,18 +92,33 @@ public class MemberServiceImpl implements MemberService {
      * 멤버 정보 수정
      */
     @Override
-    public int memberUpdate(MemberDTO memberDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int updateByMemberInfo(MemberDTO memberDTO) {
+        
+        //인코딩 패스워드 셋팅
+        String encodePwd = passwordEncoder.encode(memberDTO.getMemberPwd());
+        memberDTO.setMemberPwd(encodePwd);
+        
+        int result = 0;
+        
+        result = memberDAO.updateByMemberInfo(memberDTO);
+        if(result == 0) throw new KdcException("수정 실패입니다.");
+        
+        return result;
     }
 
     /**
      * 회원정보 삭제
      */
     @Override 
-    public int memberDelete(MemberDTO memberDTO) throws KdcException {
-        // TODO Auto-generated method stub
-        return 0;
+    public int updateByIsWithDrawal(String memberId) throws KdcException {
+
+        int result = 0;
+        
+        
+        result = memberDAO.updateByIsWithDrawal(memberId);
+        if(result == 0) throw new KdcException("탈퇴 실패입니다.");
+        
+        return result;
     }    
     
     

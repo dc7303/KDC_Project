@@ -26,13 +26,19 @@ public class MemberController {
      * 로그인폼
      */
     @RequestMapping("/signInForm")
-    public void memberSignInForm() {}
+    public void memberSignInForm() {} 
     
     /**
      * 회원가입폼
      */
     @RequestMapping("/signUpForm")
     public void memberSignUpForm() {}
+    
+    /**
+     * 마이페이지
+     */
+    @RequestMapping("/myPage")
+    public void memberMyPage() {}
     
     /**
      * 회원가입 아이디 체크
@@ -230,6 +236,35 @@ public class MemberController {
         
         memberService.memberInsert(memberDTO, authCode);
 
-        return "/";
+        return "/index";
+    }
+    
+    /**
+     * 회원정보 수정
+     * 
+     * @param memberDTO
+     * @return
+     */
+    @RequestMapping("/memberUpdate")
+    public String memberUpdate(MemberDTO memberDTO) {
+        
+        memberService.updateByMemberInfo(memberDTO);
+        
+        return "/index";
+    }
+    
+    /**
+     * 회원 탈퇴. 
+     * IsWithDrawal을 TRUE로 바꿔주어 탈퇴시킨다.
+     * 
+     * @param memberDTO
+     * @return
+     */
+    @RequestMapping("/memberDelete")
+    public String memberUpdateByIsWithDrawal(String memberId) {
+        
+        memberService.updateByIsWithDrawal(memberId);
+        
+        return "/index";
     }
 }

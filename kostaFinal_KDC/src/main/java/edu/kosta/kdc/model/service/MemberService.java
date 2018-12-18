@@ -36,7 +36,7 @@ public interface MemberService {
      * @param memberDTO
      * @return
      */
-    int memberUpdate(MemberDTO memberDTO);
+    int updateByMemberInfo(MemberDTO memberDTO);
     
     /**
      * ¸â¹ö È¸¿ø Å»Åð.
@@ -44,6 +44,6 @@ public interface MemberService {
      * @param memberDTO
      * @return
      */
-    int memberDelete(MemberDTO memberDTO);
+    int updateByIsWithDrawal(String memberId);
     
 }
