@@ -61,27 +61,32 @@ public interface ReplyBoardDAO {
     /**
      * 게시글 삭제하기
      * */
-    int replyBoardDelete(String replyBoardPk);
+    int replyBoardDelete(int replyBoardPk);
     
     /**
      * 게시글의 댓글 삭제하기
      * */
-    int replyBoardReplyDelete(String replyBoardPk);
+    int replyBoardReplyDelete(int replyBoardPk);
     
     /**
      * 게시글의 해시태그 삭제하기
      * */
-    int replyBoardHashTagDelete(String replyBoardPk);
+    int replyBoardHashTagDelete(int replyBoardPk);
     
     /**
      * 게시글의 좋아요수 삭제하기
      * */
-    int replyBoardUpDownDelete(String replyBoardPk);
+    int replyBoardUpDownDelete(int replyBoardPk);
     
     /**
      * 댓글 삭제 하기
      * */
     int replyDelete(int replyBoardReplyPk);
+
+    /**
+     * replyBoard게시판에서 조건별 검색
+     * */
+    List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch, String classification);
 
 
     

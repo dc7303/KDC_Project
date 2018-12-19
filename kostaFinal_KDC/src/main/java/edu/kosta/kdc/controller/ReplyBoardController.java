@@ -39,6 +39,7 @@ public class ReplyBoardController {
     public String SelectOrderby(String classification, String sort, Model model) {
         List<ReplyBoardDTO> list = replyBoardService.replyBoardSelectAllOrderBy(classification, sort);
         model.addAttribute("classification",classification);
+        System.out.println(classification);
         model.addAttribute("list",list);
         return "replyBoard/replyBoardList";
     }
@@ -154,7 +155,7 @@ public class ReplyBoardController {
      * 게시글 삭제하기
      * */
     @RequestMapping("/delete")
-    public String replyBoardDelete(String replyBoardPk,String classification) {
+    public String replyBoardDelete(int replyBoardPk,String classification) {
         replyBoardService.replyBoardDelete(replyBoardPk);
         return "redirect:"+classification+"?classification="+classification;
     }
@@ -172,12 +173,12 @@ public class ReplyBoardController {
      * replyBoardList 검색하기
      * */
     @RequestMapping("/replyBoardListSearch")
-    public String replyDelete(String department, String boardSearch,String classification, Model model) {
-        //List<ReplyBoardDTO> list = replyBoardService.replyBoardSelectAllOrderBy(classification);
+    public String replyBoardListSearch(@RequestParam(value="classification") String classification, String department, String boardSearch, Model model) {
+        
         model.addAttribute("classification",classification);
-        System.out.println(department);
-        System.out.println(boardSearch);
-       // model.addAttribute("list",list);
+        List<ReplyBoardDTO> list = replyBoardService.replyBoardListSearch(department, boardSearch, classification);
+        model.addAttribute("list",list);
+        
         return "replyBoard/replyBoardList";
     }
     

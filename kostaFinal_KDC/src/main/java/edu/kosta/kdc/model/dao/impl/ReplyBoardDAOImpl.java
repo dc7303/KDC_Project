@@ -67,22 +67,22 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
     }
 
     @Override
-    public int replyBoardDelete(String replyBoardPk) {
+    public int replyBoardDelete(int replyBoardPk) {
         return session.update("replyBoardMapper.replyBoardDelete", replyBoardPk);
     }
 
     @Override
-    public int replyBoardReplyDelete(String replyBoardPk) {
+    public int replyBoardReplyDelete(int replyBoardPk) {
         return session.update("replyBoardMapper.replyBoardReplyDelete", replyBoardPk);
     }
 
     @Override
-    public int replyBoardHashTagDelete(String replyBoardPk) {
+    public int replyBoardHashTagDelete(int replyBoardPk) {
         return session.update("replyBoardMapper.replyBoardHashTagDelete", replyBoardPk);
     }
 
     @Override
-    public int replyBoardUpDownDelete(String replyBoardPk) {
+    public int replyBoardUpDownDelete(int replyBoardPk) {
         return session.update("replyBoardMapper.replyBoardUpDownDelete", replyBoardPk);
     }
 
@@ -103,6 +103,18 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
         map.put("classification", classification);
         map.put("sort", sort);
         return session.selectList("replyBoardMapper.replyBoardSelectAllOrderBy",map);
+    }
+
+    @Override
+    public List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch,String classification) {
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("department", department);
+        map.put("boardSearch", boardSearch);
+        map.put("classification", classification);
+        
+        return session.selectList("replyBoardMapper.replyBoardListSearch", map);
     }
 
 }

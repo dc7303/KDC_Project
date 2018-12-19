@@ -76,7 +76,7 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     }
 
     @Override
-    public int replyBoardDelete(String replyBoardPk) {
+    public int replyBoardDelete(int replyBoardPk) {
         replyBoardDAO.replyBoardDelete(replyBoardPk);
         replyBoardDAO.replyBoardReplyDelete(replyBoardPk);
         replyBoardDAO.replyBoardHashTagDelete(replyBoardPk);
@@ -97,6 +97,12 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     public List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort) {
         return replyBoardDAO.replyBoardSelectAllOrderBy(classification, sort);
+    }
+
+    @Override
+    public List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch,String classification) {
+        List<ReplyBoardDTO> list = replyBoardDAO.replyBoardListSearch(department, boardSearch,classification);
+        return list;
     }
 
 }

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
     
-    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
+    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css"/></noscript>
   </head>
 
   <body>
@@ -31,9 +31,9 @@
             <th>글제목</th>
             <th>글쓴이</th>
             <th><a href="${pageContext.request.contextPath}/reply/dateOrderby?sort=reply_board_write_date&classification=${requestScope.classification}">등록날짜</a></th>
-            <th><a href="${pageContext.request.contextPath}/reply/likeOrderby?sort=likeNum&classification=${requestScope.classification}">좋아요수</a></th>
+            <th><a href="${pageContext.request.contextPath}/reply/likeOrderby?sort=likeNum&classification=${requestScope.classification}">좋아요</a></th>
             <th><a href="${pageContext.request.contextPath}/reply/replyOrderby?sort=replyNum&classification=${requestScope.classification}">댓글수</a></th>
-            <th><a href="${pageContext.request.contextPath}/reply/viewOrderby?sort=REPLY_BOARD_VIEWS&classification=${requestScope.classification}">조회수</a></th>
+            <th><a href="${pageContext.request.contextPath}/reply/viewOrderby?sort=REPLY_BOARD_VIEWS&classification=${requestScope.classification}">조회수</a></th>            
           </tr>
         </thead>
         <tbody>
@@ -69,21 +69,24 @@
       </table>
     </div>
 
-    <div class="field half">
+        <div class="field half">
 
     <form action="${pageContext.request.contextPath}/reply/replyBoardListSearch">
+       <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+       <input type="hidden" name="classification" value="${requestScope.classification}"/>
         <select name="department" id="department">
           <option value="">- 분류 -</option>
-          <option value="1">제목</option>
-          <option value="2">내용</option>
-          <option value="3">작성자</option>
-          <option value="4">헤시태그</option>
+          <option value="A.REPLY_BOARD_TITLE">제목</option>
+          <option value="A.REPLY_BOARD_CONTENTS">내용</option>
+          <option value="B.MEMBER_NICKNAME">작성자</option>
+          <option value="C.HASHTAG">헤시태그</option>
         </select>
 
-        <input class="tech-board-search" type="text" name="boardSearch" />
+        <input class="tech-board-search" type="text" name="boardSearch"/>
         <input type="submit" value="검색"/>
     </form>
-     </div>
+
+   </div>
 
 
   </body>

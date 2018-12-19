@@ -27,7 +27,7 @@
             <td colspan="4">글제목</td>
             <td>글쓴이</td>
             <td>등록날짜</td>
-            <td>좋아요여부</td>
+            <td>좋아요</td>
             <td>조회수</td>
           </tr>
         </thead>
@@ -46,9 +46,27 @@
       <td>
       <span>${replyBoardDTO.replyBoardDate}</span>
       </td>
+
+      <!-- 여기부터 -->
+      
       <td>
-      <span>${replyBoardDTO.updown.isUp}</span>
+      <c:choose>
+      <c:when test="${replyBoardDTO.updown.isUp==true}">
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>
+      </c:when>
+      <c:when test="${replyBoardDTO.updown.isUp==false}">
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_down.png"></div>
+      </c:when>      
+      <c:otherwise>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>     
+      </c:otherwise>
+      </c:choose>
       </td>
+      
+      <!-- 여기까지 -->
 
       <td>
       <span>${replyBoardDTO.replyBoardViews}</span>

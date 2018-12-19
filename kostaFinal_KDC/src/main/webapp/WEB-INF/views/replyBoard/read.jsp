@@ -42,7 +42,7 @@ $(function(){
             <td colspan="6">글제목</td>
             <td>글쓴이</td>
             <td>등록날짜</td>
-            <td>좋아요여부</td>
+            <td>좋아요</td>
             <td>조회수</td>
           </tr>
         </thead>
@@ -52,25 +52,49 @@ $(function(){
 <c:choose>
 <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
     <tr>
+    
       <td colspan="6">
       <span>${replyBoardDTO.replyBoardTitle}</span>
       </td>
+      
       <td>
       <span>${replyBoardDTO.member.memberNickName}</span>
       </td>
+      
       <td>
       <span>${replyBoardDTO.replyBoardDate}</span>
       </td>
+      
+      <!-- 여기부터 -->
+      
       <td>
-      <span>${replyBoardDTO.updown.isUp}</span>
+      <c:choose>
+      <c:when test="${replyBoardDTO.updown.isUp==true}">
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>
+      </c:when>
+      <c:when test="${replyBoardDTO.updown.isUp==false}">
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_down.png"></div>
+      </c:when>      
+      <c:otherwise>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>     
+      </c:otherwise>
+      </c:choose>
       </td>
-
+      
+      <!-- 여기까지 -->
+      
       <td>
       <span>${replyBoardDTO.replyBoardViews}</span>
       </td>
+            
     </tr>
+    
+    
     <tr>
-      <td class="tech-content" colspan="10" >
+      <td class="tech-content" colspan="10">
       <span>${replyBoardDTO.replyBoardContents}</span>
       </td>
     </tr>
@@ -90,8 +114,7 @@ $(function(){
     <td>멘션</td>
     <td>댓글내용</td>
     <td>댓글작성일</td>
-    <td>좋아요여부</td>
-    <td>좋아요수</td>
+    <td colspan="2">좋아요</td>
     <td>댓글작성자</td>
     <td>수정</td>
     <td>삭제</td>
@@ -115,9 +138,28 @@ $(function(){
       <td>
       <span>${replyBoardDTO.replyBoardDate}</span>
       </td>
+
+      <!-- 여기부터 -->
+      
       <td>
-      <span>${replyBoardDTO.updown.isUp}</span>
+      <c:choose>
+      <c:when test="${replyBoardDTO.updown.isUp==true}">
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>
+      </c:when>
+      <c:when test="${replyBoardDTO.updown.isUp==false}">
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_down.png"></div>
+      </c:when>      
+      <c:otherwise>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>     
+      </c:otherwise>
+      </c:choose>
       </td>
+      
+      <!-- 여기까지 -->
+
       <td>
       <span>${replyBoardDTO.likeNum}</span>
       </td>
@@ -179,7 +221,7 @@ $(function(){
 </c:forEach>
 
     <tr>
-      <td colspan="8" height="20" colspan="4" align="center" valign="middle">
+      <td colspan="10" align="center" valign="middle">
       <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
       <form name="requestForm" method=post  id="requestForm">
       <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
@@ -201,7 +243,7 @@ $(function(){
     </tr>
 </table>
 
-<hr>
+
 <div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?classification=${requestScope.classification}">리스트로 돌아가기</a>&gt;</span></div>
 
 
