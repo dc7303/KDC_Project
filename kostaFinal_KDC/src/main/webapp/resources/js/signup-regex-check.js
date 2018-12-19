@@ -196,15 +196,11 @@ jq(function() {
       'click',
       function() {
 
-        var idRegex = /^[a-zA-Z0-9_]{5,12}$/; // 아이디 유효성 정규식
-        var pwdRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/; // 비밀번호
-                                                                                // 유효성
-                                                                                // 정규식
-        var nickNameRegex = /^[a-zA-Z0-9가-힣]{1,8}$/; // 닉네임 유효성 정규식
-        var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/; // 이메일
-                                                                            // 유효성
-                                                                            // 정규식
-        var phoneRegex = /^[0-9]*$/; // 핸드폰 번호 유효성 정규식
+        var idRegex = /^[a-zA-Z0-9]{5,12}$/;                                    // 아이디 유효성 정규식
+        var pwdRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/; // 비밀번호 유효성 정규식
+        var nickNameRegex = /^[a-zA-Z0-9가-힣]{1,8}$/;                         // 닉네임 유효성 정규식
+        var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;   // 이메일 유효성 정규식
+        var phoneRegex = /^[0-9]*$/;                                          // 핸드폰 번호 유효성 정규식
 
         // 아이디 유효성검사
         if (!idRegex.test(jq(memberId).val())) {

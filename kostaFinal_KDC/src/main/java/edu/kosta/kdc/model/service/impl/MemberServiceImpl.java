@@ -114,7 +114,6 @@ public class MemberServiceImpl implements MemberService {
 
         int result = 0;
         
-        
         result = memberDAO.updateByIsWithDrawal(memberId);
         if(result == 0) throw new KdcException("Ε»Επ ½ΗΖΠΐΤ΄Ο΄Ω.");
         

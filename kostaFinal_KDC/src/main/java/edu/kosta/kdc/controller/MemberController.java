@@ -51,13 +51,15 @@ public class MemberController {
     public String memberIdCheck(String memberId) {
         
         String message = "";        //AJAX ¸Ş¼¼Áö
-        //String regex = "^[a-zA-Z]{1}[a-zA-Z0-9_]{5,12}$";       //À¯È¿¼º Á¤±Ô½Ä Ç¥Çö
+        //¾ËÆÄºª, ¼ıÀÚ, ¾ğ´õ¹Ù 5ÀÚ¸® ÀÌ»ó 12ÀÚ¸® ÀÌÇÏ
         String regex = "^[a-zA-Z0-9_]{5,12}$";
         
+        //Á¤±Ô½ÄÀ» ÆĞÅÏÀ¸·Î ÄÄÆÄÀÏÇÑ´Ù.
         Pattern pattern = Pattern.compile(regex);
-
+        //matcher¸¦ ÅëÇØ ÀÔ·ÂµÈ string°ªÀÌ À¯È¿ÇÑÁö ºñ±³
         Matcher matcher = pattern.matcher(memberId);
 
+        //find()´Â À¯È¿ÇÒ °æ¿ì true¸¦ ¹İÈ¯ÇÑ´Ù. ±×·¸°Ô ¶§¹®¿¡ ! Å°¿öµå ÀÔ·Â.
         if(!matcher.find()) {
             message = "»ç¿ëÇÒ ¼ö ¾ø´Â ¾ÆÀÌµğÀÔ´Ï´Ù.";
         }
@@ -88,6 +90,7 @@ public class MemberController {
         
         //¼ıÀÚ, ¿µ¹®, Æ¯¼ö±âÈ£ Æ÷ÇÔ 8ÀÚ¸® ÀÌ»ó
         String regex = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$";
+        
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(memberPwd);
         
@@ -126,6 +129,7 @@ public class MemberController {
         
         String message = "»ç¿ë°¡´ÉÇÑ ´Ğ³×ÀÓÀÔ´Ï´Ù.";
         
+        //¿µ¾î, ¼ıÀÚ, ÇÑ±Û ÇÑÀÚ¸® ÀÌ»ó 8ÀÚ¸® ÀÌÇÏ
         String regex = "^[a-zA-Z0-9°¡-ÆR]{1,8}$";
         
         Pattern pattern = Pattern.compile(regex);
@@ -176,7 +180,10 @@ public class MemberController {
     public String emailCheck(String memberEmail) {
         
         String message = "ÀÌ¸ŞÀÏÀÔ·Â";
-        
+        //ÀÌ¸ŞÀÏ À¯È¿¼º Ã¼Å© Á¤±Ô½Ä
+        //@ Àü ¿µ¹®, ¼ıÀÚ, dot, ¾ğ´õ¹Ù¿Í ´ë½¬ 1°³ÀÌ»ó
+        //@ ÈÄ ¿µ¹®, ¼ıÀÚ, dot, ´ë½¬ 1°³ ÀÌ»ó
+        //¸¶Áö¸· dot ÀÌÈÄ ¿µ¹® 2~6°³
         String regex = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         
         Pattern pattern = Pattern.compile(regex);
