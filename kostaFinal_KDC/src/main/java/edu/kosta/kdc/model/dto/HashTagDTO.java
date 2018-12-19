@@ -6,12 +6,12 @@ public class HashTagDTO {
     private int hashTagReplyBoardPk;        //게시판 pk값 참조
     private int hashTagPortfolioDetailPk;   //해쉬태그 pk값 참조
     private String hashTagName;             //해쉬태그 이름
-    private String hashTagIsDelete;        //삭제여부
+    private boolean hashTagIsDelete;        //삭제여부
     
     public HashTagDTO() {}
     
     public HashTagDTO(int hashTagPk, int hashTagReplyBoardPk, int hashTagPortfolioDetailPk, String hashTagName,
-            String hashTagIsDelete) {
+            boolean hashTagIsDelete) {
         super();
         this.hashTagPk = hashTagPk;
         this.hashTagReplyBoardPk = hashTagReplyBoardPk;
@@ -52,11 +52,11 @@ public class HashTagDTO {
         this.hashTagName = hashTagName;
     }
 
-    public String isHashTagIsDelete() {
+    public boolean isHashTagIsDelete() {
         return hashTagIsDelete;
     }
 
-    public void setHashTagIsDelete(String hashTagIsDelete) {
+    public void setHashTagIsDelete(boolean hashTagIsDelete) {
         this.hashTagIsDelete = hashTagIsDelete;
     }
     

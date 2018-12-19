@@ -39,7 +39,6 @@ public class ReplyBoardController {
     public String SelectOrderby(String classification, String sort, Model model) {
         List<ReplyBoardDTO> list = replyBoardService.replyBoardSelectAllOrderBy(classification, sort);
         model.addAttribute("classification",classification);
-        System.out.println(classification);
         model.addAttribute("list",list);
         return "replyBoard/replyBoardList";
     }

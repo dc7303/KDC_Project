@@ -79,7 +79,7 @@
           <option value="A.REPLY_BOARD_TITLE">제목</option>
           <option value="A.REPLY_BOARD_CONTENTS">내용</option>
           <option value="B.MEMBER_NICKNAME">작성자</option>
-          <option value="C.HASHTAG">헤시태그</option>
+          <option value="C.HASHTAG">해시태그</option>
         </select>
 
         <input class="tech-board-search" type="text" name="boardSearch"/>

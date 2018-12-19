@@ -12,7 +12,7 @@
     <result column="REPLY_BOARD_CONTENTS" property="replyBoardContents"/>
     <result column="REPLY_BOARD_VIEWS" property="replyBoardViews"/>
     <result column="REPLY_BOARD_MENTION" property="replyBoardMention"/>
-    <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete"/>
+    <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     <result column="likeNum" property="likeNum"/>
     <result column="replyNum" property="replyNum"/>
     <association property="member" javaType="memberDTO">
@@ -23,7 +23,7 @@
         <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
         <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
         <result column="MEMBER_EMAIL" property="memberEmail"/>
-        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal"/>
+        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
         <result column="MEMBER_JOIN_DATE" property="memberDate"/>
     </association>  
 </resultMap>
@@ -38,7 +38,7 @@
     <result column="REPLY_BOARD_CONTENTS" property="replyBoardContents"/>
     <result column="REPLY_BOARD_VIEWS" property="replyBoardViews"/>
     <result column="REPLY_BOARD_MENTION" property="replyBoardMention"/>
-    <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete"/>
+    <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     <result column="likeNum" property="likeNum"/>
     <result column="replyNum" property="replyNum"/>
     <result column="mentionNickName" property="mentionNickName"/>
@@ -50,21 +50,21 @@
         <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
         <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
         <result column="MEMBER_EMAIL" property="memberEmail"/>
-        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal"/>
+        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
         <result column="MEMBER_JOIN_DATE" property="memberDate"/>
     </association>
     <association property="updown" javaType="upDownDTO">
         <id column="UPDOWN_PK" property="updownPk"/>
         <result column="UPDOWN_REPLY_BOARD_PK" property="updownReplyBoardPk"/>
         <result column="UPDOWN_USER_ID" property="updownMemberId"/>
-        <result column="UPDOWN_ISUP" property="isUp"/>
+        <result column="UPDOWN_ISUP" property="isUp" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     </association>
     <association property="hashTag" javaType="hashTagDTO">
         <id column="HASHTAG_PK" property="hashTagPk"/>
         <result column="HASHTAG_REPLY_BOARD_PK" property="hashTagReplyBoardPk"/>
         <result column="HASHTAG_PORTFOLIO_DETAIL_PK" property="hashTagPortfolioDetailPk"/>
         <result column="HASHTAG_NAME" property="hashTagName"/>
-        <result column="HASHTAG_ISDELETE" property="hashTagIsDelete"/>
+        <result column="HASHTAG_ISDELETE" property="hashTagIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     </association>
 </resultMap>
 

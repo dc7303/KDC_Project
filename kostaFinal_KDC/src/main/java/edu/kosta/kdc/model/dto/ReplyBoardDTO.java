@@ -11,7 +11,7 @@ public class ReplyBoardDTO {
     private String replyBoardContents;              //게시글 내용
     private int replyBoardViews;                    //조회수
     private String replyBoardMention;               //댓글 태그할 아이디
-    private String replyBoardIsDelete;             //삭제여부
+    private boolean replyBoardIsDelete;             //삭제여부
     private int likeNum;                           //좋아요수
     private int replyNum;                          //댓글수
     private String mentionNickName;                //인물태그 닉네임
@@ -25,7 +25,7 @@ public class ReplyBoardDTO {
     public ReplyBoardDTO() {}
     public ReplyBoardDTO(int replyBoardPk, String replyBoardClassification, int replyBoardReplyNo,
             String replyBoardTitle, String replyBoardWriterId, String replyBoardDate, String replyBoardContents,
-            int replyBoardViews, String replyBoardMention, String replyBoardIsDelete, int likeNum, int replyNum,
+            int replyBoardViews, String replyBoardMention, boolean replyBoardIsDelete, int likeNum, int replyNum,
             String mentionNickName, MemberDTO member, UpDownDTO updown, HashTagDTO hashTag) {
         super();
         this.replyBoardPk = replyBoardPk;
@@ -105,10 +105,10 @@ public class ReplyBoardDTO {
         this.replyBoardMention = replyBoardMention;
     }
     
-    public void setReplyBoardIsDelete(String replyBoardIsDelete) {
+    public void setReplyBoardIsDelete(boolean replyBoardIsDelete) {
         this.replyBoardIsDelete = replyBoardIsDelete;
     }
-    public String getReplyBoardIsDelete() {
+    public boolean getReplyBoardIsDelete() {
         return replyBoardIsDelete;
     }
     

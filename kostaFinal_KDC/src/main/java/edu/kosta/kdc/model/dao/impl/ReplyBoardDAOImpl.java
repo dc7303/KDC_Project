@@ -93,7 +93,6 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
 
     @Override
     public int replyUpdate(ReplyBoardDTO replyBoardDTO) {
-        System.out.println("dao ³»¿ë : "+replyBoardDTO.getReplyBoardContents());
         return session.update("replyBoardMapper.replyUpdate", replyBoardDTO);
     }
 

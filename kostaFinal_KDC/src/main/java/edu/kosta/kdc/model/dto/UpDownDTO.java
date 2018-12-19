@@ -5,12 +5,12 @@ public class UpDownDTO {
     private int updownPk;           //PK
     private int updownReplyBoardPk; //게시판 PK 참조
     private String updownMemberId;  //작성자 아이디
-    private String isUp;           //업 or 다운
+    private boolean isUp;           //업 or 다운
     
     
     public UpDownDTO() {}
     
-    public UpDownDTO(int updownPk, int updownReplyBoardPk, String updownMemberId, String isUp) {
+    public UpDownDTO(int updownPk, int updownReplyBoardPk, String updownMemberId, boolean isUp) {
         super();
         this.updownPk = updownPk;
         this.updownReplyBoardPk = updownReplyBoardPk;
@@ -42,11 +42,11 @@ public class UpDownDTO {
         this.updownMemberId = updownMemberId;
     }
 
-    public String getIsUp() {
+    public boolean getIsUp() {
         return isUp;
     }
 
-    public void setIsUp(String isUp) {
+    public void setIsUp(boolean isUp) {
         this.isUp = isUp;
     }
 
