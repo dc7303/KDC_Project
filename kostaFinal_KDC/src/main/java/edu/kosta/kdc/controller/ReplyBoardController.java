@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 import edu.kosta.kdc.model.service.ReplyBoardService;
@@ -181,4 +182,35 @@ public class ReplyBoardController {
         return "replyBoard/replyBoardList";
     }
     
+    /**
+     * 게시글 좋아요하기
+     * */
+    @RequestMapping("/replyBoardLike")
+    @ResponseBody
+    public int replyBoardLike(int replyBoardPk) {
+        int result = replyBoardService.replyBoardLike(replyBoardPk);
+        return result;
+    }
+    
+    /**
+     * 게시글 싫어요하기
+     * */
+    @RequestMapping("/replyBoardDisLike")
+    @ResponseBody
+    public int replyBoardDisLike(int replyBoardPk) {
+        int result = replyBoardService.replyBoardDisLike(replyBoardPk);
+        return result;
+    }
+    
+    /**
+     * 게시글 좋아요 싫어요 취소
+     * */
+    @RequestMapping("/replyBoardLikeCancle")
+    @ResponseBody
+    public int replyBoardLikeCancle(int replyBoardPk) {
+        int result = replyBoardService.replyBoardLikeCancle(replyBoardPk);
+        
+        return result;
+    }
+
 }

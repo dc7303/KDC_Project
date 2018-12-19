@@ -220,5 +220,16 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
     ORDER BY A.REPLY_BOARD_PK DESC
 </select>
 
+<insert id="replyBoardLike" parameterType="int">
+    INSERT INTO UPDOWN VALUES (UPDOWN_SEQ.NEXTVAL, #{_parameter},'ocean','TRUE')
+</insert>
 
+
+<insert id="replyBoardDisLike" parameterType="int">
+    INSERT INTO UPDOWN VALUES (UPDOWN_SEQ.NEXTVAL, #{_parameter},'ocean','FALSE')
+</insert>
+
+<delete id="replyBoardLikeCancle" parameterType="int">
+    DELETE FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK= #{_parameter}
+</delete>
 </mapper>

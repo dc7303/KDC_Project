@@ -67,16 +67,16 @@ $(function(){
       <td>
       <c:choose>
       <c:when test="${replyBoardDTO.updown.isUp==true}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_down.png"></div>
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
       </c:when>
       <c:when test="${replyBoardDTO.updown.isUp==false}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png"></div>
       </c:when>      
       <c:otherwise>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>     
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down"></div>     
       </c:otherwise>
       </c:choose>
       </td>
@@ -137,16 +137,16 @@ $(function(){
       <td>
       <c:choose>
       <c:when test="${replyBoardDTO.updown.isUp==true}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
       </c:when>
       <c:when test="${replyBoardDTO.updown.isUp==false}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_down.png"></div>
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png"></div>
       </c:when>      
       <c:otherwise>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>     
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down"></div>     
       </c:otherwise>
       </c:choose>
       </td>

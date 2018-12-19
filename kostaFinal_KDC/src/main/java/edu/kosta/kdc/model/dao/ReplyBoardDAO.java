@@ -88,6 +88,19 @@ public interface ReplyBoardDAO {
      * */
     List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch, String classification);
 
+    /**
+     * replyBoard좋아요 기능
+     * */
+    int replyBoardLike(int replyBoardPk);
 
+    /**
+     * replyBoard싫어요 기능
+     * */
+    int replyBoardDisLike(int replyBoardPk);
     
+    /**
+     * replyBoard 좋아요, 싫어요 취소 기능
+     * */
+    int replyBoardLikeCancle(int replyBoardPk);
+
 }

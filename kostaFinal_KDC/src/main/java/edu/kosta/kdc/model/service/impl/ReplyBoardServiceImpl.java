@@ -105,4 +105,23 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
         return list;
     }
 
+    @Override
+    public int replyBoardLike(int replyBoardPk) {
+        int result = replyBoardDAO.replyBoardLike(replyBoardPk);
+        return result;
+    }
+    
+    @Override
+    public int replyBoardDisLike(int replyBoardPk) {
+        int result = replyBoardDAO.replyBoardDisLike(replyBoardPk);
+        return result;
+    }
+    
+    @Override
+    public int replyBoardLikeCancle(int replyBoardPk) {
+        int result = replyBoardDAO.replyBoardLikeCancle(replyBoardPk);
+        return result;
+    }
+
+
 }

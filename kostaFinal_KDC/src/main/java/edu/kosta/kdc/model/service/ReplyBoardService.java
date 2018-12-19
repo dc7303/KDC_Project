@@ -56,7 +56,21 @@ public interface ReplyBoardService {
      * */
     List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch,String classification);
 
+    /**
+     * replyBoard 좋아요
+     * */
+    int replyBoardLike(int replyBoardPk);
 
-    
+    /**
+     * replyBoard 싫어요
+     * */
+    int replyBoardDisLike(int replyBoardPk);
+
+    /**
+     * replyBoard 좋아요,싫어요 취소 기능
+     * */
+    int replyBoardLikeCancle(int replyBoardPk);
+
+
 
 }

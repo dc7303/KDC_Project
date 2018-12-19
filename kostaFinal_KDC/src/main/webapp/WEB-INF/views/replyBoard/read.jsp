@@ -31,6 +31,101 @@ $(function(){
       
 });
 </script>
+<script>
+  $(function() {
+    $(".replyBoardLike").click(function() {
+      var img1 = document.getElementById('thumbs_up');
+      if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_up.png을 보여줌
+        img1.src = img1.src.replace('.png', '_black.png');
+      
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardLike",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+
+       });
+        
+      } else {//_black이라는 단어가 존재하면
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+        img1.src = img1.src.replace('_black.png', '.png');
+        
+      }
+    });
+  });
+  
+  $(function() {
+    $(".replyBoardDisLike").click(function() {
+      var img1 = document.getElementById('thumbs_down');
+      if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_down.png을 보여줌
+        img1.src = img1.src.replace('.png', '_black.png');
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardDisLike",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+      } else {
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+        img1.src = img1.src.replace('_black.png', '.png');
+      }
+    });
+
+  });
+</script>
+
 
   </head>
 
@@ -70,16 +165,16 @@ $(function(){
       <td>
       <c:choose>
       <c:when test="${replyBoardDTO.updown.isUp==true}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
       </c:when>
       <c:when test="${replyBoardDTO.updown.isUp==false}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_down.png"></div>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
       </c:when>      
       <c:otherwise>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>     
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
       </c:otherwise>
       </c:choose>
       </td>
@@ -91,7 +186,6 @@ $(function(){
       </td>
             
     </tr>
-    
     
     <tr>
       <td class="tech-content" colspan="10">
@@ -144,19 +238,117 @@ $(function(){
       <td>
       <c:choose>
       <c:when test="${replyBoardDTO.updown.isUp==true}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>
+      <div class="replyLike"><img src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up_black.png" id="reply_thumbs_up"  onclick="window.location.reload()"></div><br/>
+      <div class="replyDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png"></div>
       </c:when>
       <c:when test="${replyBoardDTO.updown.isUp==false}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_down.png"></div>
+      <div class="replyLike"><img src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png"></div><br/>
+      <div class="replyDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down_black.png" id="reply_thumbs_down" onclick="window.location.reload()"></div>
       </c:when>      
       <c:otherwise>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>     
+      <div class="replyLike"><img src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png" id="reply_thumbs_up" onclick="window.location.reload()"></div><br/>
+      <div class="replyDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png" id="reply_thumbs_down" onclick="window.location.reload()"></div>     
       </c:otherwise>
       </c:choose>
       </td>
+      
+<script>  /* 댓글 좋아요, 싫어요 */
+  $(function() {
+    $(".replyLike").click(function() {
+      var img2 = document.getElementById('reply_thumbs_up');
+      if (img2.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_up.png을 보여줌
+        img2.src = img2.src.replace('.png', '_black.png');
+      
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardLike",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${replyBoardDTO.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+      } else {//_black이라는 단어가 존재하면
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${replyBoardDTO.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+        img2.src = img2.src.replace('_black.png', '.png');
+        
+        
+      }
+
+    });
+  });
+  
+  $(function() {
+    $(".replyDisLike").click(function() {
+      var img2 = document.getElementById('reply_thumbs_down');
+      if (img2.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_down.png을 보여줌
+        img2.src = img2.src.replace('.png', '_black.png');
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardDisLike",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${replyBoardDTO.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+      } else {
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${replyBoardDTO.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+        img2.src = img2.src.replace('_black.png', '.png');
+      }
+      
+      
+    });
+  });
+</script>
       
       <!-- 여기까지 -->
 
@@ -224,15 +416,15 @@ $(function(){
       <td colspan="10" align="center" valign="middle">
       <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
       <form name="requestForm" method=post  id="requestForm">
-      <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-      
-<c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
-<c:choose>
-<c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
-      <input type=hidden name="replyBoardPk" value="${replyBoardDTO.replyBoardPk}">
-</c:when>
-</c:choose>
-</c:forEach>
+        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+        
+        <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
+        <c:choose>
+        <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
+              <input type=hidden name="replyBoardPk" value="${replyBoardDTO.replyBoardPk}">
+        </c:when>
+        </c:choose>
+        </c:forEach>
 
         <input type=hidden name="state" value="true">
         <input type=hidden name="classification" value="${requestScope.classification}">
@@ -242,7 +434,6 @@ $(function(){
       </td>
     </tr>
 </table>
-
 
 <div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?classification=${requestScope.classification}">리스트로 돌아가기</a>&gt;</span></div>
 

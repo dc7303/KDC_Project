@@ -116,4 +116,20 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
         return session.selectList("replyBoardMapper.replyBoardListSearch", map);
     }
 
+    @Override
+    public int replyBoardLike(int replyBoardPk) {
+        return session.insert("replyBoardMapper.replyBoardLike",replyBoardPk);
+    }
+    
+    @Override
+    public int replyBoardDisLike(int replyBoardPk) {
+        return session.insert("replyBoardMapper.replyBoardDisLike",replyBoardPk);
+    }
+    
+    @Override
+    public int replyBoardLikeCancle(int replyBoardPk) {
+        return session.delete("replyBoardMapper.replyBoardLikeCancle",replyBoardPk);
+    }
+    
+
 }
