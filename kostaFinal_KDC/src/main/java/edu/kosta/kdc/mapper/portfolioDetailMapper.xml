@@ -41,11 +41,11 @@
     </insert>
     
     <!-- 해쉬태그 삭제 -->
-    <delete id="deleteHashTag" parameterType="int">
+    <update id="deleteHashTag" parameterType="int">
         UPDATE HASHTAG
         SET HASHTAG_ISDELETE = 'TRUE'
         WHERE HASHTAG_PORTFOLIO_DETAIL_PK = #{_parameter}
-    </delete>
+    </update>
     
     <!-- id에 해당하는 상세들 select(상세들만) -->
     <select id="selectDetailsByMemberId" parameterType="string" resultMap="selectDetailMap">
@@ -77,6 +77,13 @@
         PORTFOLIO_DETAIL_PROJECT_IMAGE = #{portfolioDeltailProjectImage},
         PORTFOLIO_DETAIL_DESCRIPTION = #{portfolioDetailDescription} 
         WHERE PORTFOLIO_DETAIL_PK = #{portFolioDetailPk}
+    </update>
+    
+    <!-- 상세삭제 -->
+    <update id="deleteDetail" parameterType="int">
+        UPDATE PORTFOLIO_DETAIL
+        SET PORTFOLIO_DETAIL_ISDELETE = 'TRUE'
+        WHERE PORTFOLIO_DETAIL_PK = #{_parameter}
     </update>
 
 </mapper>

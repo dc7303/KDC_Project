@@ -19,7 +19,7 @@
     jq('input[value=삭제하기]').on('click', function() {
       var flag = confirm('정말 삭제하시겠습니까');
       if(flag===true){
-	    location.href='${pageContext.request.contextPath}/portfolio/deleteDetailForm/${detail.portFolioDetailPk}';
+	    location.href='${pageContext.request.contextPath}/portfolio/deleteDetail/${detail.portFolioDetailPk}';
       }
     });
   });

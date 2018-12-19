@@ -41,11 +41,6 @@ jq(function(){
     //submit버튼명 수정
     jq('#editor-submit').attr('value','수정완료');
     
-     //해당 게시물 삭제버튼 생성
-    var deleteBtn = jq('<input>').attr('type','button').attr('value','삭제하기').on('click',function(){
-  	  location.href = '${pageContext.request.contextPath}/portfolio/deleteDetail/'+'${detail.portFolioDetailPk}';
-  	});
-  	jq('#editor-form').append(jq(deleteBtn));
   	
   	//작성자 이름 수정불가로 설정(시큐리티에서 가져올경우 삭제)
   	jq('input[name=portFolioDetailMemberId]').attr('readonly',true); 

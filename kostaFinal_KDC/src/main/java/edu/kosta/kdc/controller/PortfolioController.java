@@ -178,5 +178,14 @@ public class PortfolioController {
         return "redirect:selectDetail/"+detailPk;
     }
     
+    /**
+     * 포트폴리오 상세 삭제
+     * */
+    @RequestMapping("/deleteDetail/{detailPk}")
+    public String deleteDetail(@PathVariable int detailPk) {
+        service.deleteDetail(detailPk);
+        return "redirect:/portfolio/";
+    }
+    
     
 }

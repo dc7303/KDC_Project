@@ -35,8 +35,7 @@ public class PortfolioDetailDAOImpl implements PortfolioDetailDAO {
 
     @Override
     public int deleteDetail(int PortfolioDetailPk) {
-        // TODO Auto-generated method stub
-        return 0;
+        return sqlSession.update("portfolioDetailMapper.deleteDetail", PortfolioDetailPk);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class PortfolioDetailDAOImpl implements PortfolioDetailDAO {
     
     @Override
     public int deleteHashTag(int detailPk) {
-        return sqlSession.delete("portfolioDetailMapper.deleteHashTag", detailPk);
+        return sqlSession.update("portfolioDetailMapper.deleteHashTag", detailPk);
     }
     
 

@@ -98,20 +98,20 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
             String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
             for(String s: hashTags) {
                 result = portfolioDetailDAO.insertHashTag(s);
-                if(result==0) throw new KdcException("해쉬태그수정에 실패했습니다.");
+                if(result==0) throw new KdcException("수정에 실패했습니다.");
             }
         }
         result = portfolioDetailDAO.updateDetail(portfolioDetailDTO);
-        if(result == 0) throw new KdcException("상세수정에 실패했습니다.");
+        if(result == 0) throw new KdcException("수정에 실패했습니다.");
         return result;
     }
 
     // 상세 삭제(by PortfolioDetail_pk)
     @Override
     public int deleteDetail(int PortfolioDetailPk) {
-        // TODO Auto-generated method stub
-        return 0;
+        int result = portfolioDetailDAO.deleteDetail(PortfolioDetailPk);
+        if(result ==0) throw new KdcException("삭제에 실패했습니다.");
+        return result;
     }
-
 
 }
