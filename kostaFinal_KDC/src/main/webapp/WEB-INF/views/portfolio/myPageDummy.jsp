@@ -22,7 +22,7 @@
 	  jq('.update-detail').on('click',function(){
 	    var pk = jq(this).attr('id');
 	    pk = pk.substr(7);
-	    location.href='${pageContext.request.contextPath}/portfolio/updateDetailForm/'+pk;
+	    location.href='${pageContext.request.contextPath}/portfolio/selectDetail/'+pk;
 	  })
 	  
 	});

@@ -38,7 +38,7 @@ public class PortfolioController {
         String memberId = "DONGS";
         // ID에 해당하는 포트폴리오  select
         PortfolioDTO portfolioDTO= service.selectPortfolioByMemberId(memberId);
-        System.out.println(portfolioDTO);
+        
         // 포트폴리오가 존재하면 id에 해당하는 포트폴리오 상세 가져오기
         if(portfolioDTO!=null) {
             List<PortfolioDetailDTO> list = service.selectDetailsByMemberId(memberId);
@@ -53,7 +53,6 @@ public class PortfolioController {
      */
     @RequestMapping("/insertPortfolio")
     public String insertPortfolio(HttpSession session, PortfolioDTO portfolioDTO) throws KdcException {
-
         // 이미지를 등록하지 않을경우 파일생성안함
         if (!portfolioDTO.getMainImageFile().isEmpty()) {
             // 대표이미지가 저장될 위치
@@ -132,6 +131,18 @@ public class PortfolioController {
     }
     
     /**
+     * 포트폴리오 상세 보기(detail한개)
+     * */
+    @RequestMapping("/selectDetail/{detailPk}")
+    public String selectDetail(@PathVariable int detailPk,Model model) {
+        
+        PortfolioDetailDTO portfolioDetailDTO = service.selectDetailByPk(detailPk);
+        model.addAttribute("detail", portfolioDetailDTO);
+        
+        return "portfolio/detailDetail";
+    }
+    
+    /**
      * 포트폴리오 상세 수정 폼
      * */
     @RequestMapping("/updateDetailForm/{detailPk}")
@@ -142,5 +153,30 @@ public class PortfolioController {
         
         return "portfolio/detailForm";
     }
+    
+    /**
+     * 포트폴리오 상세 수정
+     * */
+    @RequestMapping("/updateDetail")
+    public String updateDetail(HttpSession session, PortfolioDetailDTO portfolioDetailDTO, String hashTagName) {
+        int detailPk = portfolioDetailDTO.getPortFolioDetailPk();
+        // 이미지를 등록하지 않을경우 파일생성안함
+        if (!portfolioDetailDTO.getDeltailProjectImage().isEmpty()) {
+            // 대표이미지가 저장될 위치
+            String path = session.getServletContext().getRealPath("/resources/testimg/photos");
+            // 사용자가 첨부한 파일
+            MultipartFile file = portfolioDetailDTO.getDeltailProjectImage();
+            // 파일명을 DTO에 setter를 이용해 대입
+            portfolioDetailDTO.setPortfolioDeltailProjectImage(file.getOriginalFilename());
+            try {
+                file.transferTo(new File(path + "/" + portfolioDetailDTO.getPortfolioDeltailProjectImage()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        service.updateDetail(portfolioDetailDTO, hashTagName);
+        return "redirect:selectDetail/"+detailPk;
+    }
+    
     
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dao.PortfolioDAO;
 import edu.kosta.kdc.model.dao.PortfolioDetailDAO;
+import edu.kosta.kdc.model.dto.HashTagDTO;
 import edu.kosta.kdc.model.dto.PortfolioDTO;
 import edu.kosta.kdc.model.dto.PortfolioDetailDTO;
 
@@ -87,11 +88,22 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
         return portfolioDetailDTO;
     }
 
-    // 상세 수정
+    // 상세 수정(해쉬태그 삭제->해쉬태그 삽입->상세 수정)
+    @Transactional
     @Override
-    public int updateDetail(PortfolioDetailDTO portfolioDetailDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int updateDetail(PortfolioDetailDTO portfolioDetailDTO, String hashTagName) {
+        int result = 0;
+        result = portfolioDetailDAO.deleteHashTag(portfolioDetailDTO.getPortFolioDetailPk());
+        if(hashTagName != null) {
+            String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
+            for(String s: hashTags) {
+                result = portfolioDetailDAO.insertHashTag(s);
+                if(result==0) throw new KdcException("해쉬태그수정에 실패했습니다.");
+            }
+        }
+        result = portfolioDetailDAO.updateDetail(portfolioDetailDTO);
+        if(result == 0) throw new KdcException("상세수정에 실패했습니다.");
+        return result;
     }
 
     // 상세 삭제(by PortfolioDetail_pk)

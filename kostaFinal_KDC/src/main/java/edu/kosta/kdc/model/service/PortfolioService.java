@@ -26,7 +26,7 @@ public interface PortfolioService {
     List<PortfolioDetailDTO> selectDetailsByMemberId(String memberId);
 
     // 상세 수정
-    int updateDetail(PortfolioDetailDTO portfolioDetailDTO);
+    int updateDetail(PortfolioDetailDTO portfolioDetailDTO, String hashTagName);
 
     // 상세 삭제(by PortfolioDetail_pk)
     int deleteDetail(int PortfolioDetailPk);

@@ -30,8 +30,7 @@ public class PortfolioDetailDAOImpl implements PortfolioDetailDAO {
 
     @Override
     public int updateDetail(PortfolioDetailDTO portfolioDetailDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+        return sqlSession.update("portfolioDetailMapper.updateDetail", portfolioDetailDTO);
     }
 
     @Override
@@ -44,10 +43,17 @@ public class PortfolioDetailDAOImpl implements PortfolioDetailDAO {
     public int insertHashTag(String hashTagName) {  
         return sqlSession.insert("portfolioDetailMapper.insertHashTag", hashTagName);
     }
+    
+    @Override
+    public int deleteHashTag(int detailPk) {
+        return sqlSession.delete("portfolioDetailMapper.deleteHashTag", detailPk);
+    }
+    
 
     @Override
     public PortfolioDetailDTO selectDetailByPk(int detailPk) {
         return sqlSession.selectOne("portfolioDetailMapper.selectDetailByPk", detailPk);
     }
+
 
 }

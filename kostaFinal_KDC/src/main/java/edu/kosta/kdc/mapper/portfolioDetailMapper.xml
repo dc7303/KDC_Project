@@ -20,9 +20,9 @@
     
     <!-- 상세삽입 -->
     <insert id="insertDetail" parameterType="portfolioDetailDTO">
-        insert
-        into PORTFOLIO_DETAIL
-        values (PORTFOLIO_DETAIL_SEQ.NEXTVAL,
+        INSERT
+        INTO PORTFOLIO_DETAIL
+        VALUES (PORTFOLIO_DETAIL_SEQ.NEXTVAL,
         #{portFolioDetailMemberId},
         #{portfolioDetailProjectName},
         #{portfolioDeltailProjectImage},
@@ -40,21 +40,43 @@
          'FALSE')    
     </insert>
     
+    <!-- 해쉬태그 삭제 -->
+    <delete id="deleteHashTag" parameterType="int">
+        UPDATE HASHTAG
+        SET HASHTAG_ISDELETE = 'TRUE'
+        WHERE HASHTAG_PORTFOLIO_DETAIL_PK = #{_parameter}
+    </delete>
+    
     <!-- id에 해당하는 상세들 select(상세들만) -->
     <select id="selectDetailsByMemberId" parameterType="string" resultMap="selectDetailMap">
         SELECT PORTFOLIO_DETAIL.*, HASHTAG.*
         FROM PORTFOLIO
         RIGHT JOIN PORTFOLIO_DETAIL ON PORTFOLIO.PORTFOLIO_USER_ID = PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_USER_ID
-        LEFT JOIN HASHTAG ON PORTFOLIO_DETAIL_PK = HASHTAG_PORTFOLIO_DETAIL_PK
+        LEFT JOIN HASHTAG 
+        ON PORTFOLIO_DETAIL_PK = HASHTAG_PORTFOLIO_DETAIL_PK
+        AND HASHTAG_ISDELETE = 'FALSE'
         WHERE PORTFOLIO.PORTFOLIO_ISDELETE = 'FALSE' AND PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_ISDELETE = 'FALSE'
-        AND PORTFOLIO_USER_ID = #{_parameter}
+        AND PORTFOLIO_USER_ID = #{_parameter} 
+        ORDER BY PORTFOLIO_DETAIL_DATE DESC
     </select>
     
     <!-- pk에 해당하는 상세 select(하나) -->
     <select id="selectDetailByPk" parameterType="int" resultMap="selectDetailMap">
         SELECT *
         FROM PORTFOLIO_DETAIL
+        LEFT JOIN HASHTAG 
+        ON PORTFOLIO_DETAIL_PK = HASHTAG_PORTFOLIO_DETAIL_PK
+        AND HASHTAG_ISDELETE = 'FALSE'
         WHERE PORTFOLIO_DETAIL_PK = #{_parameter}
     </select>
+    
+    <!-- 상세 수정 -->
+    <update id="updateDetail" parameterType="portfolioDetailDTO">
+        UPDATE PORTFOLIO_DETAIL 
+        SET PORTFOLIO_DETAIL_PROJECT_NAME = #{portfolioDetailProjectName},
+        PORTFOLIO_DETAIL_PROJECT_IMAGE = #{portfolioDeltailProjectImage},
+        PORTFOLIO_DETAIL_DESCRIPTION = #{portfolioDetailDescription} 
+        WHERE PORTFOLIO_DETAIL_PK = #{portFolioDetailPk}
+    </update>
 
 </mapper>
