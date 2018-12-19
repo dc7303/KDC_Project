@@ -19,7 +19,7 @@ public interface ReplyBoardService {
     /**
      * 레코드 삽입
      */
-    int insertReply(ReplyBoardDTO replyBoardDTO,String hashTagName);
+    int insertReply(ReplyBoardDTO replyBoardDTO,String[] hashTagName);
     
     int replyInsert(ReplyBoardDTO replyBoardDTO);
 
@@ -66,6 +66,11 @@ public interface ReplyBoardService {
      * */
     int replyBoardDisLike(int replyBoardPk);
 
+    /**
+     * 해시태그 제안하기
+     * */
+    List<String> hashtagSuggest(String keyword);
+    
     /**
      * replyBoard 좋아요,싫어요 취소 기능
      * */

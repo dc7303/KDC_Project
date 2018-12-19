@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kosta.kdc.model.dao.ReplyBoardDAO;
+import edu.kosta.kdc.model.dto.HashTagDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 
 @Repository
@@ -124,6 +125,11 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
     @Override
     public int replyBoardDisLike(int replyBoardPk) {
         return session.insert("replyBoardMapper.replyBoardDisLike",replyBoardPk);
+    }
+    
+    @Override
+    public List<HashTagDTO> hashtagSuggest(String keyword) {        
+        return session.selectList("replyBoardMapper.hashtagSuggest", keyword);
     }
     
     @Override

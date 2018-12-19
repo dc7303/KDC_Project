@@ -57,7 +57,11 @@ public class ReplyBoardController {
      * 게시글 등록하기
      * */
     @RequestMapping("/insert")
-    public String techBoardInsert(String classification, ReplyBoardDTO replyBoardDTO, String hashTagName) {
+    public String techBoardInsert(String classification, ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
+        for(String s: hashTagName) {
+            System.out.println(s);            
+        }
+        
         replyBoardDTO.setReplyBoardClassification(classification);
         replyBoardService.insertReply(replyBoardDTO, hashTagName);
         
@@ -212,5 +216,31 @@ public class ReplyBoardController {
         
         return result;
     }
+    
+    /**
+     * 해시태그 제안하기
+     * */
+    @RequestMapping("/hashtagSuggest")
+    @ResponseBody
+    public List<String> hashtagSuggest(String keyWord) {
+        
+        return replyBoardService.hashtagSuggest(keyWord);
+    }
 
+    /**
+     * 신고창 띄우기
+     * */
+    @RequestMapping("/reportPopForm")
+    public String reportPopForm() {
+        return "/replyBoard/reportPopForm";
+    }
+    
+    /**
+     * 신고하기
+     * */
+    @RequestMapping("/reportPop")
+    public String reportPop(String reportContents) {
+        System.out.println(reportContents);
+        return "replyBoard/read";
+    }
 }

@@ -1,7 +1,7 @@
 package edu.kosta.kdc.model.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dao.ReplyBoardDAO;
+import edu.kosta.kdc.model.dto.HashTagDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 import edu.kosta.kdc.model.service.ReplyBoardService;
 
@@ -25,15 +26,13 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
 
     @Override
     @Transactional
-    public int insertReply(ReplyBoardDTO replyBoardDTO, String hashTagName) {
-        String tagName = hashTagName.replaceAll(" ","");
+    public int insertReply(ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
         int rs=0;
         rs = replyBoardDAO.insertReply(replyBoardDTO);
         int result=0;
-        if(rs!=0 && tagName.length()!=0) {
-            String [] hashTags = tagName.split(",");
+        if(rs!=0 && hashTagName.length!=0) {
 
-            for(String s: hashTags) {
+            for(String s: hashTagName) {
                 result += replyBoardDAO.insertHashTag(s);
             }
         }
@@ -115,6 +114,18 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     public int replyBoardDisLike(int replyBoardPk) {
         int result = replyBoardDAO.replyBoardDisLike(replyBoardPk);
         return result;
+    }
+    
+    @Override
+    public List<String> hashtagSuggest(String keyword) {
+        List<HashTagDTO> resultList = replyBoardDAO.hashtagSuggest(keyword);
+        List<String> list = new ArrayList<String>();
+        
+        for(HashTagDTO dto:resultList) {
+            list.add(dto.getHashTagName());
+        }
+        
+        return list;
     }
     
     @Override

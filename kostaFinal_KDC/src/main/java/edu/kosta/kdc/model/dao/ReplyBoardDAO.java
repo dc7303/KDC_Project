@@ -2,6 +2,7 @@ package edu.kosta.kdc.model.dao;
 
 import java.util.List;
 
+import edu.kosta.kdc.model.dto.HashTagDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 
 public interface ReplyBoardDAO {
@@ -97,6 +98,11 @@ public interface ReplyBoardDAO {
      * replyBoard싫어요 기능
      * */
     int replyBoardDisLike(int replyBoardPk);
+    
+    /**
+     * 해시태그 제안하기
+     * */
+    List<HashTagDTO> hashtagSuggest(String keyword);
     
     /**
      * replyBoard 좋아요, 싫어요 취소 기능

@@ -29,6 +29,11 @@ $(function(){
          }
       });
       
+      $("input[value=댓글신고]").click(function() {
+        window.open("${pageContext.request.contextPath}/reply/reportPopForm", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+
+      });
+      
 });
 </script>
 <script>
@@ -384,7 +389,7 @@ $(function(){
         </td>
       
       <td>
-        <span><input type="submit" value="신고"></span>
+        <span><input type="submit" value="댓글신고"></span>
       </td>
     </tr>
     
@@ -416,15 +421,15 @@ $(function(){
       <td colspan="10" align="center" valign="middle">
       <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
       <form name="requestForm" method=post  id="requestForm">
-        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-        
-        <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
-        <c:choose>
-        <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
-              <input type=hidden name="replyBoardPk" value="${replyBoardDTO.replyBoardPk}">
-        </c:when>
-        </c:choose>
-        </c:forEach>
+      <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+      
+    <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
+    <c:choose>
+    <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
+          <input type=hidden name="replyBoardPk" value="${replyBoardDTO.replyBoardPk}">
+    </c:when>
+    </c:choose>
+    </c:forEach>
 
         <input type=hidden name="state" value="true">
         <input type=hidden name="classification" value="${requestScope.classification}">

@@ -68,6 +68,14 @@
     </association>
 </resultMap>
 
+<resultMap type="hashTagDTO" id="HashTagMap">
+    <id column="HASHTAG_PK" property="hashTagPk"/>
+    <result column="HASHTAG_REPLY_BOARD_PK" property="hashTagReplyBoardPk"/>
+    <result column="HASHTAG_PORTFOLIO_DETAIL_PK" property="hashTagPortfolioDetailPk"/>
+    <result column="HASHTAG_NAME" property="hashTagName"/>
+    <result column="HASHTAG_ISDELETE" property="hashTagIsDelete"/>
+</resultMap>
+
 <select id="replyBoardSelectAll" parameterType="String" resultMap="replyBoardMap">
     SELECT A.*
     , B.MEMBER_NICKNAME
@@ -224,7 +232,6 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
     INSERT INTO UPDOWN VALUES (UPDOWN_SEQ.NEXTVAL, #{_parameter},'ocean','TRUE')
 </insert>
 
-
 <insert id="replyBoardDisLike" parameterType="int">
     INSERT INTO UPDOWN VALUES (UPDOWN_SEQ.NEXTVAL, #{_parameter},'ocean','FALSE')
 </insert>
@@ -232,4 +239,12 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
 <delete id="replyBoardLikeCancle" parameterType="int">
     DELETE FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK= #{_parameter}
 </delete>
+
+<select id="hashtagSuggest" parameterType="String" resultMap="HashTagMap">
+SELECT DISTINCT HASHTAG_NAME
+FROM HASHTAG
+WHERE HASHTAG_ISDELETE = 'FALSE'
+AND UPPER(HASHTAG_NAME) LIKE '%' || UPPER(#{_parameter}) || '%'
+ORDER BY HASHTAG_NAME ASC
+</select>
 </mapper>
