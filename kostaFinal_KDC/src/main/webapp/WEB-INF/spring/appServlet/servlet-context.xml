@@ -49,15 +49,15 @@
         ExceptionResolver 
         사용시 주석 풀것 
     -->
-<!--     <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <beans:property name="exceptionMappings">
             <beans:props>
-                <beans:prop key="java.lang.Exception">
-                    error/errorMessage
+                <beans:prop key="edu.kosta.kdc.util.KdcException">
+                    error/errorView
                 </beans:prop>
             </beans:props>
         </beans:property>  
-    </beans:bean> -->
+    </beans:bean>
     
     <!-- AOP설정 -->
     <aop:aspectj-autoproxy/>

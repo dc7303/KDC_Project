@@ -2,5 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="classRoomInfoMapper">
     
+    <resultMap type="ClassRoomInfoDTO" id="classSelectMap">
+        <id column="CLASSROOM_CODE" property="classRoomCode"/>
+        <result column="CLASSROOM_INFO_NAME" property="classRoomInfoName"/>
+        <result column="CLASSROOM_INFO_START_DATE" property="classRoomInfoStartDate"/>
+        <result column="CLASSROOM_INFO_END_DATE" property="classRoomInfoEndDate"/>
+        <result column="CLASSROOM_INFO_TEACHER_ID" property="classRoomInfoTeacherId"/>
+        <result column="CLASSROOM_INFO_CHAT_FILE" property="classRoomInfoChatFile"/>
+    </resultMap>
+    
+    <sql id="classRoomSelectSql">
+        CLASSROOM_CODE, CLASSROOM_INFO_NAME, CLASSROOM_INFO_START_DATE, CLASSROOM_INFO_END_DATE, CLASSROOM_INFO_TEACHER_ID, CLASSROOM_INFO_CHAT_FILE
+    </sql>
+    
+    
+    <select id="classList" parameterType="String" resultMap="classSelectMap">
+        select <include refid="classRoomSelectSql"/>
+        from CLASSROOM_INFO
+        where CLASSROOM_INFO_TEACHER_ID=#{classRoomInfoTeacherId}
+    </select>
+    
+    <insert id="classCreate" parameterType="ClassRoomInfoDTO">
+        insert into CLASSROOM_INFO 
+        values('#{classRoomCode}', '#{classRoomInfoName}', to_date('#{classRoomInfoStartDate}','yyyy/mm/dd'), to_date('#{classRoomInfoEndDate}','yyyy/mm/dd'), '#{classRoomInfoTeacherId}', '#{classRoomCode}')
+    </insert>
 
 </mapper>
