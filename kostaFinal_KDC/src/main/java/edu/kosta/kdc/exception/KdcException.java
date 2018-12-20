@@ -1,3 +1,4 @@
+
 package edu.kosta.kdc.exception;
 
 public class KdcException extends RuntimeException {
