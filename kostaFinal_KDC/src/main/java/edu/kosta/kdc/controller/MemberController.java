@@ -67,7 +67,12 @@ public class MemberController {
             message = "사용가능한 아이디입니다.";
         
             //아이디 존재여부 DB에서 체크
-            boolean checkResult = memberService.memberSelectByMemberId(memberId);
+            boolean checkResult = false;
+            MemberDTO memberDTO = memberService.memberSelectByMemberId(memberId);
+            if(memberDTO != null) {
+                checkResult = true;
+            }
+            
             //true면 이미존재 false면 사용가능
             if(checkResult) message = "이미 존재하는 아이디입니다.";
             else message = "사용가능한 아이디입니다.";

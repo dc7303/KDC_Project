@@ -16,58 +16,64 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     private MessageDAO messageDAO;
-    
+
     @Override
-    public List<MessageDTO> messageAll(String id){
-        
+    public List<MessageDTO> messageAll(String id) {
+
         return messageDAO.messageAll(id);
-        
+
     }
 
     @Override
-    public void messageInsert(MessageDTO messageDTO){
+    public int messageInsert(MessageDTO messageDTO) {
 
-            messageDAO.messageInsert(messageDTO);
+        int result = 0;
+        result = messageDAO.messageInsert(messageDTO);
+        if (result == 0)
+            throw new KdcException();
 
-        
+        return result;
     }
 
     @Override
-    public void messageDelete(int messageNum) {
-        
-        messageDAO.messageDelete(messageNum);
+    public int messageDelete(int messageNum) {
 
+        int result = 0;
+        result = messageDAO.messageDelete(messageNum);
+        if (result == 0)
+            throw new KdcException();
+
+        return result;
     }
-
 
     @Override
     @Transactional
     public MessageDTO selectByMesssage(int messageNum) {
-        
+
         messageDAO.isReadMessage(messageNum);
-        
+
         return messageDAO.selectByMesssage(messageNum);
-        
+
     }
-    
+
     @Override
     public String checkById(String senderId) throws KdcException {
-    
+
         String checkId = messageDAO.checkById(senderId);
-        
-        if(senderId.equals(checkId)) {
+
+        if (senderId.equals(checkId)) {
             return senderId;
-        }else {
+        } else {
             return null;
         }
-        
+
     }
-    
+
     @Override
     public int unReadCount(String id) {
-        
+
         int count = messageDAO.unReadCount(id);
-        
+
         return count;
     }
 

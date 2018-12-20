@@ -9,10 +9,13 @@ public class ReportDTO {
     private String reportPurpose;       //신고 내용
     private boolean reportIsDelete;     //삭제여부
     
+    //1:1인 경우
+    private ReplyBoardDTO replyBoardDTO;
+    
     public ReportDTO() {}
     
     public ReportDTO(int reportPk, int reportReplyBoardPk, String reportReporterId, String reportDate,
-            String reportPurpose, boolean reportIsDelete) {
+            String reportPurpose, boolean reportIsDelete, ReplyBoardDTO replyBoardDTO) {
         super();
         this.reportPk = reportPk;
         this.reportReplyBoardPk = reportReplyBoardPk;
@@ -20,6 +23,7 @@ public class ReportDTO {
         this.reportDate = reportDate;
         this.reportPurpose = reportPurpose;
         this.reportIsDelete = reportIsDelete;
+        this.replyBoardDTO = replyBoardDTO;
     }
     public int getReportPk() {
         return reportPk;
@@ -56,6 +60,14 @@ public class ReportDTO {
     }
     public void setReportIsDelete(boolean reportIsDelete) {
         this.reportIsDelete = reportIsDelete;
+    }
+
+    public ReplyBoardDTO getReplyBoardDTO() {
+        return replyBoardDTO;
+    }
+
+    public void setReplyBoardDTO(ReplyBoardDTO replyBoardDTO) {
+        this.replyBoardDTO = replyBoardDTO;
     }
     
     

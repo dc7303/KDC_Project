@@ -12,6 +12,7 @@ public class ReplyBoardDTO {
     private int replyBoardViews;                    //조회수
     private String replyBoardMention;               //댓글 태그할 아이디
     private boolean replyBoardIsDelete;             //삭제여부
+
     private int likeNum;                           //좋아요수
     private int replyNum;                          //댓글수
     private String mentionNickName;                //인물태그 닉네임

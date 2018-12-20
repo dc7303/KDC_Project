@@ -11,12 +11,32 @@ public interface ClassRoomInfoDAO {
      * */
     List<ClassRoomInfoDTO> classList(String id);
     
-    /**
-     * 클래스룸 생성
-     * 입력받을 값 : code, 클래스이름, 시작일, 종료일
-     * 넘겨받을 값 : 강사id
-     * 채팅파일 이름은 임시로 클래스룸code.txt
-     * */
-    void classCreate(ClassRoomInfoDTO dto);
     
+     /* 관리자 - 클래스 룸 생성
+     * 
+     * */
+    int createClassRoom(ClassRoomInfoDTO classRoomInfoDTO);
+
+    /**
+     * 관리자 - 클래스 코드 중복 체크(ajax)
+     * @param String
+     * @return String
+     * */
+    String codeCheck(String classRoomCode);
+
+    /**
+     * 관리자 - 강사 아이디 체크(ajax)
+     * 
+     * @param String
+     * @return String
+     * */
+    String teacherCheck(String teacherId);
+
+    /**
+     * 관리자 - 풀캘린더에 들어갈 클래스 일정 모두 가져오기
+     * 
+     * @return List<ClassRoomInfoDTO>
+     * */
+    List<ClassRoomInfoDTO> getClassInfo();
+
 }

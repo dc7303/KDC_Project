@@ -26,9 +26,9 @@ public class MessageDAOImpl implements MessageDAO {
     }
 
     @Override
-    public void messageInsert(MessageDTO messageDTO){
+    public int messageInsert(MessageDTO messageDTO){
         
-        session.insert("messageMapper.messageInsert", messageDTO);
+        return session.insert("messageMapper.messageInsert", messageDTO);
         
     }
 
@@ -69,7 +69,6 @@ public class MessageDAOImpl implements MessageDAO {
         System.out.println(count);
         
         return count;
-        
     }
 
 }

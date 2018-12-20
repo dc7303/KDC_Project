@@ -1,5 +1,9 @@
 package edu.kosta.kdc.model.dao.impl;
 
+import java.util.List;
+
+
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -40,7 +44,6 @@ public class MemberDAOImpl implements MemberDAO {
         return sqlSession.insert("memberMapper.insert", memberDTO);
     }
 
-
     /**
      * 멤버 정보 수정
      */
@@ -57,6 +60,16 @@ public class MemberDAOImpl implements MemberDAO {
     public int updateByIsWithDrawal(String memberId) {
         
         return sqlSession.update("memberMapper.updateByIsWithDrawal", memberId);
+    }
+    
+    /**
+     * 모든 회원 정보 가져오기
+     * */
+    @Override
+    public List<MemberDTO> memberSelectAll() {
+        
+        return sqlSession.selectList("memberMapper.selectAll");
+        
     }
 
 }

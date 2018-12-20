@@ -3,7 +3,8 @@ package edu.kosta.kdc.model.dao;
 import java.util.List;
 
 import edu.kosta.kdc.model.dto.MessageDTO;
-import edu.kosta.kdc.util.KdcException;
+
+
 
 public interface MessageDAO {
 
@@ -15,7 +16,7 @@ public interface MessageDAO {
     /**
      * 메세지 전송
      * */
-    void messageInsert(MessageDTO messageDTO);
+    int messageInsert(MessageDTO messageDTO);
 
     /**
      * 메세지 번호에 해당하는 메세지 삭제
@@ -42,4 +43,8 @@ public interface MessageDAO {
      * */
     int unReadCount(String id);
     
+
+
+
+
 }

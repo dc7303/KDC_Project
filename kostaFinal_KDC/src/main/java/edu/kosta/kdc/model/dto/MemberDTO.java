@@ -12,7 +12,7 @@ public class MemberDTO {
     private boolean memberIsWithdrawal;  //Å»Åð¿©ºÎ
     private String memberDate;        //À¯Àú °¡ÀÔÀÏ
     
-    public MemberDTO() {}
+    public MemberDTO() {}    
 
     public MemberDTO(String memberId, String memberPwd, String memberName, String memberNickName, String memberBirth,
             String memberPhone, String memberEmail, boolean memberIsWithdrawal, String memberDate) {

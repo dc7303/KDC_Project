@@ -3,7 +3,7 @@ package edu.kosta.kdc.model.service;
 import java.util.List;
 
 import edu.kosta.kdc.model.dto.MessageDTO;
-import edu.kosta.kdc.util.KdcException;
+
 
 public interface MessageService {
     
@@ -15,12 +15,12 @@ public interface MessageService {
     /**
      * 메세지 전송
      * */
-    void messageInsert(MessageDTO messageDTO);
+    int messageInsert(MessageDTO messageDTO);
 
     /**
      * 메세지 삭제
      * */
-    void messageDelete(int messageNum);
+    int messageDelete(int messageNum);
     
     /**
      * 메세지 상세보기(메세지 확인 유무 포함)

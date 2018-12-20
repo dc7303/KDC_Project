@@ -1,5 +1,7 @@
 package edu.kosta.kdc.model.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,15 +30,10 @@ public class MemberServiceImpl implements MemberService {
      * 멤버 아이디 체크
      */
     @Override
-    public boolean memberSelectByMemberId(String memberId) {
+    public MemberDTO memberSelectByMemberId(String memberId) {
         
-        boolean result = false;
-        MemberDTO memberDTO= memberDAO.memberSelectByMemberId(memberId);
+        return memberDAO.memberSelectByMemberId(memberId);
         
-        //검색 결과 DTO 존재할 경우 True 반환
-        if(memberDTO != null) result = true;
-        
-        return result;
     }
 
     /**
@@ -119,6 +116,17 @@ public class MemberServiceImpl implements MemberService {
         
         return result;
     }    
+
+    /**
+     * 모든 회원 정보 가져오기
+     * */
+    @Override
+    public List<MemberDTO> memberSelectAll() {
+
+        return memberDAO.memberSelectAll();
+
+    }
+
     
     
 }

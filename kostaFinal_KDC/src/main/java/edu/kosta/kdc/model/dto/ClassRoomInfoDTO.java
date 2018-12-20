@@ -1,5 +1,7 @@
 package edu.kosta.kdc.model.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ClassRoomInfoDTO {
     
     private String classRoomCode;               //클래스 코드  
@@ -9,6 +11,8 @@ public class ClassRoomInfoDTO {
     private String classRoomInfoTeacherId;      //클래스 강사 아이디
     private String classRoomInfoChatFile;       //채팅 파일 명
     private boolean classRommInfoIsDelete;      //삭제여부
+    
+    private MultipartFile file; //<input type="file" name="file"
     
     public ClassRoomInfoDTO() {}
     
@@ -79,6 +83,14 @@ public class ClassRoomInfoDTO {
 
     public void setClassRommInfoIsDelete(boolean classRommInfoIsDelete) {
         this.classRommInfoIsDelete = classRommInfoIsDelete;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
     

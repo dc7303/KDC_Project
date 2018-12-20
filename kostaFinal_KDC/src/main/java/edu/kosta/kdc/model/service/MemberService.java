@@ -1,6 +1,8 @@
 package edu.kosta.kdc.model.service;
 
-import edu.kosta.kdc.exception.KdcException;
+
+import java.util.List;
+
 import edu.kosta.kdc.model.dto.MemberDTO;
 
 public interface MemberService {
@@ -11,7 +13,7 @@ public interface MemberService {
      * @param memberId
      * @return
      */
-    boolean memberSelectByMemberId(String memberId);
+    MemberDTO memberSelectByMemberId(String memberId);
     
     /**
      * 멤버 닉네임 체크
@@ -44,6 +46,16 @@ public interface MemberService {
      * @param memberDTO
      * @return
      */
+
     int updateByIsWithDrawal(String memberId);
     
+    /**
+     * 관리자 페이지에서 유저 조회 시 모든 유저 가져오는 메소드
+     * 
+     * @param
+     * @return
+     * */
+    List<MemberDTO> memberSelectAll();
+
+  
 }

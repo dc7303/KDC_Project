@@ -27,5 +27,6 @@
 <a href="${pageContext.request.contextPath}/classRoom/classList?id=heejung">heejung클래스 전체 출력</a> <br>
 <a href="${pageContext.request.contextPath}/classRoom/classCreate">클래스 생성</a> <br>
   
+  <a href="admin/selectMember">관리자 페이지로</a>
 </body>
 </html>
