@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
     
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main2.js"></script>
 
 <SCRIPT language=javascript>
 $(function(){
@@ -370,8 +372,8 @@ $(function(){
 </c:choose>
 </c:forEach>
 
+<!-- 댓글멘션부분 수정 시작 -->
 <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO">
-
 <c:choose>
 <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
    <form name="replyWriteForm" method="post" action="${pageContext.request.contextPath}/reply/replyInsert?classification=${requestScope.classification}&replyBoardPk=${requestScope.replyBoardPk}">
@@ -379,7 +381,11 @@ $(function(){
      
       <tr>
         <td>${replyBoardDTO.replyNum+1}</td>
-        <td><input type="text" value="@" name="replyBoardMention" style="width:150px;"></td>
+        <td><div id="mentionButton"></div>
+            <input type="hidden" id="mentionNickName" name="mentionNickName"/>
+            <input type="text" value="@" name="mentionInput" autocomplete="off" style="width:150px;">
+            <div id="suggest"></div>
+        </td>
         <td colspan="6"><input type="text" placeholder="댓글내용입력" name="replyBoardContents"></td>
         <td>본인닉네임표출</td>
         <td><input type=submit value="등록" ></td>
@@ -389,6 +395,7 @@ $(function(){
 </c:when>
 </c:choose>
 </c:forEach>
+<!-- 댓글멘션부분 수정 끝 -->
 
     <tr>
       <td colspan="10" align="center" valign="middle">

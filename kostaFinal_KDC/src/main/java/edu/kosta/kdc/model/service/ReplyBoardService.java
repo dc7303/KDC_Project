@@ -17,10 +17,13 @@ public interface ReplyBoardService {
     List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort);
 
     /**
-     * 레코드 삽입
+     * 레코드 삽입(게시글)
      */
     int insertReply(ReplyBoardDTO replyBoardDTO,String[] hashTagName);
     
+    /**
+     * 레코드 삽입(댓글)
+     * */
     int replyInsert(ReplyBoardDTO replyBoardDTO);
 
     
@@ -67,18 +70,27 @@ public interface ReplyBoardService {
     int replyBoardDisLike(int replyBoardPk);
 
     /**
-     * 해시태그 제안하기
-     * */
-    List<String> hashtagSuggest(String keyword);
-    
-    /**
      * replyBoard 좋아요,싫어요 취소 기능
      * */
     int replyBoardLikeCancle(int replyBoardPk);
 
     /**
+     * 해시태그 제안하기
+     * */
+    List<String> hashtagSuggest(String keyword);
+  
+    /**
      * 신고 insert하기
      * */
     int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords);
 
+    /**
+     * 멘션태그 제안하기
+     * */
+    List<String> mentionSuggest(String keyword);
+    
+    /**
+     * 멘션태그 제안하기(맨션이 있어야 insert가 되야되서 모든 nickname가져옴)
+     * */
+    List<String> allNicknames();
 }

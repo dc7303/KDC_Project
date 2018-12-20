@@ -76,6 +76,18 @@
     <result column="HASHTAG_ISDELETE" property="hashTagIsDelete"/>
 </resultMap>
 
+<resultMap type="memberDTO" id="mentionTagMap">
+    <id column="MEMBER_ID" property="memberId"/>
+    <result column="MEMBER_PW" property="memberPwd"/>
+    <result column="MEMBER_NAME" property="memberName"/>
+    <result column="MEMBER_NICKNAME" property="memberNickName"/>
+    <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
+    <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
+    <result column="MEMBER_EMAIL" property="memberEmail"/>
+    <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+    <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+</resultMap>
+
 <select id="replyBoardSelectAll" parameterType="String" resultMap="replyBoardMap">
     SELECT A.*
     , B.MEMBER_NICKNAME
@@ -90,7 +102,6 @@
     AND B.MEMBER_ISWITHDRAWAL='FALSE'
     ORDER BY A.REPLY_BOARD_PK DESC
 </select>
-
 
 <select id="replyBoardSelectAllOrderBy" parameterType="map" resultMap="replyBoardMap">
     SELECT A.*
@@ -122,7 +133,7 @@
 
 <insert id="replyInsert" parameterType="replyBoardDTO">
     INSERT INTO REPLY_BOARD 
-    VALUES (REPLY_BOARD_SEQ.NEXTVAL, #{replyBoardClassification}, #{replyBoardPk}, NULL, 'lake', SYSDATE, #{replyBoardContents}, NULL, (SELECT MEMBER_ID FROM MEMBER WHERE MEMBER_NICKNAME = #{replyBoardMention}), 'FALSE')
+    VALUES (REPLY_BOARD_SEQ.NEXTVAL, #{replyBoardClassification}, #{replyBoardPk}, NULL, 'lake', SYSDATE, #{replyBoardContents}, NULL, (SELECT MEMBER_ID FROM MEMBER WHERE MEMBER_NICKNAME = #{mentionNickName}), 'FALSE')
 </insert>
 
 <update id="readnumUpdate" parameterType="int">
@@ -254,4 +265,19 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
 <insert id="reportPopInsert" parameterType="map">
     INSERT INTO REPORT VALUES(REPORT_SEQ.NEXTVAL, #{replyBoardPk}, 'ocean', SYSDATE, #{reportContents},'FALSE')
 </insert>
+
+<select id="nicknameSuggest" parameterType="String" resultMap="mentionTagMap">
+    SELECT MEMBER_NICKNAME
+    FROM MEMBER
+    WHERE MEMBER_ISWITHDRAWAL = 'FALSE'
+    AND UPPER(MEMBER_NICKNAME) LIKE UPPER(#{_parameter}) || '%'
+    ORDER BY MEMBER_NICKNAME ASC
+</select>
+
+<select id="allnicknames" resultMap="mentionTagMap">
+    SELECT MEMBER_NICKNAME
+    FROM MEMBER
+    WHERE MEMBER_ISWITHDRAWAL = 'FALSE'
+    ORDER BY MEMBER_NICKNAME ASC
+</select>
 </mapper>

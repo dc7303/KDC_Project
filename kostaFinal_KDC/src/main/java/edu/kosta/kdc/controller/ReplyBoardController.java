@@ -74,11 +74,8 @@ public class ReplyBoardController {
     @RequestMapping("/replyInsert")
     public String replyInsert(String classification,int replyBoardPk, ReplyBoardDTO replyBoardDTO, Model model) {
         replyBoardDTO.setReplyBoardClassification(classification);
-        //replyBoardDTO.setReplyBoardPk(replyBoardPk);
-        replyBoardService.replyInsert(replyBoardDTO);
-        
+        replyBoardService.replyInsert(replyBoardDTO);        
         model.addAttribute("classification",classification);
-        
         return "redirect:read?replyBoardPk="+replyBoardPk;
     }
     
@@ -244,4 +241,25 @@ public class ReplyBoardController {
             
         return "replyBoard/read";
     }
+    
+    /**
+     * 멘션태그 제안하기
+     * */
+    @RequestMapping("/mentionSuggest")
+    @ResponseBody
+    public List<String> mentionSuggest(String keyWord) {
+        
+        return replyBoardService.mentionSuggest(keyWord);
+    }
+    
+    /**
+     * 모든 닉네임 가오기
+     * */
+    @RequestMapping("/allNicknames")
+    @ResponseBody
+    public List<String> allNicknames() {
+        
+        return replyBoardService.allNicknames();
+    }
+    
 }

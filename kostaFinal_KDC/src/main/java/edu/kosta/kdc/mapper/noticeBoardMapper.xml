@@ -2,5 +2,85 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="noticeBoardMapper">
 
+<resultMap type="noticeBoardDTO" id="selectMap">
+    <id column="notice_board_pk" property="noticeBoardPk" />
+    <result column="NOTICE_BOARD_CLASSIFICATION" property="noticeBoardClassification" />
+    <result column="NOTICE_BOARD_TITLE" property="noticeBoardTitle" />
+    <result column="NOTICE_BOARD_WRITER_ID" property="noticeBoardWriterId" />
+    <result column="NOTICE_BOARD_WRITE_DATE" property="noticeBoardDate" />
+    <result column="NOTICE_BOARD_CONTENTS" property="noticeBoardContents"/>
+    <result column="NOTICE_BOARD_VIEWS" property="noticeBoardViews"/>
+    <result column="NOTICE_BOARD_ATTACHMENT" property="noticeBoardAttachment" />
+    <result column="NOTICE_BOARD_ISDELETE" property="noticeBoardIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+  
+</resultMap>
+
+    <!-- 전체 검색 -->
+<select id="noticeBoardSelect" resultMap="selectMap">
+    SELECT *
+    FROM NOTICE_BOARD
+    WHERE NOTICE_BOARD_ISDELETE= 'FALSE'
+</select>
+
+    <!--  조건 검색 -->
+<select id="SearchTitleAndContents" parameterType="map" resultMap="selectMap">
+        SELECT * FROM NOTICE_BOARD
+         WHERE
+         NOTICE_BOARD_ISDELETE='FALSE'
+         <if test="department.equals('title')">
+         AND UPPER(NOTICE_BOARD_TITLE)  like  '%' || UPPER(#{noticeBoardSearch}) || '%'
+         </if>
+         <if test="department.equals('contents')">
+         AND UPPER(NOTICE_BOARD_CONTENTS) like '%' ||  UPPER(#{noticeBoardSearch}) || '%'
+         </if>
+         
+  </select>
+
+
+
+    <!-- 레코드 삽입 -->
+    <insert id="noticeBoardInsert" parameterType="NoticeBoardDTO">
+
+        INSERT INTO NOTICE_BOARD
+        VALUES (NOTICE_BOARD_SEQ.NEXTVAL, 'AAAA', #{noticeBoardTitle}, 'lake',
+        SYSDATE,#{noticeBoardContents}, 0, #{noticeBoardAttachment},
+        'FALSE')
+
+
+    </insert>
+
+    <!-- 게시글 상세보기 -->
+    <select id="SelectNoticeBoardPK"
+        parameterType="NoticeBoardDTO" resultMap="selectMap">
+        SELECT * FROM NOTICE_BOARD
+        WHERE notice_board_pk = #{noticeBoardPk} 
+</select>
+
+
+
+    <!-- 조회수 증가 -->
+    <update id="noticeBoardViewsUpdate" parameterType="NoticeBoardDTO">
+        UPDATE NOTICE_BOARD SET NOTICE_BOARD_VIEWS = NOTICE_BOARD_VIEWS +1
+        WHERE notice_board_pk=#{_parameter}
+    </update>
+
+    <!-- 수정하기 -->
+    <update id="noticeBoardUpdate" parameterType="NoticeBoardDTO">
+        UPDATE NOTICE_BOARD SET
+        NOTICE_BOARD_TITLE = #{noticeBoardTitle},
+        NOTICE_BOARD_CONTENTS = #{noticeBoardContents},
+        NOTICE_BOARD_ATTACHMENT = #{noticeBoardAttachment}
+        WHERE notice_board_pk = #{noticeBoardPk}
+    </update>
+    
+    <!--  삭제하기 -->
+    <update id="noticeBoardDelete" parameterType="int" >
+       UPDATE NOTICE_BOARD  SET
+        NOTICE_BOARD_ISDELETE = 'TRUE'
+        WHERE
+        notice_board_pk = #{noticeBoardPk}
+       
+    </update>
+    
 
 </mapper>

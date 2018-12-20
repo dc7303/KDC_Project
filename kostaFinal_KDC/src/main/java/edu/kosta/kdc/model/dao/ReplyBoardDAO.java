@@ -3,6 +3,7 @@ package edu.kosta.kdc.model.dao;
 import java.util.List;
 
 import edu.kosta.kdc.model.dto.HashTagDTO;
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 
 public interface ReplyBoardDAO {
@@ -100,15 +101,15 @@ public interface ReplyBoardDAO {
     int replyBoardDisLike(int replyBoardPk);
     
     /**
+     * replyBoard 좋아요, 싫어요 취소 기능
+     * */
+    int replyBoardLikeCancle(int replyBoardPk);
+    
+    /**
      * 해시태그 제안하기
      * */
     List<HashTagDTO> hashtagSuggest(String keyword);
     
-    /**
-     * replyBoard 좋아요, 싫어요 취소 기능
-     * */
-    int replyBoardLikeCancle(int replyBoardPk);
-
     /**
      * 신고하기 insert(radio박스에 있는거 체크할시)
      * */
@@ -119,4 +120,13 @@ public interface ReplyBoardDAO {
      * */
     int reportPopOtherInsert(String otherWords, int replyBoardPkReport);
     
+    /**
+     * 멘션태그 제안하기
+     * */
+    List<MemberDTO> mentionSuggest(String keyword);
+    
+    /**
+     * 모든 닉네임 가오기
+     * */
+    List<MemberDTO> allNicknames();
 }

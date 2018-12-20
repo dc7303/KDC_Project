@@ -84,7 +84,7 @@
                     <ul class="nav nav-subnav">
       
                       <li>
-                        <a href="#">반별 공지사항</a>
+                        <a href="${pageContext.request.contextPath }/notice/list">반별 공지사항</a>
                       </li>
         
                       <li>
