@@ -13,11 +13,7 @@ public class HomeController {
     @RequestMapping("/")
     public String index(HttpSession session) {
         
-        String userId = "aa";
-        
-        session.setAttribute("userId", userId);
-        
-        return "test";
+        return "index";
     }
     
 }
