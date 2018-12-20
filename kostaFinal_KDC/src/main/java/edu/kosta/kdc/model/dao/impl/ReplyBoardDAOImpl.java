@@ -136,6 +136,22 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
     public int replyBoardLikeCancle(int replyBoardPk) {
         return session.delete("replyBoardMapper.replyBoardLikeCancle",replyBoardPk);
     }
+
+    @Override
+    public int reportPopInsert(String reportContents, int replyBoardPk) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("reportContents", reportContents);
+        map.put("replyBoardPk", replyBoardPk);
+        return session.insert("replyBoardMapper.reportPopInsert", map);
+    }
+    
+    @Override
+    public int reportPopOtherInsert(String otherWords, int replyBoardPk) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("replyBoardPk", replyBoardPk);
+        map.put("reportContents",otherWords);
+        return session.insert("replyBoardMapper.reportPopInsert", map);
+    }
     
 
 }

@@ -87,8 +87,10 @@
     AND A.REPLY_BOARD_ISDELETE = 'FALSE'
     AND A.REPLY_BOARD_REPLY_NO IS NULL
     AND A.REPLY_BOARD_WRITER_ID = B.MEMBER_ID
+    AND B.MEMBER_ISWITHDRAWAL='FALSE'
     ORDER BY A.REPLY_BOARD_PK DESC
 </select>
+
 
 <select id="replyBoardSelectAllOrderBy" parameterType="map" resultMap="replyBoardMap">
     SELECT A.*
@@ -101,6 +103,7 @@
     AND A.REPLY_BOARD_ISDELETE = 'FALSE'
     AND A.REPLY_BOARD_REPLY_NO IS NULL
     AND A.REPLY_BOARD_WRITER_ID = B.MEMBER_ID
+    AND B.MEMBER_ISWITHDRAWAL='FALSE'
     ORDER BY
         <if test="sort!=null">
             ${sort} DESC
@@ -241,10 +244,14 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
 </delete>
 
 <select id="hashtagSuggest" parameterType="String" resultMap="HashTagMap">
-SELECT DISTINCT HASHTAG_NAME
-FROM HASHTAG
-WHERE HASHTAG_ISDELETE = 'FALSE'
-AND UPPER(HASHTAG_NAME) LIKE '%' || UPPER(#{_parameter}) || '%'
-ORDER BY HASHTAG_NAME ASC
+    SELECT DISTINCT HASHTAG_NAME
+    FROM HASHTAG
+    WHERE HASHTAG_ISDELETE = 'FALSE'
+    AND UPPER(HASHTAG_NAME) LIKE UPPER(#{_parameter}) || '%'
+    ORDER BY HASHTAG_NAME ASC
 </select>
+
+<insert id="reportPopInsert" parameterType="map">
+    INSERT INTO REPORT VALUES(REPORT_SEQ.NEXTVAL, #{replyBoardPk}, 'ocean', SYSDATE, #{reportContents},'FALSE')
+</insert>
 </mapper>

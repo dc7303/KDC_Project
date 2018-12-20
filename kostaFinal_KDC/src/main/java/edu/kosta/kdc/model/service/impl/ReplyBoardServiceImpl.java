@@ -57,20 +57,16 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     }
 
     @Override
-    public int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String hashTagName) {
-        String tagName = hashTagName.replaceAll(" ","");
+    public int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
         int result=0;
         int rs=0;
-        rs=replyBoardDAO.hashTagUpdateDelete(replyBoardDTO);
-        replyBoardDAO.replyBoardUpdate(replyBoardDTO);
-        if(rs!=0 && tagName.length()!=0) {
-            String [] hashTags = tagName.split(",");
-
-            for(String s: hashTags) {
+        replyBoardDAO.hashTagUpdateDelete(replyBoardDTO);
+        rs = replyBoardDAO.replyBoardUpdate(replyBoardDTO);
+        if(rs!=0 && hashTagName.length!=0) {
+            for(String s: hashTagName) {
                 result += replyBoardDAO.hashTagUpdateInsert(replyBoardDTO, s);
             }
         }
-        
         return 1;
     }
 
@@ -131,6 +127,19 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     public int replyBoardLikeCancle(int replyBoardPk) {
         int result = replyBoardDAO.replyBoardLikeCancle(replyBoardPk);
+        return result;
+    }
+
+    @Override
+    public int reportPopInsert(String reportContents, int replyBoardPk, String otherWords) {
+        
+        int result=0;
+        if(reportContents.length()!=0) {
+            result = replyBoardDAO.reportPopInsert(reportContents, replyBoardPk);
+        }else {
+            result = replyBoardDAO.reportPopInsert(otherWords, replyBoardPk);
+        }
+        
         return result;
     }
 

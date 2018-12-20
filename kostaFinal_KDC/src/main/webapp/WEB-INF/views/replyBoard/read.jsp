@@ -29,11 +29,6 @@ $(function(){
          }
       });
       
-      $("input[value=댓글신고]").click(function() {
-        window.open("${pageContext.request.contextPath}/reply/reportPopForm", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
-
-      });
-      
 });
 </script>
 <script>
@@ -98,7 +93,7 @@ $(function(){
           },
           data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
           success : function(result){   //성공했을 때
-             alert(result)   
+             //alert(result)   
           },
           error : function(err){   //실패했을 때
              alert(err+" => 오류 발생");
@@ -116,7 +111,7 @@ $(function(){
           },
           data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
           success : function(result){   //성공했을 때
-             alert(result)   
+             //alert(result)   
           },
           error : function(err){   //실패했을 때
              alert(err+" => 오류 발생");
@@ -131,19 +126,18 @@ $(function(){
   });
 </script>
 
-
   </head>
 
 <body>
 <table>
-
        <thead>
           <tr class="titel-color">
-            <td colspan="6">글제목</td>
+            <td colspan="5">글제목</td>
             <td>글쓴이</td>
             <td>등록날짜</td>
             <td>좋아요</td>
             <td>조회수</td>
+            <td>신고</td>
           </tr>
         </thead>
 
@@ -153,7 +147,7 @@ $(function(){
 <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
     <tr>
     
-      <td colspan="6">
+      <td colspan="5">
       <span>${replyBoardDTO.replyBoardTitle}</span>
       </td>
       
@@ -188,6 +182,10 @@ $(function(){
       
       <td>
       <span>${replyBoardDTO.replyBoardViews}</span>
+      </td>
+      
+      <td>
+      <span><input type="button" value="신고"/></span>
       </td>
             
     </tr>
@@ -387,12 +385,20 @@ $(function(){
           </form>
         </span>
         </td>
-      
       <td>
-        <span><input type="submit" value="댓글신고"></span>
+        <span>
+          <input type="submit" value="댓글신고">
+          <input type="hidden" name="replyBoardPk" id="replyBoardPkReport" value="${replyBoardDTO.replyBoardPk}">            
+        </span>
+      <script>
+        $("input[value=댓글신고]").click(function() {
+          var replyBoardPk = $("#replyBoardPkReport").val();
+          alert(replyBoardPk);
+            window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPk=${replyBoardDTO.replyBoardPk}", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+        });
+      </script>
       </td>
     </tr>
-    
 </c:when>
 </c:choose>
 </c:forEach>

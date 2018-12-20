@@ -9,11 +9,36 @@
 	$(function() {
     	$("#other").click(function() {
     	  	$("#otherText").remove();
-        	$("span").after("<input id='otherText' type='text'>");
-      });
-  });
+        	$("span").after("<input id='otherText'name='reportContents'type='text'>");
+      	});
+  	});
 </script>
 
+<script type="text/javascript">
+	$(function() {
+	  $("input[value=신고하기]").click(function() {
+	    var reportContents = $("[name=reportContents]:checked").val();
+	    var otherWords = $("#otherText").val();
+	    $.ajax({
+	      url : "${pageContext.request.contextPath}/reply/reportPop",
+	      type : "post",   
+	      dataType : "text", 
+	      beforeSend: function(xhr) {
+	         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+	      },
+	      data : "reportContents="+reportContents+"&replyBoardPk=${requestScope.replyBoardPk}&otherWords="+otherWords,
+	      success : function(result){   //성공했을 때
+	        window.close();   
+	      },
+	      error : function(err){   //실패했을 때
+	         alert(err+" => 오류 발생");
+	      }
+ 
+    	});
+	 });
+  });
+    
+</script>
 </head>
 <body>
 <div>
@@ -21,15 +46,13 @@
 <div>
 <h3>작성자 : 호또혼</h3>
 <h4>사유 선택 : 여러사유에 해당되는 경우, 대표적인 사유 1개를 선택해주세요</h4> 
-<form method="post" action="${pageContext.request.contextPath}/reply/reportPop">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-<input type="radio" name="reportContents" value="부적절한 홍보 게시글">부적절한 홍보 게시글<br>
-<input type="radio" name="reportContents" value="욕설/사생활침해/명예훼손">욕설/사생활침해/명예훼손<br>
-<input type="radio" name="reportContents" id="other" value=""><span>기타<br></span><br>
-
-<input type="submit" value="신고하기">
-<input type="button" value="취소">
-</form>
+  <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+  <input type="radio" name="reportContents" value="부적절한 홍보 게시글">부적절한 홍보 게시글<br>
+  <input type="radio" name="reportContents" value="욕설/사생활침해/명예훼손">욕설/사생활침해/명예훼손<br>
+  <input type="radio" name="reportContents" id="other" value=""><span>기타<br></span><br>
+  
+  <input type="button" value="신고하기">
+  <input type="button" value="취소">
 </div>
 </div>
 </body>

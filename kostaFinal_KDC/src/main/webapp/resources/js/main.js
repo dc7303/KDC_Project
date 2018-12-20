@@ -5,6 +5,30 @@ $(function() {
     실제 submit시에도 배열에 있는 값을 변수에 += 하여 파라미터로 전송한다.
   */
   let arr = [];
+  
+  //window.onload = function() {
+    
+    $('input[name=hashTagInput]').val().trim()
+    var existed = $('input[name=hashTagInput]').val().trim().split(',');
+    
+    if(existed!=''){
+      
+      $.each(existed, function(index, inputValue){
+        
+        inputValue.trim();
+        $('#span').append('<button type="button" name="tag" value="' + inputValue + '">' + inputValue + '</button>');
+        arr.push(inputValue);
+        
+        console.log(arr);
+        
+      });
+      
+    }
+    
+    $('input[name=hashTagInput]').val('');
+    $('#hashTagName').val(arr);
+
+  //}
 
   /**
    * 태그 입력시 이벤트 발생

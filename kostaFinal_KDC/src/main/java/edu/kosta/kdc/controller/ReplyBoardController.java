@@ -59,7 +59,7 @@ public class ReplyBoardController {
     @RequestMapping("/insert")
     public String techBoardInsert(String classification, ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
         for(String s: hashTagName) {
-            System.out.println(s);            
+            //System.out.println(s);            
         }
         
         replyBoardDTO.setReplyBoardClassification(classification);
@@ -119,7 +119,7 @@ public class ReplyBoardController {
      * 게시글 수정하기
      * */
     @RequestMapping("/replyBoardUpdate")
-    public String replyBoardUpdate(String classification, int replyBoardPk, ReplyBoardDTO replyBoardDTO, String hashTagName) {
+    public String replyBoardUpdate(String classification, int replyBoardPk, ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
         replyBoardDTO.setReplyBoardPk(replyBoardPk);
         replyBoardService.replyBoardUpdate(replyBoardDTO, hashTagName);
         return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
@@ -231,7 +231,9 @@ public class ReplyBoardController {
      * 신고창 띄우기
      * */
     @RequestMapping("/reportPopForm")
-    public String reportPopForm() {
+    public String reportPopForm(int replyBoardPk, Model model) {
+        System.out.println(replyBoardPk);
+        model.addAttribute("replyBoardPk",replyBoardPk);
         return "/replyBoard/reportPopForm";
     }
     
@@ -239,8 +241,9 @@ public class ReplyBoardController {
      * 신고하기
      * */
     @RequestMapping("/reportPop")
-    public String reportPop(String reportContents) {
-        System.out.println(reportContents);
+    public String reportPop(String reportContents, int replyBoardPk, String otherWords) {
+            replyBoardService.reportPopInsert(reportContents, replyBoardPk, otherWords);
+            
         return "replyBoard/read";
     }
 }

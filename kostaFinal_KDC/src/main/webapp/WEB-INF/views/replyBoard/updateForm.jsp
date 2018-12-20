@@ -14,6 +14,9 @@
 
   </head>
 
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+
 <body>
 
 
@@ -52,12 +55,12 @@
       <td>
       <c:choose>
       <c:when test="${replyBoardDTO.updown.isUp==true}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_up.png"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>
-      </c:when>
-      <c:when test="${replyBoardDTO.updown.isUp==false}">
       <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
       <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_down.png"></div>
+      </c:when>
+      <c:when test="${replyBoardDTO.updown.isUp==false}">
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/black_thumbs_up.png"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_down.png"></div>
       </c:when>      
       <c:otherwise>
       <div><img src="${pageContext.request.contextPath}/resources/assets/img/white_thumbs_up.png"></div><br/>
@@ -77,12 +80,24 @@
       <input type=text name="replyBoardContents" value="${replyBoardDTO.replyBoardContents}" style="height:100%;">
       </td>
     </tr>
+    
+    <!-- 여기부터 -->
     <tr>
-   
       <td colspan="8">
-      <span><input type=text name="hashTagName" value="${replyBoardDTO.hashTag.hashTagName}"></span>
+        <div class="form-group">
+        <span id="span">
+        <!-- 이벤트 발생시 태그가 여기에 추가 -->
+        </span>
+        <input type="hidden" id="hashTagName" name="hashTagName"/>
+        <input type="text" name="hashTagInput" autocomplete="off" value="${replyBoardDTO.hashTag.hashTagName}" class="textbox"/>
+        <span id="suggest" style="float:left;">
+        <!-- 제시어 단어 출력부분 --> 
+        </span>
+        </div>
       </td>
     </tr>
+    <!-- 여기까지 -->
+   
 
 </c:when>
 </c:choose>
@@ -101,6 +116,8 @@
 
 <hr>
 <div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?classification=${requestScope.classification}">리스트로 돌아가기</a>&gt;</span></div>
-
+<input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
+<input type="hidden" name="csrfToken" value="${_csrf.token}"/>
+<input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>
 
 </body>

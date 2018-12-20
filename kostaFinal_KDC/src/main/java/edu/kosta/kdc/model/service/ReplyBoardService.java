@@ -34,7 +34,7 @@ public interface ReplyBoardService {
     /**
      * 게시글 수정하기
      * */
-    int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String hashTagName);
+    int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String[] hashTagName);
 
     /**
      * 댓글 수정하기
@@ -76,6 +76,9 @@ public interface ReplyBoardService {
      * */
     int replyBoardLikeCancle(int replyBoardPk);
 
-
+    /**
+     * 신고 insert하기
+     * */
+    int reportPopInsert(String reportContents, int replyBoardPk, String otherWords);
 
 }
