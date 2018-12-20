@@ -15,9 +15,7 @@ public class PortfolioDAOImpl implements edu.kosta.kdc.model.dao.PortfolioDAO {
     @Autowired
     private SqlSession sqlSession;
     
-    /**
-     * 포트폴리오 생성
-     * */
+    // 포트폴리오 생성
     @Override
     public int insertPortfolio(PortfolioDTO portfolioDTO) {
         int result = sqlSession.insert("portfolioMapper.insertPortfolio", portfolioDTO);   
@@ -30,12 +28,13 @@ public class PortfolioDAOImpl implements edu.kosta.kdc.model.dao.PortfolioDAO {
         return sqlSession.selectOne("portfolioMapper.selectPortfolioByMemberId", memberId);
     }
 
-    
+    // 포트폴리오 수정
     @Override
     public int updatePortfolio(PortfolioDTO portfolioDTO) {
         return sqlSession.update("portfolioMapper.updatePortfolio", portfolioDTO);
     }
 
+    // 삭제(미구현)
     @Override
     public int deletePortfolioByMemberId(String memberId) {
         // TODO Auto-generated method stub

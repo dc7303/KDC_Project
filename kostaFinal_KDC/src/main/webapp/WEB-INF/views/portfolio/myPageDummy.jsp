@@ -100,7 +100,14 @@
             </c:forEach>
             </p>
             </br>
-                    포트폴리오 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}">
+            <c:choose>
+              <c:when test="${empty detail.portfolioDeltailProjectImage}">
+                <h5>사진이 없습니다.</h5>
+              </c:when>
+              <c:otherwise>
+                포트폴리오 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}">
+              </c:otherwise>
+            </c:choose>     
           </br>     
           <input type="button" value="수정하기" class="update-detail" id="detail-${detail.portFolioDetailPk}"/>
           <hr>

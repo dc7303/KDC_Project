@@ -7,9 +7,30 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/highlight.pack.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/squire-rte/build/squire-raw.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-Editor.min.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 <script>
   const jq = jQuery.noConflict();
   jq(function() {
+    //viewer 세팅
+    var contents = jq('#detail-Description').val();
+	var editor = tui.Editor.factory({
+      el: document.querySelector('#viewerSection'),
+      viewer: true,
+      height: '500px',
+      initialValue: contents
+	});
+    
     //수정하기 버튼 이벤트
     jq('input[value=수정하기]').on('click', function() {
       location.href='${pageContext.request.contextPath}/portfolio/updateDetailForm/${detail.portFolioDetailPk}';
@@ -39,7 +60,8 @@
   <img
     src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}" />
   </br> 포트폴리오 설명 :
-  <p>${detail.portfolioDetailDescription}</p>
+  <div id = "viewerSection"></div>
+  <input id ="detail-Description" type="hidden" value="${detail.portfolioDetailDescription}">
   </br>
   <input type="button" value="삭제하기">
   <input type="button" value="수정하기">

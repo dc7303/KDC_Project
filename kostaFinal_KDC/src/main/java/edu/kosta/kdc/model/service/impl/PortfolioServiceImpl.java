@@ -51,7 +51,6 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
     // 포트폴리오 삭제
     @Override
     public int deletePortfolioByMemberId(String memberId) {
-        // TODO Auto-generated method stub
         return 0;
     }
     
@@ -62,6 +61,8 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
     public int insertDetail(PortfolioDetailDTO portfolioDetailDTO, String hashTagName) {
         int result = portfolioDetailDAO.insertDetail(portfolioDetailDTO);
         if(result==0) throw new KdcException("포트폴리오 상세 생성에 실패했습니다.");
+        
+        //해쉬태그 insert
         if(hashTagName != null&&(!hashTagName.equals(""))) {
             String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
             for(String s: hashTags) {
@@ -88,12 +89,19 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
         return portfolioDetailDTO;
     }
 
-    // 상세 수정(해쉬태그 삭제->해쉬태그 삽입->상세 수정)
+    /*
+     * 해쉬태그 수정이 불가하여 삭제, 삽입 후 상세정보 수정
+     * 상세 수정(해쉬태그 삭제->해쉬태그 삽입->상세 수정)
+     * */ 
     @Transactional
     @Override
     public int updateDetail(PortfolioDetailDTO portfolioDetailDTO, String hashTagName) {
         int result = 0;
+        
+        // 해쉬태그 삭제
         result = portfolioDetailDAO.deleteHashTag(portfolioDetailDTO.getPortFolioDetailPk());
+        
+        // 해쉬태그 생성
         if(hashTagName != null&&(!hashTagName.equals(""))) {
             String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
             for(String s: hashTags) {
@@ -119,6 +127,7 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
     public List<PortfolioDTO> selectAll() {
         return portfolioDAO.selectAll();
     }
+    
     // 포트폴리오 조회(상세포함)
     @Override
     public PortfolioDTO selectAllDetail(String memberId) {

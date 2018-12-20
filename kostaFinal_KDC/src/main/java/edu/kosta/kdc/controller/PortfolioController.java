@@ -35,7 +35,11 @@ public class PortfolioController {
      */
     @RequestMapping("/myPage")
     public String myPage(Model model) {
-        String memberId = "DONGS";
+        /*
+         * 시큐리티에서 id를 받아와야함 
+         * 
+         * */
+        String memberId = null;
         
         //로그인된 사용자의 포트폴리오, 상세 정보를 조회
         PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(memberId);

@@ -5,18 +5,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<script src="${pageContext.request.contextPath }/resources/lib/bower_components/jquery/dist/jquery.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/lib/bower_components/tui-code-snippet/dist/tui-code-snippet.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/lib/bower_components/markdown-it/dist/markdown-it.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/lib/bower_components/to-mark/dist/to-mark.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/lib/bower_components/codemirror/lib/codemirror.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/lib/bower_components/highlightjs/highlight.pack.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/lib/bower_components/squire-rte/build/squire-raw.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/lib/bower_components/tui-editor/dist/tui-editor-Editor.min.js"></script>
-  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/bower_components/codemirror/lib/codemirror.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/bower_components/highlightjs/styles/github.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/bower_components/tui-editor/dist/tui-editor.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/bower_components/tui-editor/dist/tui-editor-contents.css">
+<script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/highlight.pack.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/squire-rte/build/squire-raw.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-Editor.min.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 <title>Insert title here</title>
 <script>
 const jq = jQuery.noConflict();
@@ -56,11 +56,11 @@ jq(function(){
   	jq('#original-pk').attr('name','portFolioDetailPk')
   	
   	//HASH태그값 가져오기
-  	var hashTags = '${detail.portfolioDetailHashTagList}'
+  	/* var hashTags = '${detail.portfolioDetailHashTagList}'
   	console.log('hashTags = '+hashTags);
   	 for(let hashTag of hashTags){
   	  console.log(hashTag.hashTagName);
-  	} 
+  	}  */
   	
   	jq('input[name=hashTagName]').val();
   }
@@ -106,7 +106,7 @@ jq(function(){
     </c:otherwise>
   </c:choose>
   
-  프로젝트 이미지 <input type="file" name="DeltailProjectImage" /></p></br>
+      프로젝트 이미지 <input type="file" name="DeltailProjectImage" /></p></br>
   
   
   <div id="editSection"></div>
