@@ -79,6 +79,6 @@ public interface ReplyBoardService {
     /**
      * 신고 insert하기
      * */
-    int reportPopInsert(String reportContents, int replyBoardPk, String otherWords);
+    int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords);
 
 }

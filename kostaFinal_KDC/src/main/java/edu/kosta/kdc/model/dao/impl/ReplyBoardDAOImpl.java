@@ -138,17 +138,17 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
     }
 
     @Override
-    public int reportPopInsert(String reportContents, int replyBoardPk) {
+    public int reportPopInsert(String reportContents, int replyBoardPkReport) {
         Map<String, Object> map = new HashMap<>();
         map.put("reportContents", reportContents);
-        map.put("replyBoardPk", replyBoardPk);
+        map.put("replyBoardPk", replyBoardPkReport);
         return session.insert("replyBoardMapper.reportPopInsert", map);
     }
     
     @Override
-    public int reportPopOtherInsert(String otherWords, int replyBoardPk) {
+    public int reportPopOtherInsert(String otherWords, int replyBoardPkReport) {
         Map<String, Object> map = new HashMap<>();
-        map.put("replyBoardPk", replyBoardPk);
+        map.put("replyBoardPk", replyBoardPkReport);
         map.put("reportContents",otherWords);
         return session.insert("replyBoardMapper.reportPopInsert", map);
     }

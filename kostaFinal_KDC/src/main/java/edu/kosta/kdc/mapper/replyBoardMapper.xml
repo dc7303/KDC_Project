@@ -240,7 +240,7 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
 </insert>
 
 <delete id="replyBoardLikeCancle" parameterType="int">
-    DELETE FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK= #{_parameter}
+    DELETE FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK= #{_parameter} AND UPDOWN_USER_ID='ocean'
 </delete>
 
 <select id="hashtagSuggest" parameterType="String" resultMap="HashTagMap">

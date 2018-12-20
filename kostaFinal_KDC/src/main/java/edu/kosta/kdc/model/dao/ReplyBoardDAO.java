@@ -117,6 +117,6 @@ public interface ReplyBoardDAO {
     /**
      * 신고하기 insert(radio박스에서 기타를 선택했을 경우)
      * */
-    int reportPopOtherInsert(String otherWords, int replyBoardPk);
+    int reportPopOtherInsert(String otherWords, int replyBoardPkReport);
     
 }

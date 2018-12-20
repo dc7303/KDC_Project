@@ -131,13 +131,13 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     }
 
     @Override
-    public int reportPopInsert(String reportContents, int replyBoardPk, String otherWords) {
+    public int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords) {
         
         int result=0;
         if(reportContents.length()!=0) {
-            result = replyBoardDAO.reportPopInsert(reportContents, replyBoardPk);
+            result = replyBoardDAO.reportPopInsert(reportContents, replyBoardPkReport);
         }else {
-            result = replyBoardDAO.reportPopInsert(otherWords, replyBoardPk);
+            result = replyBoardDAO.reportPopInsert(otherWords, replyBoardPkReport);
         }
         
         return result;

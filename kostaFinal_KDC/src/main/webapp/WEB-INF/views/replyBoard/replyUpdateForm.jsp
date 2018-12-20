@@ -31,7 +31,100 @@ $(function(){
       
 });
 </script>
+<script>
+  $(function() {
+    $(".replyBoardLike").click(function() {
+      var img1 = document.getElementById('thumbs_up');
+      if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_up.png을 보여줌
+        img1.src = img1.src.replace('.png', '_black.png');
+      
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardLike",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
 
+       });
+        
+      } else {//_black이라는 단어가 존재하면
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+        img1.src = img1.src.replace('_black.png', '.png');
+        
+      }
+    });
+  });
+  
+  $(function() {
+    $(".replyBoardDisLike").click(function() {
+      var img1 = document.getElementById('thumbs_down');
+      if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_down.png을 보여줌
+        img1.src = img1.src.replace('.png', '_black.png');
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardDisLike",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+      } else {
+        $.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
+          type : "post",   //전송방식(get, post)
+          dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
+          beforeSend: function(xhr) {
+             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          success : function(result){   //성공했을 때
+             //alert(result)   
+          },
+          error : function(err){   //실패했을 때
+             alert(err+" => 오류 발생");
+          }
+         
+       });
+        
+        img1.src = img1.src.replace('_black.png', '.png');
+      }
+    });
+
+  });
+</script>
   </head>
 
 <body>
@@ -64,19 +157,20 @@ $(function(){
 
       <!-- 여기부터 -->
       
+      
       <td>
       <c:choose>
       <c:when test="${replyBoardDTO.updown.isUp==true}">
-      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png"></div><br/>
-      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
       </c:when>
       <c:when test="${replyBoardDTO.updown.isUp==false}">
-      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
-      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png"></div>
+      <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
       </c:when>      
       <c:otherwise>
-      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up"></div><br/>
-      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down"></div>     
+      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
       </c:otherwise>
       </c:choose>
       </td>
@@ -106,9 +200,7 @@ $(function(){
     <tr class="titel-color">
     <td>댓글번호</td>
     <td>멘션</td>
-    <td>댓글내용</td>
-    <td>댓글작성일</td>
-    <td colspan="2">좋아요</td>
+    <td colspan="4">댓글내용</td>
     <td>댓글작성자</td>
     <td>수정</td>
     <td>삭제</td>
@@ -119,53 +211,31 @@ $(function(){
 
 <c:choose>
 <c:when test="${replyBoardDTO.replyBoardPk==replyBoardReplyPk}">
+<form id="replyUpdate" method="post" action="${pageContext.request.contextPath}/reply/replyUpdate">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
       <td>
       <span>${state.count-1}</span>
       </td>
       <td>
       <span><input type="text" value="${replyBoardDTO.mentionNickName}"></span>
       </td>
-      <td>
-      <span><input type="text" value="${replyBoardDTO.replyBoardContents}"></span>
+      <td colspan="4">
+      <span><input type="text" name="replyBoardContents" value="${replyBoardDTO.replyBoardContents}"></span>
       </td>      
-      <td>
-      <span>${replyBoardDTO.replyBoardDate}</span>
-      </td>
-
-      <!-- 여기부터 -->
-      
-      <td>
-      <c:choose>
-      <c:when test="${replyBoardDTO.updown.isUp==true}">
-      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png"></div><br/>
-      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
-      </c:when>
-      <c:when test="${replyBoardDTO.updown.isUp==false}">
-      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
-      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png"></div>
-      </c:when>      
-      <c:otherwise>
-      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up"></div><br/>
-      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down"></div>     
-      </c:otherwise>
-      </c:choose>
-      </td>
-      
-      <!-- 여기까지 -->
 
 
-
-      <td>
-      <span>${replyBoardDTO.likeNum}</span>
-      </td>
       <td>
       <span>${replyBoardDTO.member.memberNickName}</span>
       </td>
       
       <td> <!-- 여기에다가 수정된 댓글내용 저장되도록 하면됨 -->
-      <input type="button" value="저장">
+        <input type="hidden" name="replyBoardPk" value="${requestScope.replyBoardPk}"/>
+        <input type="hidden" name="classification" value="${requestScope.classification}"/>
+        <input type="hidden" name="replyBoardReplyNo" value="${replyBoardDTO.replyBoardPk}"/>
+        <input type="submit" value="저장">
       </td>
-      
+</form>
+
       <td><span> <!-- 현재 수정중인 댓글이 삭제가 되고싶은데 잘안됨 ㅜㅜ -->
           <form id="replyUpdateForm" method="post" action="${pageContext.request.contextPath}/reply/replyDelete">
             <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>

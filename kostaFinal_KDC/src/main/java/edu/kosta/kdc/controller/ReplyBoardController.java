@@ -154,7 +154,6 @@ public class ReplyBoardController {
         return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
     }
     
-    
     /**
      * 게시글 삭제하기
      * */
@@ -231,9 +230,8 @@ public class ReplyBoardController {
      * 신고창 띄우기
      * */
     @RequestMapping("/reportPopForm")
-    public String reportPopForm(int replyBoardPk, Model model) {
-        System.out.println(replyBoardPk);
-        model.addAttribute("replyBoardPk",replyBoardPk);
+    public String reportPopForm(int replyBoardPkReport, Model model) {
+        model.addAttribute("replyBoardPkReport",replyBoardPkReport);
         return "/replyBoard/reportPopForm";
     }
     
@@ -241,8 +239,8 @@ public class ReplyBoardController {
      * 신고하기
      * */
     @RequestMapping("/reportPop")
-    public String reportPop(String reportContents, int replyBoardPk, String otherWords) {
-            replyBoardService.reportPopInsert(reportContents, replyBoardPk, otherWords);
+    public String reportPop(String reportContents, int replyBoardPkReport, String otherWords) {
+            replyBoardService.reportPopInsert(reportContents, replyBoardPkReport, otherWords);
             
         return "replyBoard/read";
     }
