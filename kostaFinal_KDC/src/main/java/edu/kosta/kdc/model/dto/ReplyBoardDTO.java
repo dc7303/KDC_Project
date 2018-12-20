@@ -4,27 +4,33 @@ public class ReplyBoardDTO {
 
     private int replyBoardPk;                       //게시판 PK
     private String replyBoardClassification;        //게시판 속성(댓글, 좋아요 기능이 들어간 게시판)
-    private int replyBoardNum;                      //게시판 번호
-    private boolean replyBoardIsReply;              //게시판인지 댓글인지.
+    private int replyBoardReplyNo;                  //어느게시글의 댓글인지(0이면 게시글, 0이 아니면 댓글)
     private String replyBoardTitle;                 //게시판 제목
     private String replyBoardWriterId;              //작성자 아이디
     private String replyBoardDate;                  //작성일
     private String replyBoardContents;              //게시글 내용
     private int replyBoardViews;                    //조회수
     private String replyBoardMention;               //댓글 태그할 아이디
-    private boolean replyBoardIsDelete;             //삭제여부
+    private String replyBoardIsDelete;             //삭제여부
+    private int likeNum;                           //좋아요수
+    private int replyNum;                          //댓글수
+    private String mentionNickName;                //인물태그 닉네임
+    
+    //1:1인경우
+    private MemberDTO member;
+    private UpDownDTO updown;
+    private HashTagDTO hashTag;
     
     
     public ReplyBoardDTO() {}
-    
-    public ReplyBoardDTO(int replyBoardPk, String replyBoardClassification, int replyBoardNum,
-            boolean replyBoardIsReply, String replyBoardTitle, String replyBoardWriterId, String replyBoardDate,
-            String replyBoardContents, int replyBoardViews, String replyBoardMention, boolean replyBoardIsDelete) {
+    public ReplyBoardDTO(int replyBoardPk, String replyBoardClassification, int replyBoardReplyNo,
+            String replyBoardTitle, String replyBoardWriterId, String replyBoardDate, String replyBoardContents,
+            int replyBoardViews, String replyBoardMention, String replyBoardIsDelete, int likeNum, int replyNum,
+            String mentionNickName, MemberDTO member, UpDownDTO updown, HashTagDTO hashTag) {
         super();
         this.replyBoardPk = replyBoardPk;
         this.replyBoardClassification = replyBoardClassification;
-        this.replyBoardNum = replyBoardNum;
-        this.replyBoardIsReply = replyBoardIsReply;
+        this.replyBoardReplyNo = replyBoardReplyNo;
         this.replyBoardTitle = replyBoardTitle;
         this.replyBoardWriterId = replyBoardWriterId;
         this.replyBoardDate = replyBoardDate;
@@ -32,31 +38,36 @@ public class ReplyBoardDTO {
         this.replyBoardViews = replyBoardViews;
         this.replyBoardMention = replyBoardMention;
         this.replyBoardIsDelete = replyBoardIsDelete;
+        this.likeNum = likeNum;
+        this.replyNum = replyNum;
+        this.mentionNickName = mentionNickName;
+        this.member = member;
+        this.updown = updown;
+        this.hashTag = hashTag;
     }
+
+
     public int getReplyBoardPk() {
         return replyBoardPk;
     }
     public void setReplyBoardPk(int replyBoardPk) {
         this.replyBoardPk = replyBoardPk;
     }
+    
     public String getReplyBoardClassification() {
         return replyBoardClassification;
     }
     public void setReplyBoardClassification(String replyBoardClassification) {
         this.replyBoardClassification = replyBoardClassification;
     }
-    public int getReplyBoardNum() {
-        return replyBoardNum;
+    
+    public int getReplyBoardReplyNo() {
+        return replyBoardReplyNo;
     }
-    public void setReplyBoardNum(int replyBoardNum) {
-        this.replyBoardNum = replyBoardNum;
+    public void setReplyBoardReplyNo(int replyBoardReplyNo) {
+        this.replyBoardReplyNo = replyBoardReplyNo;
     }
-    public boolean isReplyBoardIsReply() {
-        return replyBoardIsReply;
-    }
-    public void setReplyBoardIsReply(boolean replyBoardIsReply) {
-        this.replyBoardIsReply = replyBoardIsReply;
-    }
+    
     public String getReplyBoardTitle() {
         return replyBoardTitle;
     }
@@ -93,13 +104,53 @@ public class ReplyBoardDTO {
     public void setReplyBoardMention(String replyBoardMention) {
         this.replyBoardMention = replyBoardMention;
     }
-    public boolean isReplyBoardIsDelete() {
-        return replyBoardIsDelete;
-    }
-    public void setReplyBoardIsDelete(boolean replyBoardIsDelete) {
+    
+    public void setReplyBoardIsDelete(String replyBoardIsDelete) {
         this.replyBoardIsDelete = replyBoardIsDelete;
     }
+    public String getReplyBoardIsDelete() {
+        return replyBoardIsDelete;
+    }
     
+    public int getLikeNum() {
+        return likeNum;
+    }
+    public void setLikeNum(int likeNum) {
+        this.likeNum = likeNum;
+    }
     
+    public int getReplyNum() {
+        return replyNum;
+    }
+    public void setReplyNum(int replyNum) {
+        this.replyNum = replyNum;
+    }
+    
+    public String getMentionNickName() {
+        return mentionNickName;
+    }
+    public void setMentionNickName(String mentionNickName) {
+        this.mentionNickName = mentionNickName;
+    }
+    public MemberDTO getMember() {
+        return member;
+    }
+    public void setMember(MemberDTO member) {
+        this.member = member;
+    }
+
+    public UpDownDTO getUpdown() {
+        return updown;
+    }
+    public void setUpdown(UpDownDTO updown) {
+        this.updown = updown;
+    }
+
+    public HashTagDTO getHashTag() {
+        return hashTag;
+    }
+    public void setHashTag(HashTagDTO hashTag) {
+        this.hashTag = hashTag;
+    }
     
 }

@@ -1,8 +1,11 @@
 package edu.kosta.kdc.model.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kosta.kdc.model.dao.AuthorityDAO;
 import edu.kosta.kdc.model.dao.MemberDAO;
@@ -22,12 +25,13 @@ public class MemberServiceImpl implements MemberService {
     private PasswordEncoder passwordEncoder;//Insert, update, delete시 패스워드 인코딩 
 
     /**
-     * 멤버 회원가입
+     * 관리자 - 강사 회원가입
      */
     @Override
     public int memberInsert(MemberDTO memberDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+        
+        return memberDAO.memberInsert(memberDTO);
+        
     }
 
     /**
@@ -46,6 +50,36 @@ public class MemberServiceImpl implements MemberService {
     public int memberDelete(MemberDTO memberDTO) {
         // TODO Auto-generated method stub
         return 0;
+    }
+    
+    /**
+     * 모든 회원 정보 가져오기
+     * */
+    @Override
+    public List<MemberDTO> selectAll() {
+
+        return memberDAO.selectAll();
+
+    }
+    
+    /**
+     * 관리자 페이지에서 아이디 검색 시 해당 유저 가져오는 메소드
+     * */
+    @Override
+    public List<MemberDTO> selectByUserId(String userId) {
+        
+        return memberDAO.selectByUserId(userId);
+    
+    }
+
+    /**
+     * 관리자 페이지에서 삭제 버튼 클릭 시 유저 삭제
+     * */
+    @Override
+    public int deleteMemberByUserId(String userId) {
+
+        return memberDAO.deleteByUserId(userId);
+        
     }
     
     

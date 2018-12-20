@@ -1,5 +1,7 @@
 package edu.kosta.kdc.model.dao;
 
+import java.util.List;
+
 import edu.kosta.kdc.model.dto.MemberDTO;
 
 public interface MemberDAO {
@@ -36,4 +38,28 @@ public interface MemberDAO {
      * @return
      */
     int memberDelete(MemberDTO memberDTO);
+
+    /**
+     * 관리자 페이지에서 유저 조회 시 모든 유저 가져오는 메소드
+     * 
+     * @param
+     * @return
+     * */
+    List<MemberDTO> selectAll();
+
+    /**
+     * 관리자 페이지에서 아이디 검색 시 해당 유저 가져오는 메소드
+     * 
+     * @param
+     * @return
+     * */
+    List<MemberDTO> selectByUserId(String userId);
+
+    /**
+     * 관리자 페이지에서 삭제 버튼 클릭 시 유저 삭제
+     * 
+     * @param String UserId
+     * @return
+     * */
+    int deleteByUserId(String userId);
 }

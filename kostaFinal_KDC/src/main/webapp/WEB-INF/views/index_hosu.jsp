@@ -8,6 +8,6 @@
 </head>
 <body>
   <h1>Index입니다</h1>
-  
+  <a href="admin/selectMember">관리자 페이지로</a>
 </body>
 </html>

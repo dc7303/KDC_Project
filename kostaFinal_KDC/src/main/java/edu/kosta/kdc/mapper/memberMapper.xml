@@ -2,11 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
     
+    <resultMap type="memberDTO" id="memberSelectMap">
+      <id column="MEMBER_ID" property="memberId"/>
+      <result column="MEMBER_PW" property="memberPwd"/>
+      <result column="MEMBER_NAME" property="memberName"/>
+      <result column="MEMBER_NICKNAME" property="memberNickName"/>
+      <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
+      <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
+      <result column="MEMBER_EMAIL" property="memberEmail"/>
+      <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+      <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+    </resultMap>
+    
     <insert id="insert" parameterType="memberDTO">
 
     </insert>
     
-    <select id="selectByMemberId" parameterType="String" resultType="memberDTO">
-        
+    <select id="selectByMemberId" parameterType="String" resultMap="memberSelectMap">
+        select *
+        from member
+        where MEMBER_ID=#{_parameter}
+    </select>
+    
+    <select id="selectAll" resultMap="memberSelectMap">
+        select *
+        from member
+        where MEMBER_ISWITHDRAWAL='FALSE'
+    </select>
+    
+    <update id="deleteByUserId" parameterType="String">
+        update member
+        set MEMBER_ISWITHDRAWAL='TRUE'
+        where MEMBER_ID=#{_parameter}
+    </update>
+    
+    <insert id="teacherInsert" parameterType="memberDTO">
+        insert into member
+        values (#{memberId},#{memberPwd},#{memberName},#{memberNickName},#{memberBirth},#{memberPhone},#{memberEmail},'FALSE',sysdate)
+    </insert>
+
+    <select id="teacherCheck" parameterType="String" resultMap="memberSelectMap">
+        select *
+        from member
+        where MEMBER_ID=#{_parameter}
     </select>
 </mapper>
