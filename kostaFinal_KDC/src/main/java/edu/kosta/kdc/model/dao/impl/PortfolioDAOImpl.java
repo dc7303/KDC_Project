@@ -30,6 +30,7 @@ public class PortfolioDAOImpl implements edu.kosta.kdc.model.dao.PortfolioDAO {
         return sqlSession.selectOne("portfolioMapper.selectPortfolioByMemberId", memberId);
     }
 
+    
     @Override
     public int updatePortfolio(PortfolioDTO portfolioDTO) {
         return sqlSession.update("portfolioMapper.updatePortfolio", portfolioDTO);
@@ -40,7 +41,19 @@ public class PortfolioDAOImpl implements edu.kosta.kdc.model.dao.PortfolioDAO {
         // TODO Auto-generated method stub
         return 0;
     }
-    
+
+    // 게시된 모든 포트폴리오 조회
+    @Override
+    public List<PortfolioDTO> selectAll() {
+        return sqlSession.selectList("portfolioMapper.selectAll");
+    }
+
+    // 포트폴리오 조회(상세포함)
+    @Override
+    public PortfolioDTO selectAllDetail(String memberId) {
+        return sqlSession.selectOne("portfolioMapper.selectAllDetail", memberId);
+    }
+
     
 
 }

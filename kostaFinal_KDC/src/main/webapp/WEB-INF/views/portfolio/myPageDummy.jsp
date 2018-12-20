@@ -9,6 +9,10 @@
 <script type="text/javascript">
 	const jq = jQuery.noConflict();
 	jq(function(){
+	  console.log(jq('#original-visibility').val());
+	  if(jq('#original-visibility').val()==='true'){
+	    jq('input[name=portFolioVisibility]').attr('checked','');
+	  }
 	  
 	  /* 수정버튼 클릭시 수정폼 노출, 정보 숨김 */
 	  jq('#update-portfolio').on('click',function(){
@@ -32,14 +36,14 @@
   <h1>myPageDummy</h1>
   <c:choose>
     <c:when test="${empty portfolio}">
-        <!-- 아이디, 대표이미지, 제목, 개시여부(체크박스) -->
+        <!-- 아이디, 대표이미지, 제목, 게시여부(체크박스) -->
       <form
         action="${pageContext.request.contextPath }/portfolio/insertPortfolio?${_csrf.parameterName}=${_csrf.token}"
         method="post" enctype="multipart/form-data">
                   아이디 : <input type="text" name="portFolioMemberId"/></p></br>
                   제목 : <input type="text" name="portFolioMainTitle"/></p></br> 
                   대표이미지 : <input type="file" name="MainImageFile" /></p></br> 
-        <input type="checkBox" name="portFolioVisibility"/> - 개시여부  </p></br>
+        <input type="checkBox" name="portFolioVisibility"/> - 게시여부  </p></br>
         <input type="submit" value="전송" />
       </form>
     </c:when>
@@ -57,15 +61,8 @@
          </c:otherwise>
       </c:choose>
       </br>
-            개시여부:<input type="hidden" value="${portfolio.portFolioVisibility}"/>
-         <c:choose>
-              <c:when test="${false eq portfolio.portFolioVisibility} ">
-                  <p>개시안할꺼임</p>               
-              </c:when>
-              <c:otherwise>
-                  <p>개시할꺼임</p>
-              </c:otherwise>
-            </c:choose>
+            개시여부:<input type="hidden" id="original-visibility" value="${portfolio.portFolioVisibility}"/>
+         <input type="checkBox" name="portFolioVisibility" disabled/></p></br>
             </br>
             <input type="button" value="수정하기" id="update-portfolio"/>
      </div>
@@ -78,13 +75,14 @@
          <c:if test="${not empty portfolio.portFolioMainImage}">
                   현재이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${portfolio.portFolioMainImage}">
          </c:if>         
+         </br>         
                   대표이미지 : <input type="file" name="MainImageFile" /></p></br> 
         <input type="checkBox" name="portFolioVisibility" value="${portfolio.portFolioVisibility}"/> - 개시여부  </p></br>
         <input type="submit" value="수정완료" />
       </form>
      </div>
      <c:choose>
-       <c:when test="${empty detailList}">
+       <c:when test="${empty portfolio.portFolioDetailList}">
                 포트폴리오 상세가 1도 없습니다 추가해주세요.
        </c:when>
        <c:otherwise>
@@ -93,7 +91,7 @@
          <hr>
          </br>
          </br>
-         <c:forEach items="${detailList}" var="detail">
+         <c:forEach items="${portfolio.portFolioDetailList}" var="detail">
          <div>
                     프로젝트명 : ${detail.portfolioDetailProjectName}</p>
                     해쉬태그 :
@@ -104,8 +102,6 @@
             </br>
                     포트폴리오 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}">
           </br>     
-                    상세 : 
-          <p>${detail.portfolioDetailDescription }</p>
           <input type="button" value="수정하기" class="update-detail" id="detail-${detail.portFolioDetailPk}"/>
           <hr>
          </div>

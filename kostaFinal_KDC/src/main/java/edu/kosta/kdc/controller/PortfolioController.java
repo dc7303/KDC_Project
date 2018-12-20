@@ -36,16 +36,11 @@ public class PortfolioController {
     @RequestMapping("/myPage")
     public String myPage(Model model) {
         String memberId = "DONGS";
-        // ID에 해당하는 포트폴리오  select
-        PortfolioDTO portfolioDTO= service.selectPortfolioByMemberId(memberId);
         
-        // 포트폴리오가 존재하면 id에 해당하는 포트폴리오 상세 가져오기
-        if(portfolioDTO!=null) {
-            List<PortfolioDetailDTO> list = service.selectDetailsByMemberId(memberId);
-            model.addAttribute("detailList", list);
-        }
+        //로그인된 사용자의 포트폴리오, 상세 정보를 조회
+        PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(memberId);
         model.addAttribute("portfolio", portfolioDTO);
-        //System.out.println("게시여부() : "+portfolioDTO.getPortFolioVisibility());
+        
         return "portfolio/myPageDummy";
     }
 
@@ -71,7 +66,7 @@ public class PortfolioController {
         
         service.insertPortfolio(portfolioDTO);
 
-        return "portfolio/myPageDummy";
+        return "redirect:/portfolio/myPage";
     }
 
     /**
@@ -127,8 +122,9 @@ public class PortfolioController {
                 e.printStackTrace();
             }
         }
-        System.out.println("게시여부(수정전에) : "+portfolioDTO.getPortFolioVisibility());
+        
         service.updatePortfolio(portfolioDTO);
+        
         return "redirect:/portfolio/myPage";
     }
     
@@ -142,6 +138,7 @@ public class PortfolioController {
         model.addAttribute("detail", portfolioDetailDTO);
         
         return "portfolio/detailDetail";
+        
     }
     
     /**
@@ -193,9 +190,20 @@ public class PortfolioController {
      * 모든 포트폴리오 조회(isDelte = true, isVisibility = true)
      * */
     @RequestMapping("/selectAll")
-    public String selectAll() {
-        
+    public String selectAll(Model model) {
+        List<PortfolioDTO> list = service.selectAll();
+        model.addAttribute("portfolioList", list);
         return "portfolio/selectAll";
+    }
+    
+    /**
+     * 상세 조회(한 유저의 port)
+     * */
+    @RequestMapping("/selectAllDetail/{memberId}")
+    public String selectAllDetail(@PathVariable String memberId, Model model){
+        PortfolioDTO portfolioDTO= service.selectAllDetail(memberId);
+        model.addAttribute("portfolio", portfolioDTO);
+        return "portfolio/selectAllDetail";
     }
     
 }

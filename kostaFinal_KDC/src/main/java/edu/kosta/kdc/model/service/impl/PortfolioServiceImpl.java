@@ -39,7 +39,7 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
     public PortfolioDTO selectPortfolioByMemberId(String memberId) {
         return portfolioDAO.selectPortfolioByMemberId(memberId);
     }
-
+    
     // 포트폴리오 수정
     @Override
     public int updatePortfolio(PortfolioDTO portfolioDTO) {
@@ -62,7 +62,7 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
     public int insertDetail(PortfolioDetailDTO portfolioDetailDTO, String hashTagName) {
         int result = portfolioDetailDAO.insertDetail(portfolioDetailDTO);
         if(result==0) throw new KdcException("포트폴리오 상세 생성에 실패했습니다.");
-        if(hashTagName != null) {
+        if(hashTagName != null&&(!hashTagName.equals(""))) {
             String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
             for(String s: hashTags) {
                 result = portfolioDetailDAO.insertHashTag(s);
@@ -94,7 +94,7 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
     public int updateDetail(PortfolioDetailDTO portfolioDetailDTO, String hashTagName) {
         int result = 0;
         result = portfolioDetailDAO.deleteHashTag(portfolioDetailDTO.getPortFolioDetailPk());
-        if(hashTagName != null) {
+        if(hashTagName != null&&(!hashTagName.equals(""))) {
             String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
             for(String s: hashTags) {
                 result = portfolioDetailDAO.insertHashTag(s);
@@ -113,5 +113,17 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
         if(result ==0) throw new KdcException("삭제에 실패했습니다.");
         return result;
     }
+
+    // 게시된 모든 포트폴리오 조회
+    @Override
+    public List<PortfolioDTO> selectAll() {
+        return portfolioDAO.selectAll();
+    }
+    // 포트폴리오 조회(상세포함)
+    @Override
+    public PortfolioDTO selectAllDetail(String memberId) {
+        return portfolioDAO.selectAllDetail(memberId);
+    }
+
 
 }
