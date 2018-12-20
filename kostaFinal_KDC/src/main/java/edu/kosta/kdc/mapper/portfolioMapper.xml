@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="portfolioMapper">
+    <!-- 포트폴리오(상세, 해쉬태그) -->
     <resultMap type="portfolioDTO" id="selectMap">
         <id column="portfolio_user_id" property="portFolioMemberId"/>
         <result column="portfolio_main_image" property="portFolioMainImage"/>
@@ -24,6 +25,7 @@
         </collection>
     </resultMap>
     
+    <!-- 포트폴리오 -->
     <resultMap type="portfolioDTO" id="portfolioMap">
         <id column="portfolio_user_id" property="portFolioMemberId"/>
         <result column="portfolio_main_image" property="portFolioMainImage"/>
@@ -31,9 +33,6 @@
         <result column="portfolio_visibility" property="portFolioVisibility" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
         <result column="portfolio_isdelete" property="portFolioIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     </resultMap>
-
-    
-    
     
     <!-- INSERT -->
     <insert id="insertPortfolio" parameterType="portfolioDTO">

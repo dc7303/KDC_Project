@@ -33,7 +33,7 @@ public class PortfolioController {
      * IF 포트폴리오가 존재하면 수정버튼 노출
      *    포트폴리오 상세 노출
      */
-    @RequestMapping("/")
+    @RequestMapping("/myPage")
     public String myPage(Model model) {
         String memberId = "DONGS";
         // ID에 해당하는 포트폴리오  select
@@ -45,6 +45,7 @@ public class PortfolioController {
             model.addAttribute("detailList", list);
         }
         model.addAttribute("portfolio", portfolioDTO);
+        //System.out.println("게시여부() : "+portfolioDTO.getPortFolioVisibility());
         return "portfolio/myPageDummy";
     }
 
@@ -67,14 +68,14 @@ public class PortfolioController {
                 e.printStackTrace();
             }
         }
-     
+        
         service.insertPortfolio(portfolioDTO);
 
         return "portfolio/myPageDummy";
     }
 
     /**
-     * 포트폴리오 상세 폼
+     * 포트폴리오 상세 생성 폼
      */
     @RequestMapping("/detailForm")
     public void detailForm() {
@@ -103,7 +104,7 @@ public class PortfolioController {
 
         service.insertDetail(portfolioDetailDTO,hashTagName);
         
-        return "redirect:/portfolio/";
+        return "redirect:/portfolio/myPage";
     }
     
     /**
@@ -126,8 +127,9 @@ public class PortfolioController {
                 e.printStackTrace();
             }
         }
+        System.out.println("게시여부(수정전에) : "+portfolioDTO.getPortFolioVisibility());
         service.updatePortfolio(portfolioDTO);
-        return "redirect:/portfolio/";
+        return "redirect:/portfolio/myPage";
     }
     
     /**
@@ -184,8 +186,16 @@ public class PortfolioController {
     @RequestMapping("/deleteDetail/{detailPk}")
     public String deleteDetail(@PathVariable int detailPk) {
         service.deleteDetail(detailPk);
-        return "redirect:/portfolio/";
+        return "redirect:/portfolio/myPage";
     }
     
+    /**
+     * 모든 포트폴리오 조회(isDelte = true, isVisibility = true)
+     * */
+    @RequestMapping("/selectAll")
+    public String selectAll() {
+        
+        return "portfolio/selectAll";
+    }
     
 }
