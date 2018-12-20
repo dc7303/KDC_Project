@@ -2,5 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="messageMapper">
     
-
+    <resultMap type="MessageDTO" id="messageSelectMap">
+        <id column="MESSAGE_PK" property="messageNum"/>
+        <result column="MESSAGE_SENDER_ID" property="senderId"/>
+        <result column="MESSAGE_RECEIVER_ID" property="receiverId"/>
+        <result column="MESSAGE_TITLE" property="messageTitle"/>
+        <result column="MESSAGE_CONTENTS" property="messageContents"/>
+        <result column="MESSAGE_DATE" property="messageDate"/>
+        <result column="MESSAGE_ISREAD" property="messageIsRead" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <result column="MESSAGE_ISDELETE" property="messageIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+    </resultMap>
+    
+    
+    <sql id="messageSelectSQL">
+        MESSAGE_PK, MESSAGE_SENDER_ID, MESSAGE_RECEIVER_ID, MESSAGE_TITLE, MESSAGE_CONTENTS, MESSAGE_DATE, MESSAGE_ISREAD, MESSAGE_ISDELETE
+    </sql>
+    
+    <select id="selectAll" resultMap="messageSelectMap" parameterType="String">
+        select <include refid="messageSelectSQL"/>
+        from message
+        where MESSAGE_ISDELETE='FALSE' AND MESSAGE_RECEIVER_ID=#{receiverId}
+    </select>
+    
+    <insert id="messageInsert" parameterType="MessageDTO">
+        insert into
+        message(<include refid="messageSelectSQL"/>)
+        values(MESSAGE_SEQ.nextval, #{receiverId}, #{senderId}, #{messageTitle}, #{messageContents}, sysdate,'FALSE','FALSE')
+    </insert>
+    
+    <select id="selectByMessage" parameterType="int" resultMap="messageSelectMap">
+        select MESSAGE_SENDER_ID, MESSAGE_CONTENTS, MESSAGE_DATE
+        from message
+        where message_pk=#{messageNum}
+    </select>
+    
+    <update id="messageDelete" parameterType="int">
+        update message
+        set MESSAGE_ISDELETE='TRUE'
+        where message_pk=#{messageNum}
+    </update>
+    
+    <update id="isReadMessage" parameterType="int">
+        update message
+        set MESSAGE_ISREAD='TRUE'
+        where message_pk=#{messageNum}
+    </update>
+    
+    <select id="checkById" parameterType="String" resultType="String">
+        select MEMBER_ID
+        from member
+        where MEMBER_ID=#{senderId} AND MEMBER_ISWITHDRAWAL='FALSE'
+    </select>
+    
+    <select id="unReadCount" parameterType="String" resultType="Integer">
+        select count(case when MESSAGE_ISREAD='FALSE' then 1 end)
+        from MESSAGE
+        where MESSAGE_RECEIVER_ID=#{receiverId}
+    </select>
+    
 </mapper>

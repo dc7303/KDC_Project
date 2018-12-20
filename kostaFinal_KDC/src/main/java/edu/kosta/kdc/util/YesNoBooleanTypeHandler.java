@@ -19,7 +19,7 @@ import org.apache.ibatis.type.MappedTypes;
  *
  */
 @MappedJdbcTypes(value = JdbcType.VARCHAR)
-@MappedTypes(Boolean.class) 
+@MappedTypes(Boolean.class)
 public class YesNoBooleanTypeHandler extends BaseTypeHandler<Boolean> {
 
     /**
