@@ -62,5 +62,13 @@ public class MessageServiceImpl implements MessageService {
         }
         
     }
+    
+    @Override
+    public int unReadCount(String id) {
+        
+        int count = messageDAO.unReadCount(id);
+        
+        return count;
+    }
 
 }

@@ -41,6 +41,7 @@ CREATE TABLE CLASSROOM(
 
 
 update message set MESSAGE_ISDELETE='FALSE';
+update message set MESSAGE_ISREAD='FALSE';
 update REPLY_BOARD set REPLY_BOARD_ISDELETE='FALSE';
 
 select * from message;
@@ -70,5 +71,10 @@ insert into REPLY_BOARD values(REPLY_BOARD_SEQ.nextval,'기술게시판',0,'호호','bb
 drop table MESSAGE;
 
 update REPLY_BOARD set REPLY_BOARD_REPLY_NO='';
+
+select COUNT(DECODE(MESSAGE_ISREAD,'FALSE','1')) from MESSAGE;
+select count(case when MESSAGE_ISREAD='FALSE' then 1 end) as unRead from MESSAGE;
+
+select count(case when MESSAGE_ISREAD='FALSE' then 1 end) from MESSAGE where MESSAGE_RECEIVER_ID='aa';
 
 commit

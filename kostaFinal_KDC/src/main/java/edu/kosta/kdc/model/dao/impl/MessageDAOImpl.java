@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import edu.kosta.kdc.model.dao.MessageDAO;
 import edu.kosta.kdc.model.dto.MessageDTO;
-import edu.kosta.kdc.util.KdcException;
 
 @Repository
 public class MessageDAOImpl implements MessageDAO {
@@ -60,6 +59,16 @@ public class MessageDAOImpl implements MessageDAO {
         String checkId = session.selectOne("messageMapper.checkById", senderId);
         
         return checkId;
+        
+    }
+    
+    @Override
+    public int unReadCount(String id) {
+        
+        int count = session.selectOne("messageMapper.unReadCount", id);
+        System.out.println(count);
+        
+        return count;
         
     }
 

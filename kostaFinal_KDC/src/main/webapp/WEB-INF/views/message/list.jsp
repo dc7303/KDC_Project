@@ -41,26 +41,36 @@ jq(function(){
   })
 })
 
+/*
+ jq(function(){
+  jq(document).on('', '#messageTitles',function(){
+    
+  })
+})
+ */
+
 </script>
 
 </head>
 <body>
+<h5>안읽은 쪽지 : ${sessionScope.countUnRead}</h5>
 
   <table align="center" border="0" cellpadding="5" cellspacing="2"
     width="100%" bordercolordark="white" bordercolorlight="black">
-    <caption>쪽지함 LIST</caption>
+
+    <caption> 쪽지함 LIST </caption>
 
     <tr>
       <td bgcolor="#00cc00">
         <p align="center">
           <font color="white"><b><span
               style="font-size: 9pt;">보낸사람</span></b></font>
-        </p> <!-- modelNum, modelName, price -->
+        </p>
       </td>
       <td bgcolor="#00cc00">
         <p align="center">
-          <font color="white"><b><span
-              style="font-size: 9pt;">쪽지제목</span></b></font>
+          <font color="white" style="font-weight: bold;"><b><span
+              style="font-size:9pt;">쪽지제목</span></b></font>
         </p>
       </td>
       <td bgcolor="#00cc00">
@@ -96,7 +106,7 @@ jq(function(){
       <c:otherwise>
         <c:forEach items="${requestScope.messageList}" var="messageList">
           <tr onmouseover="this.style.background='#eaeaea'"
-            onmouseout="this.style.background='white'">
+            onmouseout="this.style.background='white'" id="messageTitles"> <!-- id="messageTitles" -->
             <td bgcolor="">
               <p align="center">
                 <span style="font-size: 9pt;">
@@ -105,12 +115,19 @@ jq(function(){
             </td>
             <td bgcolor="">
               <p>
-                <span style="font-size: 9pt;"> <a
-                  href="${pageContext.request.contextPath}/message/${messageList.messageNum}">
+                <a href="${pageContext.request.contextPath}/message/${messageList.messageNum}">
                     <!-- path variable RESTful -->
-                    ${messageList.messageTitle}
+                    <c:choose>
+                      <c:when test="${messageList.messageIsRead == 'FALSE'}">
+                        <span style="font-size:13pt; font-weight:900;">${messageList.messageTitle}</span>
+                      </c:when>
+                      <c:otherwise>
+                        <span style="font-size:9pt;">${messageList.messageTitle}</span>
+                      </c:otherwise>
+                    </c:choose>
+                    
                 </a>
-                </span>
+                
               </p>
             </td>
             <td bgcolor="">

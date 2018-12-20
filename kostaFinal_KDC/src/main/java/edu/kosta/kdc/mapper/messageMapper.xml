@@ -54,4 +54,10 @@
         where MEMBER_ID=#{senderId} AND MEMBER_ISWITHDRAWAL='FALSE'
     </select>
     
+    <select id="unReadCount" parameterType="String" resultType="Integer">
+        select count(case when MESSAGE_ISREAD='FALSE' then 1 end)
+        from MESSAGE
+        where MESSAGE_RECEIVER_ID=#{receiverId}
+    </select>
+    
 </mapper>

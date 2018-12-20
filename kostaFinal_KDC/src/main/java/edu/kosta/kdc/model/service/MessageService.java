@@ -28,8 +28,13 @@ public interface MessageService {
     MessageDTO selectByMesssage(int messageNum);
     
     /**
-     * 답장ID(serderId) 체크
+     * 답장ID(serderId) 유효성 체크
      * */
     String checkById(String senderId);
+    
+    /**
+     * 읽지 않은 메세지 카운트
+     * */
+    int unReadCount(String id);
 
 }

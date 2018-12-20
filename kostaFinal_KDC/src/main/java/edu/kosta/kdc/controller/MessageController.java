@@ -9,6 +9,7 @@ import org.apache.tiles.request.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,11 +29,14 @@ public class MessageController {
      * 전체 메세지 리스트
      * */
     @RequestMapping("/list")
+    @Transactional
     public ModelAndView messageAll(HttpSession session) {
         
         String id = (String) session.getAttribute("userId");
         
         List<MessageDTO> list = messageService.messageAll(id);
+        
+        unReadCount(session);
         
         return new ModelAndView("message/list", "messageList", list);
         
@@ -95,10 +99,29 @@ public class MessageController {
         
     }
     
+    /**
+     * 답장ID(serderId) 유효성 체크
+     * */
     @RequestMapping("/replyMessage")
     public ModelAndView replyMessage(String senderId) {
         
         return new ModelAndView("message/replyMessage", "senderId", senderId);
+    }
+    
+    /**
+     * 읽지 않은 메세지 카운트
+     * */
+    @RequestMapping("/count")
+    public void unReadCount(HttpSession session) {
+        
+        String id = (String)session.getAttribute("userId");
+        
+        int count = messageService.unReadCount(id);
+
+        System.out.println(count);
+        
+        session.setAttribute("countUnRead", count);
+        
     }
 
 }
