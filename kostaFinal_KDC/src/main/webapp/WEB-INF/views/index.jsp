@@ -21,7 +21,7 @@
     </form>
   </sec:authorize>
   <h1>Index입니다</h1>
-  
+<a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오 마이페이지</a>
 <a href="${pageContext.request.contextPath}/message/list?id=${sessionScope.userId}" name="messageList">전체메세지 출력</a> <br>
 <a href="${pageContext.request.contextPath}/board/boardList?id=${sessionScope.userId}">전체게시물 출력</a> <br>
 <a href="${pageContext.request.contextPath}/classRoom/classList?id=heejung">heejung클래스 전체 출력</a> <br>

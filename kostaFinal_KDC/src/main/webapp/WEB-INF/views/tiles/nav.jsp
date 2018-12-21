@@ -103,7 +103,7 @@
                   </li>
       
                   <li class="nav-item ">
-                    <a href="javascript:void(0)"><i class="ion-ios-browsers-outline"></i> 포트폴리오</a>
+                    <a href="${pageContext.request.contextPath }/portfolio/selectAll"><i class="ion-ios-browsers-outline"></i> 포트폴리오</a>
                   </li>
                 </ul>
               </nav>
