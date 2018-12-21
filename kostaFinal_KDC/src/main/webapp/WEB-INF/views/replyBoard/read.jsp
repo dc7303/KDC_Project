@@ -128,7 +128,7 @@ $(function(){
   });
 </script>
 
-  </head>
+</head>
 
 <body>
 <table>
@@ -320,7 +320,6 @@ $(function(){
        });
         
       });
-
   });
   
 </script>
