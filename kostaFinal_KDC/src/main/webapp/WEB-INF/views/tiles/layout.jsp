@@ -31,7 +31,7 @@
 <body>
   <nav>
     <tiles:insertAttribute name="nav"/>
-  </nav>>
+  </nav>
   
   <section>
     <tiles:insertAttribute name="content"/>

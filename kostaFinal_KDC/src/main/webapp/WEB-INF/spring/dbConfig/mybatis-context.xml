@@ -21,6 +21,7 @@
         </beans:property>
     </beans:bean>
 
+
     <!-- dataSource 설정  -->
     <beans:bean id="dataSource" 
         class="org.apache.commons.dbcp.BasicDataSource"

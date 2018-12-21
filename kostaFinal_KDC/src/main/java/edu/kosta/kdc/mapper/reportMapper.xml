@@ -2,5 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reportMapper">
     
+    <resultMap type="reportDTO" id="reportSelectMap">
+        <id column="REPORT_PK" property="reportPk"/>
+        <result column="REPORT_REPLY_BOARD_PK" property="reportReplyBoardPk"/>
+        <result column="REPORT_REPORTER_ID" property="reportReporterId"/>
+        <result column="REPORT_DATE" property="reportDate"/>
+        <result column="REPORT_PURPOSE" property="reportPurpose"/>
+        <result column="REPORT_ISDELETE" property="reportIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <association property="replyBoardDTO" javaType="replyBoardDTO">
+            <id column="REPLY_BOARD_PK" property="replyBoardPk"/>
+            <result column="REPLY_BOARD_CLASSIFICATION" property="replyBoardClassification"/>
+            <result column="REPLY_BOARD_REPLY_NO" property="replyBoardReplyNo"/>
+            <result column="REPLY_BOARD_TITLE" property="replyBoardTitle"/>
+            <result column="REPLY_BOARD_WRITER_ID" property="replyBoardWriterId"/>
+            <result column="REPLY_BOARD_WRITE_DATE" property="replyBoardDate"/>
+            <result column="REPLY_BOARD_CONTENTS" property="replyBoardContents"/>
+            <result column="REPLY_BOARD_VIEWS" property="replyBoardViews"/>
+            <result column="REPLY_BOARD_MENTION" property="replyBoardMention"/>
+            <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete"/>
+            <result column="likeNum" property="likeNum"/>
+            <result column="replyNum" property="replyNum"/>
+            <result column="mentionNickName" property="mentionNickName"/>
+        </association>
+    </resultMap>
+    
+    <select id="selectReportByBoardName" parameterType="String" resultMap="reportSelectMap">
+        select a.*, b.*
+        from report a, reply_board b
+        where b.REPLY_BOARD_CLASSIFICATION = #{_parameter} 
+        and a.report_reply_board_pk = reply_board_pk and a.REPORT_ISDELETE='FALSE'
+    </select>
 
+    <update id="deleteReport" parameterType="int">
+        update report
+        set REPORT_ISDELETE='TRUE'
+        where REPORT_PK=#{_parameter}
+    </update>
 </mapper>
