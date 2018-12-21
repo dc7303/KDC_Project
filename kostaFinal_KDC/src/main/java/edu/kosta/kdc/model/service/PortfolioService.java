@@ -40,4 +40,7 @@ public interface PortfolioService {
     
     // 게시된 모든 포트폴리오 조회
     List<PortfolioDTO> selectAll();
+    
+    // 조건으로 검색
+    List<PortfolioDTO> selectByKeyword(String keyfield, String keyword);
 }

@@ -20,6 +20,21 @@
 </head>
 <body>
   select All
+  <!-- 검색창 -->
+  <form action="${pageContext.request.contextPath}/portfolio/portfolioListSearch">
+    <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+    <select name="keyfield" id="department">
+      <option value="">- 분류 -</option>
+      <option value="portfolioTitle">포트폴리오 제목</option>
+      <option value="projectName">프로젝트명</option>
+      <option value="description">내용</option>
+      <option value="nickname">작성자</option>
+      <option value="hashTag">해시태그</option>
+    </select>
+    <input class="tech-board-search" type="text" name="keyword"/>
+    <input type="submit" value="검색"/>
+  </form>
+    
   <c:choose>
     <c:when test="${empty portfolioList}">
       <h3>현재 게시중인 포트폴리오가 없습니다.</h3>
