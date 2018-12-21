@@ -37,9 +37,8 @@ public class PortfolioController {
     public String myPage(Model model) {
         /*
          * 시큐리티에서 id를 받아와야함 
-         * 
          * */
-        String memberId = null;
+        String memberId = "DONGS";
         
         //로그인된 사용자의 포트폴리오, 상세 정보를 조회
         PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(memberId);
@@ -60,12 +59,7 @@ public class PortfolioController {
             // 사용자가 첨부한 파일
             MultipartFile file = portfolioDTO.getMainImageFile();
             // 파일명을 DTO에 setter를 이용해 대입
-            portfolioDTO.setPortFolioMainImage(file.getOriginalFilename());
-            try {
-                file.transferTo(new File(path + "/" + portfolioDTO.getPortFolioMainImage()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
         
         service.insertPortfolio(portfolioDTO);
@@ -93,12 +87,7 @@ public class PortfolioController {
             // 사용자가 첨부한 파일
             MultipartFile file = portfolioDetailDTO.getDeltailProjectImage();
             // 파일명을 DTO에 setter를 이용해 대입
-            portfolioDetailDTO.setPortfolioDeltailProjectImage(file.getOriginalFilename());
-            try {
-                file.transferTo(new File(path + "/" + portfolioDetailDTO.getPortfolioDeltailProjectImage()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
         }
 
         service.insertDetail(portfolioDetailDTO,hashTagName);
@@ -119,12 +108,7 @@ public class PortfolioController {
             // 사용자가 첨부한 파일
             MultipartFile file = portfolioDTO.getMainImageFile();
             // 파일명을 DTO에 setter를 이용해 대입
-            portfolioDTO.setPortFolioMainImage(file.getOriginalFilename());
-            try {
-                file.transferTo(new File(path + "/" + portfolioDTO.getPortFolioMainImage()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
         
         service.updatePortfolio(portfolioDTO);
@@ -170,12 +154,13 @@ public class PortfolioController {
             // 사용자가 첨부한 파일
             MultipartFile file = portfolioDetailDTO.getDeltailProjectImage();
             // 파일명을 DTO에 setter를 이용해 대입
-            portfolioDetailDTO.setPortfolioDeltailProjectImage(file.getOriginalFilename());
+            portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
+            /*portfolioDetailDTO.setPortfolioDeltailProjectImage(file.getOriginalFilename());
             try {
                 file.transferTo(new File(path + "/" + portfolioDetailDTO.getPortfolioDeltailProjectImage()));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
         }
         service.updateDetail(portfolioDetailDTO, hashTagName);
         return "redirect:selectDetail/"+detailPk;
@@ -208,6 +193,24 @@ public class PortfolioController {
         PortfolioDTO portfolioDTO= service.selectAllDetail(memberId);
         model.addAttribute("portfolio", portfolioDTO);
         return "portfolio/selectAllDetail";
+    }
+    
+    /**
+     * 이미지 저장 메소드
+     * */
+    private String saveImage(String path, MultipartFile file) {
+        String saveFilename=file.getOriginalFilename();
+        
+        if(saveFilename.getBytes().length > 50) {
+            saveFilename = saveFilename.substring(saveFilename.length()-49, saveFilename.length());
+        }
+        
+        try {
+            file.transferTo(new File(path + "/" + saveFilename));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return saveFilename;
     }
     
 }
