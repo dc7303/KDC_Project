@@ -48,7 +48,7 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
         return result;
     }
 
-    // 포트폴리오 삭제
+    // 포트폴리오 삭제(미구현)
     @Override
     public int deletePortfolioByMemberId(String memberId) {
         return 0;
@@ -101,7 +101,7 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
         // 해쉬태그 삭제
         result = portfolioDetailDAO.deleteHashTag(portfolioDetailDTO.getPortFolioDetailPk());
         
-        // 해쉬태그 생성
+        // 해쉬태그 삽입
         if(hashTagName != null&&(!hashTagName.equals(""))) {
             String [] hashTags = hashTagName.replaceAll(" ", "").split(",");
             for(String s: hashTags) {

@@ -29,9 +29,7 @@ public class PortfolioController {
     private PortfolioService service;
 
     /**
-     * 포트폴리오를 생성하기위한 폼
-     * IF 포트폴리오가 존재하면 수정버튼 노출
-     *    포트폴리오 상세 노출
+     * 마이페이지 포트폴리오
      */
     @RequestMapping("/myPage")
     public String myPage(Model model) {
@@ -44,11 +42,11 @@ public class PortfolioController {
         PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(memberId);
         model.addAttribute("portfolio", portfolioDTO);
         
-        return "portfolio/myPageDummy";
+        return "portfolio/myPage";
     }
 
     /**
-     * 생성요청시 처리할 controller
+     * 포트폴리오 생성
      */
     @RequestMapping("/insertPortfolio")
     public String insertPortfolio(HttpSession session, PortfolioDTO portfolioDTO) throws KdcException {
@@ -62,7 +60,7 @@ public class PortfolioController {
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
         
-        service.insertPortfolio(portfolioDTO);
+        int result = service.insertPortfolio(portfolioDTO);
 
         return "redirect:/portfolio/myPage";
     }
@@ -90,7 +88,7 @@ public class PortfolioController {
             portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
         }
 
-        service.insertDetail(portfolioDetailDTO,hashTagName);
+        int result = service.insertDetail(portfolioDetailDTO,hashTagName);
         
         return "redirect:/portfolio/myPage";
     }
@@ -111,7 +109,7 @@ public class PortfolioController {
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
         
-        service.updatePortfolio(portfolioDTO);
+        int result = service.updatePortfolio(portfolioDTO);
         
         return "redirect:/portfolio/myPage";
     }
@@ -125,7 +123,7 @@ public class PortfolioController {
         PortfolioDetailDTO portfolioDetailDTO = service.selectDetailByPk(detailPk);
         model.addAttribute("detail", portfolioDetailDTO);
         
-        return "portfolio/detailDetail";
+        return "portfolio/myPageDetail";
         
     }
     
@@ -155,14 +153,9 @@ public class PortfolioController {
             MultipartFile file = portfolioDetailDTO.getDeltailProjectImage();
             // 파일명을 DTO에 setter를 이용해 대입
             portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
-            /*portfolioDetailDTO.setPortfolioDeltailProjectImage(file.getOriginalFilename());
-            try {
-                file.transferTo(new File(path + "/" + portfolioDetailDTO.getPortfolioDeltailProjectImage()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
+            
         }
-        service.updateDetail(portfolioDetailDTO, hashTagName);
+        int result = service.updateDetail(portfolioDetailDTO, hashTagName);
         return "redirect:selectDetail/"+detailPk;
     }
     
@@ -171,7 +164,7 @@ public class PortfolioController {
      * */
     @RequestMapping("/deleteDetail/{detailPk}")
     public String deleteDetail(@PathVariable int detailPk) {
-        service.deleteDetail(detailPk);
+        int result = service.deleteDetail(detailPk);
         return "redirect:/portfolio/myPage";
     }
     
@@ -201,6 +194,10 @@ public class PortfolioController {
     private String saveImage(String path, MultipartFile file) {
         String saveFilename=file.getOriginalFilename();
         
+        /*
+         * 길이가 50바이트 이상일 경우
+         * 파일명을 뒤에서부터 50자(확장자 들어가야하므로)
+         * */
         if(saveFilename.getBytes().length > 50) {
             saveFilename = saveFilename.substring(saveFilename.length()-49, saveFilename.length());
         }

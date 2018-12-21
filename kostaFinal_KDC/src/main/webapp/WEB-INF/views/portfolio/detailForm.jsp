@@ -90,24 +90,27 @@ jq(function(){
 <h1 style="visibility:hidden;">상세 포트폴리오 작성 폼 입니다</h1>
 <form action="${pageContext.request.contextPath }/portfolio/insertDetail?${_csrf.parameterName}=${_csrf.token}"
    method="post" enctype="multipart/form-data" id="editor-form">
-  작성자 아이디 : <input type="text" name="portFolioDetailMemberId" value="${detail.portFolioDetailMemberId}"></p></br>
+  <h5>작성자 아이디 : </h5>
+  <input type="text" name="portFolioDetailMemberId" value="${detail.portFolioDetailMemberId}"></p></br>
   
-  프로젝트명 : <input type="text" name="portfolioDetailProjectName" value="${detail.portfolioDetailProjectName}"/></p></br>
- <div id="original-img" style="display:none;">현재 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></div>
- </br> 
- 
- <c:choose>
+  <h5>프로젝트명 : </h5>
+  <input type="text" name="portfolioDetailProjectName" value="${detail.portfolioDetailProjectName}"/></p></br>
+  <div id="original-img" style="display:none;">현재 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></div>
+  </br> 
+  <h5>해쉬태그 : </h5>
+  <c:choose>
     <c:when test="${empty detail.portfolioDetailHashTagList}">
-      해쉬태그 : <input type="text" name="hashTagName"/></p></br>
+      <input type="text" name="hashTagName"/></p></br>
     </c:when>
     <c:otherwise>
-    해쉬태그 : <input type="text" name="hashTagName" value="<c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag" >${hashTag.hashTagName}, </c:forEach>"/>
-       </p></br>
+    <input type="text" name="hashTagName" value="<c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag" >${hashTag.hashTagName}, </c:forEach>"/>
+    </p>
+    </br>
     </c:otherwise>
   </c:choose>
   
-      프로젝트 이미지 <input type="file" name="DeltailProjectImage" /></p></br>
-  
+  <h5>프로젝트 이미지 </h5>
+  <input type="file" name="DeltailProjectImage" /></p></br>
   
   <div id="editSection"></div>
   <input type="hidden" id="original-pk"name="" value="${detail.portFolioDetailPk}">

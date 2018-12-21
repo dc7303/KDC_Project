@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,14 +24,21 @@
   const jq = jQuery.noConflict();
   jq(function(){
  
-  //viewer 세팅
-    var contents = jq('#detail-Description').val();
+  //viewer 세팅(각각 상세마다 뷰어가 나와야되는데 안됨...)
+  var detailLength = jq('#detailList-length');
+  for(i=0;i<detailLength;i++){
+    console.log(i);
+    var descSelector = '#detail-Description-'+i;
+    var viewSelector = '#viewer-section-'+i;
+    var contents = jq(descSelector).val();
     var editor = tui.Editor.factory({
-      el : document.querySelector('#viewerSection'),
+      el : document.querySelector(viewSelector),
       viewer : true,
       height : '500px',
       initialValue : contents
     });
+  }
+    
   });
 </script>
 </head>
@@ -60,10 +68,7 @@ selectAllDetail
        <c:otherwise>
          </br>
          </br>
-         <hr>
-         </br>
-         </br>
-         <c:forEach items="${portfolio.portFolioDetailList}" var="detail">
+         <c:forEach items="${portfolio.portFolioDetailList}" var="detail" varStatus="status">
         <div>
           프로젝트명 : ${detail.portfolioDetailProjectName}
           </p>
@@ -85,14 +90,14 @@ selectAllDetail
           </c:choose>
           </br>
           <h5>상세 설명 :</h5>
-          <div id="viewerSection"></div>
-          <input id="detail-Description" type="hidden"
+          <div id="viewer-section-${status.index}"></div>
+          <input id="detail-description-${status.index}" type="hidden"
             value="${detail.portfolioDetailDescription}">
         </div>
         <hr color="red">
          </c:forEach>
        </c:otherwise>
      </c:choose>
-
+     <input id = "detailList-length" type="hidden" value = "${fn:length(portfolio.portFolioDetailList)}" />
 </body>
 </html>

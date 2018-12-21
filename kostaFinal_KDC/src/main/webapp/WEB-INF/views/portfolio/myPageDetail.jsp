@@ -23,9 +23,9 @@
   const jq = jQuery.noConflict();
   jq(function() {
     //viewer 세팅
-    var contents = jq('#detail-Description').val();
+    var contents = jq('#detail-description').val();
 	var editor = tui.Editor.factory({
-      el: document.querySelector('#viewerSection'),
+      el: document.querySelector('#viewer-section'),
       viewer: true,
       height: '500px',
       initialValue: contents
@@ -49,21 +49,27 @@
 
 <body>
   <h1>포트폴리오 상세의 상세보기 페이지입니다.</h1>
-
-  프로젝트명: ${detail.portfolioDetailProjectName}
-  </br> 작성일 : ${detail.portfolioDetailDate}
-  </br> 해쉬태그 :
-  <c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag">
-          ${hashTag.hashTagName}
-        </c:forEach>
-  </br> 포트폴리오 이미지:
+  <a href='${pageContext.request.contextPath}/portfolio/myPage'>목록으로</a>
+  <h5>프로젝트명: ${detail.portfolioDetailProjectName}</h5>
+  </br> 
+  <h5>작성일 : ${detail.portfolioDetailDate}</h5>
+  </br> 
+  <h5>해쉬태그 :
+    <c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag">
+      ${hashTag.hashTagName}
+    </c:forEach>
+  </h5>
+  </br>
+    <h5>포트폴리오 이미지:</h5>
   <img
     src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}" />
-  </br> 포트폴리오 설명 :
-  <div id = "viewerSection"></div>
-  <input id ="detail-Description" type="hidden" value="${detail.portfolioDetailDescription}">
+  </br> 
+  <h5>포트폴리오 설명 :</h5>
+  <div id = "viewer-section"></div>
+  <input id ="detail-description" type="hidden" value="${detail.portfolioDetailDescription}">
   </br>
   <input type="button" value="삭제하기">
   <input type="button" value="수정하기">
+ 
 </body>
 </html>
