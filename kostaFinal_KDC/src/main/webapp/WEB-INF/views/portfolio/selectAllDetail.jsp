@@ -24,12 +24,12 @@
   const jq = jQuery.noConflict();
   jq(function(){
  
-  //viewer 세팅(각각 상세마다 뷰어가 나와야되는데 안됨...)
-  var detailLength = jq('#detailList-length');
-  for(i=0;i<detailLength;i++){
-    console.log(i);
-    var descSelector = '#detail-Description-'+i;
+  //viewer 세팅
+  var detailLength = jq('#detailList-length').val();
+  for(var i=0;i<detailLength;i++){
+    var descSelector = '#detail-description-'+i;
     var viewSelector = '#viewer-section-'+i;
+    console.log(descSelector+'||'+viewSelector);
     var contents = jq(descSelector).val();
     var editor = tui.Editor.factory({
       el : document.querySelector(viewSelector),
