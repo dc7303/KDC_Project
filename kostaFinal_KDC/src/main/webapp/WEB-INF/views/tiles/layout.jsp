@@ -27,6 +27,7 @@
   } 
   
 </style>
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
 </head>
 <body>
   <nav>
