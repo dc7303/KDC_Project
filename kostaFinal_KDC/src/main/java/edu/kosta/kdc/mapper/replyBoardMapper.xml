@@ -122,7 +122,7 @@
 
 <insert id="replyBoardInsert" parameterType="replyBoardDTO">
     INSERT INTO REPLY_BOARD 
-    VALUES (REPLY_BOARD_SEQ.NEXTVAL, #{replyBoardClassification}, null, #{replyBoardTitle}, 'lake', SYSDATE, #{replyBoardContents}, '0', NULL, 'FALSE')
+    VALUES (REPLY_BOARD_SEQ.NEXTVAL, #{replyBoardClassification}, null, #{replyBoardTitle}, #{replyBoardWriterId}, SYSDATE, #{replyBoardContents}, '0', NULL, 'FALSE')
 </insert>
 
 <insert id="hashTagInsert" parameterType="string">
@@ -132,7 +132,7 @@
 
 <insert id="replyInsert" parameterType="replyBoardDTO">
     INSERT INTO REPLY_BOARD 
-    VALUES (REPLY_BOARD_SEQ.NEXTVAL, #{replyBoardClassification}, #{replyBoardPk}, NULL, 'lake', SYSDATE, #{replyBoardContents}, NULL, (SELECT MEMBER_ID FROM MEMBER WHERE MEMBER_NICKNAME = #{mentionNickName}), 'FALSE')
+    VALUES (REPLY_BOARD_SEQ.NEXTVAL, #{replyBoardClassification}, #{replyBoardPk}, NULL, #{replyBoardWriterId}, SYSDATE, #{replyBoardContents}, NULL, (SELECT MEMBER_ID FROM MEMBER WHERE MEMBER_NICKNAME = #{mentionNickName}), 'FALSE')
 </insert>
 
 <update id="readnumUpdate" parameterType="int">

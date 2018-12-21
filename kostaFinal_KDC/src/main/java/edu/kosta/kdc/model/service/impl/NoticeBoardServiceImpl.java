@@ -32,9 +32,10 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         
         if(state) {
             int views = noticeBoardDAO.noticeViewsUpdate(noticeBoard.getNoticeBoardPk());
-            if(views==0)throw new KdcException("조회수 증가 오류입니다.");
+            if(views == 0)throw new KdcException("조회수 증가 오류입니다.");
         }
-        return noticeBoardDAO.selectAll(noticeBoard);
+        
+        return list;
     }
  
     /**
@@ -42,7 +43,15 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
      */
     @Override
     public int insert(NoticeBoardDTO noticeBoard) {
-        return noticeBoardDAO.insert(noticeBoard);
+        
+        int result = 0;
+        //게시글 Insert
+        result = noticeBoardDAO.insert(noticeBoard);
+        if(result == 0) {
+            throw new KdcException("작성 실패입니다.");
+        }
+        
+        return result;
         
     }
     
@@ -52,12 +61,20 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     @Override
     public NoticeBoardDTO selectByNoticeBoardTitle(int noticeBoardPk, boolean state) {
+        
+        //게시글 조회 
+        NoticeBoardDTO noticeDTO = noticeBoardDAO.selectByNoticeBoardTitle(noticeBoardPk);
+        if(noticeDTO == null) {
+            throw new KdcException("게시글이 존재하지 않습니다.");
+        }
+        
+        //조회수 증가
         if(state){
             int views = noticeBoardDAO.noticeViewsUpdate(noticeBoardPk);//조회수증가
-            if(views==0) throw new KdcException("조회수 증가 오류입니다.");
+            if(views == 0) throw new KdcException("조회수 증가 오류입니다.");
         }
        
-        return noticeBoardDAO.selectByNoticeBoardTitle(noticeBoardPk);
+        return noticeDTO;
     }
     
     /**
@@ -65,7 +82,15 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
      */
     @Override
     public int update(NoticeBoardDTO noticeBoard) {
-        return noticeBoardDAO.update(noticeBoard);
+        
+        int result = 0;
+        //게시글 update
+        result = noticeBoardDAO.update(noticeBoard);
+        if(result == 0) {
+            throw new KdcException("업데이트 실패입니다.");
+        }
+        
+        return result;
     }
     
     /**
@@ -73,7 +98,15 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
      */
     @Override
     public int delete(int noticeBoardPk) {
-        return noticeBoardDAO.delete(noticeBoardPk);
+        
+        int result = 0;
+        //게시글 delte
+        result = noticeBoardDAO.delete(noticeBoardPk);
+        if(result == 0) {
+            throw new KdcException("삭제 실패입니다.");
+        }
+        
+        return result;
     }
 
     /**
@@ -82,7 +115,13 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     @Override
     public List<NoticeBoardDTO> SelectSerch(String department, String noticeBoardSearch) {
      
-        return noticeBoardDAO.SelechSerch(department, noticeBoardSearch);
+        //게시글 조회
+        List<NoticeBoardDTO> list = noticeBoardDAO.SelechSerch(department, noticeBoardSearch);
+        if(list == null) {
+            throw new KdcException("게시글이 존재하지 않습니다.");
+        }
+        
+        return list;
     }
 
  }

@@ -26,7 +26,9 @@ public class ReplyBoardController {
      * */
     @RequestMapping(value= {"/tech","/lib","/study"})
     public String list(@RequestParam(value="classification") String classification, Model model) {
+        
         model.addAttribute("classification",classification);
+        
         List<ReplyBoardDTO> list = replyBoardService.selectAll(classification);
         model.addAttribute("list",list);
         
@@ -38,9 +40,11 @@ public class ReplyBoardController {
      * */
     @RequestMapping(value= {"/dateOrderby","/likeOrderby","/viewOrderby","/replyOrderby"})
     public String SelectOrderby(String classification, String sort, Model model) {
+        
         List<ReplyBoardDTO> list = replyBoardService.replyBoardSelectAllOrderBy(classification, sort);
         model.addAttribute("classification",classification);
         model.addAttribute("list",list);
+        
         return "replyBoard/replyBoardList";
     }
     
@@ -49,7 +53,9 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/write")
     public String writePage(@RequestParam(value="classification") String classification, Model model) {
+        
         model.addAttribute("classification",classification);
+        
         return "replyBoard/write";
     }
     
@@ -58,9 +64,6 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/insert")
     public String techBoardInsert(String classification, ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
-        for(String s: hashTagName) {
-            //System.out.println(s);            
-        }
         
         replyBoardDTO.setReplyBoardClassification(classification);
         replyBoardService.insertReply(replyBoardDTO, hashTagName);
@@ -73,9 +76,12 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/replyInsert")
     public String replyInsert(String classification,int replyBoardPk, ReplyBoardDTO replyBoardDTO, Model model) {
+        
         replyBoardDTO.setReplyBoardClassification(classification);
+        
         replyBoardService.replyInsert(replyBoardDTO);        
         model.addAttribute("classification",classification);
+        
         return "redirect:read?replyBoardPk="+replyBoardPk;
     }
     
@@ -84,7 +90,9 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/read")
     public String read(int replyBoardPk,String classification,ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model) {
-        boolean state = request.getParameter("state")== null? true : false;
+        
+        boolean state = request.getParameter("state") == null ? true : false;
+        
         replyBoardDTODB.setReplyBoardClassification(classification);
 
         List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
@@ -92,6 +100,7 @@ public class ReplyBoardController {
         model.addAttribute("replyBoardDTO",list);
         model.addAttribute("classification",classification);
         model.addAttribute("replyBoardPk",replyBoardPk);
+        
         return "replyBoard/read";
     }
     
@@ -100,7 +109,8 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/updateForm")
     public String updateForm(int replyBoardPk, String classification, ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model){
-        boolean state = request.getParameter("state")== null? true : false;
+        
+        boolean state = request.getParameter("state") == null ? true : false;
         replyBoardDTODB.setReplyBoardClassification(classification);
         
         List<ReplyBoardDTO> replyBoardDTO = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
@@ -117,8 +127,10 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/replyBoardUpdate")
     public String replyBoardUpdate(String classification, int replyBoardPk, ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
+        
         replyBoardDTO.setReplyBoardPk(replyBoardPk);
         replyBoardService.replyBoardUpdate(replyBoardDTO, hashTagName);
+        
         return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
     }
     
@@ -127,6 +139,7 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/replyUpdateForm")
     public String replyUpdateForm(int replyBoardReplyPk, String classification, int replyBoardPk, Model model, ReplyBoardDTO replyBoardDTODB, HttpServletRequest request) {       
+        
         boolean state = request.getParameter("state")== null? true : false;
         
         replyBoardDTODB.setReplyBoardClassification(classification);
@@ -146,6 +159,7 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/replyUpdate")
     public String replyUpdate(String classification, int replyBoardReplyNo,int replyBoardPk, ReplyBoardDTO replyBoardDTO, String replyBoardContents) {
+        
         replyBoardService.replyUpdate(replyBoardDTO);
         
         return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
@@ -156,7 +170,9 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/delete")
     public String replyBoardDelete(int replyBoardPk,String classification) {
+        
         replyBoardService.replyBoardDelete(replyBoardPk);
+        
         return "redirect:"+classification+"?classification="+classification;
     }
     
@@ -165,7 +181,9 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/replyDelete")
     public String replyDelete(int replyBoardReplyPk, String classification, ReplyBoardDTO replyBoardDTO, int replyBoardPk) {
+        
         replyBoardService.replyDelete(replyBoardReplyPk);
+        
         return "redirect:read?replyBoardPk="+replyBoardPk+"&classification="+classification;
     }
     
@@ -176,6 +194,7 @@ public class ReplyBoardController {
     public String replyBoardListSearch(@RequestParam(value="classification") String classification, String department, String boardSearch, Model model) {
         
         model.addAttribute("classification",classification);
+        
         List<ReplyBoardDTO> list = replyBoardService.replyBoardListSearch(department, boardSearch, classification);
         model.addAttribute("list",list);
         
@@ -188,7 +207,9 @@ public class ReplyBoardController {
     @RequestMapping("/replyBoardLike")
     @ResponseBody
     public int replyBoardLike(int replyBoardPk) {
+        
         int result = replyBoardService.replyBoardLike(replyBoardPk);
+        
         return result;
     }
     
@@ -198,7 +219,9 @@ public class ReplyBoardController {
     @RequestMapping("/replyBoardDisLike")
     @ResponseBody
     public int replyBoardDisLike(int replyBoardPk) {
+        
         int result = replyBoardService.replyBoardDisLike(replyBoardPk);
+        
         return result;
     }
     
@@ -208,6 +231,7 @@ public class ReplyBoardController {
     @RequestMapping("/replyBoardLikeCancle")
     @ResponseBody
     public int replyBoardLikeCancle(int replyBoardPk) {
+        
         int result = replyBoardService.replyBoardLikeCancle(replyBoardPk);
         
         return result;
@@ -228,8 +252,10 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/reportPopForm")
     public String reportPopForm(int replyBoardPkReport, Model model) {
+        
         model.addAttribute("replyBoardPkReport",replyBoardPkReport);
-        return "/replyBoard/reportPopForm";
+        
+        return "replyBoard/reportPopForm";
     }
     
     /**
@@ -237,7 +263,8 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/reportPop")
     public String reportPop(String reportContents, int replyBoardPkReport, String otherWords) {
-            replyBoardService.reportPopInsert(reportContents, replyBoardPkReport, otherWords);
+            
+        replyBoardService.reportPopInsert(reportContents, replyBoardPkReport, otherWords);
             
         return "replyBoard/read";
     }

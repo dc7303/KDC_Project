@@ -94,6 +94,7 @@ public class AdminController {
     @RequestMapping(value = "/sendMessage", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public void SendMessage(MessageDTO messageDTO) {
+        
         int result = messageService.messageInsert(messageDTO);
     }
     
@@ -133,6 +134,7 @@ public class AdminController {
      * */
     @RequestMapping("/classRoomInfo")
     public String createClassRoomInfo() {
+        
         return "/admin/adminClassRoomInfo";
     }
     
@@ -144,7 +146,9 @@ public class AdminController {
 
         File file = new File("C:\\Edu\\final_workspace\\kostaFinal_KDC\\src\\main\\webapp\\resources\\chatFile", classRoomInfoDTO.getClassRoomInfoChatFile());
         file.createNewFile();
-        int result = classRoomService.createClassRoom(classRoomInfoDTO);
+        
+        classRoomService.createClassRoom(classRoomInfoDTO);
+        
         return "redirect:/admin/selectMember";
     }
     
@@ -220,7 +224,6 @@ public class AdminController {
      * */
     @RequestMapping("/fullCalendar")
     public ModelAndView fullCalendar() {
-        
         
         List<ClassRoomInfoDTO> list = classRoomService.getClassInfo();
         

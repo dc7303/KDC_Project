@@ -64,7 +64,7 @@
                   <li class="nav-item nav-drawer-header">메뉴영역</li>
       
                   <li class="nav-item ">
-                    <a href="#"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
+                    <a href="${pageContext.request.contextPath }/notice/list"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
                   </li>
       
                   <li class="nav-item ">

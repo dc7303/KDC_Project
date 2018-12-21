@@ -20,7 +20,7 @@ import edu.kosta.kdc.model.service.NoticeBoardService;
 @RequestMapping("/notice")
 public class NoticeBoardController {
 
-    private String path = "C:\\Edu\\KDC\\KDCUpLoad";
+    private String path = "C:\\edu\\final_img";
 
     @Autowired
     private NoticeBoardService noticeBoardService;
@@ -33,7 +33,8 @@ public class NoticeBoardController {
 
         List<NoticeBoardDTO> list = noticeBoardService.selectAll(noticeBoard, state);
         model.addAttribute("list", list);
-        return "notice/list";
+        
+        return "notice/noticeList";
     }
 
     /**
@@ -44,7 +45,8 @@ public class NoticeBoardController {
 
         List<NoticeBoardDTO> list = noticeBoardService.SelectSerch(department, noticeBoardSearch);
         model.addAttribute("list", list);
-        return "notice/list";
+        
+        return "notice/noticeList";
     }
 
     /**
@@ -53,7 +55,7 @@ public class NoticeBoardController {
     @RequestMapping("/write")
     public String insertForm() {
 
-        return "notice/write";
+        return "notice/noticeWrite";
     }
 
     /**
@@ -85,7 +87,7 @@ public class NoticeBoardController {
         NoticeBoardDTO noticeBoard = noticeBoardService.selectByNoticeBoardTitle(noticeBoardPk, true);
         model.addAttribute("NoticeBoardDTO", noticeBoard);
 
-        return "notice/read";
+        return "notice/noticeRead";
     }
 
     /**
@@ -97,7 +99,7 @@ public class NoticeBoardController {
         noticeBoard = noticeBoardService.selectByNoticeBoardTitle(noticeBoardPk, false);
         model.addAttribute("noticeBoardPk", noticeBoardPk);
 
-        return new ModelAndView("notice/update", "NoticeBoardDTO", noticeBoard);
+        return new ModelAndView("notice/noticeUpdate", "NoticeBoardDTO", noticeBoard);
     }
 
     /**
@@ -121,6 +123,7 @@ public class NoticeBoardController {
     public String delete(int noticeBoardPk) {
 
         noticeBoardService.delete(noticeBoardPk);
+        
         return "redirect:list";
     }
 

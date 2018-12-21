@@ -40,6 +40,7 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
      */
     @Override
     public NoticeBoardDTO selectByNoticeBoardTitle(int noticeBoardPk)  {
+        
       return session.selectOne("noticeBoardMapper.SelectNoticeBoardPK",noticeBoardPk);
        
     }
@@ -58,6 +59,7 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
      */
     @Override
     public int delete(int noticeBoardPk) {
+        
         return session.delete("noticeBoardMapper.noticeBoardDelete",noticeBoardPk );
         
     }
@@ -67,6 +69,7 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
      */
     @Override
     public int noticeViewsUpdate(int noticeBoardPk) {
+        
         return session.update("noticeBoardMapper.noticeBoardViewsUpdate" ,noticeBoardPk);
      
        
@@ -74,10 +77,11 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
 
     @Override
     public List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch) {
+        
         Map<String, Object> map = new HashMap<>();
         map.put("department", department);
         map.put("noticeBoardSearch", noticeBoardSearch);
-        List<NoticeBoardDTO> list = session.selectList("noticeBoardMapper.SearchTitleAndContents",map);
-        return list;
+        
+        return session.selectList("noticeBoardMapper.SearchTitleAndContents",map);
     }
  }

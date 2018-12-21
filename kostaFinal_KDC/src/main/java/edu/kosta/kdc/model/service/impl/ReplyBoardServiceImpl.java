@@ -25,7 +25,13 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public List<ReplyBoardDTO> selectAll(String title) {
-        return replyBoardDAO.selectAll(title);
+        
+        List<ReplyBoardDTO> list = replyBoardDAO.selectAll(title);
+        if(list == null) {
+            throw new KdcException("게시글이 존재하지 않습니다.");
+        }
+        
+        return list;
     }
 
     /**
@@ -33,6 +39,12 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort) {
+        
+        List<ReplyBoardDTO> list = replyBoardDAO.replyBoardSelectAllOrderBy(classification, sort);
+        if(list == null) {
+            throw new KdcException("게시글이 존재하지 않습니다.");
+        }
+        
         return replyBoardDAO.replyBoardSelectAllOrderBy(classification, sort);
     }
     
@@ -42,18 +54,25 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     @Transactional
     public int insertReply(ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
-        int rs=0;
-        rs = replyBoardDAO.insertReply(replyBoardDTO);
-        int result=0;
-        if(rs!=0 && hashTagName.length!=0) {
-
+        
+        int result = 0;
+        //게시글 등록
+        result = replyBoardDAO.insertReply(replyBoardDTO);
+        if(result == 0) {
+            throw new KdcException("등록 실패입니다.");
+        }
+        
+        //해시태그 등록
+        if(hashTagName.length > 0) {
             for(String s: hashTagName) {
-                result += replyBoardDAO.insertHashTag(s);
+                result = replyBoardDAO.insertHashTag(s);
+                if(result == 0) {
+                    throw new KdcException("해시태그 등록 실패입니다.");
+                }
             }
         }
         
-        //if(rs==0) throw new KdcException(replyBoardDTO.getReplyBoardClassification() + "게시판 글 쓰기 오류");
-        return rs;
+        return result;
     }
 
     /**
@@ -61,9 +80,20 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public int replyInsert(ReplyBoardDTO replyBoardDTO) {
+        
+        //@ 공백으로 변환
         String revised = replyBoardDTO.getMentionNickName().replaceAll("@", "");
+        //replace 값 set
         replyBoardDTO.setMentionNickName(revised);
-        return replyBoardDAO.replyInsert(replyBoardDTO);
+        
+        int result = 0;
+        
+        result = replyBoardDAO.replyInsert(replyBoardDTO);
+        if(result == 0) {
+            throw new KdcException("댓글 입력 실패입니다.");
+        }
+        
+        return result;
     }
     
     /**
@@ -74,11 +104,22 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     @Transactional
     public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB, boolean state) {
+        
+        //게시글 조회
+        List<ReplyBoardDTO> list = replyBoardDAO.selectByReplyBoardPK(replyBoardDTODB);
+        if(list == null) {
+            throw new KdcException("게시글을 불러오는데 실패했습니다.");
+        }
+        
+        //조회수 증가
         if(state) {
             int result = replyBoardDAO.readnumUpdate(replyBoardDTODB.getReplyBoardPk());
-            if(result==0) throw new KdcException("조회수 증가 오류 입니다.");
+            if(result == 0) {
+                throw new KdcException("조회수 증가 오류 입니다.");
+            }
         }
-        return replyBoardDAO.selectByReplyBoardPK(replyBoardDTODB);
+        
+        return list;
     }
 
     /**
@@ -87,16 +128,31 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     @Transactional
     public int replyBoardUpdate(ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
-        int result=0;
-        int rs=0;
-        replyBoardDAO.hashTagUpdateDelete(replyBoardDTO);
-        rs = replyBoardDAO.replyBoardUpdate(replyBoardDTO);
-        if(rs!=0 && hashTagName.length!=0) {
+        
+        int result = 0;
+        //해시태그 업데이트를 위한 삭제
+        result = replyBoardDAO.hashTagUpdateDelete(replyBoardDTO);
+        if(result == 0) {
+            throw new KdcException("해시태그 삭제 실패로 오류발생");
+        }
+        
+        //게시글 업데이트
+        result = replyBoardDAO.replyBoardUpdate(replyBoardDTO);
+        if(result == 0) {
+            throw new KdcException("게시글 수정 삭제입니다.");
+        }
+        
+        //해시태그 재입력 
+        if(hashTagName.length!=0) {
             for(String s: hashTagName) {
-                result += replyBoardDAO.hashTagUpdateInsert(replyBoardDTO, s);
+                result = replyBoardDAO.hashTagUpdateInsert(replyBoardDTO, s);
+                if(result == 0) {
+                    throw new KdcException("해시태그 재입력 실패로 오류발생");
+                }
             }
         }
-        return rs;
+        
+        return result;
     }
     
     /**
@@ -104,6 +160,14 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public int replyUpdate(ReplyBoardDTO replyBoardDTO) {
+        
+        int result = 0;
+        
+        result = replyBoardDAO.replyUpdate(replyBoardDTO);
+        if(result == 0) {
+            throw new KdcException("댓글 수정 실패");
+        }
+        
         return replyBoardDAO.replyUpdate(replyBoardDTO);
     }
 
@@ -113,7 +177,9 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     @Transactional
     public int replyBoardDelete(int replyBoardPk) {
+        
         int result =0;
+        
         result=replyBoardDAO.replyBoardDelete(replyBoardPk);
         if(result==0) throw new KdcException("삭제 실패했습니다.");
         
@@ -134,7 +200,14 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public int replyDelete(int replyBoardReplyPk) {
-        int result = replyBoardDAO.replyDelete(replyBoardReplyPk);
+        
+        int result = 0;
+        
+        result = replyBoardDAO.replyDelete(replyBoardReplyPk);
+        if(result == 0) {
+            throw new KdcException("댓글 삭제 실패.");
+        }
+        
         return result;
     }
 
@@ -143,7 +216,13 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch,String classification) {
+        
         List<ReplyBoardDTO> list = replyBoardDAO.replyBoardListSearch(department, boardSearch,classification);
+        
+        if(list == null) {
+            throw new KdcException("게시글이 존재하지 않습니다.");
+        }
+        
         return list;
     }
 
@@ -152,7 +231,14 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public int replyBoardLike(int replyBoardPk) {
-        int result = replyBoardDAO.replyBoardLike(replyBoardPk);
+        
+        int result = 0;
+        
+        result = replyBoardDAO.replyBoardLike(replyBoardPk);
+        if(result == 0) {
+            throw new KdcException("좋아요 등록 실패했습니다.");
+        }
+        
         return result;
     }
     
@@ -161,7 +247,13 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public int replyBoardDisLike(int replyBoardPk) {
-        int result = replyBoardDAO.replyBoardDisLike(replyBoardPk);
+        
+        int result = 0;
+        
+        result = replyBoardDAO.replyBoardDisLike(replyBoardPk);
+        if(result == 0) {
+            throw new KdcException("싫어요 등록 실패했습니다.");
+        }
         return result;
     }
     
@@ -170,7 +262,14 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public int replyBoardLikeCancle(int replyBoardPk) {
-        int result = replyBoardDAO.replyBoardLikeCancle(replyBoardPk);
+        
+        int result = 0;
+        
+        result = replyBoardDAO.replyBoardLikeCancle(replyBoardPk);
+        if(result == 0) {
+            throw new KdcException("취소 실패입니다.");
+        }
+        
         return result;
     }
     
@@ -179,7 +278,13 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     public List<String> hashtagSuggest(String keyword) {
+        
+        //해시태그 DTO
         List<HashTagDTO> resultList = replyBoardDAO.hashtagSuggest(keyword);
+        if(resultList == null) {
+            throw new KdcException("해시태그가 존재하지 않습니다.");
+        }
+        
         List<String> list = new ArrayList<String>();
         
         for(HashTagDTO dto:resultList) {
@@ -196,11 +301,18 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Transactional
     public int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords) {
         
-        int result=0;
+        int result = 0;
+        
         if(reportContents.length()!=0) {
             result = replyBoardDAO.reportPopInsert(reportContents, replyBoardPkReport);
+            if(result == 0) {
+                throw new KdcException("등록 실패입니다.");
+            }
         }else {
             result = replyBoardDAO.reportPopInsert(otherWords, replyBoardPkReport);
+            if(result == 0) {
+                throw new KdcException("등록 실패입니다.");
+            }
         }
         
         return result;
@@ -215,10 +327,14 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
         String revised = keyword.replace("@", "");
         
         List<MemberDTO> resultList = replyBoardDAO.mentionSuggest(revised);
+        if(resultList == null) {
+            throw new KdcException("리스트를 불러오는데 실패했습니다.");
+        }
+        
         List<String> list = new ArrayList<String>();
         
         for(MemberDTO dto:resultList) {
-            list.add("@"+dto.getMemberNickName());
+            list.add("@" + dto.getMemberNickName());
         }
 
         return list;
@@ -231,6 +347,10 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     public List<String> allNicknames() {
         
         List<MemberDTO> resultList = replyBoardDAO.allNicknames();
+        if(resultList == null) {
+            throw new KdcException();
+        }
+        
         List<String> list = new ArrayList<String>();
         
         for(MemberDTO dto:resultList) {

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dao.ReportDAO;
 import edu.kosta.kdc.model.dto.ReportDTO;
 import edu.kosta.kdc.model.service.ReportService;
@@ -21,7 +22,13 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<ReportDTO> selectAll(String boardName) {
         
-        return reportDAO.selectAll(boardName);
+        List<ReportDTO> list = reportDAO.selectAll(boardName);
+        
+        if(list == null) {
+            throw new KdcException("신고내역이 존재하지 않습니다.");
+        }
+        
+        return list;
     }
 
     /**
@@ -30,7 +37,14 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public int deleteReport(int reportNum) {
         
-        return reportDAO.deleteReport(reportNum);
+        int result = 0;
+        
+        result = reportDAO.deleteReport(reportNum);
+        if(result == 0) {
+            throw new KdcException("삭제 실패");
+        }
+        
+        return result;
     }
 
 }

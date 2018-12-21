@@ -28,6 +28,7 @@ public class MessageServiceImpl implements MessageService {
     public int messageInsert(MessageDTO messageDTO) {
 
         int result = 0;
+        
         result = messageDAO.messageInsert(messageDTO);
         if (result == 0)
             throw new KdcException();
@@ -39,6 +40,7 @@ public class MessageServiceImpl implements MessageService {
     public int messageDelete(int messageNum) {
 
         int result = 0;
+        
         result = messageDAO.messageDelete(messageNum);
         if (result == 0)
             throw new KdcException();
@@ -49,8 +51,6 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional
     public MessageDTO selectByMesssage(int messageNum) {
-
-        messageDAO.isReadMessage(messageNum);
 
         return messageDAO.selectByMesssage(messageNum);
 
