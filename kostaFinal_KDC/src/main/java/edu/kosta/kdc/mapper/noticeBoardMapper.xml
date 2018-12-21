@@ -5,6 +5,7 @@
 <resultMap type="noticeBoardDTO" id="selectMap">
     <id column="notice_board_pk" property="noticeBoardPk" />
     <result column="NOTICE_BOARD_CLASSIFICATION" property="noticeBoardClassification" />
+    <result column="NOTICE_BOARD_CLASSROOM_CODE" property="noticeBoardClassRoomCode" />
     <result column="NOTICE_BOARD_TITLE" property="noticeBoardTitle" />
     <result column="NOTICE_BOARD_WRITER_ID" property="noticeBoardWriterId" />
     <result column="NOTICE_BOARD_WRITE_DATE" property="noticeBoardDate" />
@@ -16,10 +17,14 @@
 </resultMap>
 
     <!-- 전체 검색 -->
-<select id="noticeBoardSelect" resultMap="selectMap">
+<select id="noticeBoardSelect" parameterType="map" resultMap="selectMap">
     SELECT *
     FROM NOTICE_BOARD
     WHERE NOTICE_BOARD_ISDELETE= 'FALSE'
+    AND NOTICE_BOARD_CLASSIFICATION = #{classification}
+    <if test="classRoomCode != null">
+    AND NOTICE_BOARD_CLASSROOM_CODE = #{classRoomCode}
+    </if>
 </select>
 
     <!--  조건 검색 -->

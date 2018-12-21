@@ -8,6 +8,7 @@ public class NoticeBoardDTO {
 
     private int noticeBoardPk;                  //게시판 PK
     private String noticeBoardClassification;   //게시판 속성(공지사항, 채용게시판, 반별공지사항)
+    private String noticeBoardClassRoomCode;    //클래스룸 코드
     private String noticeBoardTitle;            //게시판 제목
     private String noticeBoardWriterId;         //작성자ID
     private String noticeBoardDate;             //작성일
@@ -19,16 +20,14 @@ public class NoticeBoardDTO {
     private MultipartFile file;
     
     public NoticeBoardDTO() {}
-    
 
-
-
-    public NoticeBoardDTO(int noticeBoardPk, String noticeBoardClassification, String noticeBoardTitle,
-            String noticeBoardWriterId, String noticeBoardDate, String noticeBoardContents, int noticeBoardViews,
-            String noticeBoardAttachment, boolean noticeBoardIsDelete, MultipartFile file) {
+    public NoticeBoardDTO(int noticeBoardPk, String noticeBoardClassification, String noticeBoardClassRoomCode,
+            String noticeBoardTitle, String noticeBoardWriterId, String noticeBoardDate, String noticeBoardContents,
+            int noticeBoardViews, String noticeBoardAttachment, boolean noticeBoardIsDelete, MultipartFile file) {
         super();
         this.noticeBoardPk = noticeBoardPk;
         this.noticeBoardClassification = noticeBoardClassification;
+        this.noticeBoardClassRoomCode = noticeBoardClassRoomCode;
         this.noticeBoardTitle = noticeBoardTitle;
         this.noticeBoardWriterId = noticeBoardWriterId;
         this.noticeBoardDate = noticeBoardDate;
@@ -53,6 +52,14 @@ public class NoticeBoardDTO {
 
     public void setNoticeBoardClassification(String noticeBoardClassification) {
         this.noticeBoardClassification = noticeBoardClassification;
+    }
+
+    public String getNoticeBoardClassRoomCode() {
+        return noticeBoardClassRoomCode;
+    }
+
+    public void setNoticeBoardClassRoomCode(String noticeBoardClassRoomCode) {
+        this.noticeBoardClassRoomCode = noticeBoardClassRoomCode;
     }
 
     public String getNoticeBoardTitle() {
@@ -103,7 +110,7 @@ public class NoticeBoardDTO {
         this.noticeBoardAttachment = noticeBoardAttachment;
     }
 
-    public boolean getNoticeBoardIsDelete() {
+    public boolean isNoticeBoardIsDelete() {
         return noticeBoardIsDelete;
     }
 
@@ -118,9 +125,6 @@ public class NoticeBoardDTO {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-
-
- 
     
     
 }

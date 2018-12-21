@@ -8,7 +8,7 @@ public interface NoticeBoardService {
     /**
      * 전체검색
      */
-    List<NoticeBoardDTO> selectAll(NoticeBoardDTO noticeBoard, boolean state);
+    List<NoticeBoardDTO> selectAll(String classification);
 
     /**
      * 레코드 삽입

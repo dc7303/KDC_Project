@@ -34,11 +34,5 @@ public interface ClassRoomService {
      * */
     String teacherCheck(String teacherId);
 
-    /**
-     * 관리자 - 풀캘린더에 들어갈 클래스 일정 모두 가져오기
-     * 
-     * @return List<ClassRoomInfoDTO>
-     * */
-    List<ClassRoomInfoDTO> getClassInfo();
 
 }

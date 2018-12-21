@@ -8,7 +8,7 @@ public interface NoticeBoardDAO {
     /**
      *  전체검색
      */
-    List<NoticeBoardDTO> selectAll (NoticeBoardDTO noticeBoard);
+    List<NoticeBoardDTO> selectAll (String classification, String classRoomCode);
     
     /**
      * 레코드 삽입

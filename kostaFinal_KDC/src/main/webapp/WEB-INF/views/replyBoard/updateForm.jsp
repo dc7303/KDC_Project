@@ -107,8 +107,8 @@
       <td colspan="8" height="20" colspan="4" align="center" valign="middle">
       <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
         <!-- <input type=hidden name="password" value="" id="password"> -->
-        <input type=submit value="수정하기">
-        <input type=reset value="다시쓰기">
+        <input type=submit value="수정하기"/>
+        <input type=reset value="다시쓰기"/>
       </td>
     </tr>
 </table>

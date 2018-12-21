@@ -104,7 +104,5 @@
 <a href="${pageContext.request.contextPath }/admin/adminInsertTeacherForm">강사생성 페이지로</a><br>
 <a href="${pageContext.request.contextPath }/admin/messageList">관리자 - 메시지 페이지로</a><br>
 <a href="${pageContext.request.contextPath }/admin/adminReportList">관리자 - 신고 페이지로</a><br>
-<a href="${pageContext.request.contextPath }/admin/classRoomInfo">관리자 - 클래스룸 생성</a><br>
-<a href="${pageContext.request.contextPath }/admin/fullCalendar">관리자 - 풀 카렌다</a><br>  
 </body>
 </html>

@@ -29,9 +29,9 @@ public class NoticeBoardController {
      * 전체 검색
      */
     @RequestMapping("/list")
-    public String Board(Model model, NoticeBoardDTO noticeBoard, boolean state) {
-
-        List<NoticeBoardDTO> list = noticeBoardService.selectAll(noticeBoard, state);
+    public String Board(Model model, String classification) {
+        
+        List<NoticeBoardDTO> list = noticeBoardService.selectAll(classification);
         model.addAttribute("list", list);
         
         return "notice/noticeList";
