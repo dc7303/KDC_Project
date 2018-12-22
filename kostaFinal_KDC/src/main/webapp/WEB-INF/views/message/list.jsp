@@ -8,15 +8,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script
-  src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 
 const jq = jQuery.noConflict();
 
+//답장시, 메세지 보낸사람(senderId) 유효성 체크
 jq(function(){
   jq(document).on('click','#replyMessage',function(){
+    
     var senderId = jq(this).parent().children().eq(1).val();
+    var receiverId = jq(this).parent().children().eq(2).val();
+    
     jq.ajax({
       url:"${pageContext.request.contextPath}/message/checkId" , //서버요청주소
       type:"post" , //전송방식(get or post)
@@ -30,7 +33,7 @@ jq(function(){
           alert("삭제된 아이디 혹은 없는 아이디 입니다.");
           self.close();
         }else{
-          location.href='${pageContext.request.contextPath}/message/replyMessage?senderId='+senderId;
+          location.href='${pageContext.request.contextPath}/message/messageReplyPage?senderId='+senderId+'&receiverId='+receiverId;
         }
         
       } , //성공했을때
@@ -39,28 +42,72 @@ jq(function(){
       }  //실패했을때
     })
   })
-})
-
-/*
- jq(function(){
-  jq(document).on('', '#messageTitles',function(){
+  
+  jq('input[name=deleteNumList]').on('click', function() {
+    var deleteNumList = [];
     
+    jq('input[name=checkNum]:checked').each(function(i) {
+      deleteNumList.push(jq(this).val());
+    });
+
+	jq.ajax({
+	  url: '${pageContext.request.contextPath}/message/messageSelectDelete',
+	  type: 'post',
+	  dataType: 'text',
+	  beforeSend : function(xhr) {
+      	xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+      },
+	  data: {
+	    deleteNumList: deleteNumList,
+	  },
+	  success: function(result) {
+	    location.reload();
+	    console.log('성공');
+	    
+	  },
+	  error: function(err) {
+	    console.log('err : ' + err);
+	  }
+	});
+  });
+});
+  
+
+
+//체크박스 전체 선택 및 해제
+jq(function(){
+  jq('#checkBoxAll').click(function(){
+    if(jq('#checkBoxAll').is(':checked')){
+      jq('input[name=checkNum]').prop('checked',true);
+    }else{
+      jq('input[name=checkNum]').prop('checked',false);
+    }
   })
 })
- */
+
 
 </script>
 
 </head>
 <body>
-<h5>안읽은 쪽지 : ${sessionScope.countUnRead}</h5>
 
+<h5>안읽은 쪽지 : ${sessionScope.unReadCount}</h5>
+
+  <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
   <table align="center" border="0" cellpadding="5" cellspacing="2"
     width="100%" bordercolordark="white" bordercolorlight="black">
 
     <caption> 쪽지함 LIST </caption>
 
     <tr>
+      <td bgcolor="#00cc00">
+        <p align="center">
+          <font color="white"><b>
+            <span style="font-size: 9pt;">
+              <input type="checkbox" name="checkBoxAll" id="checkBoxAll" >
+            </span></b></font>
+        </p>
+      </td>
       <td bgcolor="#00cc00">
         <p align="center">
           <font color="white"><b><span
@@ -104,50 +151,60 @@ jq(function(){
         </tr>
       </c:when>
       <c:otherwise>
-        <c:forEach items="${requestScope.messageList}" var="messageList">
+      <!-- 접속된 ID로  message list 출력 -->
+        <c:forEach items="${requestScope.messageList}" var="message">
           <tr onmouseover="this.style.background='#eaeaea'"
             onmouseout="this.style.background='white'" id="messageTitles"> <!-- id="messageTitles" -->
             <td bgcolor="">
               <p align="center">
                 <span style="font-size: 9pt;">
-                  ${messageList.senderId}</span>
-              </p>
-            </td>
-            <td bgcolor="">
-              <p>
-                <a href="${pageContext.request.contextPath}/message/${messageList.messageNum}">
-                    <!-- path variable RESTful -->
-                    <c:choose>
-                      <c:when test="${messageList.messageIsRead == 'FALSE'}">
-                        <span style="font-size:13pt; font-weight:900;">${messageList.messageTitle}</span>
-                      </c:when>
-                      <c:otherwise>
-                        <span style="font-size:9pt;">${messageList.messageTitle}</span>
-                      </c:otherwise>
-                    </c:choose>
-                    
-                </a>
-                
+                  <input type="checkbox" name="checkNum"  value="${message.messageNum}"  id="${message.messageNum}">
+                </span>
               </p>
             </td>
             <td bgcolor="">
               <p align="center">
                 <span style="font-size: 9pt;">
-                  ${messageList.messageDate}</span>
+                  ${message.senderId}</span>
+              </p>
+            </td>
+            <td bgcolor="">
+              <p>
+                <a href="${pageContext.request.contextPath}/message/${message.messageNum}">
+                    <!-- path variable RESTful -->
+                    <!-- 읽은 메세지, 읽지않은 메세지 구분 -->
+                    <c:choose>
+                      <c:when test="${message.messageIsRead == 'FALSE'}">
+                        <span style="font-size:13pt; font-weight:900;">${message.messageTitle}</span>
+                      </c:when>
+                      <c:otherwise>
+                        <span style="font-size:9pt;">${message.messageTitle}</span>
+                      </c:otherwise>
+                    </c:choose>
+                </a>
+              </p>
+            </td>
+            <td bgcolor="">
+              <p align="center">
+                <span style="font-size: 9pt;">
+                  ${message.messageDate}</span>
               </p>
             </td>
             <td bgcolor="">
               <p align="center">
                 <span style="font-size: 9pt;"> 
+                <!-- 답장 클릭시, ajax로 ID유뮤체크 후 답장 페이지로 이동  -->
                 <input type="button" value="답장" id="replyMessage">
-                <input type="hidden" name="senderId" value="${messageList.senderId}"></span>
+                <input type="hidden" name="senderId" value="${message.senderId}">
+                <input type="hidden" name="receiverId " value="${message.receiverId }">
+                </span>
               </p>
             </td>
             <td bgcolor="">
               <p align="center">
                 <span style="font-size: 9pt;"> <input
                   type="button" value="삭제" id="deleteMessage"
-                  onclick="location.href='${pageContext.request.contextPath}/message/delete?messageNum=${messageList.messageNum}'"></span>
+                  onclick="location.href='${pageContext.request.contextPath}/message/delete?messageNum=${message.messageNum}'" ></span>
               </p>
             </td>
           </tr>
@@ -155,6 +212,7 @@ jq(function(){
       </c:otherwise>
     </c:choose>
   </table>
+  <input type="button" value="선택삭제" name="deleteNumList"/>
   <hr>
   <div align=right>
     <span style="font-size: 9pt;">&lt;<a

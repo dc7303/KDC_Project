@@ -18,18 +18,21 @@
         MESSAGE_PK, MESSAGE_SENDER_ID, MESSAGE_RECEIVER_ID, MESSAGE_TITLE, MESSAGE_CONTENTS, MESSAGE_DATE, MESSAGE_ISREAD, MESSAGE_ISDELETE
     </sql>
     
+    <!-- 접속한 ID로 메세지 전체 출력 -->
     <select id="selectAll" resultMap="messageSelectMap" parameterType="String">
         select <include refid="messageSelectSQL"/>
         from message
         where MESSAGE_ISDELETE='FALSE' AND MESSAGE_RECEIVER_ID=#{receiverId}
     </select>
     
+    <!-- 받은 ID로 메세지 답장 -->
     <insert id="messageInsert" parameterType="MessageDTO">
         insert into
         message(<include refid="messageSelectSQL"/>)
         values(MESSAGE_SEQ.nextval, #{receiverId}, #{senderId}, #{messageTitle}, #{messageContents}, sysdate,'FALSE','FALSE')
     </insert>
     
+    <!-- 메세지 선택 -->
     <select id="selectByMessage" parameterType="int" resultMap="messageSelectMap">
         select MESSAGE_SENDER_ID, MESSAGE_CONTENTS, MESSAGE_DATE
         from message
@@ -57,7 +60,7 @@
     <select id="unReadCount" parameterType="String" resultType="Integer">
         select count(case when MESSAGE_ISREAD='FALSE' then 1 end)
         from MESSAGE
-        where MESSAGE_RECEIVER_ID=#{receiverId}
+        where MESSAGE_RECEIVER_ID=#{receiverId} AND MESSAGE_ISDELETE='FALSE'
     </select>
 
 </mapper>

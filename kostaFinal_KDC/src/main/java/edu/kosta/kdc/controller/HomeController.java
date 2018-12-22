@@ -14,6 +14,7 @@ public class HomeController {
     public String index(HttpSession session) {
         
         return "index";
+        
     }
     
 }
