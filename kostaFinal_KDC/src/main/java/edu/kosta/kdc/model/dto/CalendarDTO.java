@@ -8,6 +8,7 @@ public class CalendarDTO {
     private String calendarStart;   //시작시간
     private String calendarEnd;     //끝나는시간
     
+    public CalendarDTO() {}
     
     public CalendarDTO(int calendarPk, String classRoomCode, String calendarTitle, String calendarStart,
             String calendarEnd) {

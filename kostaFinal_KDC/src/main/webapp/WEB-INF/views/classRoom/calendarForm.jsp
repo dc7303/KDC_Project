@@ -73,7 +73,7 @@ $(function() {
             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
           },
           success: function(result) {
-            console.log(result);
+			
           },
           error: function(err) {
             console.log(err);
@@ -86,13 +86,13 @@ $(function() {
     },
     //수정 가능 이벤트 설정
     editable: true,
-    //이벤트 수정 이벤트 
+    //이벤트 수정 이벤트 (이벤트 클릭스 이름 수정)
     eventClick: function(event, jsEvent, view) {
       var newTitle = prompt('수정할 이벤트 제목을 입력하세요.', event.title);
 
       if (newTitle !== null) {
         event.title = newTitle.trim() !== '' ? newTitle : event.title;
-        
+        console.log(event.title, event.start.format(), event.end.format());
         cal.fullCalendar('updateEvent', event);
       }
     },
