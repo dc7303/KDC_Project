@@ -27,8 +27,8 @@ public class CalendarDAOImpl implements CalendarDAO {
 
     @Override
     public int calendarInsert(CalendarDTO calendarDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+        
+        return sqlSession.insert("calendarMapper.insert", calendarDTO);
     }
 
     @Override

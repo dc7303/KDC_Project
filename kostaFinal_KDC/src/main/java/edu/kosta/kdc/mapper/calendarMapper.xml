@@ -3,7 +3,8 @@
 <mapper namespace="calendarMapper">
     
     <resultMap type="calendarDTO" id="calendarDTO">
-        <id column="CLASSROOM_CODE" property="classRoomCode"/>
+        <id column="CALENDAR_PK" property="calendarPk"/>
+        <result column="CLASSROOM_CODE" property="classRoomCode"/>
         <result column="CALENDAR_TITLE" property="calendarTitle"/>
         <result column="CALENDAR_START" property="calendarStart"/>
         <result column="CALENDAR_END" property="calendarEnd"/>
@@ -14,4 +15,7 @@
         select * from calendar where classroom_code = #{_parameter}
     </select>
 
+    <insert id="insert" parameterType="calendarDTO">
+        insert into calendar values (CALENDAR_SEQ.NEXTVAL, #{classRoomCode}, #{calendarTitle}, #{calendarStart}, #{calendarEnd})
+    </insert>
 </mapper>

@@ -14,7 +14,6 @@
 
 <script type="text/javascript">
 
-
 $(function() {
   //이벤트 데이터베이스에서 불러오기
   const eventArr = (() => {
@@ -60,15 +59,19 @@ $(function() {
       if (title !== null) {
         var event = {
           title: title.trim() !== '' ? title : 'New event',
-          start: start,
-          end: end
+          start: start.format(),
+          end: end.format(),
         };
+         
         
         $.ajax({
-          url: '${contextPath.request.contextPath}/calendar/calendarInsert',
+          url: '/kdc/calendar/calendarInsert',
           type: 'post',
           dataType: 'text',
           data: event,
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
           success: function(result) {
             console.log(result);
           },
