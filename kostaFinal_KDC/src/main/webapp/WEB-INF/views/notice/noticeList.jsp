@@ -96,7 +96,7 @@
   <hr/>
   
   <div align=right>
-    <span style="font-size:9pt;">&lt;<a href="write">글쓰기</a>&gt;</span>
+    <span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath }/notice/writeForm?classification=classNotice">글쓰기</a>&gt;</span>
   </div>
 </body>
 </html>

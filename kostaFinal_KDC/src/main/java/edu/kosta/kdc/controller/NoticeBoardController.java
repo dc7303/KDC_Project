@@ -50,9 +50,9 @@ public class NoticeBoardController {
     }
 
     /**
-     * 글쓰기
+     * 글쓰기 폼
      */
-    @RequestMapping("/write")
+    @RequestMapping("/writeForm")
     public String insertForm() {
 
         return "notice/noticeWrite";
@@ -62,17 +62,17 @@ public class NoticeBoardController {
      * 레코드 삽입
      */
     @RequestMapping("/insert")
-    public String insert(NoticeBoardDTO noticeBoard) throws Exception {
+    public String insert(NoticeBoardDTO noticeBoard, String classification) throws Exception {
         
         if(noticeBoard.getFile() != null) {
-        MultipartFile file = noticeBoard.getFile();
-        String attachment = file.getOriginalFilename();
-
-        noticeBoard.setNoticeBoardAttachment(attachment);
-        file.transferTo(new File(path + "/" + attachment));
-        
+            MultipartFile file = noticeBoard.getFile();
+            String attachment = file.getOriginalFilename();
+    
+            noticeBoard.setNoticeBoardAttachment(attachment);
+            file.transferTo(new File(path + "/" + attachment));
+            
         }
-        noticeBoardService.insert(noticeBoard);
+        noticeBoardService.noticeInsert(noticeBoard, classification);
         
         return "redirect:list";
     }

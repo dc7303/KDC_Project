@@ -47,7 +47,7 @@
     <insert id="noticeBoardInsert" parameterType="NoticeBoardDTO">
 
         INSERT INTO NOTICE_BOARD
-        VALUES (NOTICE_BOARD_SEQ.NEXTVAL, 'AAAA', #{noticeBoardTitle}, 'lake',
+        VALUES (NOTICE_BOARD_SEQ.NEXTVAL, #{noticeBoardClassification}, #{noticeBoardClassRoomCode}, #{noticeBoardTitle}, #{noticeBoardWriterId},
         SYSDATE,#{noticeBoardContents}, 0, #{noticeBoardAttachment},
         'FALSE')
 

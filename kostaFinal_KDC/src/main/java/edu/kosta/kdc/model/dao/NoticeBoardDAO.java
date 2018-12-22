@@ -13,7 +13,7 @@ public interface NoticeBoardDAO {
     /**
      * 레코드 삽입
      */
-    int insert(NoticeBoardDTO noticeBoard);
+    int noticeInsert(NoticeBoardDTO noticeBoard);
     
     /**
      * 제목 검색해서 상세보기

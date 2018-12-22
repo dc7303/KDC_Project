@@ -14,7 +14,7 @@
 <form name="wirteForm" method="post" action="${pageContext.request.contextPath}/notice/insert?${_csrf.parameterName}=${_csrf.token}"  enctype="multipart/form-data">
 
 <%-- <input type="hidden" name="${_csrf.parameterName }"  value="${_csrf.token}"/> --%>
-
+<input type="hidden" name="classification" value="classNotice"/>
 <table align="center" cellpadding="5" cellspacing="2" width="600" border="1" >
 
     <tr>

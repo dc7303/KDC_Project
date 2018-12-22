@@ -35,16 +35,25 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         //반별 공지사항일 경우 사용될 클래스룸 코드
         String classRoomCode = null;
         
+        Object contextHolder = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
         //반별 공지사항일 경우 디폴트로 설정된 클래스룸을 가져온다.
-        if(classification.equals("classNotice")) {
-            MemberDTO memberDTO = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(classification != null && classification.equals("classNotice")) {
             
-            ClassRoomDTO classRoomDTO = classRoomDAO.currentClassSelectByMemberId(memberDTO.getMemberId());
-            if(classRoomDTO == null) {
-                throw new KdcException("디폴트로 설정된 클래스룸이 존재하지 않습니다. 마이페이지에서 설정해주세요.");
+            //로그인 안된상태인 anonymousUser가 아닐 경우 로직 수행
+            if(!contextHolder.toString().equals("anonymousUser")) {
+                MemberDTO memberDTO = (MemberDTO)contextHolder;
+                
+                //현재 디폴트로 설정된 클래스코드 가져오기
+                ClassRoomDTO classRoomDTO = classRoomDAO.currentClassSelectByMemberId(memberDTO.getMemberId());
+                if(classRoomDTO == null) {
+                    throw new KdcException("디폴트로 설정된 클래스룸이 존재하지 않습니다. 마이페이지에서 설정해주세요.");
+                }
+                
+                classRoomCode = classRoomDTO.getClassRoomCode();
+            }else {
+                throw new KdcException("Kosta 수강생 또는 강사만 접근가능합니다.");
             }
-            
-            classRoomCode = classRoomDTO.getClassRoomCode();
         }
         
         List<NoticeBoardDTO> list = noticeBoardDAO.selectAll(classification, classRoomCode);
@@ -59,11 +68,42 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
      *  레코드 삽입
      */
     @Override
-    public int insert(NoticeBoardDTO noticeBoard) {
+    public int noticeInsert(NoticeBoardDTO noticeBoard, String classification) {
+        
+        //반별 공지사항일 경우 사용될 클래스룸 코드
+        String classRoomCode = null;
+        
+        Object contextHolder = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        
+        //반별 공지사항일 경우 디폴트로 설정된 클래스룸을 가져온다.
+        if(classification != null && classification.equals("classNotice")) {
+            
+            //로그인 안된상태인 anonymousUser가 아닐 경우 로직 수행
+            if(!contextHolder.toString().equals("anonymousUser")) {
+                MemberDTO memberDTO = (MemberDTO)contextHolder;
+                
+                //현재 디폴트로 설정된 클래스코드 가져오기
+                ClassRoomDTO classRoomDTO = classRoomDAO.currentClassSelectByMemberId(memberDTO.getMemberId());
+                if(classRoomDTO == null) {
+                    throw new KdcException("디폴트로 설정된 클래스룸이 존재하지 않습니다. 마이페이지에서 설정해주세요.");
+                }
+                
+                noticeBoard.setNoticeBoardWriterId(memberDTO.getMemberId());
+                classRoomCode = classRoomDTO.getClassRoomCode();
+            }else {
+                throw new KdcException("Kosta 수강생 또는 강사만 접근가능합니다.");
+            }
+        }
+        
+        //DTO 셋팅
+        noticeBoard.setNoticeBoardClassification(classification);
+        noticeBoard.setNoticeBoardClassRoomCode(classRoomCode);
+        System.out.println(classRoomCode);
         
         int result = 0;
         //게시글 Insert
-        result = noticeBoardDAO.insert(noticeBoard);
+        result = noticeBoardDAO.noticeInsert(noticeBoard);
         if(result == 0) {
             throw new KdcException("작성 실패입니다.");
         }
@@ -141,4 +181,6 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         return list;
     }
 
+    
+    
  }

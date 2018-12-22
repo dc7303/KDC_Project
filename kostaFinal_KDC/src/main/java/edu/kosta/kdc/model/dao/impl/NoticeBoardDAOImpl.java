@@ -32,16 +32,14 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
            map.put("classRoomCode", classRoomCode);
         }
         
-        List<NoticeBoardDTO> list = session.selectList("noticeBoardMapper.noticeBoardSelect", map);
-        
-        return list;
+        return session.selectList("noticeBoardMapper.noticeBoardSelect", map);
     }
 
     /**
      * 레코드 삽입
      */
     @Override
-    public int insert(NoticeBoardDTO noticeBoard) {
+    public int noticeInsert(NoticeBoardDTO noticeBoard) {
         
         return session.insert("noticeBoardMapper.noticeBoardInsert", noticeBoard);
     }
