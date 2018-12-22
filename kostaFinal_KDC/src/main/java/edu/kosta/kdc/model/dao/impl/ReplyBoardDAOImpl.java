@@ -184,27 +184,27 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
      * replyBoard좋아요 기능
      */
     @Override
-    public int replyBoardLike(int replyBoardPk) {
+    public int replyBoardLike(ReplyBoardDTO replyBoardDTO) {
 
-        return session.insert("replyBoardMapper.replyBoardLike", replyBoardPk);
+        return session.insert("replyBoardMapper.replyBoardLike", replyBoardDTO);
     }
 
     /**
      * replyBoard싫어요 기능
      */
     @Override
-    public int replyBoardDisLike(int replyBoardPk) {
+    public int replyBoardDisLike(ReplyBoardDTO replyBoardDTO) {
 
-        return session.insert("replyBoardMapper.replyBoardDisLike", replyBoardPk);
+        return session.insert("replyBoardMapper.replyBoardDisLike", replyBoardDTO);
     }
 
     /**
      * replyBoard 좋아요, 싫어요 취소 기능
      */
     @Override
-    public int replyBoardLikeCancle(int replyBoardPk) {
+    public int replyBoardLikeCancle(ReplyBoardDTO replyBoardDTO) {
 
-        return session.delete("replyBoardMapper.replyBoardLikeCancle", replyBoardPk);
+        return session.delete("replyBoardMapper.replyBoardLikeCancle", replyBoardDTO);
     }
 
     /**

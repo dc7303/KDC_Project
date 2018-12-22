@@ -25,7 +25,7 @@ public class ReplyBoardController {
      * 전체 리스트 보기
      * */
     @RequestMapping(value= {"/tech","/lib","/study"})
-    public String list(@RequestParam(value="classification") String classification, Model model) {
+    public String list(String classification, Model model) {
         
         model.addAttribute("classification",classification);
         
@@ -63,8 +63,8 @@ public class ReplyBoardController {
      * 게시글 등록하기
      * */
     @RequestMapping("/insert")
-    public String techBoardInsert(String classification, ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
-        
+    public String techBoardInsert(String classification,String memberId, ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
+        replyBoardDTO.setReplyBoardWriterId(memberId);
         replyBoardDTO.setReplyBoardClassification(classification);
         replyBoardService.insertReply(replyBoardDTO, hashTagName);
         
@@ -75,8 +75,10 @@ public class ReplyBoardController {
      * 댓글 등록하기
      * */
     @RequestMapping("/replyInsert")
-    public String replyInsert(String classification,int replyBoardPk, ReplyBoardDTO replyBoardDTO, Model model) {
-        
+    public String replyInsert(String classification,int replyBoardPk,String memberId, String mentionInput,ReplyBoardDTO replyBoardDTO, Model model) {
+        replyBoardDTO.setMentionNickName(mentionInput);
+        replyBoardDTO.setReplyBoardMention(mentionInput);
+        replyBoardDTO.setReplyBoardWriterId(memberId);
         replyBoardDTO.setReplyBoardClassification(classification);
         
         replyBoardService.replyInsert(replyBoardDTO);        
@@ -89,10 +91,11 @@ public class ReplyBoardController {
      * 상세보기
      * */
     @RequestMapping("/read")
-    public String read(int replyBoardPk,String classification,ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model) {
+    public String read(int replyBoardPk,String classification, String memberId, ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model) {
         
         boolean state = request.getParameter("state") == null ? true : false;
         
+        replyBoardDTODB.setReplyBoardWriterId(memberId);
         replyBoardDTODB.setReplyBoardClassification(classification);
 
         List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
@@ -100,7 +103,7 @@ public class ReplyBoardController {
         model.addAttribute("replyBoardDTO",list);
         model.addAttribute("classification",classification);
         model.addAttribute("replyBoardPk",replyBoardPk);
-        
+        model.addAttribute("memberId",memberId);
         return "replyBoard/read";
     }
     
@@ -126,12 +129,12 @@ public class ReplyBoardController {
      * 게시글 수정하기
      * */
     @RequestMapping("/replyBoardUpdate")
-    public String replyBoardUpdate(String classification, int replyBoardPk, ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
+    public String replyBoardUpdate(String classification, int replyBoardPk, String memberId, ReplyBoardDTO replyBoardDTO, String[] hashTagName) {
         
         replyBoardDTO.setReplyBoardPk(replyBoardPk);
         replyBoardService.replyBoardUpdate(replyBoardDTO, hashTagName);
         
-        return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
+        return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk+"&memberId="+memberId;
     }
     
     /**
@@ -170,7 +173,7 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/delete")
     public String replyBoardDelete(int replyBoardPk,String classification) {
-        
+        System.out.println("controller replyBoardPk : " + replyBoardPk);
         replyBoardService.replyBoardDelete(replyBoardPk);
         
         return "redirect:"+classification+"?classification="+classification;
@@ -206,9 +209,9 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/replyBoardLike")
     @ResponseBody
-    public int replyBoardLike(int replyBoardPk) {
-        
-        int result = replyBoardService.replyBoardLike(replyBoardPk);
+    public int replyBoardLike(String memberId, ReplyBoardDTO replyBoardDTO) {
+        replyBoardDTO.setReplyBoardWriterId(memberId);
+        int result = replyBoardService.replyBoardLike(replyBoardDTO);
         
         return result;
     }
@@ -218,9 +221,10 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/replyBoardDisLike")
     @ResponseBody
-    public int replyBoardDisLike(int replyBoardPk) {
-        
-        int result = replyBoardService.replyBoardDisLike(replyBoardPk);
+    public int replyBoardDisLike(String memberId, ReplyBoardDTO replyBoardDTO) {
+        replyBoardDTO.setReplyBoardWriterId(memberId);
+
+        int result = replyBoardService.replyBoardDisLike(replyBoardDTO);
         
         return result;
     }
@@ -230,9 +234,10 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/replyBoardLikeCancle")
     @ResponseBody
-    public int replyBoardLikeCancle(int replyBoardPk) {
-        
-        int result = replyBoardService.replyBoardLikeCancle(replyBoardPk);
+    public int replyBoardLikeCancle(String memberId, ReplyBoardDTO replyBoardDTO) {
+        replyBoardDTO.setReplyBoardWriterId(memberId);
+
+        int result = replyBoardService.replyBoardLikeCancle(replyBoardDTO);
         
         return result;
     }

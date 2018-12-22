@@ -132,9 +132,9 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
         int result = 0;
         //해시태그 업데이트를 위한 삭제
         result = replyBoardDAO.hashTagUpdateDelete(replyBoardDTO);
-        if(result == 0) {
+        /*if(result == 0) {
             throw new KdcException("해시태그 삭제 실패로 오류발생");
-        }
+        }*/
         
         //게시글 업데이트
         result = replyBoardDAO.replyBoardUpdate(replyBoardDTO);
@@ -177,20 +177,22 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     @Transactional
     public int replyBoardDelete(int replyBoardPk) {
-        
+        ReplyBoardDTO replyBoardDTO = new ReplyBoardDTO();
         int result =0;
         
         result=replyBoardDAO.replyBoardDelete(replyBoardPk);
         if(result==0) throw new KdcException("삭제 실패했습니다.");
+
+        if(replyBoardDTO.getReplyBoardReplyNo()!=0) {
+            result=replyBoardDAO.replyBoardReplyDelete(replyBoardPk);
+            if(result==0) throw new KdcException("삭제 실패했습니다.");
+        }
         
-        result=replyBoardDAO.replyBoardReplyDelete(replyBoardPk);
-        if(result==0) throw new KdcException("삭제 실패했습니다.");
-
+        //예외 처리하면 해시태그 없을때 삭제가 안됨(고쳐야함)
         result=replyBoardDAO.replyBoardHashTagDelete(replyBoardPk);
-        if(result==0) throw new KdcException("삭제 실패했습니다.");
-
+        
+        //예외 처리하면 좋아요 없을때 삭제가 안됨(고쳐야함)    
         result=replyBoardDAO.replyBoardUpDownDelete(replyBoardPk);
-        if(result==0) throw new KdcException("삭제 실패했습니다.");
         
         return result;
     }
@@ -230,11 +232,11 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * replyBoard 좋아요
      * */
     @Override
-    public int replyBoardLike(int replyBoardPk) {
+    public int replyBoardLike(ReplyBoardDTO replyBoardDTO) {
         
         int result = 0;
         
-        result = replyBoardDAO.replyBoardLike(replyBoardPk);
+        result = replyBoardDAO.replyBoardLike(replyBoardDTO);
         if(result == 0) {
             throw new KdcException("좋아요 등록 실패했습니다.");
         }
@@ -246,11 +248,11 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * replyBoard 싫어요
      * */
     @Override
-    public int replyBoardDisLike(int replyBoardPk) {
+    public int replyBoardDisLike(ReplyBoardDTO replyBoardDTO) {
         
         int result = 0;
         
-        result = replyBoardDAO.replyBoardDisLike(replyBoardPk);
+        result = replyBoardDAO.replyBoardDisLike(replyBoardDTO);
         if(result == 0) {
             throw new KdcException("싫어요 등록 실패했습니다.");
         }
@@ -261,11 +263,11 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * replyBoard 좋아요,싫어요 취소 기능
      * */
     @Override
-    public int replyBoardLikeCancle(int replyBoardPk) {
+    public int replyBoardLikeCancle(ReplyBoardDTO replyBoardDTO) {
         
         int result = 0;
         
-        result = replyBoardDAO.replyBoardLikeCancle(replyBoardPk);
+        result = replyBoardDAO.replyBoardLikeCancle(replyBoardDTO);
         if(result == 0) {
             throw new KdcException("취소 실패입니다.");
         }

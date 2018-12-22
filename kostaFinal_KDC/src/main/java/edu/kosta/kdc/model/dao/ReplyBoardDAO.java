@@ -93,17 +93,17 @@ public interface ReplyBoardDAO {
     /**
      * replyBoard좋아요 기능
      * */
-    int replyBoardLike(int replyBoardPk);
+    int replyBoardLike(ReplyBoardDTO replyBoardDTO);
 
     /**
      * replyBoard싫어요 기능
      * */
-    int replyBoardDisLike(int replyBoardPk);
+    int replyBoardDisLike(ReplyBoardDTO replyBoardDTO);
     
     /**
      * replyBoard 좋아요, 싫어요 취소 기능
      * */
-    int replyBoardLikeCancle(int replyBoardPk);
+    int replyBoardLikeCancle(ReplyBoardDTO replyBoardDTO);
     
     /**
      * 해시태그 제안하기

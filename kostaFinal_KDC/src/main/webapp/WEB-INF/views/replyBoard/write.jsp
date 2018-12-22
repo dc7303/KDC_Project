@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <HTML>
 <HEAD>
@@ -38,7 +39,10 @@ function checkValid() {
 
 <form name="writeForm" method="post" action="${pageContext.request.contextPath}/reply/insert?classification=${requestScope.classification}">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-
+<sec:authorize access="isAuthenticated()">
+  <sec:authentication var="member" property="principal" />
+  <input type="hidden" name="memberId" value="${member.memberId}">
+</sec:authorize>
 <table>
        <thead>
           <tr class="titel-color">
@@ -53,7 +57,12 @@ function checkValid() {
       <span><input type=text name="replyBoardTitle" placeholder="게시글 제목 작성"></span>
       </td>
       <td>
-      <span>글쓴이닉네임표출</span>
+      <span>
+        <sec:authorize access="isAuthenticated()">
+          <sec:authentication var="member" property="principal" />
+          ${member.memberNickName }
+        </sec:authorize>
+      </span>
       </td>
       <td>
       <span>현재시간표출</span>

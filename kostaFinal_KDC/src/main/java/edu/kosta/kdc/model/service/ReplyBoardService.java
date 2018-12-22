@@ -62,17 +62,17 @@ public interface ReplyBoardService {
     /**
      * replyBoard 좋아요
      * */
-    int replyBoardLike(int replyBoardPk);
+    int replyBoardLike(ReplyBoardDTO replyBoardDTO);
 
     /**
      * replyBoard 싫어요
      * */
-    int replyBoardDisLike(int replyBoardPk);
+    int replyBoardDisLike(ReplyBoardDTO replyBoardDTO);
 
     /**
      * replyBoard 좋아요,싫어요 취소 기능
      * */
-    int replyBoardLikeCancle(int replyBoardPk);
+    int replyBoardLikeCancle(ReplyBoardDTO replyBoardDTO);
 
     /**
      * 해시태그 제안하기
