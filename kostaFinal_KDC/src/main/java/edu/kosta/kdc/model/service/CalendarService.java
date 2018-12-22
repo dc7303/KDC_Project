@@ -11,7 +11,7 @@ public interface CalendarService {
      * 
      * @return
      */
-    List<CalendarDTO> calendarSelectAll();
+    List<CalendarDTO> calendarSelectByClassCode();
     
     /**
      * 일정 추가

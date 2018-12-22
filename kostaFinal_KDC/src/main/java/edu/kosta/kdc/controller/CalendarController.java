@@ -2,6 +2,7 @@ package edu.kosta.kdc.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,12 +15,13 @@ import edu.kosta.kdc.model.service.CalendarService;
 @RequestMapping("/calendar")
 public class CalendarController {
 
+    @Autowired
     private CalendarService calendarService;
     
-    @RequestMapping(value = "/calendarSelectAll")
-    public ModelAndView calendarForm(String memberId) {
+    @RequestMapping(value = "/calendarSelectByClassCode")
+    public ModelAndView calendarForm() {
         
-        List<CalendarDTO> list = calendarService.calendarSelectAll();
+        List<CalendarDTO> list = calendarService.calendarSelectByClassCode();
         
         return new ModelAndView("classRoom/calendarForm", "calendarList", list);
     }

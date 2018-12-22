@@ -6,15 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link href="${pageContext.request.contextPath}/resources/fullCalendar/fullcalendar.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.min.css" rel="stylesheet">
 
-<script src='${pageContext.request.contextPath}/resources/fullCalendar/lib/jquery.min.js'></script>
-<script src='${pageContext.request.contextPath}/resources/fullCalendar/lib/moment.min.js'></script>
-<script src="${pageContext.request.contextPath}/resources/fullCalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/jquery.min.js'></script>
+<script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/moment.min.js'></script>
+<script src="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
-const jq = jQuery.noConflict();
 
 $(function() {
   //이벤트 데이터베이스에서 불러오기
@@ -42,7 +41,7 @@ $(function() {
         end: end
       });
     }
-
+	console.log(arr);
     return arr;
   })();
 
@@ -65,7 +64,7 @@ $(function() {
           end: end
         };
         
-        jq.ajax({
+        $.ajax({
           url: '${contextPath.request.contextPath}/calendar/calendarInsert',
           type: 'post',
           dataType: 'text',
@@ -102,10 +101,10 @@ $(function() {
 
 </head>
 <body>
-    <c:forEach items="${requestScope.classList}" var="classList" varStatus="state">
-      <input type="hidden" name="title" value="${classList.classRoomInfoName }"/>
-      <input type="hidden" name="startDate" value="${classList.classRoomInfoStartDate }"/>
-      <input type="hidden" name="endDate" value="${classList.classRoomInfoEndDate }"/>
+    <c:forEach items="${requestScope.calendarList}" var="calendarList" varStatus="state">
+      <input type="hidden" name="title" value="${calendarList.calendarTitle }"/>
+      <input type="hidden" name="startDate" value="${calendarList.calendarStart }"/>
+      <input type="hidden" name="endDate" value="${calendarList.calendarEnd }"/>
     </c:forEach>
 
 <div id="calendar"></div>

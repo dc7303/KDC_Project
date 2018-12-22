@@ -11,7 +11,7 @@ public interface CalendarDAO {
      * 
      * @return
      */
-    List<CalendarDTO> calendarSelectAll();
+    List<CalendarDTO> calendarSelectByClassCode(String classRoomCode);
     
     /**
      * 일정 추가

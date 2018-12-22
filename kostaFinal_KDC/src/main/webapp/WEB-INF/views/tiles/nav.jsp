@@ -88,7 +88,7 @@
                       </li>
         
                       <li>
-                        <a href="${pageContext.request.contextPath}/calendar/calendarSelectAll">스케줄</a>
+                        <a href="${pageContext.request.contextPath}/calendar/calendarSelectByClassCode">스케줄</a>
                       </li>
         
                       <li>
