@@ -111,9 +111,16 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public int calendarDelete(CalendarDTO calendarDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int calendarDelete(int calendarPk) {
+        
+        int result = 0;
+        
+        result = calendarDAO.calendarDelete(calendarPk);
+        if(result == 0) {
+            throw new KdcException("삭제 실패입니다.");
+        }
+        
+        return result;
     }
 
 }

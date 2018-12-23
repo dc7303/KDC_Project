@@ -62,5 +62,19 @@ public class CalendarController {
         
         return "";
     }
+    
+    /**
+     * 일정 삭제 프로세서
+     * 
+     * @return
+     */
+    @RequestMapping(value = "/calendarDelete", produces = "text/plain; cahrset=UTF-8")
+    @ResponseBody
+    public String calendarDelete(@RequestParam(value="num") int calendarPk) {
+        
+        calendarService.calendarDelete(calendarPk);
+        
+        return "";
+    }
 
 }

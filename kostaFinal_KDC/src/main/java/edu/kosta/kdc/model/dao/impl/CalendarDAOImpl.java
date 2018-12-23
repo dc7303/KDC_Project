@@ -38,9 +38,9 @@ public class CalendarDAOImpl implements CalendarDAO {
     }
 
     @Override
-    public int calendarDelete(CalendarDTO calendarDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int calendarDelete(int calendarPk) {
+
+        return sqlSession.delete("calendarMapper.deleteDate", calendarPk);
     }
 
 

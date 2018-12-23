@@ -27,4 +27,9 @@
             calendar_pk = #{calendarPk}
         </where>
     </update>
+    
+    <!-- 캘린더 삭제 -->
+    <delete id="deleteDate" parameterType="int">
+        delete from calendar where calendar_pk = #{_parameter}
+    </delete>
 </mapper>

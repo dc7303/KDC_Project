@@ -35,5 +35,5 @@ public interface CalendarDAO {
      * @param calendarDTO
      * @return
      */
-    int calendarDelete(CalendarDTO calendarDTO);
+    int calendarDelete(int calendarPk);
 }
