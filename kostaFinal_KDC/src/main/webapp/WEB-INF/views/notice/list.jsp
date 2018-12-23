@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="css/style.css">
 
 <table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
-<caption>반별공지사항</caption>
+<caption>공지사항</caption>
 	<colgroup>
 		<col width="15%"/>
 		<col width="30%"/>

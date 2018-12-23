@@ -33,7 +33,7 @@
             <div class="app-layout-drawer-scroll">
             <!-- Drawer logo -->
               <div id="logo" class="">
-                <a href="/"><img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc.png" title="AppUI" alt="AppUI" /></a>
+                <a href="${pageContext.request.contextPath }/"><img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc.png" title="AppUI" alt="AppUI" /></a>
               </div>
   
                     <!-- Drawer navigation -->
