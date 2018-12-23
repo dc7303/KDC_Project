@@ -7,8 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.print.min.css" rel="stylesheet" media="print"/>
+<link href="${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.css" rel="stylesheet"/>
 
 <script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/jquery.min.js'></script>
+<script src='${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.min.js'></script>
 <script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/moment.min.js'></script>
 <script src="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.min.js" type="text/javascript"></script>
 
@@ -20,6 +23,7 @@ $(function() {
       left: 'none',
       center: 'title'
     },
+    themeSystem: 'jquery-ui',
     selectHelper: true,
     //셀렉트 이벤트 가능 설정.
     selectable: true,
@@ -83,7 +87,6 @@ function setSelectInsert(start, end, jsEvent, view) {
  * @param {*} view
  */
 function setEventClick(event, jsEvent, view) {
-  console.log(jsEvent);
   var newTitle = prompt('수정할 이벤트 제목을 입력하세요.', event.title);
 
   if (newTitle !== null) {
@@ -218,6 +221,10 @@ function setEevents(start, end, timezone, callback) {
 <body>
 
 <div id="calendar"></div>
+
+<div id="dialog" title="Basic dialog">
+  
+</div>
 
 </body>
 </html>
