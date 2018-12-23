@@ -103,17 +103,17 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     @Transactional
-    public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB, boolean state) {
+    public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTO, boolean state) {
         
         //게시글 조회
-        List<ReplyBoardDTO> list = replyBoardDAO.selectByReplyBoardPK(replyBoardDTODB);
+        List<ReplyBoardDTO> list = replyBoardDAO.selectByReplyBoardPK(replyBoardDTO);
         if(list == null) {
             throw new KdcException("게시글을 불러오는데 실패했습니다.");
         }
         
         //조회수 증가
         if(state) {
-            int result = replyBoardDAO.readnumUpdate(replyBoardDTODB.getReplyBoardPk());
+            int result = replyBoardDAO.readnumUpdate(replyBoardDTO.getReplyBoardPk());
             if(result == 0) {
                 throw new KdcException("조회수 증가 오류 입니다.");
             }

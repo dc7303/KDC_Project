@@ -38,7 +38,7 @@ public interface ReplyBoardDAO {
     /**
      * 게시글 제목에 해당하는 상세보기
      * */
-    List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB);
+    List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTO);
 
     /**
      * 게시글 수정하기

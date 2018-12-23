@@ -91,14 +91,14 @@ public class ReplyBoardController {
      * 상세보기
      * */
     @RequestMapping("/read")
-    public String read(int replyBoardPk,String classification, String memberId, ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model) {
+    public String read(int replyBoardPk,String classification, String memberId, ReplyBoardDTO replyBoardDTO, HttpServletRequest request, Model model) {
         
         boolean state = request.getParameter("state") == null ? true : false;
         
-        replyBoardDTODB.setReplyBoardWriterId(memberId);
-        replyBoardDTODB.setReplyBoardClassification(classification);
+        replyBoardDTO.setReplyBoardWriterId(memberId);
+        replyBoardDTO.setReplyBoardClassification(classification);
 
-        List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
+        List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTO, state);
 
         model.addAttribute("replyBoardDTO",list);
         model.addAttribute("classification",classification);

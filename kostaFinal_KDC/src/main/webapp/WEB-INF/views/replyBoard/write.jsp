@@ -12,7 +12,21 @@
     
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 
-<SCRIPT language=javascript>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/highlight.pack.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/squire-rte/build/squire-raw.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-Editor.min.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
+<script language=javascript>
 function checkValid() {
     var f = window.document.writeForm;
       
@@ -30,14 +44,37 @@ function checkValid() {
 }
 </script>
 
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script>
+$(function(){
+  /* 에디터 객체 생성 */
+  var editor = new tui.Editor({
+    el: document.querySelector('#editSection'),
+    initialEditType: 'markdown',
+    previewStyle: 'vertical',
+    height: '400px',
+  });
+  
+  /* 에디터 폼 submit control */
+  $('#editor-submit').on('click',function(){
+    var content = editor.getValue();
+    
+    var input = $('<input>').attr('type','hidden')
+      .attr('name','replyBoardContents').val(content);
+    $('#editor-form').append($(input));
+    
+    $('#editor-form').submit();
+    
+  }); 
+  
+});
+
+</script>
 
 </head>
 <body>
 
 
-<form name="writeForm" method="post" action="${pageContext.request.contextPath}/reply/insert?classification=${requestScope.classification}">
+<form name="writeForm" method="post"  id="editor-form" action="${pageContext.request.contextPath}/reply/insert?classification=${requestScope.classification}">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 <sec:authorize access="isAuthenticated()">
   <sec:authentication var="member" property="principal" />
@@ -51,7 +88,6 @@ function checkValid() {
             <td>등록날짜</td>
           </tr>
         </thead>
-
     <tr>
       <td colspan="6">
       <span><input type=text name="replyBoardTitle" placeholder="게시글 제목 작성"></span>
@@ -60,7 +96,7 @@ function checkValid() {
       <span>
         <sec:authorize access="isAuthenticated()">
           <sec:authentication var="member" property="principal" />
-          ${member.memberNickName }
+          ${member.memberNickName}
         </sec:authorize>
       </span>
       </td>
@@ -71,7 +107,7 @@ function checkValid() {
     
     <tr>
       <td class="tech-content" colspan="8">
-      <input type=text name="replyBoardContents" placeholder="게시글 내용 작성" style="height:100%;">
+        <div id="editSection"></div>
       </td>
     </tr>
     
@@ -95,7 +131,7 @@ function checkValid() {
     <tr>
       <td colspan="8" height="20" colspan="4" align="center" valign="middle">
 
-      <input type=submit value="글쓰기">
+      <input type=submit value="글쓰기" id="editor-submit">
       <input type=reset value="다시쓰기">
 
       </td>

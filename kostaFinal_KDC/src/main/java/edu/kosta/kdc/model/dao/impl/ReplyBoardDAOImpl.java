@@ -75,9 +75,9 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
      * 게시글 제목에 해당하는 상세보기
      */
     @Override
-    public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB) {
+    public List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTO) {
 
-        return session.selectList("replyBoardMapper.boardByModelNum", replyBoardDTODB);
+        return session.selectList("replyBoardMapper.boardByModelNum", replyBoardDTO);
     }
 
     /**

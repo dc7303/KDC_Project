@@ -14,10 +14,30 @@
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main2.js"></script>
+<script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/highlight.pack.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/squire-rte/build/squire-raw.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-Editor.min.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 
 <script>
 $(function(){
-  
+    //viewer 세팅
+    var contents = $('#detail-description').val();
+	var editor = tui.Editor.factory({
+      el: document.querySelector('#viewer-section'),
+      viewer: true,
+      height: '500px',
+      initialValue: contents
+	});
+	
       $("input[value=수정하기]").click(function(){
          
          $("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/updateForm");
@@ -201,7 +221,8 @@ $(function(){
     
     <tr>
       <td class="tech-content" colspan="10">
-      <span>${replyBoardDTO.replyBoardContents}</span>
+        <div id = "viewer-section"></div>
+        <input id ="detail-description" type="hidden" value="${replyBoardDTO.replyBoardContents}">
       </td>
     </tr>
     <tr>
@@ -240,7 +261,7 @@ $(function(){
         <span id="mentionNickName">${replyBoardDTO.mentionNickName}</span>
         </td>
         <td>
-        <span id="replyBoardContents">${replyBoardDTO.replyBoardContents}</span>
+        <span id="replyBoardContents">${replyBoardDTO.replyBoardContents }</span>
         </td>      
         <td>
         <span>${replyBoardDTO.replyBoardDate}</span>
