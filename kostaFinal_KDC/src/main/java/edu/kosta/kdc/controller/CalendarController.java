@@ -46,19 +46,21 @@ public class CalendarController {
     }
     
     /**
-     * 일정 드래그 앤 드롭으로 업데이트 진행
+     * 일정 drag & drop 으로 업데이트 및 Resize시 
      * 
      * @return
      */
-    @RequestMapping(value = "/calendarDropUpdate", produces = "text/plain; charset=UTF-8")
+    @RequestMapping(value = "/calendarUpdateDate", produces = "text/plain; charset=UTF-8")
     @ResponseBody
-    public String calendarDropUpdate(@RequestParam(value="num") int calendarPk,
+    public String calendarUpdateDate(@RequestParam(value="num") int calendarPk, 
+            @RequestParam(value="title") String calendarTitle,
             @RequestParam(value="start") String calendarStart, 
             @RequestParam(value="end") String calendarEnd) {
         
         //classCode, title 값 Null
-        calendarService.calendarUpdate(new CalendarDTO(calendarPk, null, null, calendarStart, calendarEnd));
+        calendarService.calendarUpdateDate(new CalendarDTO(calendarPk, null, calendarTitle, calendarStart, calendarEnd));
         
         return "";
     }
+
 }

@@ -96,21 +96,14 @@ $(function() {
 
       if (newTitle !== null) {
         event.title = newTitle.trim() !== '' ? newTitle : event.title;
-        console.log(event.title, event.start.format(), event.end.format());
-        cal.fullCalendar('updateEvent', event);
-      }
-    },
-    //드래그앤 드롭 Update 이벤트 처리
-    eventDrop: function(event, delta, revertFunc) {
-      if (!confirm("정말로 수정하시겠습니까?")) {
-        revertFunc();
-      }else {
+        
         $.ajax({
-          url: '/kdc/calendar/calendarDropUpdate',
+          url: '/kdc/calendar/calendarUpdateDate',
           type: 'post',
           dataType: 'text',
           data: {
             num: event.num,
+            title: event.title,
             start: event.start.format(),
             end: event.end.format(),
           },
@@ -118,13 +111,62 @@ $(function() {
             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
           },
           success: function(result) {
-			
+            //캘린더에 수정 뷰 적용
+            cal.fullCalendar('updateEvent', event);
           },
           error: function(err) {
-            console.log(err);
+            console.log('실패했습니다. error : ' + err);
           }
         });
       }
+    },
+    //드래그앤 드롭 Update 이벤트 처리
+    eventDrop: function(event, delta, revertFunc) {
+      //취소시 되돌리기
+      if (!confirm("정말로 수정하시겠습니까?")) {
+        revertFunc();
+      }else {
+        //calendar 없데이트로.
+        $.ajax({
+          url: '/kdc/calendar/calendarUpdateDate',
+          type: 'post',
+          dataType: 'text',
+          data: {
+            num: event.num,
+            title: event.title,
+            start: event.start.format(),
+            end: event.end.format(),
+          },
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          success: function(result) {},
+          error: function(err) {
+            console.log('실패했습니다. error : ' + err);
+          }
+        });
+      }
+    },
+    //일정 Resize
+    eventResize: function( event, delta, revertFunc, jsEvent, ui, view ) { 
+      $.ajax({
+        url: '/kdc/calendar/calendarUpdateDate',
+        type: 'post',
+        dataType: 'text',
+        data: {
+          num: event.num,
+          title: event.title,
+          start: event.start.format(),
+          end: event.end.format(),
+        },
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+        },
+        success: function(result) {},
+        error: function(err) {
+          console.log('실패했습니다. error : ' + err);
+        }
+      });
     },
     events: eventArr	//불러온데이터 초기화
   });

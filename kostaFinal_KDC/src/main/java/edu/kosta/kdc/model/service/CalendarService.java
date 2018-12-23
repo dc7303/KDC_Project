@@ -27,7 +27,7 @@ public interface CalendarService {
      * @param calendarDTO
      * @return
      */
-    int calendarUpdate(CalendarDTO calendarDTO);
+    int calendarUpdateDate(CalendarDTO calendarDTO);
     
     /**
      * 일정 삭제

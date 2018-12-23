@@ -32,7 +32,7 @@ public class CalendarDAOImpl implements CalendarDAO {
     }
 
     @Override
-    public int calendarUpdate(CalendarDTO calendarDTO) {
+    public int calendarUpdateDate(CalendarDTO calendarDTO) {
         
         return sqlSession.update("calendarMapper.updateDate", calendarDTO);
     }

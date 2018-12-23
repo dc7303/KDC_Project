@@ -98,11 +98,11 @@ public class CalendarServiceImpl implements CalendarService {
 
     
     @Override
-    public int calendarUpdate(CalendarDTO calendarDTO) {
+    public int calendarUpdateDate(CalendarDTO calendarDTO) {
         
         int result = 0;
         
-        result = calendarDAO.calendarUpdate(calendarDTO);
+        result = calendarDAO.calendarUpdateDate(calendarDTO);
         if(result == 0) {
             throw new KdcException("업데이트 실패입니다.");
         }
