@@ -262,7 +262,7 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
 </select>
 
 <insert id="reportPopInsert" parameterType="map">
-    INSERT INTO REPORT VALUES(REPORT_SEQ.NEXTVAL, #{replyBoardPk}, #{replyBoardWriterId}, SYSDATE, #{reportContents},'FALSE')
+    INSERT INTO REPORT VALUES(REPORT_SEQ.NEXTVAL, #{replyBoardPk}, #{memberId}, SYSDATE, #{reportContents},'FALSE')
 </insert>
 
 <select id="nicknameSuggest" parameterType="String" resultMap="mentionTagMap">

@@ -113,12 +113,12 @@ public interface ReplyBoardDAO {
     /**
      * 신고하기 insert(radio박스에 있는거 체크할시)
      * */
-    int reportPopInsert(String reportContents, int replyBoardPk);
+    int reportPopInsert(String reportContents, int replyBoardPk, String memberId);
     
     /**
      * 신고하기 insert(radio박스에서 기타를 선택했을 경우)
      * */
-    int reportPopOtherInsert(String otherWords, int replyBoardPkReport);
+    int reportPopOtherInsert(String otherWords, int replyBoardPkReport, String memberId);
     
     /**
      * 멘션태그 제안하기

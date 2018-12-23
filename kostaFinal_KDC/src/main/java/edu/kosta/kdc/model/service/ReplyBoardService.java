@@ -82,7 +82,7 @@ public interface ReplyBoardService {
     /**
      * 신고 insert하기
      * */
-    int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords);
+    int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords, String memberId);
 
     /**
      * 멘션태그 제안하기

@@ -301,17 +301,17 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * */
     @Override
     @Transactional
-    public int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords) {
+    public int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords, String memberId) {
         
         int result = 0;
         
         if(reportContents.length()!=0) {
-            result = replyBoardDAO.reportPopInsert(reportContents, replyBoardPkReport);
+            result = replyBoardDAO.reportPopInsert(reportContents, replyBoardPkReport,memberId);
             if(result == 0) {
                 throw new KdcException("등록 실패입니다.");
             }
         }else {
-            result = replyBoardDAO.reportPopInsert(otherWords, replyBoardPkReport);
+            result = replyBoardDAO.reportPopInsert(otherWords, replyBoardPkReport,memberId);
             if(result == 0) {
                 throw new KdcException("등록 실패입니다.");
             }

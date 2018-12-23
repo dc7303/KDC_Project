@@ -28,9 +28,11 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 
 <script>
-$(function(){
+const jq = jQuery.noConflict();
+
+jq(function(){
     //viewer 세팅
-    var contents = $('#detail-description').val();
+    var contents = jq('#detail-description').val();
 	var editor = tui.Editor.factory({
       el: document.querySelector('#viewer-section'),
       viewer: true,
@@ -38,18 +40,18 @@ $(function(){
       initialValue: contents
 	});
 	
-      $("input[value=수정하기]").click(function(){
+      jq("input[value=수정하기]").click(function(){
          
-         $("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/updateForm");
-         $("#requestForm").submit();
+         jq("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/updateForm");
+         jq("#requestForm").submit();
       })
       
       
-      $("input[value=삭제하기]").click(function(){
+      jq("input[value=삭제하기]").click(function(){
          var yesOrNo = confirm("정말 삭제 하시겠습니까?");
          if(yesOrNo){
-            $("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/delete");
-            $("#requestForm").submit();
+            jq("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/delete");
+            jq("#requestForm").submit();
          }
       });
       
@@ -212,7 +214,7 @@ $(function(){
       <span><input type="button" value="신고"/></span>
       <script>
           $("input[value=신고]").click(function() {
-              window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
+              window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
           });
         </script>
       </td>

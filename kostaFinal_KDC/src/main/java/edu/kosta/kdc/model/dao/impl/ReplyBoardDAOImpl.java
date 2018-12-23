@@ -12,6 +12,7 @@ import edu.kosta.kdc.model.dao.ReplyBoardDAO;
 import edu.kosta.kdc.model.dto.HashTagDTO;
 import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
+import edu.kosta.kdc.model.dto.ReportDTO;
 
 @Repository
 public class ReplyBoardDAOImpl implements ReplyBoardDAO {
@@ -220,12 +221,11 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
      * 신고하기 insert(radio박스에 있는거 체크할시)
      */
     @Override
-    public int reportPopInsert(String reportContents, int replyBoardPkReport) {
-
+    public int reportPopInsert(String reportContents, int replyBoardPkReport, String memberId) {
         Map<String, Object> map = new HashMap<>();
         map.put("reportContents", reportContents);
         map.put("replyBoardPk", replyBoardPkReport);
-
+        map.put("memberId", memberId);
         return session.insert("replyBoardMapper.reportPopInsert", map);
     }
 
@@ -233,12 +233,12 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
      * 신고하기 insert(radio박스에서 기타를 선택했을 경우)
      */
     @Override
-    public int reportPopOtherInsert(String otherWords, int replyBoardPkReport) {
+    public int reportPopOtherInsert(String otherWords, int replyBoardPkReport, String memberId) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("replyBoardPk", replyBoardPkReport);
         map.put("reportContents", otherWords);
-
+        map.put("memberId", memberId);
         return session.insert("replyBoardMapper.reportPopInsert", map);
     }
 

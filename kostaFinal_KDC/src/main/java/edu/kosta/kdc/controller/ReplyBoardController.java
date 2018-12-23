@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
+import edu.kosta.kdc.model.dto.ReportDTO;
 import edu.kosta.kdc.model.service.ReplyBoardService;
 
 @Controller
@@ -92,12 +93,12 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/read")
     public String read(int replyBoardPk,String classification, String memberId, ReplyBoardDTO replyBoardDTO, HttpServletRequest request, Model model) {
-        
+
         boolean state = request.getParameter("state") == null ? true : false;
         
         replyBoardDTO.setReplyBoardWriterId(memberId);
         replyBoardDTO.setReplyBoardClassification(classification);
-
+        
         List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTO, state);
 
         model.addAttribute("replyBoardDTO",list);
@@ -111,15 +112,13 @@ public class ReplyBoardController {
      * 수정하기 폼
      * */
     @RequestMapping("/updateForm")
-    public String updateForm(int replyBoardPk, String classification, ReplyBoardDTO replyBoardDTODB, HttpServletRequest request, Model model){
+    public String updateForm(int replyBoardPk, String classification, ReplyBoardDTO replyBoardDTO, HttpServletRequest request, Model model){
+        replyBoardDTO.setReplyBoardClassification(classification);
         
-        boolean state = request.getParameter("state") == null ? true : false;
-        replyBoardDTODB.setReplyBoardClassification(classification);
-        
-        List<ReplyBoardDTO> replyBoardDTO = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
+        List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTO, false);
         
         model.addAttribute("classification",classification);
-        model.addAttribute("replyBoardDTO",replyBoardDTO);
+        model.addAttribute("replyBoardDTO",list);
         model.addAttribute("replyBoardPk",replyBoardPk);
 
         return "replyBoard/updateForm";
@@ -143,11 +142,9 @@ public class ReplyBoardController {
     @RequestMapping("/replyUpdateForm")
     public String replyUpdateForm(int replyBoardReplyPk, String classification, int replyBoardPk, Model model, ReplyBoardDTO replyBoardDTODB, HttpServletRequest request) {       
         
-        boolean state = request.getParameter("state")== null? true : false;
-        
         replyBoardDTODB.setReplyBoardClassification(classification);
         
-        List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, state);
+        List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTODB, false);
         
         model.addAttribute("replyBoardDTO",list);
         model.addAttribute("replyBoardPk", replyBoardPk);
@@ -256,20 +253,18 @@ public class ReplyBoardController {
      * 신고창 띄우기
      * */
     @RequestMapping("/reportPopForm")
-    public String reportPopForm(int replyBoardPkReport, Model model) {
-        
+    public String reportPopForm(int replyBoardPkReport, String memberId, Model model) {
         model.addAttribute("replyBoardPkReport",replyBoardPkReport);
-        
-        return "replyBoard/reportPopForm";
+        model.addAttribute("memberId",memberId);
+        return "/replyBoard/reportPopForm";
     }
     
     /**
      * 신고하기
      * */
     @RequestMapping("/reportPop")
-    public String reportPop(String reportContents, int replyBoardPkReport, String otherWords) {
-            
-        replyBoardService.reportPopInsert(reportContents, replyBoardPkReport, otherWords);
+    public String reportPop(String reportContents, int replyBoardPkReport, String otherWords, String memberId, ReportDTO reportDTO) {
+        replyBoardService.reportPopInsert(reportContents, replyBoardPkReport, otherWords, memberId);
             
         return "replyBoard/read";
     }
