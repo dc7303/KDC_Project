@@ -11,5 +11,13 @@
     <!-- 다운로드를 위한 view Resolver -->
     <bean class = "org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="1"/>
-    </bean>
+        
+      
+   </bean>
+        
+ 
+ 
+
+
+
 </beans>

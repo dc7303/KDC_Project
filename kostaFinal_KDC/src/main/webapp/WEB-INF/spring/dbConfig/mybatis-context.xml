@@ -18,6 +18,7 @@
     <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <beans:property name="locations">
             <beans:value>/WEB-INF/spring/dbConfig/dbInfo.properties</beans:value>
+            
         </beans:property>
     </beans:bean>
 
@@ -33,6 +34,13 @@
         <beans:property name="dataSource" ref="dataSource" />
         <beans:property name="mapperLocations" value="classpath:edu/kosta/kdc/mapper/*Mapper.xml" />
         <beans:property name="typeAliasesPackage" value="edu.kosta.kdc.model.dto" />
+           <beans:property name="typeHandlers">
+            <beans:array>
+                <beans:bean class="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+            </beans:array>
+        </beans:property>
+        
+        <beans:property name="configLocation" value="classpath:edu/kosta/kdc/util/SqlMapConfig.xml"/>
     </beans:bean>
 
     <!-- SqlSessionTemplate는 SqlSession의 구현객체로 SqlSession의 모든 기능을 가지고 있다. -->

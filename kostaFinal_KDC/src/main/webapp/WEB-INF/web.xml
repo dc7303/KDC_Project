@@ -15,6 +15,19 @@
       <param-value>UTF-8</param-value>
     </init-param>
   </filter>
+ 
+  <filter>
+        <filter-name>MultipartFilter</filter-name>
+        <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+    </filter>
+   
+   <filter-mapping>
+        <filter-name>MultipartFilter</filter-name>
+        <servlet-name>/*</servlet-name>
+    </filter-mapping>
+  
+
+  
   <filter-mapping>
     <filter-name>CharacterEncodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
@@ -50,9 +63,10 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   
-  
   <servlet-mapping>
     <servlet-name>appServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
+ 
 </web-app>
