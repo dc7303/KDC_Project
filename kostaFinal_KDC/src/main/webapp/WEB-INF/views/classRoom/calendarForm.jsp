@@ -23,6 +23,9 @@ $(function() {
     //hidden값 가져오기.
     //추후 좀 더 좋은 방향으로 개선되어야함.
     for (let i = 0; i < dateLength; i++) {
+      let num = $('input[name=calendarNum]')
+		.eq(i)
+		.val();
       let title = $('input[name=title]')
         .eq(i)
         .val();
@@ -35,6 +38,7 @@ $(function() {
 
       //배열에 추가
       arr.push({
+        num: num,
         title: title,
         start: start,
         end: end
@@ -96,6 +100,32 @@ $(function() {
         cal.fullCalendar('updateEvent', event);
       }
     },
+    //드래그앤 드롭 Update 이벤트 처리
+    eventDrop: function(event, delta, revertFunc) {
+      if (!confirm("정말로 수정하시겠습니까?")) {
+        revertFunc();
+      }else {
+        $.ajax({
+          url: '/kdc/calendar/calendarDropUpdate',
+          type: 'post',
+          dataType: 'text',
+          data: {
+            num: event.num,
+            start: event.start.format(),
+            end: event.end.format(),
+          },
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          success: function(result) {
+			
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+      }
+    },
     events: eventArr	//불러온데이터 초기화
   });
 });
@@ -105,6 +135,7 @@ $(function() {
 </head>
 <body>
     <c:forEach items="${requestScope.calendarList}" var="calendarList" varStatus="state">
+      <input type="hidden" name="calendarNum" value="${calendarList.calendarPk }"/>
       <input type="hidden" name="title" value="${calendarList.calendarTitle }"/>
       <input type="hidden" name="startDate" value="${calendarList.calendarStart }"/>
       <input type="hidden" name="endDate" value="${calendarList.calendarEnd }"/>

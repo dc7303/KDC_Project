@@ -44,4 +44,24 @@ public class CalendarController {
         
         return "";
     }
+    
+    /**
+     * 일정 드래그 앤 드롭으로 업데이트 진행
+     * 
+     * @return
+     */
+    @RequestMapping(value = "/calendarDropUpdate", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String calendarDropUpdate(@RequestParam(value="num") int calendarPk,
+            @RequestParam(value="start") String calendarStart, 
+            @RequestParam(value="end") String calendarEnd) {
+        
+        System.out.println(calendarPk);
+        System.out.println(calendarStart);
+        System.out.println(calendarEnd);
+        //캘린더 PK값 시퀀스이기 때문에 0, ClassCode는 서비스에서 불러옴.
+        //calendarService.calendarUpdate(new CalendarDTO(0, null, null, calendarStart, calendarEnd));
+        
+        return "";
+    }
 }
