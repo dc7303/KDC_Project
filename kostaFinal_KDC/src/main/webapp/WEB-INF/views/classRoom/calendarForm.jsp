@@ -15,45 +15,13 @@
 <script type="text/javascript">
 
 $(function() {
-  //이벤트 데이터베이스에서 불러오기
-  const eventArr = (() => {
-    const arr = [];    	//이벤트 담을 배열
-    const dateLength = $('input[name=title]').length;
-
-    //hidden값 가져오기.
-    //추후 좀 더 좋은 방향으로 개선되어야함.
-    for (let i = 0; i < dateLength; i++) {
-      let num = $('input[name=calendarNum]')
-		.eq(i)
-		.val();
-      let title = $('input[name=title]')
-        .eq(i)
-        .val();
-      let start = $('input[name=startDate]')
-        .eq(i)
-        .val();
-      let end = $('input[name=endDate]')
-        .eq(i)
-        .val();
-
-      //배열에 추가
-      arr.push({
-        num: num,
-        title: title,
-        start: start,
-        end: end
-      });
-    }
-	console.log(arr);
-    return arr;
-  })();
-
   //캘린더 객체생성
   var cal = $('#calendar').fullCalendar({
     header: {
       left: 'none',
       center: 'title'
     },
+    selectHelper: true,
     //셀렉트 이벤트 가능 설정.
     selectable: true,
     //셀렉트 이벤트 발생시 메소드
@@ -92,8 +60,9 @@ $(function() {
     editable: true,
     //이벤트 수정 이벤트 (이벤트 클릭스 이름 수정)
     eventClick: function(event, jsEvent, view) {
+      console.log(jsEvent);
       var newTitle = prompt('수정할 이벤트 제목을 입력하세요.', event.title);
-
+	  
       if (newTitle !== null) {
         event.title = newTitle.trim() !== '' ? newTitle : event.title;
         
@@ -168,7 +137,32 @@ $(function() {
         }
       });
     },
-    events: eventArr	//불러온데이터 초기화
+    events: function(start, end, timezone, callback) {
+      $.ajax({
+        url: '/kdc/calendar/calendarSelectByClassCode',
+        type : 'post',
+        dataType: 'json',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+        },
+        success: function(data) {
+            var events = [];
+            $(data).each(function(index, item) {
+                events.push({
+                  	num: item.calendarPk,
+                    title: item.calendarTitle,
+                    start: item.calendarStart,
+                    end: item.calendarEnd,
+                });
+            });
+            callback(events);
+        },
+        error: function(err) {
+          console.log('err : ' + err);
+        }
+    });
+
+	}
   });
 });
 
@@ -176,12 +170,6 @@ $(function() {
 
 </head>
 <body>
-    <c:forEach items="${requestScope.calendarList}" var="calendarList" varStatus="state">
-      <input type="hidden" name="calendarNum" value="${calendarList.calendarPk }"/>
-      <input type="hidden" name="title" value="${calendarList.calendarTitle }"/>
-      <input type="hidden" name="startDate" value="${calendarList.calendarStart }"/>
-      <input type="hidden" name="endDate" value="${calendarList.calendarEnd }"/>
-    </c:forEach>
 
 <div id="calendar"></div>
 

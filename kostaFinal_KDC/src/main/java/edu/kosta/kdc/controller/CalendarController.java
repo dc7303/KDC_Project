@@ -19,12 +19,19 @@ public class CalendarController {
     @Autowired
     private CalendarService calendarService;
     
-    @RequestMapping(value = "/calendarSelectByClassCode")
-    public ModelAndView calendarForm() {
+    @RequestMapping(value = "/calendarForm")
+    public String calendarForm() {
+        
+        return "classRoom/calendarForm";
+    }
+    
+    @RequestMapping(value = "/calendarSelectByClassCode", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<CalendarDTO> calendarSelect() {
         
         List<CalendarDTO> list = calendarService.calendarSelectByClassCode();
         
-        return new ModelAndView("classRoom/calendarForm", "calendarList", list);
+        return list;
     }
     
     /**
