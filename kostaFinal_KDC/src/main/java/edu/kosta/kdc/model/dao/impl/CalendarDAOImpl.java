@@ -33,8 +33,8 @@ public class CalendarDAOImpl implements CalendarDAO {
 
     @Override
     public int calendarUpdate(CalendarDTO calendarDTO) {
-        // TODO Auto-generated method stub
-        return 0;
+        
+        return sqlSession.update("calendarMapper.updateDate", calendarDTO);
     }
 
     @Override

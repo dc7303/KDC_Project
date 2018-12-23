@@ -10,12 +10,18 @@
         <result column="CALENDAR_END" property="calendarEnd"/>
     </resultMap>
 
-
+    <!-- 캘린더 조회 -->
     <select id="selectByClassRoomCode" resultMap="calendarDTO">
         select * from calendar where classroom_code = #{_parameter}
     </select>
 
+    <!-- 캘린더 추가 -->
     <insert id="insert" parameterType="calendarDTO">
         insert into calendar values (CALENDAR_SEQ.NEXTVAL, #{classRoomCode}, #{calendarTitle}, #{calendarStart}, #{calendarEnd})
     </insert>
+    
+    <!-- 캘린더 수정 -->
+    <update id="updateDate" parameterType="calendarDTO">
+        update calendar set calendar_start = #{calendarStart}, calendar_end = #{calendarEnd} where calendar_pk = #{calendarPk}
+    </update>
 </mapper>
