@@ -81,13 +81,22 @@
 
 <script type="text/javascript">
 $(function() {
-  var events = [];
-  setEvents();
+  var events = []; //event 셋팅 시 물리데이터 담을 배열
+  setEvents(); //캘린더 물리데이터 불러와 load하는 메소드
 
+  /**
+   * 캘린더 설정을 담은 함수
+   * setEvents 내부 동작에서 events 배열에 셋팅 후
+   * generateCalendar 매개변수로 전달해준다.
+   *
+   * @param {*} events
+   */
   function generateCalendar(events) {
+    //캘린더 초기화전 삭제. DML 이벤트 발생시 재 로드하기 위함.
     $('#calendar').fullCalendar('destroy');
     //캘린더 객체생성
     $('#calendar').fullCalendar({
+      //일정 추가버튼 추가 header 설정에 담아주면 된다.
       customButtons: {
         createButton: {
           text: 'Create',
@@ -104,7 +113,9 @@ $(function() {
         center: 'title'
       },
       height: 'auto',
+      //jquery-ui theme 사용
       themeSystem: 'jquery-ui',
+      //날짜 선택시 강조표시 설정
       selectHelper: true,
       //셀렉트 이벤트 가능 설정.
       selectable: true,
@@ -112,13 +123,13 @@ $(function() {
       editable: true,
       //셀렉트 이벤트 발생시 메소드
       select: setSelectInsert,
-      //이벤트 수정 이벤트 (이벤트 클릭스 이름 수정)
+      //이벤트 클릭시 사용하는 메소드
       eventClick: setEventClick,
       //드래그앤 드롭 Update 이벤트 처리
       eventDrop: setDrop,
-      //일정 Resize
+      //일정 Resize 수정
       eventResize: setResizeEvent,
-      //캘린더 물리데이터 불러오기
+      //캘린더 물리데이터 rendering 작업
       events: events
     });
   }
@@ -158,13 +169,12 @@ $(function() {
     });
   }
 
-   
-/////////////////////////////////////////////////////////
-   /**
-    * 아래 Jquery-ui Dialog, Datepicker 설정
-    */
-///////////////////////////////////////////////////////////
-  
+  /////////////////////////////////////////////////////////
+  /**
+   * 아래 Jquery-ui Dialog, Datepicker 설정
+   */
+  ///////////////////////////////////////////////////////////
+
   //Jquery-ui updateDialog 설정
   $('#updateDialog').dialog({
     autoOpen: false,
@@ -183,7 +193,7 @@ $(function() {
       of: '#calendar'
     }
   });
-  
+
   //insertDialog 설정
   $('#insertDialog').dialog({
     autoOpen: false,
@@ -233,7 +243,7 @@ $(function() {
       }
     });
   });
-  
+
   //수정버튼 클릭 이벤트
   $('#updateBtn').on('click', function() {
     $.ajax({
@@ -289,22 +299,27 @@ $(function() {
   });
 
   $('input[value=취소]').on('click', function() {
-    if($(this).parent().parent().attr('id') === 'insertDialog') {
+    if (
+      $(this)
+        .parent()
+        .parent()
+        .attr('id') === 'insertDialog'
+    ) {
       $('#insertDialog').dialog('close');
-    }else {
-      $('#updateDialog').dialog('close'); 
+    } else {
+      $('#updateDialog').dialog('close');
     }
   });
-  
+
   /////////////////////////////////////////////////////////
   /**
    * 아래부터 캘린더 캘린더 function
    */
   ////////////////////////////////////////////////////////
-  
-  
+
   /**
-   * 캘린더 클릭 시 이벤트 추가 이벤트 set
+   * 캘린더 클릭시 이벤트 발생
+   * dialog open
    *
    * @param {*} start
    * @param {*} end
@@ -312,17 +327,18 @@ $(function() {
    * @param {*} view
    */
   function setSelectInsert(start, end, jsEvent, view) {
-	$('#insertDialog').dialog('open');
-	if(start) {
-	  $('#insertStart').val(start.format());
-	}
-	if(end) {
-	  $('#insertEnd').val(end.format());
-	}
+    $('#insertDialog').dialog('open');
+    if (start) {
+      $('#insertStart').val(start.format());
+    }
+    if (end) {
+      $('#insertEnd').val(end.format());
+    }
   }
 
   /**
    * 이벤트 클릭시 이벤트 발생
+   * dialog open
    *
    * @param {*} event
    * @param {*} jsEvent
@@ -337,7 +353,7 @@ $(function() {
   }
 
   /**
-   * Drag * Drop 이벤트 수정 set
+   * Drag * Drop 일정 수정
    *
    * @param {*} event
    * @param {*} delta
@@ -401,8 +417,6 @@ $(function() {
     });
   }
 });
-
-
 
 </script>
 </body>
