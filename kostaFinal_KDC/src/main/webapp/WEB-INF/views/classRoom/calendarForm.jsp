@@ -9,6 +9,7 @@
 <link href="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.print.min.css" rel="stylesheet" media="print"/>
 <link href="${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.css" rel="stylesheet"/>
+<link href="${pageContext.request.contextPath}/resources/lib/evol-color-picker/evol-colorpicker.min.css" rel="stylesheet"/>
 <style ref="stylesheet">
   #calendar {
     padding-top: 50px;
@@ -69,6 +70,9 @@
     <input type="text" class="form-control datepicker" id="insertEnd" aria-describedby="endHelp" placeholder="End">
     <small id="insertEndHelp" class="form-text text-muted">추가하실 일정 이름을 입력하세요.</small>
   </div>
+  <div style="width:128px;">
+   <input style="width:100px;" id="mycolor" class="colorPicker evo-cp0" value="#548dd4"/>
+  </div>
   <input type="button" id="insertBtn" value="등록"/>
   <input type="button" value="취소"/>
 </form>
@@ -78,9 +82,10 @@
 
 <script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/moment.min.js'></script>
 <script src="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/lib/evol-color-picker/evol-colorpicker.min.js"></script>
 
 <script type="text/javascript">
-$(function() {
+(function($) {
   var events = []; //event 셋팅 시 물리데이터 담을 배열
   setEvents(); //캘린더 물리데이터 불러와 load하는 메소드
 
@@ -416,8 +421,14 @@ $(function() {
       }
     });
   }
-});
+  
+   //colorpicker
+  $("#mycolor").colorpicker();
+})(jQuery);
+
 
 </script>
+
+	
 </body>
 </html>
