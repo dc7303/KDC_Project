@@ -28,27 +28,49 @@
 <h3>000기 스케줄</h3>
 <div id="calendar"></div>
 
-<div id="dialog" title="Basic dialog">
+<div id="updateDialog" title="일정 수정">
   <form>
   <div class="form-group">
-    <input type="hidden" id="event" value=""/>
-    <input type="hidden" id="num" value=""/>
+    <input type="hidden" id="updateNum" value=""/>
     <label for="title">Title</label>
-    <input type="text" class="form-control" id="title" aria-describedby="titleHelp" placeholder="Title">
-    <small id="titleHelp" class="form-text text-muted">일정 이름을 입력하세요.</small>
+    <input type="text" class="form-control" id="updateTitle" aria-describedby="titleHelp" placeholder="Title">
+    <small id="titleHelp" class="form-text text-muted">수정하실 일정 이름을 입력하세요.</small>
   </div>
   <div class="form-group">
     <label for="Start">Start</label>
-    <input type="text" class="form-control datepicker" id="start" aria-describedby="startHelp" placeholder="Start">
-    <small id="startHelp" class="form-text text-muted">일정 시작일을 입력해주세요.</small>
+    <input type="text" class="form-control datepicker" id="updateStart" aria-describedby="startHelp" placeholder="Start">
+    <small id="startHelp" class="form-text text-muted">수정하실 일정 시작일을 입력해주세요.</small>
   </div>
   <div class="form-group">
     <label for="end">End</label>
-    <input type="text" class="form-control datepicker" id="end" aria-describedby="endHelp" placeholder="End">
-    <small id="endHelp" class="form-text text-muted">일정 이름을 입력하세요.</small>
+    <input type="text" class="form-control datepicker" id="updateEnd" aria-describedby="endHelp" placeholder="End">
+    <small id="endHelp" class="form-text text-muted">수정하실 일정 이름을 입력하세요.</small>
   </div>
   <input type="button" id="updateBtn" value="수정"/>
-  <input type="button" id="deleteBtn" value="수정"/>
+  <input type="button" id="deleteBtn" value="삭제"/>
+  <input type="button" value="취소"/>
+</form>
+</div>
+
+<div id="insertDialog" title="일정 추가">
+<form>
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" class="form-control" id="insertTitle" aria-describedby="titleHelp" placeholder="Title">
+    <small id="insertTitleHelp" class="form-text text-muted">추가하실 일정 이름을 입력하세요.</small>
+  </div>
+  <div class="form-group">
+    <label for="Start">Start</label>
+    <input type="text" class="form-control datepicker" id="insertStart" aria-describedby="startHelp" placeholder="Start">
+    <small id="insertStartHelp" class="form-text text-muted">추가하실 일정 시작일을 입력해주세요.</small>
+  </div>
+  <div class="form-group">
+    <label for="end">End</label>
+    <input type="text" class="form-control datepicker" id="insertEnd" aria-describedby="endHelp" placeholder="End">
+    <small id="insertEndHelp" class="form-text text-muted">추가하실 일정 이름을 입력하세요.</small>
+  </div>
+  <input type="button" id="insertBtn" value="등록"/>
+  <input type="button" value="취소"/>
 </form>
 </div>
 
@@ -70,7 +92,10 @@ $(function() {
         createButton: {
           text: 'Create',
           click: function() {
-            $('#dialog').dialog('open');
+            $('#insertDialog').dialog('open');
+            $('#insertTitle').val('');
+            $('#insertStart').val('');
+            $('#insertEnd').val('');
           }
         }
       },
@@ -133,17 +158,43 @@ $(function() {
     });
   }
 
-  //Jquery-ui dialog 설정
-  $('#dialog').dialog({
+   
+/////////////////////////////////////////////////////////
+   /**
+    * 아래 Jquery-ui Dialog, Datepicker 설정
+    */
+///////////////////////////////////////////////////////////
+  
+  //Jquery-ui updateDialog 설정
+  $('#updateDialog').dialog({
     autoOpen: false,
     modal: true,
     show: {
       effect: 'blind',
-      duration: 500
+      duration: 300
     },
     hide: {
       effect: 'clip',
-      duration: 500
+      duration: 300
+    },
+    position: {
+      my: 'center',
+      at: 'center',
+      of: '#calendar'
+    }
+  });
+  
+  //insertDialog 설정
+  $('#insertDialog').dialog({
+    autoOpen: false,
+    modal: true,
+    show: {
+      effect: 'blind',
+      duration: 300
+    },
+    hide: {
+      effect: 'clip',
+      duration: 300
     },
     position: {
       my: 'center',
@@ -157,6 +208,32 @@ $(function() {
     dateFormat: 'yy-mm-dd'
   });
 
+  //등록버튼 클릭 이벤트
+  $('#insertBtn').on('click', function() {
+    $.ajax({
+      url: '/kdc/calendar/calendarInsert',
+      type: 'post',
+      dataType: 'text',
+      data: {
+        title: $('#insertTitle').val(),
+        start: $('#insertStart').val(),
+        end: $('#insertEnd').val()
+      },
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+      },
+      success: function(result) {
+        console.log('성공');
+        setEvents();
+
+        $('#insertDialog').dialog('close');
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
+  
   //수정버튼 클릭 이벤트
   $('#updateBtn').on('click', function() {
     $.ajax({
@@ -164,10 +241,10 @@ $(function() {
       type: 'post',
       dataType: 'text',
       data: {
-        num: $('#num').val(),
-        title: $('#title').val(),
-        start: $('#start').val(),
-        end: $('#end').val()
+        num: $('#updateNum').val(),
+        title: $('#updateTitle').val(),
+        start: $('#updateTitle').val(),
+        end: $('#updateEnd').val()
       },
       beforeSend: function(xhr) {
         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
@@ -176,7 +253,7 @@ $(function() {
         //캘린더에 수정 뷰 적용
         setEvents();
 
-        $('#dialog').dialog('close');
+        $('#updateDialog').dialog('close');
       },
       error: function(err) {
         console.log('실패했습니다. error : ' + err);
@@ -193,7 +270,7 @@ $(function() {
         type: 'post',
         dataType: 'text',
         data: {
-          num: $('#num').val()
+          num: $('#updateNum').val()
         },
         beforeSend: function(xhr) {
           xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
@@ -202,7 +279,7 @@ $(function() {
           //캘린더에 수정 뷰 적용
           setEvents();
 
-          $('#dialog').dialog('close');
+          $('#updateDialog').dialog('close');
         },
         error: function(err) {
           console.log('실패했습니다. error : ' + err);
@@ -211,6 +288,21 @@ $(function() {
     }
   });
 
+  $('input[value=취소]').on('click', function() {
+    if($(this).parent().parent().attr('id') === 'insertDialog') {
+      $('#insertDialog').dialog('close');
+    }else {
+      $('#updateDialog').dialog('close'); 
+    }
+  });
+  
+  /////////////////////////////////////////////////////////
+  /**
+   * 아래부터 캘린더 캘린더 function
+   */
+  ////////////////////////////////////////////////////////
+  
+  
   /**
    * 캘린더 클릭 시 이벤트 추가 이벤트 set
    *
@@ -220,32 +312,13 @@ $(function() {
    * @param {*} view
    */
   function setSelectInsert(start, end, jsEvent, view) {
-    var title = prompt('등록하실 이벤트를 입력하세요.', 'New event');
-
-    if (title !== null) {
-      var event = {
-        title: title.trim() !== '' ? title : 'New event',
-        start: start.format(),
-        end: end.format()
-      };
-
-      $.ajax({
-        url: '/kdc/calendar/calendarInsert',
-        type: 'post',
-        dataType: 'text',
-        data: event,
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-        },
-        success: function(result) {},
-        error: function(err) {
-          console.log(err);
-        }
-      });
-
-      cal.fullCalendar('renderEvent', event, true);
-    }
-    cal.fullCalendar('unselect');
+	$('#insertDialog').dialog('open');
+	if(start) {
+	  $('#insertStart').val(start.format());
+	}
+	if(end) {
+	  $('#insertEnd').val(end.format());
+	}
   }
 
   /**
@@ -256,11 +329,11 @@ $(function() {
    * @param {*} view
    */
   function setEventClick(event, jsEvent, view) {
-    $('#dialog').dialog('open');
-    $('#num').val(event.num);
-    $('#title').val(event.title);
-    $('#start').val(event.start.format());
-    $('#end').val(event.end.format());
+    $('#updateDialog').dialog('open');
+    $('#updateNum').val(event.num);
+    $('#updateTitle').val(event.title);
+    $('#updateStart').val(event.start.format());
+    $('#updateEnd').val(event.end.format());
   }
 
   /**
