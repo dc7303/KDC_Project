@@ -52,10 +52,11 @@ public class CalendarController {
     @ResponseBody
     public String calendarInsert(@RequestParam(value="title") String calendarTItle, 
             @RequestParam(value="start") String calendarStart, 
-            @RequestParam(value="end") String calendarEnd) {
+            @RequestParam(value="end") String calendarEnd, 
+            @RequestParam(value="color") String calendarColor) {
 
         //캘린더 PK값 시퀀스이기 때문에 0, ClassCode는 서비스에서 불러옴.
-        calendarService.calendarInsert(new CalendarDTO(0, null, calendarTItle, calendarStart, calendarEnd));
+        calendarService.calendarInsert(new CalendarDTO(0, null, calendarTItle, calendarStart, calendarEnd, calendarColor));
         
         return "";
     }
@@ -70,10 +71,11 @@ public class CalendarController {
     public String calendarUpdateDate(@RequestParam(value="num") int calendarPk, 
             @RequestParam(value="title") String calendarTitle,
             @RequestParam(value="start") String calendarStart, 
-            @RequestParam(value="end") String calendarEnd) {
+            @RequestParam(value="end") String calendarEnd,
+            @RequestParam(value="color") String calendarColor) {
         
         //classCode, title 값 Null
-        calendarService.calendarUpdateDate(new CalendarDTO(calendarPk, null, calendarTitle, calendarStart, calendarEnd));
+        calendarService.calendarUpdateDate(new CalendarDTO(calendarPk, null, calendarTitle, calendarStart, calendarEnd, calendarColor));
         
         return "";
     }
