@@ -38,7 +38,7 @@ public class CalendarController {
     public List<CalendarDTO> calendarSelect() {
         
         List<CalendarDTO> list = calendarService.calendarSelectByClassCode();
-        
+      
         return list;
     }
     
@@ -61,7 +61,7 @@ public class CalendarController {
     }
     
     /**
-     * 일정 drag & drop 으로 업데이트 및 Resize시 
+     * 일정 업데이트
      * 
      * @return
      */
