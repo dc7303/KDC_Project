@@ -9,9 +9,50 @@
 <link href="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.print.min.css" rel="stylesheet" media="print"/>
 <link href="${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.css" rel="stylesheet"/>
+<style ref="stylesheet">
+  #calendar {
+    padding-top: 50px;
+    padding-left: 100px;
+    width: 65%;
+  }
 
+  /* header 설정 없을 시 비정상적으로 공백이 늘어나는 현상나타남 */
+  .fc-header-toolbar {
+    height: 50px;
+  }
+</style>
 <script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/jquery.min.js'></script>
 <script src='${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.min.js'></script>
+</head>
+<body>
+<h3>000기 스케줄</h3>
+<div id="calendar"></div>
+
+<div id="dialog" title="Basic dialog">
+  <form>
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" class="form-control" id="title" aria-describedby="titleHelp" placeholder="Title">
+    <small id="titleHelp" class="form-text text-muted">일정 이름을 입력하세요.</small>
+  </div>
+  <div class="form-group">
+    <label for="Start">Start</label>
+    <input type="text" class="form-control datepicker" id="start" aria-describedby="startHelp" placeholder="Start">
+    <small id="startHelp" class="form-text text-muted">일정 시작일을 입력해주세요.</small>
+  </div>
+  <div class="form-group">
+    <label for="end">End</label>
+    <input type="text" class="form-control datepicker" id="end" aria-describedby="endHelp" placeholder="End">
+    <small id="endHelp" class="form-text text-muted">일정 이름을 입력하세요.</small>
+  </div>
+  <button type="submit" class="btn btn-primary">수정</button>
+  <button type="button" class="btn btn-primary">삭제</button>
+  <button type="button" class="btn btn-primary">취소</button>
+</form>
+</div>
+
+
+
 <script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/moment.min.js'></script>
 <script src="${pageContext.request.contextPath}/resources/lib/fullCalendar/fullcalendar.min.js" type="text/javascript"></script>
 
@@ -19,10 +60,19 @@
 $(function() {
   //캘린더 객체생성
   var cal = $('#calendar').fullCalendar({
+    customButtons: {
+      createButton: {
+        text: 'Create',
+        click: function() {
+          $( "#dialog" ).dialog( "open" );
+        }
+      }
+    },
     header: {
-      left: 'none',
+      left: 'createButton',
       center: 'title'
     },
+    height: 'auto',
     themeSystem: 'jquery-ui',
     selectHelper: true,
     //셀렉트 이벤트 가능 설정.
@@ -40,6 +90,30 @@ $(function() {
     //캘린더 물리데이터 불러오기
     events: setEevents
   });
+});
+
+
+//Jquery-ui dialog 설정
+$( "#dialog" ).dialog({
+  autoOpen: false,
+  show: {
+    effect: "blind",
+    duration: 500
+  },
+  hide: {
+    effect: "clip",
+    duration: 500
+  },
+  position: {
+    my: "center",
+    at: 'center',
+    of: '#calendar'
+  }
+});
+
+//datepicker 셋팅 및 설정
+$('.datepicker').datepicker({
+  dateFormat: 'yy-mm-dd'
 });
 
 /**
@@ -87,7 +161,10 @@ function setSelectInsert(start, end, jsEvent, view) {
  * @param {*} view
  */
 function setEventClick(event, jsEvent, view) {
-  var newTitle = prompt('수정할 이벤트 제목을 입력하세요.', event.title);
+   $( "#dialog" ).dialog( "open" );
+   $('#title').val(event.title);
+   $('#start').val(event.start.format());
+   $('#end').val(event.end.format());
 
   if (newTitle !== null) {
     event.title = newTitle.trim() !== '' ? newTitle : event.title;
@@ -216,15 +293,5 @@ function setEevents(start, end, timezone, callback) {
 }
 
 </script>
-
-</head>
-<body>
-
-<div id="calendar"></div>
-
-<div id="dialog" title="Basic dialog">
-  
-</div>
-
 </body>
 </html>
