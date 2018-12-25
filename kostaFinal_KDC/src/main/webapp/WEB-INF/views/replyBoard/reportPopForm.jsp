@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -6,43 +8,43 @@
 <title>Insert title here</title>
 <script src="${pageContext.request.contextPath }/resources/js/testjs/core/jquery.min.js"></script>
 <script type="text/javascript">
-	$(function() {
-    	$("#other").click(function() {
-    	  	$(".otherText").remove();
-        	$("span").after("<br class='otherText'><input class='otherText'name='reportContents'type='text'>");
+const jq = jQuery.noConflict();
+
+	jq(function() {
+    	jq("#other").click(function() {
+    	  	jq(".otherText").remove();
+        	jq("span").after("<br class='otherText'><input class='otherText'name='reportContents'type='text'>");
       	});
   	});
-	$(function() {
-    	$(".reportCheck").click(function() {
-     		$(".otherText").remove();   
+	jq(function() {
+    	jq(".reportCheck").click(function() {
+     		jq(".otherText").remove();   
       });
   });
-</script>
-
-<script type="text/javascript">
-	$(function() {
-	  $("input[value=신고하기]").click(function() {
-	    var reportContents = $("[name=reportContents]:checked").val();
-	    var otherWords = $("#otherText").val();
-	    $.ajax({
-	      url : "${pageContext.request.contextPath}/reply/reportPop",
-	      type : "post",   
-	      dataType : "text", 
-	      beforeSend: function(xhr) {
-	         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-	      },
-	      data : "reportContents="+reportContents+"&replyBoardPkReport=${requestScope.replyBoardPkReport}&otherWords="+otherWords,
-	      success : function(result){   //성공했을 때
-	        alert("신고되었습니다.");
-	        window.close();   
-	      },
-	      error : function(err){   //실패했을 때
-	         alert(err+" => 오류 발생");
-	      }
- 
-    	});
-	 });
-  });
+  
+    jq(function() {
+      jq("input[value=신고하기]").click(function() {
+    	    var reportContents = jq("[name=reportContents]:checked").val();
+    	    var otherWords = jq("#otherText").val();
+    	    jq.ajax({
+    	      url : "${pageContext.request.contextPath}/reply/reportPop",
+    	      type : "post",   
+    	      dataType : "text", 
+    	      beforeSend: function(xhr) {
+    	         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+    	      },
+    	      data : "reportContents="+reportContents+"&replyBoardPkReport=${requestScope.replyBoardPkReport}&otherWords="+otherWords+"&memberId=${requestScope.memberId}",
+    	      success : function(result){   //성공했을 때
+    	        alert("신고되었습니다.");
+    	        window.close();   
+    	      },
+    	      error : function(err){   //실패했을 때
+    	         alert(err+" => 오류 발생");
+    	      }
+     
+        	});
+    	 });
+    });
     
 </script>
 </head>
@@ -50,7 +52,10 @@
 <div>
 <h1>신고하기</h1>
 <div>
-<h3>작성자 : 호또혼</h3>
+<sec:authorize access="isAuthenticated()">
+  <sec:authentication var="member" property="principal" />
+    <h3>작성자 : ${member.memberNickName}</h3>
+</sec:authorize>
 <h4>사유 선택 : 여러사유에 해당되는 경우, 대표적인 사유 1개를 선택해주세요</h4> 
   <fieldset>
     <input type="radio" name="reportContents" class="reportCheck" value="부적절한 홍보 게시글">부적절한 홍보 게시글<br>

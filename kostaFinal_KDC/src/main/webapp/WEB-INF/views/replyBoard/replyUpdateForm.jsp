@@ -12,33 +12,32 @@
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 
 <SCRIPT language=javascript>
-$(function(){
+const jq = jQuery.noConflict();
+
+jq(function(){
   
-      $("input[value=수정하기]").click(function(){
+      jq("input[value=수정하기]").click(function(){
          
-         $("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/updateForm");
-         $("#requestForm").submit();
+         jq("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/updateForm");
+         jq("#requestForm").submit();
       })
       
       
-      $("input[value=삭제하기]").click(function(){
+      jq("input[value=삭제하기]").click(function(){
          var yesOrNo = confirm("정말 삭제 하시겠습니까?");
          if(yesOrNo){
-            $("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/delete");
-            $("#requestForm").submit();
+            jq("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/delete");
+            jq("#requestForm").submit();
          }
       });
       
-});
-</script>
-<script>
-  $(function() {
-    $(".replyBoardLike").click(function() {
+
+    jq(".replyBoardLike").click(function() {
       var img1 = document.getElementById('thumbs_up');
       if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_up.png을 보여줌
         img1.src = img1.src.replace('.png', '_black.png');
       
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardLike",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
@@ -56,7 +55,7 @@ $(function(){
        });
         
       } else {//_black이라는 단어가 존재하면
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
@@ -77,14 +76,12 @@ $(function(){
         
       }
     });
-  });
-  
-  $(function() {
-    $(".replyBoardDisLike").click(function() {
+
+    jq(".replyBoardDisLike").click(function() {
       var img1 = document.getElementById('thumbs_down');
       if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_down.png을 보여줌
         img1.src = img1.src.replace('.png', '_black.png');
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardDisLike",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
@@ -102,7 +99,7 @@ $(function(){
        });
         
       } else {
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)

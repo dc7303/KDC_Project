@@ -2,6 +2,8 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
   <head>
     <meta charset="utf-8">
     <title></title>
@@ -12,42 +14,61 @@
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main2.js"></script>
+<script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/highlight.pack.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/squire-rte/build/squire-raw.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-Editor.min.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 
-<SCRIPT language=javascript>
-$(function(){
-  
-      $("input[value=수정하기]").click(function(){
+<script>  
+const jq = jQuery.noConflict();
+
+jq(function(){
+    //viewer 세팅
+    var contents = jq('#detail-description').val();
+	var editor = tui.Editor.factory({
+      el: document.querySelector('#viewer-section'),
+      viewer: true,
+      height: '500px',
+      initialValue: contents
+	});
+	
+      jq("input[value=수정하기]").click(function(){
          
-         $("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/updateForm");
-         $("#requestForm").submit();
+         jq("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/updateForm");
+         jq("#requestForm").submit();
       })
       
       
-      $("input[value=삭제하기]").click(function(){
+      jq("input[value=삭제하기]").click(function(){
          var yesOrNo = confirm("정말 삭제 하시겠습니까?");
          if(yesOrNo){
-            $("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/delete");
-            $("#requestForm").submit();
+            jq("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/delete");
+            jq("#requestForm").submit();
          }
       });
       
-});
-</script>
-<script>
-  $(function() {
-    $(".replyBoardLike").click(function() {
+
+    jq(".replyBoardLike").click(function() {
       var img1 = document.getElementById('thumbs_up');
       if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_up.png을 보여줌
         img1.src = img1.src.replace('.png', '_black.png');
       
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardLike",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
           beforeSend: function(xhr) {
              xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
           },
-          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          data : "replyBoardPk=${requestScope.replyBoardPk}&memberId=${requestScope.memberId}",
           success : function(result){   //성공했을 때
              //alert(result)   
           },
@@ -58,14 +79,14 @@ $(function(){
        });
         
       } else {//_black이라는 단어가 존재하면
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
           beforeSend: function(xhr) {
              xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
           },
-          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          data : "replyBoardPk=${requestScope.replyBoardPk}&memberId=${requestScope.memberId}",   //서버에게 보낼 parameter정보
           success : function(result){   //성공했을 때
              //alert(result)   
           },
@@ -79,21 +100,19 @@ $(function(){
         
       }
     });
-  });
   
-  $(function() {
-    $(".replyBoardDisLike").click(function() {
+    jq(".replyBoardDisLike").click(function() {
       var img1 = document.getElementById('thumbs_down');
       if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_down.png을 보여줌
         img1.src = img1.src.replace('.png', '_black.png');
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardDisLike",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
           beforeSend: function(xhr) {
              xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
           },
-          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          data : "replyBoardPk=${requestScope.replyBoardPk}&memberId=${requestScope.memberId}",   //서버에게 보낼 parameter정보
           success : function(result){   //성공했을 때
              //alert(result)   
           },
@@ -104,14 +123,14 @@ $(function(){
        });
         
       } else {
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
           beforeSend: function(xhr) {
              xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
           },
-          data : "replyBoardPk=${requestScope.replyBoardPk}",   //서버에게 보낼 parameter정보
+          data : "replyBoardPk=${requestScope.replyBoardPk}&memberId=${requestScope.memberId}",   //서버에게 보낼 parameter정보
           success : function(result){   //성공했을 때
              //alert(result)   
           },
@@ -128,7 +147,7 @@ $(function(){
   });
 </script>
 
-  </head>
+</head>
 
 <body>
 <table>
@@ -189,8 +208,8 @@ $(function(){
       <td>
       <span><input type="button" value="신고"/></span>
       <script>
-          $("input[value=신고]").click(function() {
-              window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
+      		jq("input[value=신고]").click(function() {
+              window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
           });
         </script>
       </td>
@@ -199,7 +218,8 @@ $(function(){
     
     <tr>
       <td class="tech-content" colspan="10">
-      <span>${replyBoardDTO.replyBoardContents}</span>
+        <div id = "viewer-section"></div>
+        <input id ="detail-description" type="hidden" value="${replyBoardDTO.replyBoardContents}">
       </td>
     </tr>
     <tr>
@@ -225,55 +245,75 @@ $(function(){
     <td>신고</td>
     </tr>
         
-<c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
 
-<c:choose>
-<c:when test="${replyBoardDTO.replyBoardReplyNo>0}">
-    <tr>
-      <td>
-      <span>${state.count-1}</span>
-      </td>
-      <td>
-      <span id="mentionNickName">${replyBoardDTO.mentionNickName}</span>
-      </td>
-      <td>
-      <span id="replyBoardContents">${replyBoardDTO.replyBoardContents}</span>
-      </td>      
-      <td>
-      <span>${replyBoardDTO.replyBoardDate}</span>
-      </td>
-
-      <!-- 여기부터 -->
-      <td>
-      <c:choose>
-      <c:when test="${replyBoardDTO.updown.isUp==true}">
-        <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up_black.png" name="replyBlack${state.count}" id="reply_thumbs_up_black" onclick="window.location.reload()"><br/>
-        <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png">
-      </c:when>
-      <c:when test="${replyBoardDTO.updown.isUp==false}">
-        <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png"><br/>
-        <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down_black.png" name="replyBlack${state.count}"id="reply_thumbs_down_black" onclick="window.location.reload()">
-      </c:when>      
-      <c:otherwise>
-        <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png" name="replyLike${state.count}" id="reply_thumbs_up" onclick="window.location.reload()"><br/>
-        <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png" name="replyDisLike${state.count}"id="reply_thumbs_down" onclick="window.location.reload()">
-      </c:otherwise>
-      </c:choose>
-      </td>
+  <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
+  
+  <c:choose>
+  <c:when test="${replyBoardDTO.replyBoardReplyNo>0}">
+      <tr>
+        <td>
+        <span>${state.count-1}</span>
+        </td>
+        <td>
+        <span id="mentionNickName">${replyBoardDTO.mentionNickName}</span>
+        </td>
+        <td>
+        <span id="replyBoardContents">${replyBoardDTO.replyBoardContents }</span>
+        </td>      
+        <td>
+        <span>${replyBoardDTO.replyBoardDate}</span>
+        </td>
+  
+        <!-- 여기부터 -->
+        <td>
+        <c:choose>
+        <c:when test="${replyBoardDTO.updown.isUp==true}">
+          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up_black.png" name="replyBlack${state.count}" id="reply_thumbs_up_black" onclick="window.location.reload()"><br/>
+          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png">
+        </c:when>
+        <c:when test="${replyBoardDTO.updown.isUp==false}">
+          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png"><br/>
+          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down_black.png" name="replyBlack${state.count}"id="reply_thumbs_down_black" onclick="window.location.reload()">
+        </c:when>      
+        <c:otherwise>
+          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png" name="replyLike${state.count}" id="reply_thumbs_up" onclick="window.location.reload()"><br/>
+          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png" name="replyDisLike${state.count}"id="reply_thumbs_down" onclick="window.location.reload()">
+        </c:otherwise>
+        </c:choose>
+        </td>
+        
+  <script>  /* 댓글 좋아요, 싫어요 */
+    jq(function() {
+      jq("input[name=replyLike${state.count}]").click(function() {
+        jq.ajax({
+            url : "${pageContext.request.contextPath}/reply/replyBoardLike",  
+            type : "post",   
+            dataType : "text",  
+            beforeSend: function(xhr) {
+               xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
+            data : "replyBoardPk=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}",  
+            success : function(result){   
+               //alert(result) 
+            },
+            error : function(err){   
+               alert(err+" => 오류 발생");
+            }
+           
+         });
+        });
       
-<script>  /* 댓글 좋아요, 싫어요 */
-  $(function() {
-    $("input[name=replyLike${state.count}]").click(function() {
-        $.ajax({
-          url : "${pageContext.request.contextPath}/reply/replyBoardLike",  
+      jq("input[name=replyDisLike${state.count}]").click(function() {
+        jq.ajax({
+          url : "${pageContext.request.contextPath}/reply/replyBoardDisLike",   
           type : "post",   
           dataType : "text",  
           beforeSend: function(xhr) {
              xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
           },
-          data : "replyBoardPk=${replyBoardDTO.replyBoardPk}",  
-          success : function(result){   
-             //alert(result) 
+          data : "replyBoardPk=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}",   
+          success : function(result){  
+             //alert(result)   
           },
           error : function(err){   
              alert(err+" => 오류 발생");
@@ -281,104 +321,87 @@ $(function(){
          
        });
       });
-    
-    $("input[name=replyDisLike${state.count}]").click(function() {
-      $.ajax({
-        url : "${pageContext.request.contextPath}/reply/replyBoardDisLike",   
-        type : "post",   
-        dataType : "text",  
-        beforeSend: function(xhr) {
-           xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-        },
-        data : "replyBoardPk=${replyBoardDTO.replyBoardPk}",   
-        success : function(result){  
-           //alert(result)   
-        },
-        error : function(err){   
-           alert(err+" => 오류 발생");
-        }
-       
-     });
-    });
-      
-    $("input[name=replyBlack${state.count}]").click(function() {  
-        $.ajax({
-          url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",  
-          type : "post",   
-          dataType : "text",   
-          beforeSend: function(xhr) {
-             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-          },
-          data : "replyBoardPk=${replyBoardDTO.replyBoardPk}",  
-          success : function(result){  
-             //alert(result)   
-          },
-          error : function(err){  
-             alert(err+" => 오류 발생");
-          }
-         
-       });
         
-      });
-
-  });
+      jq("input[name=replyBlack${state.count}]").click(function() {  
+        jq.ajax({
+            url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",  
+            type : "post",   
+            dataType : "text",   
+            beforeSend: function(xhr) {
+               xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
+            data : "replyBoardPk=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}",  
+            success : function(result){  
+               //alert(result)   
+            },
+            error : function(err){  
+               alert(err+" => 오류 발생");
+            }
+           
+         });
+          
+        });
+    });
+    
+  </script>
+        
+        <!-- 여기까지 -->
   
-</script>
-      
-      <!-- 여기까지 -->
-
-      <td>
-      <span>${replyBoardDTO.likeNum}</span>
-      </td>
-      <td>
-      <span>${replyBoardDTO.member.memberNickName}</span>
-      </td>
-      
-      <td><span>             
-        <form id="replyUpdateForm" method="post" action="${pageContext.request.contextPath}/reply/replyUpdateForm">
-          <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-          <input type="hidden" name="state" value="true"/>
-          <input type="hidden" name="replyBoardPk" value="${replyBoardDTO.replyBoardReplyNo}"/>
-          <input type="hidden" name="classification" value="${requestScope.classification}"/>
-          <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}"/>      
-          <input type="submit" value="수정">
-        </form>
-      </span>
-      </td>
-      
-        <td><span>
-          <form id="replyDeleteForm" method="post" action="${pageContext.request.contextPath}/reply/replyDelete">
+        <td>
+        <span>${replyBoardDTO.likeNum}</span>
+        </td>
+        <td>
+        <span>${replyBoardDTO.member.memberNickName}</span>
+        </td>
+        
+        <td><span>             
+          <form id="replyUpdateForm" method="post" action="${pageContext.request.contextPath}/reply/replyUpdateForm">
             <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
             <input type="hidden" name="state" value="true"/>
-            <input type="hidden" name="replyBoardPk" value="${requestScope.replyBoardPk}"/>
-            <input type="hidden" name="classification" value="${requestScope.classification}">
-            <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}">            
-            <input type="submit" value="삭제">           
+            <input type="hidden" name="replyBoardPk" value="${replyBoardDTO.replyBoardReplyNo}"/>
+            <input type="hidden" name="classification" value="${requestScope.classification}"/>
+            <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}"/>      
+            <input type="submit" value="수정">
           </form>
         </span>
         </td>
-      <td>
-        <span>
-          <input type="button" name="댓글신고${state.count}" value="댓글신고">
-        </span>
-        <script>
-          $("input[name=댓글신고${state.count}]").click(function() {
-              window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
-          });
-        </script>
-      </td>
-    </tr>
-</c:when>
-</c:choose>
-</c:forEach>
+        
+          <td><span>
+            <form id="replyDeleteForm" method="post" action="${pageContext.request.contextPath}/reply/replyDelete">
+              <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+              <input type="hidden" name="state" value="true"/>
+              <input type="hidden" name="replyBoardPk" value="${requestScope.replyBoardPk}"/>
+              <input type="hidden" name="classification" value="${requestScope.classification}">
+              <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}">            
+              <input type="submit" value="삭제">           
+            </form>
+          </span>
+          </td>
+        <td>
+          <span>
+            <input type="button" name="댓글신고${state.count}" value="댓글신고">
+          </span>
+          <script>
 
+            jq("input[name=댓글신고${state.count}]").click(function() {
+                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+            });
+          </script>
+        </td>
+      </tr>
+  </c:when>
+  </c:choose>
+  </c:forEach>
 <!-- 댓글멘션부분 수정 시작 -->
 <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO">
 <c:choose>
 <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
    <form name="replyWriteForm" method="post" action="${pageContext.request.contextPath}/reply/replyInsert?classification=${requestScope.classification}&replyBoardPk=${requestScope.replyBoardPk}">
    <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-     
+   <sec:authorize access="isAuthenticated()">
+      <sec:authentication var="member" property="principal" />
+      <input type="hidden" name="memberId" value="${member.memberId}">
+    </sec:authorize>
       <tr>
         <td>${replyBoardDTO.replyNum+1}</td>
         <td><div id="mentionButton"></div>
@@ -387,7 +410,12 @@ $(function(){
             <div id="suggest"></div>
         </td>
         <td colspan="6"><input type="text" placeholder="댓글내용입력" name="replyBoardContents"></td>
-        <td>본인닉네임표출</td>
+        <td>
+          <sec:authorize access="isAuthenticated()">
+            <sec:authentication var="member" property="principal" />
+            ${member.memberNickName}
+          </sec:authorize>
+        </td>
         <td><input type=submit value="등록" ></td>
       </tr>
       
@@ -403,13 +431,13 @@ $(function(){
       <form name="requestForm" method=post  id="requestForm">
       <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
       
-    <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
-    <c:choose>
-    <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
-          <input type=hidden name="replyBoardPk" value="${replyBoardDTO.replyBoardPk}">
-    </c:when>
-    </c:choose>
-    </c:forEach>
+      <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
+      <c:choose>
+      <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
+            <input type=hidden name="replyBoardPk" value="${replyBoardDTO.replyBoardPk}">
+      </c:when>
+      </c:choose>
+      </c:forEach>
 
         <input type=hidden name="state" value="true">
         <input type=hidden name="classification" value="${requestScope.classification}">
