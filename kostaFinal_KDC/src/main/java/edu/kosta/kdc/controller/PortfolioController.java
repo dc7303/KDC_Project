@@ -37,12 +37,18 @@ public class PortfolioController {
      * 마이페이지 포트폴리오
      */
     @RequestMapping("/myPage")
-    public String myPage(Model model) {
+    public String myPage(Model model) throws KdcException {
         /*
          * 시큐리티에서 로그인된 
          * 회원정보를 받아옴
+         * 없는경우 권한없음 예외처리
          * */
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }
         
         //로그인된 사용자의 포트폴리오, 상세 정보를 조회
         PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(member.getMemberId());
@@ -65,7 +71,12 @@ public class PortfolioController {
             // 파일명을 DTO에 setter를 이용해 대입
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }
         
         portfolioDTO.setPortFolioMemberId(member.getMemberId());
         
@@ -94,7 +105,12 @@ public class PortfolioController {
             portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
         }
         
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }
         
         portfolioDetailDTO.setPortFolioDetailMemberId(member.getMemberId());
         
@@ -116,7 +132,12 @@ public class PortfolioController {
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
         
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }       
         portfolioDTO.setPortFolioMemberId(member.getMemberId());
         
         int result = service.updatePortfolio(portfolioDTO);
@@ -163,7 +184,12 @@ public class PortfolioController {
             
         }
         
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }
         portfolioDetailDTO.setPortFolioDetailMemberId(member.getMemberId());
         
         int result = service.updateDetail(portfolioDetailDTO, hashTagName);

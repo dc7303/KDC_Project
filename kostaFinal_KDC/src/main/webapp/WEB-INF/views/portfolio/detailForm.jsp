@@ -70,6 +70,15 @@ jq(function(){
   /* 에디터 폼 submit control */
   jq('#editor-submit').on('click',function(){
     var content = editor.getValue();
+  	//form 유효성검사(제목, 상세)
+  	if(jq('input[name=portfolioDetailProjectName]').val().trim()===''){
+  	  alert('제목은 필수입력사항 입니다.');
+  	  jq('input[name=portfolioDetailProjectName]').focus();
+  	  return;
+  	}else if(content.trim()===''){
+  	  alert('프로젝트 상세설명은 필수입력사항 입니다.')
+  	  return;
+  	}
     
     var input = jq('<input>').attr('type','hidden')
     	.attr('name','portfolioDetailDescription').val(content);
@@ -77,7 +86,10 @@ jq(function(){
     
     jq('#editor-form').submit();
     
-  }); 
+  });
+  
+  
+  
   
 });
 
@@ -94,17 +106,6 @@ jq(function(){
   <div id="original-img" style="display:none;">현재 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></div>
   </br> 
   <h5>해쉬태그 : </h5>
-  <!-- 기존해쉬코드 
-  <c:choose>
-    <c:when test="${empty detail.portfolioDetailHashTagList}">
-      <input type="text" name="hashTagName"/></p></br>
-    </c:when>
-    <c:otherwise>
-    <input type="text" name="hashTagName" value="<c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag" >${hashTag.hashTagName}, </c:forEach>"/>
-    </p>
-    </br>
-    </c:otherwise>
-  </c:choose> -->
   <span id="span">
   <!-- 이벤트 발생시 태그가 여기에 추가 -->
   </span>
