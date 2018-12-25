@@ -31,20 +31,17 @@ public interface MessageDAO {
     /**
      * 메세지 확인 유무
      * */
-    void isReadMessage(int messageNum);
+    void messageIsRead(int messageNum);
     
     /**
-     * 답장ID(serderId) 유효성 체크
+     * 답장ID(serderId) 체크
+     *  : 답장버튼을 클릭하면 senderId가 유효한지 체크
      * */
-    String checkById(String senderId);
+    String messageCheckById(String senderId);
     
     /**
      * 읽지 않은 메세지 카운트
      * */
-    int unReadCount(String id);
+    int messageUnReadCount(String id);
     
-
-
-
-
 }
