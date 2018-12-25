@@ -14,8 +14,7 @@
 
   </head>
 
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
-<script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
@@ -95,7 +94,7 @@ jq(function(){
       <td>
       <span>${replyBoardDTO.replyBoardViews}</span>
       </td>
-      <td width="450" height="20" ><b><span style="font-size:9pt;">
+      <td><b><span style="font-size:9pt;">
         <input type="file" name="file" maxlength="60" size="40"> 
         <small>${NoticeBoardDTO.noticeBoardAttachment}</small></span></b>
       </td>

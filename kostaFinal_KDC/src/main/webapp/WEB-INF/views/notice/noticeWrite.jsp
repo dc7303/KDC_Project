@@ -12,7 +12,6 @@
     
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 
-<script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
@@ -61,7 +60,7 @@ jq(function(){
     var content = editor.getValue();
     
     var input = jq('<input>').attr('type','hidden').attr('name','noticeBoardContents').val(content);
-    jq('#editor-form').append($(input));
+    jq('#editor-form').append(jq(input));
     
     jq('#editor-form').submit();
     
@@ -121,7 +120,7 @@ jq(function(){
     <tr>
       <td colspan="8" height="20" colspan="4" align="center" valign="middle">
 
-      <input type=submit value="글쓰기" id="editor-submit">
+      <input type=submit value="글쓰기" id="editor-submit" />
       <input type=reset value="다시쓰기">
 
       </td>

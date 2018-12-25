@@ -164,7 +164,6 @@
       },
       success: function(data) {
         $.each(data, function(index, item) {
-          console.log(data);
           events.push({
             num: item.calendarPk,
             title: item.calendarTitle,
@@ -246,7 +245,7 @@
         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
       },
       success: function(result) {
-        console.log('성공');
+
         setEvents();
 
         $('#insertDialog').dialog('close');
