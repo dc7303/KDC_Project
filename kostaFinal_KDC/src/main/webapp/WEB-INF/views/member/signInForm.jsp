@@ -44,22 +44,17 @@
     <body>
     	<h1><b>KDC</b></h1>
 
-
-    	<div class="id">
-    	<input type="text" name="memberId" placeholder="  아이디"/>
-    	</div>
-
-    	<div class="pw">
-    	<input type="password" name="memberPwd" placeholder="  비밀번호">
-    	</div>
-
-
-        <div class="button">
-
-    	<input TYPE="button"
-
-    		value="SIGN UP" onclick="location.href=''">
-
-        </div>
+        <form action="${pageContext.request.contextPath }/j_spring_security_check" method="post">
+          <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+          <div class="id">
+            <input type="text" name="memberId" placeholder="  아이디"/>
+          </div>
+          <div class="pw">
+            <input type="password" name="memberPwd" placeholder="  비밀번호">
+          </div>
+          <div class="button">
+            <input type="submit" value="SignIn">
+          </div>
+        </form>
     </body>
 </html>

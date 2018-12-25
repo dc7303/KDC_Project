@@ -21,7 +21,7 @@ import edu.kosta.kdc.model.service.NoticeBoardService;
 @RequestMapping("/notice")
 public class NoticeBoardController {
 
-    private String path = "C:\\Edu\\KDC\\kdc";
+    private String path = "C:\\edu\\final_img";
 
     @Autowired
     private NoticeBoardService noticeBoardService;
@@ -29,80 +29,87 @@ public class NoticeBoardController {
     /**
      * 전체 검색
      */
-    @RequestMapping("/list")
-    public String Board(Model model, NoticeBoardDTO noticeBoard, boolean state) {
-
-        List<NoticeBoardDTO> list = noticeBoardService.selectAll(noticeBoard, state);
+    @RequestMapping(value= {"/list","/notice","/employ","classNotice"})
+    public String Board(Model model, @RequestParam(value="classification")String classification) {
+        model.addAttribute("classification",classification);
+        
+        List<NoticeBoardDTO> list = noticeBoardService.selectAll(classification);
         model.addAttribute("list", list);
-        return "notice/list";
+        
+        return "notice/noticeList";
     }
 
     /**
      * 조건 검색
      */
     @RequestMapping("/listserch")
-    public String SerchList(String department, String noticeBoardSearch, Model model) {
-        List<NoticeBoardDTO> list = noticeBoardService.SelectSerch(department, noticeBoardSearch);
+    public String SerchList(@RequestParam(value="classification") String classification, String department, String noticeBoardSearch, Model model) {
+
+        model.addAttribute("classification",classification);
+        
+        List<NoticeBoardDTO> list = noticeBoardService.SelectSerch(department, noticeBoardSearch,classification);
         model.addAttribute("list", list);
-        if(list==null) {
-            
-        }
-        return "notice/list";
+      
+        return "notice/noticeList";
     }
 
     /**
-     * 글쓰기
+     * 글쓰기 폼
      */
-    @RequestMapping("/write")
-    public String insertForm() {
-
-        return "notice/write";
+    @RequestMapping("/writeForm")
+    public String insertForm(@RequestParam(value="classification") String classification, Model model) {
+        
+        model.addAttribute("classification",classification);
+        
+        return "notice/noticeWrite";
     }
 
     /**
      * 레코드 삽입
      */
     @RequestMapping("/insert")
-    public String insert(NoticeBoardDTO noticeBoard) throws Exception {
+    public String insert(NoticeBoardDTO noticeBoard, String classification) throws Exception {
         
         if(noticeBoard.getFile() != null) {
-        MultipartFile file = noticeBoard.getFile();
-        String attachment = file.getOriginalFilename();
-
-        noticeBoard.setNoticeBoardAttachment(attachment);
-        file.transferTo(new File(path + "/" + attachment));
-     
-        
+            MultipartFile file = noticeBoard.getFile();
+            String attachment = file.getOriginalFilename();
+    
+            noticeBoard.setNoticeBoardAttachment(attachment);
+            file.transferTo(new File(path + "/" + attachment));
+            
         }
-  
-        noticeBoardService.insert(noticeBoard);
+        noticeBoardService.noticeInsert(noticeBoard, classification);
         
-        return "redirect:list";
+        return "redirect:list?classification="+classification;
     }
 
     /**
      * 제목 선택해서 상세보기
      */
     @RequestMapping("/read")
-    public String read(int noticeBoardPk, Model model, HttpServletRequest request) throws Exception {
+    public String noticeRead(int noticeBoardPk,String classification,Model model, HttpServletRequest request)throws Exception {
         boolean state = request.getParameter("state") == null ? true : false;
 
         NoticeBoardDTO noticeBoard = noticeBoardService.selectByNoticeBoardTitle(noticeBoardPk, true);
+        noticeBoard.setNoticeBoardClassification(classification);
+        
         model.addAttribute("NoticeBoardDTO", noticeBoard);
-
-        return "notice/read";
+        model.addAttribute("classification",classification);
+        
+        return "notice/noticeRead";
     }
 
     /**
      * 수정하기 폼
      **/
     @RequestMapping("/updateForm")
-    public ModelAndView updateForm(NoticeBoardDTO noticeBoard, int noticeBoardPk, Model model) {
+    public ModelAndView updateForm(NoticeBoardDTO noticeBoard, String classification, int noticeBoardPk, Model model) {
 
         noticeBoard = noticeBoardService.selectByNoticeBoardTitle(noticeBoardPk, false);
         model.addAttribute("noticeBoardPk", noticeBoardPk);
+        model.addAttribute("classification",classification);
 
-        return new ModelAndView("notice/update", "NoticeBoardDTO", noticeBoard);
+        return new ModelAndView("notice/noticeUpdate", "NoticeBoardDTO", noticeBoard);
     }
 
     /**
@@ -110,11 +117,11 @@ public class NoticeBoardController {
      */
 
     @RequestMapping("/update")
-    public String update(int noticeBoardPk, NoticeBoardDTO noticeBoard) throws Exception {
+    public String update(int noticeBoardPk,String classification, NoticeBoardDTO noticeBoard) throws Exception {
    
         noticeBoardService.update(noticeBoard);
         
-        return "redirect:read?noticeBoardPk=" + noticeBoardPk;
+        return "redirect:read?classification="+classification+"&noticeBoardPk=" + noticeBoardPk;
 
     }
 
@@ -123,10 +130,11 @@ public class NoticeBoardController {
      */
 
     @RequestMapping("/delete")
-    public String delete(int noticeBoardPk) {
+    public String delete(int noticeBoardPk,String classification) {
 
         noticeBoardService.delete(noticeBoardPk);
-        return "redirect:list";
+      
+        return "redirect:list?noticeBoardPk="+noticeBoardPk+"&classification="+classification;
     }
 
     /**
@@ -134,7 +142,7 @@ public class NoticeBoardController {
      */
     @RequestMapping("/downLoad")
     public ModelAndView downLoad(HttpSession session, String attachment) {
-     
+
         return new ModelAndView("downLoadView", "attachment", new File(path + "/" + attachment));
     }
 

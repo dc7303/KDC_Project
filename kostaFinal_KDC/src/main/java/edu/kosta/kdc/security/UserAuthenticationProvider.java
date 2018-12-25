@@ -41,6 +41,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
      */
 	@Override
 	public Authentication authenticate(Authentication auth) throws AuthenticationException {
+	    
 	    //1. 파라미터로 전달받은 Authentication 객체의 인증처리가 지원되지 않으면 null이 리턴
 		if(!supports(auth.getClass())){
 			return null;
@@ -55,6 +56,11 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         
 		if(memberDTO == null){
 			throw new UsernameNotFoundException("정보가 일치하지 않습니다.");//spring exception
+		}
+		
+		//isMemberIsWithdrawal이 TURE라면 탈퇴한 회원임으로 실패.
+		if(memberDTO.isMemberIsWithdrawal()) {
+		    throw new UsernameNotFoundException("정보가 일치하지 않습니다.");
 		}
 		
 		//3.비밀번호 비교

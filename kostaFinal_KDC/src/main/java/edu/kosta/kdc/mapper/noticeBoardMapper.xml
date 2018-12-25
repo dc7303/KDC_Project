@@ -4,7 +4,7 @@
 
 <resultMap type="noticeBoardDTO" id="selectMap">
     <id column="notice_board_pk" property="noticeBoardPk" />
-    <result column="NOTICE_BOARD_CLASSIFICATION" property="noticeBoardClassification" />
+    <result column="NOTICE_BOARD_CLASSIFICATION" property="noticeBoardClassification"/>
     <result column="NOTICE_BOARD_TITLE" property="noticeBoardTitle" />
     <result column="NOTICE_BOARD_WRITER_ID" property="noticeBoardWriterId" />
     <result column="NOTICE_BOARD_WRITE_DATE" property="noticeBoardDate" />
@@ -20,6 +20,8 @@
     SELECT *
     FROM NOTICE_BOARD
     WHERE NOTICE_BOARD_ISDELETE= 'FALSE'
+  
+    
 </select>
 
     <!--  조건 검색 -->
@@ -42,7 +44,7 @@
     <insert id="noticeBoardInsert" parameterType="NoticeBoardDTO">
 
         INSERT INTO NOTICE_BOARD
-        VALUES (NOTICE_BOARD_SEQ.NEXTVAL, 'AAAA', #{noticeBoardTitle}, 'lake',
+        VALUES (NOTICE_BOARD_SEQ.NEXTVAL, #{noticeBoardClassification}, #{noticeBoardTitle}, 'lake',
         SYSDATE,#{noticeBoardContents}, 0, #{noticeBoardAttachment},
         'FALSE')
 
@@ -82,5 +84,7 @@
        
     </update>
     
+
+
 
 </mapper>

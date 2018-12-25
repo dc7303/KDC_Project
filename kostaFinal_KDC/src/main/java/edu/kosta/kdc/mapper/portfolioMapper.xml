@@ -1,6 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="portfolioMapper">
-    
+
+    <!-- 포트폴리오(상세, 해쉬태그) resultMap -->
+    <resultMap type="portfolioDTO" id="selectMap">
+        <id column="portfolio_user_id" property="portFolioMemberId" />
+        <result column="portfolio_main_image"
+            property="portFolioMainImage" />
+        <result column="portfolio_main_title"
+            property="portFolioMainTitle" />
+        <result column="portfolio_visibility"
+            property="portFolioVisibility"
+            typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler" />
+        <result column="portfolio_isdelete"
+            property="portFolioIsDelete"
+            typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler" />
+        <collection property="portFolioDetailList"
+            ofType="portfolioDetailDTO"> <!-- javaType은 alias -->
+            <id column="PORTFOLIO_DETAIL_PK"
+                property="portFolioDetailPk" />
+            <result column="PORTFOLIO_DETAIL_USER_ID"
+                property="portFolioDetailMemberId" />
+            <result column="PORTFOLIO_DETAIL_PROJECT_NAME"
+                property="portfolioDetailProjectName" />
+            <result column="PORTFOLIO_DETAIL_PROJECT_IMAGE"
+                property="portfolioDeltailProjectImage" />
+            <result column="PORTFOLIO_DETAIL_DESCRIPTION"
+                property="portfolioDetailDescription" />
+            <result column="PORTFOLIO_DETAIL_ISDELETE"
+                property="portfolioDetailIsDelete"
+                typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler" />
+            <collection property="portfolioDetailHashTagList"
+                ofType="hashTagDTO">
+                <id column="HASHTAG_PK" property="hashTagPk" />
+                <result column="HASHTAG_REPLY_BOARD_PK"
+                    property="hashTagReplyBoardPk" />
+                <result column="HASHTAG_PORTFOLIO_DETAIL_PK"
+                    property="hashTagPortfolioDetailPk" />
+                <result column="HASHTAG_NAME"
+                    property="hashTagName" />
+                <result column="HASHTAG_ISDELETE"
+                    property="hashTagIsDelete"
+                    typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler" />
+            </collection>
+        </collection>
+    </resultMap>
+
+    <!-- 포트폴리오 -->
+    <resultMap type="portfolioDTO" id="portfolioMap">
+        <id column="portfolio_user_id" property="portFolioMemberId" />
+        <result column="portfolio_main_image"
+            property="portFolioMainImage" />
+        <result column="portfolio_main_title"
+            property="portFolioMainTitle" />
+        <result column="portfolio_visibility"
+            property="portFolioVisibility"
+            typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler" />
+        <result column="portfolio_isdelete"
+            property="portFolioIsDelete"
+            typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler" />
+    </resultMap>
+
+    <!-- INSERT -->
+    <insert id="insertPortfolio" parameterType="portfolioDTO">
+        insert
+        into PORTFOLIO
+        values(#{portFolioMemberId},
+        #{portFolioMainImage},
+        #{portFolioMainTitle},
+        <choose>
+            <when test="portFolioVisibility==null">
+                'FALSE',
+            </when>
+            <otherwise>
+                'TRUE',
+            </otherwise>
+        </choose>
+        'FALSE'
+
+        )
+    </insert>
+
+    <!-- select(포트폴리오 존재여부 체크) -->
+    <select id="selectByMemberId" parameterType="string"
+        resultType="string">
+        select *
+        from PORTFOLIO
+        where portfolio_user_id =
+        #{_parameter}
+    </select>
+
+    <!-- 마이페이지 id에 해당하는 select(포트폴리오, 상세) -->
+    <select id="selectPortfolioByMemberId" parameterType="string" resultMap="selectMap">
+        SELECT *
+        FROM PORTFOLIO
+        LEFT JOIN PORTFOLIO_DETAIL
+        ON PORTFOLIO.PORTFOLIO_USER_ID = PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_USER_ID
+        AND PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_ISDELETE = 'FALSE'
+        LEFT JOIN HASHTAG
+        ON PORTFOLIO_DETAIL_PK = HASHTAG_PORTFOLIO_DETAIL_PK
+        AND HASHTAG.HASHTAG_ISDELETE = 'FALSE'
+        WHERE PORTFOLIO.PORTFOLIO_ISDELETE='FALSE'
+        AND PORTFOLIO.PORTFOLIO_USER_ID = #{_parameter}
+        ORDER BY PORTFOLIO_DETAIL_DATE DESC
+    </select>
+
+    <!-- 게시된 id에 해당하는 select(포트폴리오, 상세) -->
+    <select id="selectAllDetail" parameterType="string"
+        resultMap="selectMap">
+        SELECT *
+        FROM PORTFOLIO
+        LEFT JOIN PORTFOLIO_DETAIL
+        ON PORTFOLIO.PORTFOLIO_USER_ID = PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_USER_ID
+        AND PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_ISDELETE = 'FALSE'
+        LEFT JOIN HASHTAG
+        ON PORTFOLIO_DETAIL_PK = HASHTAG_PORTFOLIO_DETAIL_PK
+        AND HASHTAG.HASHTAG_ISDELETE = 'FALSE'
+        WHERE PORTFOLIO.PORTFOLIO_ISDELETE='FALSE'
+        AND PORTFOLIO.PORTFOLIO_VISIBILITY = 'TRUE'
+        AND PORTFOLIO.PORTFOLIO_USER_ID = #{_parameter}
+        ORDER BY PORTFOLIO_DETAIL_DATE DESC
+    </select>
+
+    <!-- 포트폴리오 수정 -->
+    <update id="updatePortfolio" parameterType="portfolioDTO">
+        UPDATE PORTFOLIO
+        SET
+        <if test="portFolioMainImage!=null">
+            PORTFOLIO_MAIN_IMAGE = #{portFolioMainImage},
+        </if>
+        PORTFOLIO_MAIN_TITLE = #{portFolioMainTitle},
+        PORTFOLIO_VISIBILITY =
+        <choose>
+            <when test="portFolioVisibility==null">
+                'FALSE'
+            </when>
+            <otherwise>
+                'TRUE'
+            </otherwise>
+        </choose>
+        WHERE PORTFOLIO_USER_ID = #{portFolioMemberId}
+    </update>
+
+    <!-- 포트폴리오 전체조회 -->
+    <select id="selectAll" resultMap="selectMap">
+        SELECT *
+        FROM PORTFOLIO
+        LEFT
+        JOIN PORTFOLIO_DETAIL
+        ON PORTFOLIO.PORTFOLIO_USER_ID =
+        PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_USER_ID
+        AND
+        PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_ISDELETE = 'FALSE'
+        LEFT JOIN
+        HASHTAG
+        ON PORTFOLIO_DETAIL_PK = HASHTAG_PORTFOLIO_DETAIL_PK
+        AND
+        HASHTAG.HASHTAG_ISDELETE = 'FALSE'
+        WHERE
+        PORTFOLIO.PORTFOLIO_ISDELETE='FALSE'
+        AND
+        PORTFOLIO.PORTFOLIO_VISIBILITY = 'TRUE'
+    </select>
 
 </mapper>

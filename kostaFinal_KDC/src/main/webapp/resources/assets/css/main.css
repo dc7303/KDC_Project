@@ -26,14 +26,22 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   text-align: center;
+<<<<<<< HEAD
   font-family:"�굹�닎�뒪�섏뼱�씪�씠�듃", "NanumSquareL", "ngeot", "�룍��", "DotumChe", "Dotum";}
+=======
+  font-family:"나눔스퀘어라이트", "NanumSquareL", "ngeot", "돋움", "DotumChe", "Dotum";}
+>>>>>>> ec03a69a5a0c8666fe3de9825155e6169114b796
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
 
 html{
+<<<<<<< HEAD
 	/* display: flex; */
+=======
+	display: flex;
+>>>>>>> ec03a69a5a0c8666fe3de9825155e6169114b796
 	justify-content: center;
 	align-items: center;
 }

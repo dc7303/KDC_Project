@@ -1,6 +1,282 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="replyBoardMapper">
-    
+<resultMap type="replyBoardDTO" id="replyBoardMap">
+    <id column="REPLY_BOARD_PK" property="replyBoardPk"/>
+    <result column="REPLY_BOARD_CLASSIFICATION" property="replyBoardClassification"/>
+    <result column="REPLY_BOARD_REPLY_NO" property="replyBoardReplyNo"/>
+    <result column="REPLY_BOARD_TITLE" property="replyBoardTitle"/>
+    <result column="REPLY_BOARD_WRITER_ID" property="replyBoardWriterId"/>
+    <result column="REPLY_BOARD_WRITE_DATE" property="replyBoardDate"/>
+    <result column="REPLY_BOARD_CONTENTS" property="replyBoardContents"/>
+    <result column="REPLY_BOARD_VIEWS" property="replyBoardViews"/>
+    <result column="REPLY_BOARD_MENTION" property="replyBoardMention"/>
+    <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+    <result column="likeNum" property="likeNum"/>
+    <result column="replyNum" property="replyNum"/>
+    <association property="member" javaType="memberDTO">
+        <id column="MEMBER_ID" property="memberId"/>
+        <result column="MEMBER_PW" property="memberPwd"/>
+        <result column="MEMBER_NAME" property="memberName"/>
+        <result column="MEMBER_NICKNAME" property="memberNickName"/>
+        <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
+        <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
+        <result column="MEMBER_EMAIL" property="memberEmail"/>
+        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+    </association>  
+</resultMap>
 
+<resultMap type="replyBoardDTO" id="replyBoardSelectAllMap">
+    <id column="REPLY_BOARD_PK" property="replyBoardPk"/>
+    <result column="REPLY_BOARD_CLASSIFICATION" property="replyBoardClassification"/>
+    <result column="REPLY_BOARD_REPLY_NO" property="replyBoardReplyNo"/>
+    <result column="REPLY_BOARD_TITLE" property="replyBoardTitle"/>
+    <result column="REPLY_BOARD_WRITER_ID" property="replyBoardWriterId"/>
+    <result column="REPLY_BOARD_WRITE_DATE" property="replyBoardDate"/>
+    <result column="REPLY_BOARD_CONTENTS" property="replyBoardContents"/>
+    <result column="REPLY_BOARD_VIEWS" property="replyBoardViews"/>
+    <result column="REPLY_BOARD_MENTION" property="replyBoardMention"/>
+    <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+    <result column="likeNum" property="likeNum"/>
+    <result column="replyNum" property="replyNum"/>
+    <result column="mentionNickName" property="mentionNickName"/>
+    <association property="member" javaType="memberDTO">
+        <id column="MEMBER_ID" property="memberId"/>
+        <result column="MEMBER_PW" property="memberPwd"/>
+        <result column="MEMBER_NAME" property="memberName"/>
+        <result column="MEMBER_NICKNAME" property="memberNickName"/>
+        <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
+        <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
+        <result column="MEMBER_EMAIL" property="memberEmail"/>
+        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+    </association>
+    <association property="updown" javaType="upDownDTO">
+        <id column="UPDOWN_PK" property="updownPk"/>
+        <result column="UPDOWN_REPLY_BOARD_PK" property="updownReplyBoardPk"/>
+        <result column="UPDOWN_USER_ID" property="updownMemberId"/>
+        <result column="UPDOWN_ISUP" property="isUp" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+    </association>
+    <association property="hashTag" javaType="hashTagDTO">
+        <id column="HASHTAG_PK" property="hashTagPk"/>
+        <result column="HASHTAG_REPLY_BOARD_PK" property="hashTagReplyBoardPk"/>
+        <result column="HASHTAG_PORTFOLIO_DETAIL_PK" property="hashTagPortfolioDetailPk"/>
+        <result column="HASHTAG_NAME" property="hashTagName"/>
+        <result column="HASHTAG_ISDELETE" property="hashTagIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+    </association>
+</resultMap>
+
+<resultMap type="hashTagDTO" id="HashTagMap">
+    <id column="HASHTAG_PK" property="hashTagPk"/>
+    <result column="HASHTAG_REPLY_BOARD_PK" property="hashTagReplyBoardPk"/>
+    <result column="HASHTAG_PORTFOLIO_DETAIL_PK" property="hashTagPortfolioDetailPk"/>
+    <result column="HASHTAG_NAME" property="hashTagName"/>
+    <result column="HASHTAG_ISDELETE" property="hashTagIsDelete"/>
+</resultMap>
+
+<resultMap type="memberDTO" id="mentionTagMap">
+    <id column="MEMBER_ID" property="memberId"/>
+    <result column="MEMBER_PW" property="memberPwd"/>
+    <result column="MEMBER_NAME" property="memberName"/>
+    <result column="MEMBER_NICKNAME" property="memberNickName"/>
+    <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
+    <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
+    <result column="MEMBER_EMAIL" property="memberEmail"/>
+    <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+    <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+</resultMap>
+
+<select id="replyBoardSelectAll" parameterType="String" resultMap="replyBoardMap">
+    SELECT A.*
+    , B.MEMBER_NICKNAME
+    , (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'TRUE')
+    - (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'FALSE') likeNum
+    , (SELECT COUNT(C.REPLY_BOARD_PK) FROM REPLY_BOARD C WHERE C.REPLY_BOARD_REPLY_NO = A.REPLY_BOARD_PK AND REPLY_BOARD_ISDELETE='FALSE') replyNum
+    FROM REPLY_BOARD A, MEMBER B
+    WHERE A.REPLY_BOARD_CLASSIFICATION = #{_parameter}
+    AND A.REPLY_BOARD_ISDELETE = 'FALSE'
+    AND A.REPLY_BOARD_REPLY_NO IS NULL
+    AND A.REPLY_BOARD_WRITER_ID = B.MEMBER_ID
+    AND B.MEMBER_ISWITHDRAWAL='FALSE'
+    ORDER BY A.REPLY_BOARD_PK DESC
+</select>
+
+<select id="replyBoardSelectAllOrderBy" parameterType="map" resultMap="replyBoardMap">
+    SELECT A.*
+    , B.MEMBER_NICKNAME
+    , (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'TRUE')
+    - (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'FALSE') likeNum
+    , (SELECT COUNT(C.REPLY_BOARD_PK) FROM REPLY_BOARD C WHERE C.REPLY_BOARD_REPLY_NO = A.REPLY_BOARD_PK AND REPLY_BOARD_ISDELETE='FALSE') replyNum
+    FROM REPLY_BOARD A, MEMBER B
+    WHERE A.REPLY_BOARD_CLASSIFICATION = #{classification}
+    AND A.REPLY_BOARD_ISDELETE = 'FALSE'
+    AND A.REPLY_BOARD_REPLY_NO IS NULL
+    AND A.REPLY_BOARD_WRITER_ID = B.MEMBER_ID
+    AND B.MEMBER_ISWITHDRAWAL='FALSE'
+    ORDER BY
+        <if test="sort!=null">
+            ${sort} DESC
+        </if>
+</select>
+
+<insert id="replyBoardInsert" parameterType="replyBoardDTO">
+    INSERT INTO REPLY_BOARD 
+    VALUES (REPLY_BOARD_SEQ.NEXTVAL, #{replyBoardClassification}, null, #{replyBoardTitle}, #{replyBoardWriterId}, SYSDATE, #{replyBoardContents}, '0', NULL, 'FALSE')
+</insert>
+
+<insert id="hashTagInsert" parameterType="string">
+    INSERT INTO HASHTAG 
+    VALUES (HASHTAG_SEQ.NEXTVAL, (SELECT MAX(REPLY_BOARD_PK) FROM REPLY_BOARD), NULL, #{_parameter}, 'FALSE')
+</insert>
+
+<insert id="replyInsert" parameterType="replyBoardDTO">
+    INSERT INTO REPLY_BOARD 
+    VALUES (REPLY_BOARD_SEQ.NEXTVAL, #{replyBoardClassification}, #{replyBoardPk}, NULL, #{replyBoardWriterId}, SYSDATE, #{replyBoardContents}, NULL, (SELECT MEMBER_ID FROM MEMBER WHERE MEMBER_NICKNAME = #{mentionNickName}), 'FALSE')
+</insert>
+
+<update id="readnumUpdate" parameterType="int">
+    update REPLY_BOARD set REPLY_BOARD_VIEWS = REPLY_BOARD_VIEWS + 1 where REPLY_BOARD_PK= #{replyBoardPk}
+</update>
+
+<select id="boardByModelNum" parameterType="replyBoardDTO" resultMap="replyBoardSelectAllMap">
+    SELECT A.*
+    , B.MEMBER_NICKNAME
+    , (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'TRUE')
+    - (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'FALSE') likeNum
+    , (SELECT COUNT(C.REPLY_BOARD_PK) FROM REPLY_BOARD C WHERE C.REPLY_BOARD_REPLY_NO = A.REPLY_BOARD_PK AND REPLY_BOARD_ISDELETE='FALSE') replyNum
+    , (SELECT UPDOWN_ISUP FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_USER_ID = 'ocean') UPDOWN_ISUP
+    , (SELECT LISTAGG(HASHTAG_NAME, ', ') WITHIN GROUP (ORDER BY ROWNUM) FROM HASHTAG WHERE HASHTAG_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND HASHTAG_ISDELETE='FALSE' GROUP BY HASHTAG_REPLY_BOARD_PK) HASHTAG_NAME
+    , (SELECT MEMBER_NICKNAME FROM MEMBER WHERE MEMBER_ID = A.REPLY_BOARD_MENTION AND MEMBER_ISWITHDRAWAL='FALSE') mentionNickName
+    FROM REPLY_BOARD A, MEMBER B
+    WHERE A.REPLY_BOARD_CLASSIFICATION = #{replyBoardClassification}
+    AND A.REPLY_BOARD_PK = #{replyBoardPk}
+    AND A.REPLY_BOARD_ISDELETE = 'FALSE'
+    AND A.REPLY_BOARD_REPLY_NO IS NULL
+    AND A.REPLY_BOARD_WRITER_ID = B.MEMBER_ID
+    UNION ALL
+    SELECT Z.*
+    , (SELECT MEMBER_NICKNAME FROM MEMBER WHERE MEMBER_ID = Z.REPLY_BOARD_WRITER_ID) MEMBER_NICKNAME
+    , (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = Z.REPLY_BOARD_PK AND UPDOWN_ISUP = 'TRUE')
+    - (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = Z.REPLY_BOARD_PK AND UPDOWN_ISUP = 'FALSE') likeNum
+    , (SELECT COUNT(C.REPLY_BOARD_PK) FROM REPLY_BOARD C WHERE C.REPLY_BOARD_REPLY_NO = Z.REPLY_BOARD_PK AND REPLY_BOARD_ISDELETE='FALSE') replyNum
+    , (SELECT UPDOWN_ISUP FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = Z.REPLY_BOARD_PK AND UPDOWN_USER_ID = 'ocean') UPDOWN_ISUP
+    , (SELECT LISTAGG(HASHTAG_NAME, ', ') WITHIN GROUP (ORDER BY ROWNUM) FROM HASHTAG WHERE HASHTAG_REPLY_BOARD_PK = Z.REPLY_BOARD_PK AND HASHTAG_ISDELETE='FALSE' GROUP BY HASHTAG_REPLY_BOARD_PK) HASHTAG_NAME
+    , (SELECT MEMBER_NICKNAME FROM MEMBER WHERE MEMBER_ID = Z.REPLY_BOARD_MENTION AND MEMBER_ISWITHDRAWAL='FALSE') mentionNickName
+    FROM (
+    SELECT A.*
+    FROM REPLY_BOARD A
+    WHERE A.REPLY_BOARD_CLASSIFICATION = #{replyBoardClassification}
+    AND A.REPLY_BOARD_ISDELETE = 'FALSE'
+    AND A.REPLY_BOARD_REPLY_NO = #{replyBoardPk}
+    ORDER BY A.REPLY_BOARD_PK) Z
+</select>
+
+<insert id="hashTagUpdateInsert" parameterType="map">
+    INSERT INTO HASHTAG 
+    VALUES (HASHTAG_SEQ.NEXTVAL, #{replyBoardPk}, NULL, #{hashTags}, 'FALSE')
+</insert>
+
+<update id="hashTagUpdateDelete" parameterType="replyBoardDTO">
+UPDATE HASHTAG SET HASHTAG_ISDELETE = 'TRUE' WHERE HASHTAG_REPLY_BOARD_PK = #{replyBoardPk}
+</update>
+
+<update id="replyBoardUpdate" parameterType="replyBoardDTO">
+UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTENTS = #{replyBoardContents} WHERE REPLY_BOARD_PK = #{replyBoardPk}
+</update>
+
+<update id="replyBoardDelete" parameterType="int">
+    UPDATE REPLY_BOARD SET REPLY_BOARD_ISDELETE = 'TRUE' WHERE REPLY_BOARD_PK = #{replyBoardPk}
+</update>
+
+<update id="replyBoardReplyDelete" parameterType="int">
+    UPDATE REPLY_BOARD SET REPLY_BOARD_ISDELETE = 'TRUE' WHERE REPLY_BOARD_REPLY_NO = #{replyBoardPk}
+</update>
+
+<update id="replyBoardHashTagDelete" parameterType="int">
+    UPDATE HASHTAG SET HASHTAG_ISDELETE = 'TRUE' WHERE HASHTAG_REPLY_BOARD_PK = #{replyBoardPk}
+</update>
+
+<update id="replyBoardUpDownDelete" parameterType="int">
+    UPDATE UPDOWN SET UPDOWN_ISUP = 'TRUE' WHERE UPDOWN_REPLY_BOARD_PK = #{replyBoardPk}
+</update>
+
+<update id="replyDelete" parameterType="int">
+    UPDATE REPLY_BOARD SET REPLY_BOARD_ISDELETE = 'TRUE' WHERE REPLY_BOARD_PK = #{replyBoardReplyPk}
+</update>
+
+<update id="replyUpdate" parameterType="replyBoardDTO">
+    UPDATE REPLY_BOARD SET REPLY_BOARD_CONTENTS = #{replyBoardContents}, REPLY_BOARD_MENTION = (SELECT MEMBER_ID FROM MEMBER WHERE MEMBER_NICKNAME = '바또혼' AND MEMBER_ISWITHDRAWAL='FALSE')
+    WHERE REPLY_BOARD_PK = #{replyBoardReplyNo}
+</update>
+
+<select id="replyBoardListSearch" parameterType="map" resultMap="replyBoardMap">
+    SELECT A.*
+    , B.MEMBER_NICKNAME
+    , (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'TRUE')
+    - (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'FALSE') likeNum
+    , (SELECT COUNT(C.REPLY_BOARD_PK) FROM REPLY_BOARD C WHERE C.REPLY_BOARD_REPLY_NO = A.REPLY_BOARD_PK AND REPLY_BOARD_ISDELETE='FALSE') replyNum
+    FROM REPLY_BOARD A, MEMBER B
+    WHERE A.REPLY_BOARD_CLASSIFICATION = #{classification}
+    AND A.REPLY_BOARD_ISDELETE = 'FALSE'
+    AND A.REPLY_BOARD_REPLY_NO IS NULL
+    AND A.REPLY_BOARD_WRITER_ID = B.MEMBER_ID
+    AND B.MEMBER_ISWITHDRAWAL = 'FALSE'
+    <if test="department.equals('C.HASHTAG')">
+    AND EXISTS (SELECT 'T'
+                FROM HASHTAG C 
+                WHERE UPPER(C.HASHTAG_NAME) LIKE '%' || UPPER(#{boardSearch}) || '%'
+                AND A.REPLY_BOARD_PK = C.HASHTAG_REPLY_BOARD_PK
+                AND C.HASHTAG_ISDELETE='FALSE')
+    </if>
+    <if test="department.equals('A.REPLY_BOARD_TITLE')">
+    AND UPPER(A.REPLY_BOARD_TITLE) LIKE '%' || UPPER(#{boardSearch}) || '%'
+    </if>
+    <if test="department.equals('A.REPLY_BOARD_CONTENTS')">
+    AND UPPER(A.REPLY_BOARD_CONTENTS) LIKE '%' || UPPER(#{boardSearch}) || '%'
+    </if>
+    <if test="department.equals('B.MEMBER_NICKNAME')">
+    AND UPPER(B.MEMBER_NICKNAME) LIKE '%' || UPPER(#{boardSearch}) || '%'
+    </if>
+    ORDER BY A.REPLY_BOARD_PK DESC
+</select>
+
+<insert id="replyBoardLike" parameterType="int">
+    INSERT INTO UPDOWN VALUES (UPDOWN_SEQ.NEXTVAL, #{_parameter},'ocean','TRUE')
+</insert>
+
+<insert id="replyBoardDisLike" parameterType="int">
+    INSERT INTO UPDOWN VALUES (UPDOWN_SEQ.NEXTVAL, #{_parameter},'ocean','FALSE')
+</insert>
+
+<delete id="replyBoardLikeCancle" parameterType="int">
+    DELETE FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK= #{_parameter} AND UPDOWN_USER_ID='ocean'
+</delete>
+
+<select id="hashtagSuggest" parameterType="String" resultMap="HashTagMap">
+    SELECT DISTINCT HASHTAG_NAME
+    FROM HASHTAG
+    WHERE HASHTAG_ISDELETE = 'FALSE'
+    AND UPPER(HASHTAG_NAME) LIKE UPPER(#{_parameter}) || '%'
+    ORDER BY HASHTAG_NAME ASC
+</select>
+
+<insert id="reportPopInsert" parameterType="map">
+    INSERT INTO REPORT VALUES(REPORT_SEQ.NEXTVAL, #{replyBoardPk}, 'ocean', SYSDATE, #{reportContents},'FALSE')
+</insert>
+
+<select id="nicknameSuggest" parameterType="String" resultMap="mentionTagMap">
+    SELECT MEMBER_NICKNAME
+    FROM MEMBER
+    WHERE MEMBER_ISWITHDRAWAL = 'FALSE'
+    AND UPPER(MEMBER_NICKNAME) LIKE UPPER(#{_parameter}) || '%'
+    ORDER BY MEMBER_NICKNAME ASC
+</select>
+
+<select id="allnicknames" resultMap="mentionTagMap">
+    SELECT MEMBER_NICKNAME
+    FROM MEMBER
+    WHERE MEMBER_ISWITHDRAWAL = 'FALSE'
+    ORDER BY MEMBER_NICKNAME ASC
+</select>
 </mapper>

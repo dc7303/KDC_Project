@@ -2,11 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
     
-    <insert id="insert" parameterType="memberDTO">
-
+    <resultMap type="memberDTO" id="memberDTO">
+        <id column="MEMBER_ID" property="memberId"/>
+        <result column="MEMBER_PW" property="memberPwd"/>
+        <result column="MEMBER_NAME" property="memberName"/>
+        <result column="MEMBER_NICKNAME" property="memberNickName"/>
+        <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
+        <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
+        <result column="MEMBER_EMAIL" property="memberEmail"/>
+        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+    </resultMap>
+    
+    <!-- 회원가입 -->
+    <insert id="insert" parameterType="memberDTO" >
+        insert into member values 
+        (#{memberId}, #{memberPwd}, #{memberName}, #{memberNickName}, #{memberBirth}, #{memberPhone}, #{memberEmail}, 'FALSE', sysdate)
     </insert>
     
-    <select id="selectByMemberId" parameterType="String" resultType="memberDTO">
-        
+    <!-- 아이디로 조회 -->
+    <select id="selectByMemberId" parameterType="String" resultMap="memberDTO">
+        select * from member where member_id = #{_parameter}
+    </select>
+    
+    <!-- 닉네임으로 조회 -->
+    <select id="selectByMemberNickName" parameterType="String" resultMap="memberDTO">
+        select * from member where member_nickname = #{_parameter}
+    </select>
+    
+    <!-- 회원정보 수정 -->
+    <update id="updateByMemberInfo" parameterType="memberDTO">
+        update member 
+        set member_pw = #{memberPwd}, member_birthday = #{memberBirth}, member_phonenumber = #{memberPhone}, member_email = #{memberEmail} 
+        where member_id = #{memberId}
+    </update>
+    
+    <!-- 회원탈퇴 -->
+    <update id="updateByIsWithDrawal" parameterType="string">
+        update member
+        set member_IsWithDrawal = 'TRUE'
+        where member_id = #{_parameter}
+    </update>
+    
+    <select id="selectAll" resultMap="memberDTO">
+        select * from member
     </select>
 </mapper>

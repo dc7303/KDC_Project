@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.kosta.kdc.model.dao.NoticeBoardDAO;
 import edu.kosta.kdc.model.dto.NoticeBoardDTO;
+
 @Repository
 public class NoticeBoardDAOImpl implements NoticeBoardDAO {
     
@@ -21,49 +22,54 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
      *  전체 검색
      */
     @Override
-    public List<NoticeBoardDTO> selectAll(NoticeBoardDTO noticeBoard) {
+    public List<NoticeBoardDTO> selectAll(String classification, String classRoomCode) {
         
-        List<NoticeBoardDTO> list = session.selectList("noticeBoardMapper.noticeBoardSelect");
-        return list;
+        Map<String, String> map = new HashMap<>();      //파라미터 담을 Map
+        
+        map.put("classification", classification);
+        //반별게시판으로 접근했다면
+        if(classRoomCode != null) {
+           map.put("classRoomCode", classRoomCode);
+        }
+        
+        return session.selectList("noticeBoardMapper.noticeBoardSelect", map);
     }
 
     /**
      * 레코드 삽입
      */
     @Override
-    public int insert(NoticeBoardDTO noticeBoard) {
+    public int noticeInsert(NoticeBoardDTO noticeBoard) {
         
         return session.insert("noticeBoardMapper.noticeBoardInsert", noticeBoard);
     }
-
     
     /**
      *  제목 선택해서 상세보기
      */
     @Override
     public NoticeBoardDTO selectByNoticeBoardTitle(int noticeBoardPk)  {
+        
       return session.selectOne("noticeBoardMapper.SelectNoticeBoardPK",noticeBoardPk);
        
-        
     }
 
     /**
      * 수정하기
      */
     @Override
-    public void update(NoticeBoardDTO noticeBoard) {
+    public int update(NoticeBoardDTO noticeBoard) {
         
-        System.out.println(noticeBoard);
-        session.update("noticeBoardMapper.noticeBoardUpdate", noticeBoard);
-        
+        return session.update("noticeBoardMapper.noticeBoardUpdate", noticeBoard);
     }
 
     /**
      * 삭제하기
      */
     @Override
-    public void delete(int noticeBoardPk) {
-        session.delete("noticeBoardMapper.noticeBoardDelete",noticeBoardPk );
+    public int delete(int noticeBoardPk) {
+        
+        return session.delete("noticeBoardMapper.noticeBoardDelete",noticeBoardPk );
         
     }
 
@@ -72,46 +78,23 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
      */
     @Override
     public int noticeViewsUpdate(int noticeBoardPk) {
+        
         return session.update("noticeBoardMapper.noticeBoardViewsUpdate" ,noticeBoardPk);
      
        
     }
-
+/**
+ *  조건검색
+ */
     @Override
-    public List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch) {
+    public List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch, String classification) {
+        
         Map<String, Object> map = new HashMap<>();
         map.put("department", department);
         map.put("noticeBoardSearch", noticeBoardSearch);
-        List<NoticeBoardDTO> list = session.selectList("noticeBoardMapper.SearchTitleAndContents",map);
-        return list;
+        map.put("classification", classification);
+        
+        return session.selectList("noticeBoardMapper.SearchTitleAndContents",map);
     }
  }
-
-
-    
-
-    
-    
-
-
-   
-
-
- 
-
-
-
- 
-
-
-
-    
-
-   
-
-
-  
-
- 
-    
 

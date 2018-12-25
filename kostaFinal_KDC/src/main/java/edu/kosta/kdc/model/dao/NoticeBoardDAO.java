@@ -8,12 +8,12 @@ public interface NoticeBoardDAO {
     /**
      *  전체검색
      */
-    List<NoticeBoardDTO> selectAll (NoticeBoardDTO noticeBoard);
+    List<NoticeBoardDTO> selectAll (String classification, String classRoomCode);
     
     /**
      * 레코드 삽입
      */
-    int insert(NoticeBoardDTO noticeBoard);
+    int noticeInsert(NoticeBoardDTO noticeBoard);
     
     /**
      * 제목 검색해서 상세보기
@@ -23,12 +23,12 @@ public interface NoticeBoardDAO {
     /**
      *  수정하기
      */
-    void update(NoticeBoardDTO noticeBoard);
+    int update(NoticeBoardDTO noticeBoard);
     
     /**
      * 삭제하기
      */
-    void delete(int noticeBoardPk);
+    int delete(int noticeBoardPk);
     
     /**
      *  조회수 증가
@@ -38,27 +38,7 @@ public interface NoticeBoardDAO {
     /**
      *  조건검색
      */
-    List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch);
-
-    
-
-    
-
-
-
-   
-
- 
-    
-    
-  
-    
-  
-   
-
-    
-
-    
- 
+    List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch, String classification);
 
 }
+

@@ -2,5 +2,90 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="portfolioDetailMapper">
     
+    <!-- 상세,해쉬태그 resultMap -->
+    <resultMap type="portfolioDetailDTO" id="selectDetailMap">
+        <id column="PORTFOLIO_DETAIL_PK" property="portFolioDetailPk"/>
+        <result column="PORTFOLIO_DETAIL_USER_ID" property="portFolioDetailMemberId"/>
+        <result column="PORTFOLIO_DETAIL_PROJECT_NAME" property="portfolioDetailProjectName"/>
+        <result column="PORTFOLIO_DETAIL_PROJECT_IMAGE" property="portfolioDeltailProjectImage"/>
+        <result column="PORTFOLIO_DETAIL_DESCRIPTION" property="portfolioDetailDescription"/>
+        <result column="PORTFOLIO_DETAIL_DATE" property="portfolioDetailDate"/>
+        <result column="PORTFOLIO_DETAIL_ISDELETE" property="portfolioDetailIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <collection property="portfolioDetailHashTagList" ofType="hashTagDTO">
+                <id column="HASHTAG_PK" property="hashTagPk"/>
+                <result column="HASHTAG_REPLY_BOARD_PK" property="hashTagReplyBoardPk"/>
+                <result column="HASHTAG_PORTFOLIO_DETAIL_PK" property="hashTagPortfolioDetailPk"/>
+                <result column="HASHTAG_NAME" property="hashTagName"/>
+                <result column="HASHTAG_ISDELETE" property="hashTagIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        </collection>
+    </resultMap>
+    
+    <!-- 상세삽입 -->
+    <insert id="insertDetail" parameterType="portfolioDetailDTO">
+        INSERT
+        INTO PORTFOLIO_DETAIL
+        VALUES (PORTFOLIO_DETAIL_SEQ.NEXTVAL,
+        #{portFolioDetailMemberId},
+        #{portfolioDetailProjectName},
+        #{portfolioDeltailProjectImage},
+        #{portfolioDetailDescription},
+        SYSDATE,
+        'FALSE'
+        )
+    </insert>
+    
+    <!-- 해쉬태그 삽입 -->
+    <insert id="insertHashTag" parameterType="string">
+        INSERT INTO HASHTAG 
+        VALUES (HASHTAG_SEQ.NEXTVAL, NULL, (SELECT MAX(PORTFOLIO_DETAIL_PK) FROM PORTFOLIO_DETAIL),
+         #{_parameter},
+         'FALSE')    
+    </insert>
+    
+    <!-- 해쉬태그 삭제 -->
+    <update id="deleteHashTag" parameterType="int">
+        UPDATE HASHTAG
+        SET HASHTAG_ISDELETE = 'TRUE'
+        WHERE HASHTAG_PORTFOLIO_DETAIL_PK = #{_parameter}
+    </update>
+    
+    <!-- id에 해당하는 상세들 select(상세들만) -->
+    <select id="selectDetailsByMemberId" parameterType="string" resultMap="selectDetailMap">
+        SELECT PORTFOLIO_DETAIL.*, HASHTAG.*
+        FROM PORTFOLIO
+        RIGHT JOIN PORTFOLIO_DETAIL ON PORTFOLIO.PORTFOLIO_USER_ID = PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_USER_ID
+        LEFT JOIN HASHTAG 
+        ON PORTFOLIO_DETAIL_PK = HASHTAG_PORTFOLIO_DETAIL_PK
+        AND HASHTAG_ISDELETE = 'FALSE'
+        WHERE PORTFOLIO.PORTFOLIO_ISDELETE = 'FALSE' AND PORTFOLIO_DETAIL.PORTFOLIO_DETAIL_ISDELETE = 'FALSE'
+        AND PORTFOLIO_USER_ID = #{_parameter} 
+        ORDER BY PORTFOLIO_DETAIL_DATE DESC
+    </select>
+    
+    <!-- pk에 해당하는 상세 select(하나) -->
+    <select id="selectDetailByPk" parameterType="int" resultMap="selectDetailMap">
+        SELECT *
+        FROM PORTFOLIO_DETAIL
+        LEFT JOIN HASHTAG 
+        ON PORTFOLIO_DETAIL_PK = HASHTAG_PORTFOLIO_DETAIL_PK
+        AND HASHTAG_ISDELETE = 'FALSE'
+        WHERE PORTFOLIO_DETAIL_PK = #{_parameter}
+    </select>
+    
+    <!-- 상세 수정 -->
+    <update id="updateDetail" parameterType="portfolioDetailDTO">
+        UPDATE PORTFOLIO_DETAIL 
+        SET PORTFOLIO_DETAIL_PROJECT_NAME = #{portfolioDetailProjectName},
+        PORTFOLIO_DETAIL_PROJECT_IMAGE = #{portfolioDeltailProjectImage},
+        PORTFOLIO_DETAIL_DESCRIPTION = #{portfolioDetailDescription} 
+        WHERE PORTFOLIO_DETAIL_PK = #{portFolioDetailPk}
+    </update>
+    
+    <!-- 상세삭제 -->
+    <update id="deleteDetail" parameterType="int">
+        UPDATE PORTFOLIO_DETAIL
+        SET PORTFOLIO_DETAIL_ISDELETE = 'TRUE'
+        WHERE PORTFOLIO_DETAIL_PK = #{_parameter}
+    </update>
 
 </mapper>

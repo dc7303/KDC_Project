@@ -56,7 +56,7 @@
               <td bgcolor="">
                 <p align="center">
                 <span style="font-size:9pt;">
-                  <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}">
+                  <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}&classification=${requestScope.classification}">
                     ${NoticeBoardDTO.noticeBoardTitle}
                   </a>
                 </span></p>
@@ -82,6 +82,7 @@
     <div class="field half">
       <form  method="post" action="${pageContext.request.contextPath}/notice/listserch">
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+       <input type="hidden" name="classification" value="${requestScope.classification}"/>
         <select name="department" id="department">
           <option value="1">목록</option>
           <option value="title">제목</option>
@@ -99,7 +100,7 @@
   
   <div align=right>
  
-    <span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath }/notice/writeForm?classification=classNotice">글쓰기</a>&gt;</span>
+    <span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath }/notice/writeForm?classification=${requestScope.classification}">글쓰기</a>&gt;</span>
   </div>
 </body>
 </html>

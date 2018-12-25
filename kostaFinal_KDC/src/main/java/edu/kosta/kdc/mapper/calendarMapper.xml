@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="calendarMapper">
+    
+    <resultMap type="calendarDTO" id="calendarDTO">
+        <id column="CALENDAR_PK" property="calendarPk"/>
+        <result column="CLASSROOM_CODE" property="classRoomCode"/>
+        <result column="CALENDAR_TITLE" property="calendarTitle"/>
+        <result column="CALENDAR_START" property="calendarStart"/>
+        <result column="CALENDAR_END" property="calendarEnd"/>
+    </resultMap>
+
+    <!-- 캘린더 조회 -->
+    <select id="selectByClassRoomCode" resultMap="calendarDTO">
+        select * from calendar where classroom_code = #{_parameter}
+    </select>
+
+    <!-- 캘린더 추가 -->
+    <insert id="insert" parameterType="calendarDTO">
+        insert into calendar values (CALENDAR_SEQ.NEXTVAL, #{classRoomCode}, #{calendarTitle}, #{calendarStart}, #{calendarEnd})
+    </insert>
+    
+    <!-- 캘린더 수정 -->
+    <update id="updateDate" parameterType="calendarDTO">
+        update calendar set calendar_start = #{calendarStart}, calendar_end = #{calendarEnd}, calendar_title = #{calendarTitle}
+        <where>
+            calendar_pk = #{calendarPk}
+        </where>
+    </update>
+</mapper>

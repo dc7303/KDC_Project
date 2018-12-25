@@ -1,0 +1,116 @@
+$(function() {
+  
+
+  
+  let arr = [];
+  
+  //전체 nickname 가져오기
+  $.ajax({
+    type: "post" //요청방식
+   ,url: $('input[name=contextPath]').val()+"/reply/allNicknames" //서버주소
+   ,dataType: "json" //서버가 보내준 데이터 타입(text, json, xml, html)
+   ,beforeSend: function(xhr) {
+     xhr.setRequestHeader($('input[name=csrfName]').val(), $('input[name=csrfToken]').val());
+   }
+   ,success: function(result){ //요청결과 성공 했을때 끝
+     
+     $.each(result, function(index,item){
+       arr.push(item);
+     });
+         
+   } //요청결과 성공 했을때 끝
+   ,error: function(err){ //요청결과 실패 했을때 끝
+     console.log(err);
+   } //요청결과 실패 했을때 끝
+   
+ });
+  
+  
+  /**
+   * 태그 입력시 이벤트 발생
+   */
+  $('input[name=mentionInput]').on('keyup', function(key) {
+        
+    const regex = /^@([\w가-힣]*[\w가-힣]*[\w가-힣]){1,}/; //태그 유효성검사
+    const regexSym = /[^\w^\@]/;          //# 제외한 특수문자
+
+    let value = $('input[name=mentionInput]').val();  //입력값
+    
+    
+    
+    /*여기부터*/
+    
+    $.ajax({
+       type: "post" //요청방식
+      ,url: $('input[name=contextPath]').val()+"/reply/mentionSuggest" //서버주소
+      ,dataType: "json" //서버가 보내준 데이터 타입(text, json, xml, html)
+      ,data: "keyWord="+value //서버에게 보내는 parameter정보
+      ,beforeSend: function(xhr) {
+        xhr.setRequestHeader($('input[name=csrfName]').val(), $('input[name=csrfToken]').val());
+      }
+      ,success: function(result){ //요청결과 성공 했을때 끝
+        
+        var str="";
+        $.each(result, function(index,item){
+          str+="<a href='#'>" + item + "</a><br>";
+        });
+        
+        $("#suggest").html(str);
+        $("#suggest").show();
+            
+      } //요청결과 성공 했을때 끝
+      ,error: function(err){ //요청결과 실패 했을때 끝
+        console.log(err);
+      } //요청결과 실패 했을때 끝
+      
+    });
+    
+    $("#suggest").on("click", "a", function(){
+      $("input[name=mentionInput]").val($(this).text());
+      $("#suggest").hide();
+    });  
+ 
+
+    let code = key.keyCode;   //이벤트 키코드
+    let keyValue = key.key;   //이벤트 키값
+
+      //엔터, 스페이스바 포함 모든 특수문자
+    if(code === 13 || code === 32 || regexSym.test(keyValue)) {
+      
+      //맨앞에 #이 존재한다면
+      if(regex.test(value)) {
+
+        let inputValue = value.trim().replace(keyValue, '');    //공백, 특수문자 제거한 결과값
+        
+        $.each(arr, function(index, item){
+          
+          if(item == inputValue){
+            $('#mentionButton').append('<button type="button" name="tag" value="' + inputValue + '">' + inputValue + '</button>');
+            $('input[name=mentionInput]').attr('type', 'hidden');
+            $('input[name=mentionNickName]').val(inputValue);
+            return;           
+          }
+
+        });        
+
+        
+      } else {
+        $('input[name=mentionInput]').val('');
+        $('input[name=replyBoardMention]').val('');
+      }
+    }
+
+  });
+
+  /**
+   *  태그 이미지 클릭시 삭제
+   */
+  $(document).on('click', 'button[name=tag]', function() {
+    //버튼 삭제
+    $(this).remove();
+    $('input[name=mentionInput]').attr('type', 'text');
+    $('input[name=mentionInput]').val('@');
+    $('input[name=mentionNickName]').val('');
+  });
+
+});

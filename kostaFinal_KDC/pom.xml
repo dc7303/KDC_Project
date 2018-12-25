@@ -223,7 +223,15 @@
             <artifactId>tiles-jsp</artifactId>
             <version>3.0.5</version>
         </dependency>
-	
+    
+        <!-- script 코드 쓰기 방지 -->
+        <dependency>
+            <groupId>com.navercorp.lucy</groupId>
+            <artifactId>lucy-xss-servlet</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+    
+    
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
