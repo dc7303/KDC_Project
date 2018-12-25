@@ -82,10 +82,13 @@ public class NoticeBoardController {
      */
     @RequestMapping("/read")
     public String noticeRead(int noticeBoardPk, Model model, HttpServletRequest request) throws Exception {
-        boolean state = request.getParameter("state") == null ? true : false;
 
         NoticeBoardDTO noticeBoard = noticeBoardService.selectByNoticeBoardTitle(noticeBoardPk, true);
         model.addAttribute("NoticeBoardDTO", noticeBoard);
+        System.out.println(noticeBoard.getNoticeBoardAttachment());
+        System.out.println(noticeBoard.getNoticeBoardPk());
+        System.out.println(noticeBoard.getNoticeBoardContents());
+        System.out.println(noticeBoard.getNoticeBoardWriterId());
 
         return "notice/noticeRead";
     }

@@ -397,7 +397,6 @@ jq(function(){
 <c:choose>
 <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
    <form name="replyWriteForm" method="post" action="${pageContext.request.contextPath}/reply/replyInsert?classification=${requestScope.classification}&replyBoardPk=${requestScope.replyBoardPk}">
-   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
    <sec:authorize access="isAuthenticated()">
       <sec:authentication var="member" property="principal" />
       <input type="hidden" name="memberId" value="${member.memberId}">
