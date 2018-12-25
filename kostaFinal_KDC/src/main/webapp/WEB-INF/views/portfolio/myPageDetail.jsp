@@ -48,7 +48,7 @@
 </head>
 
 <body>
-  <h1>포트폴리오 상세의 상세보기 페이지입니다.</h1>
+  <h4>${detail.portFolioDetailMemberId}포트폴리오 상세의 상세보기 페이지입니다.</h4>
   <a href='${pageContext.request.contextPath}/portfolio/myPage'>목록으로</a>
   <h5>프로젝트명: ${detail.portfolioDetailProjectName}</h5>
   </br> 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -87,12 +88,11 @@ jq(function(){
 </script>
 </head>
 <body>
-<h1 style="visibility:hidden;">상세 포트폴리오 작성 폼 입니다</h1>
+<sec:authentication var="member" property="principal" />
+  <h3>${member.memberId}님의 상세 포트폴리오 작성 폼 입니다</h3>
 <form action="${pageContext.request.contextPath }/portfolio/insertDetail?${_csrf.parameterName}=${_csrf.token}"
    method="post" enctype="multipart/form-data" id="editor-form">
-  <h5>작성자 아이디 : </h5>
-  <input type="text" name="portFolioDetailMemberId" value="${detail.portFolioDetailMemberId}"></p></br>
-  
+   
   <h5>프로젝트명 : </h5>
   <input type="text" name="portfolioDetailProjectName" value="${detail.portfolioDetailProjectName}"/></p></br>
   <div id="original-img" style="display:none;">현재 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></div>

@@ -1,11 +1,15 @@
 package edu.kosta.kdc.controller;
 
 import java.io.File;
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.kosta.kdc.exception.KdcException;
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.PortfolioDTO;
 import edu.kosta.kdc.model.dto.PortfolioDetailDTO;
 import edu.kosta.kdc.model.service.PortfolioService;
@@ -36,10 +41,10 @@ public class PortfolioController {
         /*
          * 시큐리티에서 id를 받아와야함 
          * */
-        String memberId = "dctest01";
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         //로그인된 사용자의 포트폴리오, 상세 정보를 조회
-        PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(memberId);
+        PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(member.getMemberId());
         model.addAttribute("portfolio", portfolioDTO);
         
         return "portfolio/myPage";
@@ -59,6 +64,9 @@ public class PortfolioController {
             // 파일명을 DTO에 setter를 이용해 대입
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        portfolioDTO.setPortFolioMemberId(member.getMemberId());
         
         int result = service.insertPortfolio(portfolioDTO);
 
@@ -87,7 +95,11 @@ public class PortfolioController {
             // 파일명을 DTO에 setter를 이용해 대입
             portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
         }
-
+        
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        portfolioDetailDTO.setPortFolioDetailMemberId(member.getMemberId());
+        
         int result = service.insertDetail(portfolioDetailDTO,hashTagName);
         
         return "redirect:/portfolio/myPage";
@@ -108,6 +120,9 @@ public class PortfolioController {
             // 파일명을 DTO에 setter를 이용해 대입
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
+        
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        portfolioDTO.setPortFolioMemberId(member.getMemberId());
         
         int result = service.updatePortfolio(portfolioDTO);
         
@@ -155,7 +170,12 @@ public class PortfolioController {
             portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
             
         }
+        
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        portfolioDetailDTO.setPortFolioDetailMemberId(member.getMemberId());
+        
         int result = service.updateDetail(portfolioDetailDTO, hashTagName);
+        
         return "redirect:selectDetail/"+detailPk;
     }
     
@@ -186,6 +206,17 @@ public class PortfolioController {
         PortfolioDTO portfolioDTO= service.selectAllDetail(memberId);
         model.addAttribute("portfolio", portfolioDTO);
         return "portfolio/selectAllDetail";
+    }
+    
+    /**
+     * 분류별 키워드 검색 
+     * */
+    @RequestMapping("/portfolioListSearch")
+    public String selectByKeyword(Model model, String keyfield, String keyword) {
+        List<PortfolioDTO> list= service.selectByKeyword(keyfield,keyword);
+        
+        model.addAttribute("portfolioList", list);
+        return "portfolio/selectAll";
     }
     
     /**

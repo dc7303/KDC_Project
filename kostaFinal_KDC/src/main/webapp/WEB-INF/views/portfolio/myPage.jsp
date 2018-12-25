@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
   pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -34,14 +35,14 @@
 </script>
 </head>
 <body>
-  <h1>myPageDummy</h1>
+<sec:authentication var="member" property="principal" />
+  <h3>${member.memberId}님의 portfolio/myPage입니다.</h3>
   <c:choose>
     <c:when test="${empty portfolio}">
-        <!-- 아이디, 대표이미지, 제목, 게시여부(체크박스) -->
+        <!-- 대표이미지, 제목, 게시여부(체크박스) -->
       <form
         action="${pageContext.request.contextPath }/portfolio/insertPortfolio?${_csrf.parameterName}=${_csrf.token}"
         method="post" enctype="multipart/form-data">
-        <label>아이디 : </label><input type="text" name="portFolioMemberId"/></p></br>
         <label>제목 : </label><input type="text" name="portFolioMainTitle"/></p></br> 
         <label>대표이미지 : </label><input type="file" name="MainImageFile" /></p></br> 
         <input type="checkBox" name="portFolioVisibility"/> <label>- 게시여부 </label></p></br>
@@ -51,7 +52,6 @@
     <c:otherwise>
       <!-- 포트폴리오가 있으면 포트폴리오 정보 노출 -->  
       <div id="portfolio-info">
-        <h5>아이디: ${portfolio.portFolioMemberId}</h5></p>
         <h5>제목: ${portfolio.portFolioMainTitle} </h5></p>
         <h5>대표이미지 :</h5>
         <c:choose>      
@@ -75,9 +75,6 @@
       <form
         action="${pageContext.request.contextPath }/portfolio/updatePortfolio?${_csrf.parameterName}=${_csrf.token}"
         method="post" enctype="multipart/form-data">
-        
-        <label>아이디 : </label>
-        <input type="text" name="portFolioMemberId" value="${portfolio.portFolioMemberId}" readonly="true"/></p></br>
         
         <label>제목 : </label>
         <input type="text" name="portFolioMainTitle" value="${portfolio.portFolioMainTitle}"/></p></br> 
