@@ -34,29 +34,33 @@
     
     <!-- 메세지 선택 -->
     <select id="selectByMessage" parameterType="int" resultMap="messageSelectMap">
-        select MESSAGE_SENDER_ID, MESSAGE_CONTENTS, MESSAGE_DATE
+        select MESSAGE_SENDER_ID, MESSAGE_CONTENTS, MESSAGE_DATE, MESSAGE_TITLE
         from message
         where message_pk=#{messageNum}
     </select>
     
+    <!-- 메세지 삭제 -->
     <update id="messageDelete" parameterType="int">
         update message
         set MESSAGE_ISDELETE='TRUE'
         where message_pk=#{messageNum}
     </update>
     
+    <!-- 메세지 read/unRead -->
     <update id="isReadMessage" parameterType="int">
         update message
         set MESSAGE_ISREAD='TRUE'
         where message_pk=#{messageNum}
     </update>
     
+    <!-- 존재하는 ID인지 check -->
     <select id="checkById" parameterType="String" resultType="String">
         select MEMBER_ID
         from member
         where MEMBER_ID=#{senderId} AND MEMBER_ISWITHDRAWAL='FALSE'
     </select>
     
+    <!-- 읽지않은 메세지 count -->
     <select id="unReadCount" parameterType="String" resultType="Integer">
         select count(case when MESSAGE_ISREAD='FALSE' then 1 end)
         from MESSAGE

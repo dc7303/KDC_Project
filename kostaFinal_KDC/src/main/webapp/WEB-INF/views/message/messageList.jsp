@@ -18,7 +18,6 @@ jq(function(){
   jq(document).on('click','#replyMessage',function(){
     
     var senderId = jq(this).parent().children().eq(1).val();
-    var receiverId = jq(this).parent().children().eq(2).val();
     
     jq.ajax({
       url:"${pageContext.request.contextPath}/message/checkId" , //서버요청주소
@@ -33,16 +32,17 @@ jq(function(){
           alert("삭제된 아이디 혹은 없는 아이디 입니다.");
           self.close();
         }else{
-          location.href='${pageContext.request.contextPath}/message/messageReplyPage?senderId='+senderId+'&receiverId='+receiverId;
+          location.href='${pageContext.request.contextPath}/message/messageReplyPage?senderId='+senderId;
         }
         
       } , //성공했을때
       error:function(err){
         alert(err+" => 오류 발생")
       }  //실패했을때
-    })
-  })
+    });
+  });
   
+  //메세지 선택 삭제
   jq('input[name=deleteNumList]').on('click', function() {
     var deleteNumList = [];
     
@@ -70,21 +70,16 @@ jq(function(){
 	  }
 	});
   });
-});
   
-
-
-//체크박스 전체 선택 및 해제
-jq(function(){
+  //체크박스 전체 선택 및 해제
   jq('#checkBoxAll').click(function(){
     if(jq('#checkBoxAll').is(':checked')){
       jq('input[name=checkNum]').prop('checked',true);
     }else{
       jq('input[name=checkNum]').prop('checked',false);
     }
-  })
-})
-
+  });
+});
 
 </script>
 
@@ -196,7 +191,6 @@ jq(function(){
                 <!-- 답장 클릭시, ajax로 ID유뮤체크 후 답장 페이지로 이동  -->
                 <input type="button" value="답장" id="replyMessage">
                 <input type="hidden" name="senderId" value="${message.senderId}">
-                <input type="hidden" name="receiverId " value="${message.receiverId }">
                 </span>
               </p>
             </td>

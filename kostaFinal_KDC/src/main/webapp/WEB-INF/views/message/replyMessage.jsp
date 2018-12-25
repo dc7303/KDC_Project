@@ -57,13 +57,13 @@
           </p>
         </td>
         <td width="450" height="20"><b><span style="font-size: 9pt;">
-        <textarea name="messageContents" cols="50" rows="10"></textarea></span></b></td>
+        <textarea name="messageContents"  cols="50" rows="10"></textarea></span></b></td>
       </tr>
       <tr>
         <td width="450" height="20" colspan="2" align="center"><b><span style="font-size: 9pt;"> 
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        <input type="submit" value="전송" id="replyMessage">
-        <input type="button" value="취소" id="cancelWriteMessage" onclick="location.href='${pageContext.request.contextPath}/message/list'">
+        <input type="submit" value="전송" id="sendReplyMessage">
+        <input type="button" value="취소" id="cancelWriteMessage" onclick="location.href='${pageContext.request.contextPath}/message/messageList'">
          </span></b></td>
       </tr>
     </table>

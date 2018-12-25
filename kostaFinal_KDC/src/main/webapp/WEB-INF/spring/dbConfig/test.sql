@@ -59,7 +59,7 @@ insert into MEMBER values ('cc','1234','cc','cc',sysdate,'010-000-0000','cc@gmai
 insert into MEMBER values ('heejung','1234','heejung','heejung',sysdate,'010-000-0000','jang8354@gmail.com','FALSE',sysdate);
 
 insert into message values(MESSAGE_SEQ.nextval,'bb','seonghyeon','되라','실행되라되라되라...',sysdate,'FALSE','FALSE');
-insert into message values(MESSAGE_SEQ.nextval,'aa','seonghyeon','된다','실행되라되라되라...',sysdate,'FALSE','FALSE');
+insert into message values(MESSAGE_SEQ.nextval,'seonghyeon1','seonghyeon','된다','실행되라되라되라...sdfbjsafshjdbfkshdbfshdbfshbfksjhbfkshbfksahfbkshdbfkshdfbk',sysdate,'FALSE','FALSE');
 insert into message values(MESSAGE_SEQ.nextval,'bb','seonghyeon','ㄱㄱ','실행되라되라되라...',sysdate,'FALSE','FALSE');
 
 insert into REPLY_BOARD values(REPLY_BOARD_SEQ.nextval,'기술게시판',0,'하하','aa',sysdate,'오지게 재미있는 부분입니다...하.하.',1,'aa','FALSE');

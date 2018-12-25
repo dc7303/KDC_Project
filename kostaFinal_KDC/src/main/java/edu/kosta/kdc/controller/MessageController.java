@@ -30,7 +30,7 @@ public class MessageController {
     /**
      * 전체 메세지 리스트
      * */
-    @RequestMapping("/list")
+    @RequestMapping("/messageList")
     @Transactional
     public ModelAndView messageAll(HttpSession session, HttpServletRequest request) {
         
@@ -44,7 +44,7 @@ public class MessageController {
         //읽지 않은 메세지 count하는 메소드 호출
         messageUnReadCount(session, member.getMemberId());
         
-        return new ModelAndView("message/list", "messageList", list);
+        return new ModelAndView("message/messageList", "messageList", list);
         
     }
     
@@ -57,19 +57,19 @@ public class MessageController {
         //controller에서 현재 로그인된 사용자의 정보를 가져오는 코드
         MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        //접속된 ID를 직접 가져와서 출력하여 임으로 주소값을 변경하더라도 다른 사용자의 메세지에 접근불가
+        //접속된 ID를 직접 가져와서 출력하므로 임의로 주소값을 변경하더라도 다른 사용자의 메세지에 접근불가
         String id = member.getMemberId();
 
         //접속된 member로부터 id가져오기
         messageDTO.setReceiverId(id);
 
-        
         messageService.messageInsert(messageDTO);
         
+        System.out.println(messageDTO.getReceiverId());
         System.out.println(messageDTO.getMessageContents());
         
         /*접속된ID로 전체 메세지 리스트를 출력하기 위한 return*/ 
-        return "redirect:/message/list?id="+id;
+        return "redirect:/message/messageList?id="+id;
         
     }
     
@@ -85,7 +85,7 @@ public class MessageController {
         
         messageService.messageDelete(messageNum);
         
-        return "redirect:/message/list?id="+id;
+        return "redirect:/message/messageList?id="+id;
         
     }
     
@@ -111,8 +111,8 @@ public class MessageController {
     public ModelAndView selectByMesssage(@PathVariable int messageNum) {
         
         MessageDTO messageDTO = messageService.selectByMesssage(messageNum);
-        
-        return new ModelAndView("message/detail", "messageDTO", messageDTO);
+
+        return new ModelAndView("message/messageDetail", "messageDTO", messageDTO);
         
     }
     
@@ -121,6 +121,8 @@ public class MessageController {
      * */
     @RequestMapping("/messageReplyPage")
     public ModelAndView messageReplyPage(MessageDTO messageDTO) {
+        
+        System.out.println(messageDTO.getSenderId());
         
         return new ModelAndView("message/replyMessage", "replyMessage", messageDTO);
         
