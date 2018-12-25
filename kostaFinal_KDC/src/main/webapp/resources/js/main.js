@@ -7,7 +7,7 @@ $(function() {
   let arr = [];
   
   //window.onload = function() {
-    
+   
     $('input[name=hashTagInput]').val().trim()
     var existed = $('input[name=hashTagInput]').val().trim().split(',');
     
