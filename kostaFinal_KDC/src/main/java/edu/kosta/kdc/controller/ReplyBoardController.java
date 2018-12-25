@@ -265,7 +265,6 @@ public class ReplyBoardController {
     @RequestMapping("/reportPop")
     public String reportPop(String reportContents, int replyBoardPkReport, String otherWords, String memberId, ReportDTO reportDTO) {
         replyBoardService.reportPopInsert(reportContents, replyBoardPkReport, otherWords, memberId);
-            
         return "replyBoard/read";
     }
     

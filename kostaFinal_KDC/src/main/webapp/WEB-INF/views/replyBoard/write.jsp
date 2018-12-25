@@ -45,8 +45,11 @@ function checkValid() {
 </script>
 
 <script>
-$(function(){
+const jq = jQuery.noConflict();
+
+jq(function(){
   /* 에디터 객체 생성 */
+  
   var editor = new tui.Editor({
     el: document.querySelector('#editSection'),
     initialEditType: 'markdown',
@@ -55,17 +58,15 @@ $(function(){
   });
   
   /* 에디터 폼 submit control */
-  $('#editor-submit').on('click',function(){
+  jq('#editor-submit').on('click',function(){
     var content = editor.getValue();
     
-    var input = $('<input>').attr('type','hidden')
-      .attr('name','replyBoardContents').val(content);
-    $('#editor-form').append($(input));
+    var input = jq('<input>').attr('type','hidden').attr('name','replyBoardContents').val(content);
+    jq('#editor-form').append($(input));
     
-    $('#editor-form').submit();
+    jq('#editor-form').submit();
     
   }); 
-  
 });
 
 </script>

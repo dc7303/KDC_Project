@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 
-<script>
+<script>  
 const jq = jQuery.noConflict();
 
 jq(function(){
@@ -55,16 +55,13 @@ jq(function(){
          }
       });
       
-});
-</script>
-<script>
-  $(function() {
-    $(".replyBoardLike").click(function() {
+
+    jq(".replyBoardLike").click(function() {
       var img1 = document.getElementById('thumbs_up');
       if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_up.png을 보여줌
         img1.src = img1.src.replace('.png', '_black.png');
       
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardLike",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
@@ -82,7 +79,7 @@ jq(function(){
        });
         
       } else {//_black이라는 단어가 존재하면
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
@@ -103,14 +100,12 @@ jq(function(){
         
       }
     });
-  });
   
-  $(function() {
-    $(".replyBoardDisLike").click(function() {
+    jq(".replyBoardDisLike").click(function() {
       var img1 = document.getElementById('thumbs_down');
       if (img1.src.indexOf('_black') == -1) { //_black이라는 단어가 존재하지 않으면 thumbs_down.png을 보여줌
         img1.src = img1.src.replace('.png', '_black.png');
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardDisLike",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
@@ -128,7 +123,7 @@ jq(function(){
        });
         
       } else {
-        $.ajax({
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",   //서버 요청 주소
           type : "post",   //전송방식(get, post)
           dataType : "text",   //서버가 보내주는 데이터 타입(text, html, xml, json)
@@ -213,7 +208,7 @@ jq(function(){
       <td>
       <span><input type="button" value="신고"/></span>
       <script>
-          $("input[value=신고]").click(function() {
+      		jq("input[value=신고]").click(function() {
               window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
           });
         </script>
@@ -288,9 +283,9 @@ jq(function(){
         </td>
         
   <script>  /* 댓글 좋아요, 싫어요 */
-    $(function() {
-      $("input[name=replyLike${state.count}]").click(function() {
-          $.ajax({
+    jq(function() {
+      jq("input[name=replyLike${state.count}]").click(function() {
+        jq.ajax({
             url : "${pageContext.request.contextPath}/reply/replyBoardLike",  
             type : "post",   
             dataType : "text",  
@@ -308,8 +303,8 @@ jq(function(){
          });
         });
       
-      $("input[name=replyDisLike${state.count}]").click(function() {
-        $.ajax({
+      jq("input[name=replyDisLike${state.count}]").click(function() {
+        jq.ajax({
           url : "${pageContext.request.contextPath}/reply/replyBoardDisLike",   
           type : "post",   
           dataType : "text",  
@@ -327,8 +322,8 @@ jq(function(){
        });
       });
         
-      $("input[name=replyBlack${state.count}]").click(function() {  
-          $.ajax({
+      jq("input[name=replyBlack${state.count}]").click(function() {  
+        jq.ajax({
             url : "${pageContext.request.contextPath}/reply/replyBoardLikeCancle",  
             type : "post",   
             dataType : "text",   
@@ -387,8 +382,9 @@ jq(function(){
             <input type="button" name="댓글신고${state.count}" value="댓글신고">
           </span>
           <script>
-            $("input[name=댓글신고${state.count}]").click(function() {
-                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+
+            jq("input[name=댓글신고${state.count}]").click(function() {
+                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
             });
           </script>
         </td>
