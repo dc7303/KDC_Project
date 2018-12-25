@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 <title>Insert title here</title>
+<!-- 해쉬태그 js -->
+<script src="${pageContext.request.contextPath}/resources/js/portfolio-hashtag.js"></script>
 <script>
 const jq = jQuery.noConflict();
 
@@ -56,12 +58,6 @@ jq(function(){
   	//PK값 hidden에 숨겨서 보내줄 name설정
   	jq('#original-pk').attr('name','portFolioDetailPk')
   	
-  	//HASH태그값 가져오기
-  	/* var hashTags = '${detail.portfolioDetailHashTagList}'
-  	console.log('hashTags = '+hashTags);
-  	 for(let hashTag of hashTags){
-  	  console.log(hashTag.hashTagName);
-  	}  */
   	
   	jq('input[name=hashTagName]').val();
   }
@@ -98,6 +94,7 @@ jq(function(){
   <div id="original-img" style="display:none;">현재 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></div>
   </br> 
   <h5>해쉬태그 : </h5>
+  <!-- 기존해쉬코드 
   <c:choose>
     <c:when test="${empty detail.portfolioDetailHashTagList}">
       <input type="text" name="hashTagName"/></p></br>
@@ -107,7 +104,24 @@ jq(function(){
     </p>
     </br>
     </c:otherwise>
+  </c:choose> -->
+  <span id="span">
+  <!-- 이벤트 발생시 태그가 여기에 추가 -->
+  </span>
+  <input type="hidden" id="hashTagName" name="hashTagName"/>
+  <c:choose>
+    <c:when test="${empty detail.portfolioDetailHashTagList}">
+      <input type="text" name="hashTagInput"/>
+    </c:when>
+    <c:otherwise>
+      <input type="text" id = "hashTagInput" name="hashTagInput" value="<c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag" >${hashTag.hashTagName}, </c:forEach>"/>
+    </c:otherwise>
   </c:choose>
+  <span id="suggest" style="float:left;">
+  <!-- 제시어 단어 출력부분 --> 
+  </span>
+  
+  <!-- 해쉬태그 끝-->
   
   <h5>프로젝트 이미지 </h5>
   <input type="file" name="DeltailProjectImage" /></p></br>
@@ -117,6 +131,10 @@ jq(function(){
   <input type="hidden" id="original-description" value="${detail.portfolioDetailDescription}"/>
   <input type="button" value="작성완료" id="editor-submit" />
 </form>
+<input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
+<input type="hidden" name="csrfToken" value="${_csrf.token}"/>
+<input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>
+
 
 </body>
 </html>

@@ -75,9 +75,16 @@
     <!-- 상세 수정 -->
     <update id="updateDetail" parameterType="portfolioDetailDTO">
         UPDATE PORTFOLIO_DETAIL 
-        SET PORTFOLIO_DETAIL_PROJECT_NAME = #{portfolioDetailProjectName},
-        PORTFOLIO_DETAIL_PROJECT_IMAGE = #{portfolioDeltailProjectImage},
+        SET 
+        <if test="portfolioDetailProjectName != null">
+        PORTFOLIO_DETAIL_PROJECT_NAME = #{portfolioDetailProjectName},        
+        </if>
+        <if test="portfolioDeltailProjectImage != null">
+        PORTFOLIO_DETAIL_PROJECT_IMAGE = #{portfolioDeltailProjectImage},        
+        </if>
+        <if test="portfolioDetailDescription != null">
         PORTFOLIO_DETAIL_DESCRIPTION = #{portfolioDetailDescription} 
+        </if>
         WHERE PORTFOLIO_DETAIL_PK = #{portFolioDetailPk}
     </update>
     

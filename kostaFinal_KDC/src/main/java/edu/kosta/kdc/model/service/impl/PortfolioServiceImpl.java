@@ -95,17 +95,24 @@ public class PortfolioServiceImpl implements edu.kosta.kdc.model.service.Portfol
     }
 
     /*
-     * 해쉬태그 수정이 불가하여 삭제, 삽입 후 상세정보 수정 상세 수정(해쉬태그 삭제->해쉬태그 삽입->상세 수정)
+     * 해쉬태그 수정이 불가하여 삭제, 삽입 후 상세정보 수정 상세 수정
+     * (해쉬태그 삭제->해쉬태그 삽입->상세 수정)
      */
     @Transactional
     @Override
     public int updateDetail(PortfolioDetailDTO portfolioDetailDTO, String hashTagName) {
         int result = 0;
 
-        // 해쉬태그 삭제
+        /*
+         * 해쉬태그 삭제
+         * 해쉬태그가 없었을 수 있으므로 예외처리 안함
+         * */
         result = portfolioDetailDAO.deleteHashTag(portfolioDetailDTO.getPortFolioDetailPk());
 
-        // 해쉬태그 삽입
+        /*
+         * 해쉬태그 삽입
+         * 해쉬태그가 없는경우 if문에서 걸러주므로 예외처리함
+         * */
         if (hashTagName != null && (!hashTagName.equals(""))) {
             String[] hashTags = hashTagName.replaceAll(" ", "").split(",");
             for (String s : hashTags) {
