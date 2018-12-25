@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <html>
 <head>
@@ -38,22 +38,22 @@ jq(function(){
       height: '500px',
       initialValue: contents
   });
-  
+
       jq("input[value=수정하기]").click(function(){
-         
-         jq("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/updateForm");
+		 
+         jq("#requestForm").attr("action", "${pageContext.request.contextPath}/notice/updateForm");
          jq("#requestForm").submit();
       })
-      
-      
+
+
       jq("input[value=삭제하기]").click(function(){
          var yesOrNo = confirm("정말 삭제 하시겠습니까?");
          if(yesOrNo){
-            jq("#requestForm").attr("action", "${pageContext.request.contextPath}/reply/delete");
+            jq("#requestForm").attr("action", "${pageContext.request.contextPath}/notice/delete");
             jq("#requestForm").submit();
          }
       });
-      
+
   });
 </script>
 
@@ -64,7 +64,7 @@ jq(function(){
        <thead>
           <tr class="titel-color">
             <td colspan="5">글제목</td>
-            <td>글쓴이</td>
+            <td>글쓴이</td> 
             <td>등록날짜</td>
             <td>조회수</td>
             <td>첨부파일</td>
@@ -83,11 +83,11 @@ jq(function(){
       <td>
       <span>${NoticeBoardDTO.noticeBoardDate}</span>
       </td>
-      
+
       <td>
       <span>${NoticeBoardDTO.noticeBoardViews}</span>
       </td>
-      
+
       <td>
         <c:choose>
           <c:when test="${NoticeBoardDTO.noticeBoardAttachment!=null}">
@@ -101,7 +101,7 @@ jq(function(){
         </c:choose>
       </td> 
     </tr>
-    
+
     <tr>
       <td class="tech-content" colspan="10">
         <div id = "viewer-section"></div>
@@ -109,15 +109,15 @@ jq(function(){
       </td>
     </tr>
 
-        
     <tr>
       <td colspan="10" align="center" valign="middle">
       <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
       <form name="requestForm" method=post  id="requestForm">
-      <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+        <input type="hidden" name="noticeBoardPk" value="${NoticeBoardDTO.noticeBoardPk}"/>
+        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
         <input type=hidden name="classification" value="${requestScope.classification}">
-        <input type=button value="수정하기" >
-        <input type=button value="삭제하기" >
+        <input type=button value="수정하기" />
+        <input type=button value="삭제하기" />
       </form>
       </td>
     </tr>

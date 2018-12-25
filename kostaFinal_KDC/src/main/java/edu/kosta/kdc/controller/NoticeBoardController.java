@@ -85,10 +85,6 @@ public class NoticeBoardController {
 
         NoticeBoardDTO noticeBoard = noticeBoardService.selectByNoticeBoardTitle(noticeBoardPk, true);
         model.addAttribute("NoticeBoardDTO", noticeBoard);
-        System.out.println(noticeBoard.getNoticeBoardAttachment());
-        System.out.println(noticeBoard.getNoticeBoardPk());
-        System.out.println(noticeBoard.getNoticeBoardContents());
-        System.out.println(noticeBoard.getNoticeBoardWriterId());
 
         return "notice/noticeRead";
     }
