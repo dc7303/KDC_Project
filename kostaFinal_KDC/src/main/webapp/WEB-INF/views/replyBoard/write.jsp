@@ -26,6 +26,9 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/tui-editor-css/editor.css">
+
+ 
 <script language=javascript>
 function checkValid() {
     var f = window.document.writeForm;

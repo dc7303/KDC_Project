@@ -277,7 +277,7 @@ public class ReplyBoardController {
         
         return replyBoardService.mentionSuggest(keyWord);
     }
-    
+
     /**
      * 모든 닉네임 가오기
      * */
