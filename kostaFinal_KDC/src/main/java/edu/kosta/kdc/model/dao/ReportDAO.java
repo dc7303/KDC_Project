@@ -2,7 +2,7 @@ package edu.kosta.kdc.model.dao;
 
 import java.util.List;
 
-import edu.kosta.kdc.model.dto.ReplyBoardDTO;
+
 import edu.kosta.kdc.model.dto.ReportDTO;
 
 public interface ReportDAO {
@@ -13,7 +13,7 @@ public interface ReportDAO {
      * @param String
      * @return List<ReportDTO>
      * */
-    List<ReportDTO> selectAll(String boardName);
+    List<ReportDTO> selectAllReport(String boardName);
 
     /**
      * 관리자 - 신고 삭제

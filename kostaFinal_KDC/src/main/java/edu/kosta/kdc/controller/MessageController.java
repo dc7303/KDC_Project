@@ -69,6 +69,22 @@ public class MessageController {
         return "redirect:/message/messageList?id="+id;
         
     }
+    /**
+     * 메시지 전송 (관리자 Ver) - Ajax로 연동 
+     * */
+    @RequestMapping("/adminMessageInsert")
+    @ResponseBody
+    public void adminMessageInsert(MessageDTO messageDTO) throws KdcException {
+        
+        //controller에서 현재 로그인된 사용자의 정보를 가져오는 코드
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //현재 로그인된 아이디를 쪽지 보내는 senderId로 저장
+        messageDTO.setReceiverId(member.getMemberId());
+        
+        messageService.messageInsert(messageDTO);
+    }
+
     
     /**
      * 메세지 삭제

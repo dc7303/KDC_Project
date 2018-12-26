@@ -115,5 +115,10 @@
   <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
   <input type="hidden" name="csrfToken" value="${_csrf.token }"/>
   <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/memberInfoForm/signup-regex-check.js"></script>
+  <script type="text/javascript">
+    if('${requestScope.authTeacher}' != null){
+      jq('input[name=authCode]').val('${requestScope.authTeacher}');
+    }
+  </script>
   </body>
 </html>

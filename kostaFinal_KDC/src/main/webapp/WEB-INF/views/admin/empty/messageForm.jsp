@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,24 +11,23 @@ const jq = jQuery.noConflict();
 
 jq(function(){
   
-  jq("#sub").click(function(){
-
-    var replyF = $("form[name=replyForm]").serialize() ;
+  jq(document).on('click','#btn',function(){
+    var replyF = jq("form[name=replyForm]").serialize() ;
     
     jq.ajax({
-      url:'${pageContext.request.contextPath}/admin/sendMessage' ,			// ¼­¹ö ¿äÃ» ÁÖ¼Ò
-      type:"post" ,			// Àü¼Û ¹æ½Ä. get or post
-      dataType:"text" ,		// ¼­¹ö°¡ º¸³»¿À´Â µ¥ÀÌÅÍÅ¸ÀÔ(text,html,xml,json)
+      url:'${pageContext.request.contextPath}/message/adminMessageInsert' ,			// ì„œë²„ ìš”ì²­ ì£¼ì†Œ
+      type:"post" ,			// ì „ì†¡ ë°©ì‹. get or post
+      dataType:"text" ,		// ì„œë²„ê°€ ë³´ë‚´ì˜¤ëŠ” ë°ì´í„°íƒ€ìž…(text,html,xml,json)
       data:replyF ,	// parameter
       beforeSend: function(xhr) {
         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
       },
-      success:function(result){		// ¼º°ø ÇßÀ» ½Ã ÇÔ¼ö
-      	alert("Àü¼ÛÇß½À´Ï´Ù.");
+      success:function(result){		// ì„±ê³µ í–ˆì„ ì‹œ í•¨ìˆ˜
+      	alert("ì „ì†¡í–ˆìŠµë‹ˆë‹¤.");
       	self.close();
       } ,
-      error: function(err){		// ½ÇÆÐ ÇßÀ» ½Ã ÇÔ¼ö
-      	alert(err+" => ¿À·ù ¹ß»ý")
+      error: function(err){		// ì‹¤íŒ¨ í–ˆì„ ì‹œ í•¨ìˆ˜
+      	alert(err+" => ì˜¤ë¥˜ ë°œìƒ")
       }
     })
   })
@@ -38,11 +37,11 @@ jq(function(){
 <body>
 
 <form action="reply" id="replyForm" name="replyForm"><p/>
-¹Þ´Â »ç¶÷ : <input type="text" name="receiverId" value="${requestScope.senderId }" readonly><p/>
-ÂÊÁö Á¦¸ñ : <input type="text" name="title" ><p/>
-ÂÊÁö ³»¿ë : <input type="text" name="context"><p/>
-<input type="button" value="Àü¼Û" id="btn" name="btn">
-<input type="reset" value="´Ù½Ã¾²±â">
+ë°›ëŠ” ì‚¬ëžŒ : <input type="text" name="senderId" value="${requestScope.senderId }" readonly><p/><!-- ë‹µìž¥ì‹œì—ëŠ” ë°›ëŠ”ì‚¬ëžŒ ë³´ë‚´ëŠ”ì‚¬ëžŒì´ ë°”ë€Œë¯€ë¡œ, nameê°’ ë³€ê²½ -->
+ìª½ì§€ ì œëª© : <input type="text" name="messageTitle"><p/>
+ìª½ì§€ ë‚´ìš© : <input type="text" name="messageContents"><p/>
+<input type="button" value="ì „ì†¡" id="btn" name="btn">
+<input type="reset" value="ë‹¤ì‹œì“°ê¸°">
 </form>
 </body>
 </html>

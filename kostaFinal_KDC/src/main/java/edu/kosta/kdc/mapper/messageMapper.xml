@@ -13,7 +13,6 @@
         <result column="MESSAGE_ISDELETE" property="messageIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     </resultMap>
     
-    
     <sql id="messageSelectSQL">
         MESSAGE_PK, MESSAGE_SENDER_ID, MESSAGE_RECEIVER_ID, MESSAGE_TITLE, MESSAGE_CONTENTS, MESSAGE_DATE, MESSAGE_ISREAD, MESSAGE_ISDELETE
     </sql>

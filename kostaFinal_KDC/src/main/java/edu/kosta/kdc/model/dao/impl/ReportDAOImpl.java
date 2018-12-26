@@ -18,7 +18,7 @@ public class ReportDAOImpl implements ReportDAO {
      * 관리자 - 해당 게시판의 모든 신고들을 가져오는 메소드.
      * */
     @Override
-    public List<ReportDTO> selectAll(String boardName) {
+    public List<ReportDTO> selectAllReport(String boardName) {
         
         return sqlSession.selectList("reportMapper.selectReportByBoardName", boardName);
     }

@@ -12,21 +12,24 @@
       <result column="CLASSROOM_INFO_ISDELETE" property="classRommInfoIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     </resultMap>
     
-<insert id="createClassRoom">
-    insert into CLASSROOM_INFO
-    values (#{classRoomCode},#{classRoomInfoName},#{classRoomInfoStartDate},#{classRoomInfoEndDate},#{classRoomInfoTeacherId},#{classRoomInfoChatFile},'FALSE')
-</insert>
-
-<select id="codeCheck" parameterType="String" resultMap="classRoomInfoDTO">
-    select *
-    from CLASSROOM_INFO
-    where CLASSROOM_CODE=#{_parameter}
-</select>
-
-<select id="getClassInfo" resultMap="classRoomInfoDTO">
-    select *
-    from CLASSROOM_INFO
-    where CLASSROOM_INFO_ISDELETE='FALSE'
-</select>
+    <!-- 클래스룸 생성 -->
+    <insert id="createClassRoom">
+        insert into CLASSROOM_INFO
+        values (#{classRoomCode},#{classRoomInfoName},#{classRoomInfoStartDate},#{classRoomInfoEndDate},#{classRoomInfoTeacherId},#{classRoomInfoChatFile},'FALSE')
+    </insert>
+    
+    <!-- 클래스룸 코드가 맞는지 확인(ajax) -->
+    <select id="codeCheck" parameterType="String" resultMap="classRoomInfoDTO">
+        select *
+        from CLASSROOM_INFO
+        where CLASSROOM_CODE=#{_parameter}
+    </select>
+    
+    <!-- 클래스룸 정보 가져오기 -->
+    <select id="getClassInfo" resultMap="classRoomInfoDTO">
+        select *
+        from CLASSROOM_INFO
+        where CLASSROOM_INFO_ISDELETE='FALSE'
+    </select>
 
 </mapper>
