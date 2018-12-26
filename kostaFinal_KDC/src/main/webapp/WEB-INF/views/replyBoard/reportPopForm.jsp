@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
 <title>Insert title here</title>
 <script type="text/javascript">
 const jq = jQuery.noConflict();
@@ -23,6 +24,7 @@ const jq = jQuery.noConflict();
   
     jq(function() {
       jq("input[value=신고하기]").click(function() {
+        alert(1);
     	    var reportContents = jq("[name=reportContents]:checked").val();
     	    var otherWords = jq("#otherText").val();
     	    jq.ajax({
@@ -59,12 +61,13 @@ const jq = jQuery.noConflict();
   <fieldset>
     <input type="radio" name="reportContents" class="reportCheck" value="부적절한 홍보 게시글">부적절한 홍보 게시글<br>
     <input type="radio" name="reportContents" class="reportCheck" value="욕설/사생활침해/명예훼손">욕설/사생활침해/명예훼손<br>
+    <input type="radio" name="reportContents" class="reportCheck" value="글 도배">글 도배<br>
     <input type="radio" name="reportContents" id="other"><span>기타</span><br>
     
   </fieldset>
   <br>
     <input type="button" value="신고하기">
-    <input type="button" value="취소">
+    <input type="button" value="취소" onclick="window.close()">
 </div>
 </div>
 </body>
