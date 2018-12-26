@@ -65,9 +65,6 @@ public class MessageController {
 
         messageService.messageInsert(messageDTO);
         
-        System.out.println(messageDTO.getReceiverId());
-        System.out.println(messageDTO.getMessageContents());
-        
         /*접속된ID로 전체 메세지 리스트를 출력하기 위한 return*/ 
         return "redirect:/message/messageList?id="+id;
         
@@ -122,8 +119,6 @@ public class MessageController {
     @RequestMapping("/messageReplyPage")
     public ModelAndView messageReplyPage(MessageDTO messageDTO) {
         
-        System.out.println(messageDTO.getSenderId());
-        
         return new ModelAndView("message/replyMessage", "replyMessage", messageDTO);
         
     }
@@ -135,10 +130,7 @@ public class MessageController {
     @RequestMapping("/checkId")
     @ResponseBody
     public String messageCheckById(String senderId) {
-        
-        //존재하지 않는 아이디 테스트
-        //senderId = "asdf";
-        
+
         String checkId = messageService.messageCheckById(senderId);
         
         if(checkId==null) {
