@@ -50,25 +50,30 @@ jq(function(){
       deleteNumList.push(jq(this).val());
     });
 
-	jq.ajax({
-	  url: '${pageContext.request.contextPath}/message/messageSelectDelete',
-	  type: 'post',
-	  dataType: 'text',
-	  beforeSend : function(xhr) {
-      	xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-      },
-	  data: {
-	    deleteNumList: deleteNumList,
-	  },
-	  success: function(result) {
-	    location.reload();
-	    console.log('성공');
-	    
-	  },
-	  error: function(err) {
-	    console.log('err : ' + err);
-	  }
-	});
+    if(confirm("정말 삭제하시겠습니까?")){
+      jq.ajax({
+    	  url: '${pageContext.request.contextPath}/message/messageSelectDelete',
+    	  type: 'post',
+    	  dataType: 'text',
+    	  beforeSend : function(xhr) {
+          	xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+    	  data: {
+    	    deleteNumList: deleteNumList,
+    	  },
+    	  success: function(result) {
+    	    location.reload();
+    	    console.log('성공');
+    	    
+    	  },
+    	  error: function(err) {
+    	    console.log('err : ' + err);
+          }
+      });
+    }else{
+      return;
+    }
+	
   });
   
   //체크박스 전체 선택 및 해제
@@ -81,14 +86,13 @@ jq(function(){
   });
   
   
-    //메세지 삭제 여부 확인
-  
-    
+  //메세지 삭제 여부 확인
   jq(document).on('click','#deleteMessage', function() {
+    
     var messageNum = jq(this).parent().children().eq(0).val();
-
+	
     if(confirm("정말 삭제하시겠습니까?")){
-      url: "${pageContext.request.contextPath}/message/delete?messageNum="+messageNum;
+      location.href="${pageContext.request.contextPath}/message/delete?messageNum="+messageNum;
     }else{
       return;
     }

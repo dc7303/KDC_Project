@@ -76,6 +76,8 @@ public class MessageController {
     @RequestMapping("/delete")
     public String messageDelete(HttpSession session, int messageNum) {
         
+        System.out.println(messageNum);
+        
         MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         String id = member.getMemberId();
