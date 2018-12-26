@@ -129,7 +129,9 @@
         <if test="portFolioMainImage!=null">
             PORTFOLIO_MAIN_IMAGE = #{portFolioMainImage},
         </if>
+        <if test="portFolioMainTitle != null">
         PORTFOLIO_MAIN_TITLE = #{portFolioMainTitle},
+        </if>
         PORTFOLIO_VISIBILITY =
         <choose>
             <when test="portFolioVisibility==null">

@@ -3,7 +3,15 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"  prefix="sec"%>
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
 
 <table align="center" border="0" cellpadding="5" cellspacing="2"
   width="100%" bordercolordark="white" bordercolorlight="black">
@@ -26,9 +34,10 @@
             <b><span style="font-size: 9pt;">받는사람</span></b>
           </p>
         </td>
-        <td width="450" height="20"><b><span
-            style="font-size: 9pt;"> <input type=text  
-              name="senderId" value="${requestScope.senderId}"
+        <td width="450" height="20"><b><span style="font-size: 9pt;">
+        
+          <!-- 보낸사람(senderId)에게 답장하려면 보낸사람과 받는사람이 바뀌어야 함 --> 
+          <input type="text" name="senderId" value="${requestScope.replyMessage.senderId}"
               size="30" readonly="readonly"></span></b></td>
       </tr>
       <tr>
@@ -47,15 +56,14 @@
             <b><span style="font-size: 9pt;">쪽지내용</span></b>
           </p>
         </td>
-        <td width="450" height="20"><b><span style="font-size: 9pt;"> 
-        <textarea name="messageContents" cols="50" rows="10"></textarea></span></b></td>
+        <td width="450" height="20"><b><span style="font-size: 9pt;">
+        <textarea name="messageContents"  cols="50" rows="10"></textarea></span></b></td>
       </tr>
       <tr>
         <td width="450" height="20" colspan="2" align="center"><b><span style="font-size: 9pt;"> 
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        <input type="hidden" name="receiverId" value="${sessionScope.userId}">
-        <input type="submit" value="전송" id="replyMessage">
-        <input type="button" value="취소" id="cancelWriteMessage" onclick="location.href='${pageContext.request.contextPath}/message/list'">
+        <input type="submit" value="전송" id="sendReplyMessage">
+        <input type="button" value="취소" id="cancelWriteMessage" onclick="location.href='${pageContext.request.contextPath}/message/messageList'">
          </span></b></td>
       </tr>
     </table>
@@ -68,3 +76,7 @@
       href="${pageContext.request.contextPath}/">마이페이지 홈</a>&gt;
     </span>
   </div>
+  
+  
+  </body>
+  </html>

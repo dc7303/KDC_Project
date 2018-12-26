@@ -79,6 +79,20 @@ jq(function(){
       jq('input[name=checkNum]').prop('checked',false);
     }
   });
+  
+  
+    //메세지 삭제 여부 확인
+  
+    
+  jq(document).on('click','#deleteMessage', function() {
+    var messageNum = jq(this).parent().children().eq(0).val();
+
+    if(confirm("정말 삭제하시겠습니까?")){
+      url: "${pageContext.request.contextPath}/message/delete?messageNum="+messageNum;
+    }else{
+      return;
+    }
+  });
 });
 
 </script>
@@ -196,9 +210,9 @@ jq(function(){
             </td>
             <td bgcolor="">
               <p align="center">
-                <span style="font-size: 9pt;"> <input
-                  type="button" value="삭제" id="deleteMessage"
-                  onclick="location.href='${pageContext.request.contextPath}/message/delete?messageNum=${message.messageNum}'" ></span>
+                <span style="font-size: 9pt;"> 
+                <input type="hidden" value="${message.messageNum}">
+                <input  type="button" value="삭제" id="deleteMessage" ></span>
               </p>
             </td>
           </tr>

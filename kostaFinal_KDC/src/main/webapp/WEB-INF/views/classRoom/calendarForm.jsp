@@ -82,12 +82,71 @@ $(function() {
           error: function(err) {
             console.log(err);
           }
+<<<<<<< HEAD
+=======
+        }
+      },
+      header: {
+        left: 'createButton',
+        center: 'title'
+      },
+      height: 'auto',
+      //jquery-ui theme 사용
+      themeSystem: 'jquery-ui',
+      //날짜 선택시 강조표시 설정
+      selectHelper: true,
+      //셀렉트 이벤트 가능 설정.
+      selectable: true,
+      //수정 가능 이벤트 설정
+      editable: true,
+      //셀렉트 이벤트 발생시 메소드
+      select: setSelectInsert,
+      //이벤트 클릭시 사용하는 메소드
+      eventClick: setEventClick,
+      //드래그앤 드롭 Update 이벤트 처리
+      eventDrop: setDrop,
+      //일정 Resize 수정
+      eventResize: setResizeEvent,
+      //캘린더 물리데이터 rendering 작업
+      events: events
+    });
+  }
+
+  /**
+   * 이벤트 셋팅
+   *
+   * @param {*} start
+   * @param {*} end
+   * @param {*} timezone
+   * @param {*} callback
+   */
+  function setEvents() {
+    events = [];
+
+    $.ajax({
+      url: '/kdc/calendar/calendarSelectByClassCode',
+      type: 'post',
+      dataType: 'json',
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+      },
+      success: function(data) {
+        $.each(data, function(index, item) {
+          events.push({
+            num: item.calendarPk,
+            title: item.calendarTitle,
+            start: item.calendarStart,
+            end: item.calendarEnd,
+            color: item.calendarColor,
+          });
+>>>>>>> MergBranch
         });
         
         cal.fullCalendar('renderEvent', event, true);
       }
       cal.fullCalendar('unselect');
     },
+<<<<<<< HEAD
     //수정 가능 이벤트 설정
     editable: true,
     //이벤트 수정 이벤트 (이벤트 클릭스 이름 수정)
@@ -118,6 +177,62 @@ $(function() {
             console.log('실패했습니다. error : ' + err);
           }
         });
+=======
+    position: {
+      my: 'center',
+      at: 'center',
+      of: '#calendar'
+    }
+  });
+
+  //insertDialog 설정
+  $('#insertDialog').dialog({
+    autoOpen: false,
+    modal: true,
+    show: {
+      effect: 'blind',
+      duration: 300
+    },
+    hide: {
+      effect: 'clip',
+      duration: 300
+    },
+    position: {
+      my: 'center',
+      at: 'center',
+      of: '#calendar'
+    }
+  });
+
+  //datepicker 셋팅 및 설정
+  $('.datepicker').datepicker({
+    dateFormat: 'yy-mm-dd'
+  });
+
+  //등록버튼 클릭 이벤트
+  $('#insertBtn').on('click', function() {
+    $.ajax({
+      url: '/kdc/calendar/calendarInsert',
+      type: 'post',
+      dataType: 'text',
+      data: {
+        title: $('#insertTitle').val(),
+        start: $('#insertStart').val(),
+        end: $('#insertEnd').val(),
+        color: $('#insertColor').val(),
+      },
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+      },
+      success: function(result) {
+
+        setEvents();
+
+        $('#insertDialog').dialog('close');
+      },
+      error: function(err) {
+        console.log(err);
+>>>>>>> MergBranch
       }
     },
     //드래그앤 드롭 Update 이벤트 처리

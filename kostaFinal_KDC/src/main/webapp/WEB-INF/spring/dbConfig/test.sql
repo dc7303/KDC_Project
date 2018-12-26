@@ -51,17 +51,16 @@ select * from CLASSROOM;
 select * from CLASSROOM_INFO;
 
 insert into CLASSROOM_INFO values('A01A','189기 웹개발과정',to_date('2018/08/26','yyyy/mm/dd'),to_date('2019/08/04','yyyy/mm/dd'),'heejung','189.txt');
-insert into CLASSROOM values('aa','A01A');
-insert into CLASSROOM values('bb','A01A');
+insert into CLASSROOM values('heejung','A01A');
 
 insert into MEMBER values ('aa','1234','aa','aa',sysdate,'010-000-0000','aa@gmail.com','FALSE',sysdate);
 insert into MEMBER values ('bb','1234','bb','bb',sysdate,'010-000-0000','bb@gmail.com','FALSE',sysdate);
 insert into MEMBER values ('cc','1234','cc','cc',sysdate,'010-000-0000','cc@gmail.com','FALSE',sysdate);
 insert into MEMBER values ('heejung','1234','heejung','heejung',sysdate,'010-000-0000','jang8354@gmail.com','FALSE',sysdate);
 
-insert into message values(MESSAGE_SEQ.nextval,'bb','aa','되라','실행되라되라되라...',sysdate,'FALSE','FALSE');
-insert into message values(MESSAGE_SEQ.nextval,'bb','aa','된다','실행되라되라되라...',sysdate,'FALSE','FALSE');
-insert into message values(MESSAGE_SEQ.nextval,'bb','aa','ㄱㄱ','실행되라되라되라...',sysdate,'FALSE','FALSE');
+insert into message values(MESSAGE_SEQ.nextval,'bb','seonghyeon','되라','실행되라되라되라...',sysdate,'FALSE','FALSE');
+insert into message values(MESSAGE_SEQ.nextval,'seonghyeon1','seonghyeon','된다','실행되라되라되라...sdfbjsafshjdbfkshdbfshdbfshbfksjhbfkshbfksahfbkshdbfkshdfbk',sysdate,'FALSE','FALSE');
+insert into message values(MESSAGE_SEQ.nextval,'bb','seonghyeon','ㄱㄱ','실행되라되라되라...',sysdate,'FALSE','FALSE');
 
 insert into REPLY_BOARD values(REPLY_BOARD_SEQ.nextval,'기술게시판',0,'하하','aa',sysdate,'오지게 재미있는 부분입니다...하.하.',1,'aa','FALSE');
 insert into REPLY_BOARD values(REPLY_BOARD_SEQ.nextval,'Q&A',0,'허허','bb',sysdate,'하.하.하',1,'bb','FALSE');
