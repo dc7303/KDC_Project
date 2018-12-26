@@ -1,11 +1,9 @@
 package edu.kosta.kdc.util;
 
-import java.sql.CallableStatement;
+import java.sql.CallableStatement; 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.servlet.annotation.HandlesTypes;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;

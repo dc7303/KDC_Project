@@ -1,12 +1,15 @@
 package edu.kosta.kdc.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.kosta.kdc.model.dto.CalendarDTO;
 import edu.kosta.kdc.model.dto.ClassRoomInfoDTO;
 import edu.kosta.kdc.model.service.ClassRoomService;
 
@@ -15,15 +18,15 @@ import edu.kosta.kdc.model.service.ClassRoomService;
 public class ClassRoomController {
     
     @Autowired
-    private ClassRoomService service;
+    private ClassRoomService classRoomService;
     
     /**
      * 강사별 클래스룸 전체 리스트
      * */
-    @RequestMapping("classList")
+    @RequestMapping("/classList")
     public ModelAndView classList(String id) {
         
-        List<ClassRoomInfoDTO> list = service.classList(id);
+        List<ClassRoomInfoDTO> list = classRoomService.classList(id);
         
         //콘솔에서 확인
         for(ClassRoomInfoDTO dto:list) {
@@ -34,24 +37,48 @@ public class ClassRoomController {
         
     }
     
-    /**
-     * 클래스룸 생성
-     * 입력받을 값 : code, 클래스이름, 시작일, 종료일
-     * 넘겨받을 값 : 강사id
-     * 채팅파일 이름은 임시로 클래스룸code.txt
-     * */
-    /*@RequestMapping("/classCreate")
-    public String classCreate(ClassRoomInfoDTO dto) {
-        dto.setClassRoomCode("B10B");
-        dto.setClassRoomInfoTeacherId("heejung");
-        dto.setClassRoomInfoStartDate("2018-12-10");
-        dto.setClassRoomInfoEndDate("2019-05-15");
-        dto.setClassRoomInfoName("190기 웹개발자과정");
-        
-        service.classCreate(dto);
-        
-        return "redirect:/classRoom/classList";
-        
-    }*/
     
+    /**
+     * 강사 - 클래스 룸 생성 페이지 이동
+     * */
+    @RequestMapping("/classRoomInsertForm")
+    public void createClassRoomInfo() {}
+    
+    /**
+     * 강사 - 클래스 룸 생성 + 각 채팅방 파일 생성 (파일이름 : 클래스 코드.txt)
+     * */
+    @RequestMapping("/insertClassRoom")
+    public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) throws Exception{
+
+        File file = new File("C:\\Edu\\final_workspace\\kostaFinal_KDC\\src\\main\\webapp\\resources\\chatFile", classRoomInfoDTO.getClassRoomInfoChatFile());
+        file.createNewFile();
+        
+        classRoomService.createClassRoom(classRoomInfoDTO);
+        
+        return "classRoom/classList";
+    }
+    
+    /**
+     * 강사 - 클래스 코드 이름 중복 체크 (ajax)
+     * */
+    @RequestMapping(value = "/codeCheck", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String codeCheck(String classRoomCode) {
+        
+        return classRoomService.codeCheck(classRoomCode);
+        
+    }
+    
+    /**
+     * 강사 - 강사 아이디 체크 (ajax)
+     * */
+    @RequestMapping(value = "/teacherCheck", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String teacherCheck(String teacherId) {
+        
+        return classRoomService.teacherCheck(teacherId);
+        
+    }
+    
+       
 }

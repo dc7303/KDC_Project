@@ -39,7 +39,7 @@
                 <beans:bean class="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
             </beans:array>
         </beans:property>
-        <beans:property name="configLocation" value="classpath:edu/kosta/kdc/util/SqlMapConfig.xml"/>
+        <beans:property name="configLocation" value="classpath:edu/kosta/kdc/util/SqlMapConfig.xml"/> 
     </beans:bean>
 
     <!-- SqlSessionTemplate는 SqlSession의 구현객체로 SqlSession의 모든 기능을 가지고 있다. -->

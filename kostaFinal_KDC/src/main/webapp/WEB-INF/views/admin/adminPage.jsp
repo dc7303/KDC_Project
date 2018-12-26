@@ -1,45 +1,57 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>°ü¸®ÀÚ ÆäÀÌÁö</title>
+<title>ê´€ë¦¬ìž íŽ˜ì´ì§€</title>
 <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
 
+	const jq = jQuery.noConflict();
+	
+	jq(function(){
+	  //ì•„ì´ë”” ì¡°íšŒ
+	  jq(document).on('click', '#searchById', function() {
+	    let value = jq(this).parent().children().eq(0).val();
+	    location.href = '${pageContext.request.contextPath}/admin/selectMemberByUserId?userId=' + value;
+      });
+	})
+
+</script>
 </head>
 <body>
 
 <table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
-<caption>¸â¹ö List</caption>
+<caption>ë©¤ë²„ List</caption>
   
   <tr>
         <th bgcolor="#00cc00">
             <p align="center">
-            <font color="white"><b><span style="font-size:9pt;">À¯Àúid</span></b></font></p>
+            <font color="white"><b><span style="font-size:9pt;">ìœ ì €id</span></b></font></p>
         </th>
         <th bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">À¯ÀúÀÌ¸§</span></b></font></p>
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">ìœ ì €ì´ë¦„</span></b></font></p>
         </th>
         <th bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">´Ð³×ÀÓ</span></b></font></p>
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">ë‹‰ë„¤ìž„</span></b></font></p>
         </th>
         <th bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">»ý³â¿ùÀÏ</span></b></font></p>
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">ìƒë…„ì›”ì¼</span></b></font></p>
         </th>
         
         <th bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">ÈÞ´ëÆù¹øÈ£</span></b></font></p>
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">íœ´ëŒ€í°ë²ˆí˜¸</span></b></font></p>
         </th>
         <th bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">ÀÌ¸ÞÀÏ</span></b></font></p>
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">ì´ë©”ì¼</span></b></font></p>
         </th>
         <th bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">°¡ÀÔÀÏ</span></b></font></p>
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">ê°€ìž…ì¼</span></b></font></p>
         </th>
         <th bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">À¯Àú Ãß¹æ</span></b></font></p>
+            <p align="center"><font color="white"><b><span style="font-size:9pt;">ìœ ì € ì¶”ë°©</span></b></font></p>
         </th>
     </tr>
     
@@ -47,7 +59,7 @@
     <c:when test="${empty requestScope.memberList}">
     <tr>
         <td colspan="8">
-            <p align="center"><b><span style="font-size:9pt;">µî·ÏµÈ À¯Àú°¡ ¾ø½À´Ï´Ù.</span></b></p>
+            <p align="center"><b><span style="font-size:9pt;">ë“±ë¡ëœ ìœ ì €ê°€ ì—†ìŠµë‹ˆë‹¤.</span></b></p>
         </td>
     </tr>
     </c:when>
@@ -87,7 +99,7 @@
             </td>
             <td bgcolor="">
                 <p align="center"><span style="font-size:9pt;">
-                <input type="button" value="»èÁ¦" id="deleteMember" onclick="location.href='${memberList.memberId}'"></span></p>
+                <input type="button" value="ì‚­ì œ" id="deleteMember" onclick="location.href='${memberList.memberId}'"></span></p>
             </td>
         </tr>
     </c:forEach>
@@ -97,14 +109,13 @@
 <hr>
 <div align=center>
 <form>
-<input type="text" id="userId" value="¾ÆÀÌµð °Ë»ö" onfocus="this.value=''">
-<input type="button" id="search" value="°Ë»ö" onclick="location.href='selectMemberByUserId?userId='+$('#userId').val()">
+<input type="text" id="userId" value="ì•„ì´ë”” ê²€ìƒ‰" onfocus="this.value=''">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+<input type="button" id="searchById" value="ê²€ìƒ‰">
 </form>
 </div>
-<a href="${pageContext.request.contextPath }/admin/adminInsertTeacherForm">°­»ç»ý¼º ÆäÀÌÁö·Î</a><br>
-<a href="${pageContext.request.contextPath }/admin/messageList">°ü¸®ÀÚ - ¸Þ½ÃÁö ÆäÀÌÁö·Î</a><br>
-<a href="${pageContext.request.contextPath }/admin/adminReportList">°ü¸®ÀÚ - ½Å°í ÆäÀÌÁö·Î</a><br>
-<a href="${pageContext.request.contextPath }/admin/classRoomInfo">°ü¸®ÀÚ - Å¬·¡½º·ë »ý¼º</a><br>
-<a href="${pageContext.request.contextPath }/admin/fullCalendar">°ü¸®ÀÚ - Ç® Ä«·»´Ù</a><br>  
+<a href="${pageContext.request.contextPath }/admin/adminInsertTeacherForm">ê°•ì‚¬ìƒì„± íŽ˜ì´ì§€ë¡œ</a><br>
+<a href="${pageContext.request.contextPath }/admin/messageList">ê´€ë¦¬ìž - ë©”ì‹œì§€ íŽ˜ì´ì§€ë¡œ</a><br>
+<a href="${pageContext.request.contextPath }/admin/adminReportList">ê´€ë¦¬ìž - ì‹ ê³  íŽ˜ì´ì§€ë¡œ</a><br>
 </body>
 </html>

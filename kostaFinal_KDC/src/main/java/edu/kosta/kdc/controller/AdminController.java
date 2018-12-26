@@ -1,9 +1,8 @@
 package edu.kosta.kdc.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 
 import edu.kosta.kdc.model.dto.ClassRoomInfoDTO;
 import edu.kosta.kdc.model.dto.MemberDTO;
@@ -34,10 +31,10 @@ public class AdminController {
     private MessageService messageService;
     
     @Autowired
-    private ClassRoomService classRoomService;
+    private ReportService reportService;
     
     @Autowired
-    private ReportService reportService;
+    private ClassRoomService classRoomService;
     
     /**
      * 관리자 페이지 - 전체 유저 리스트 가져오기
@@ -59,7 +56,13 @@ public class AdminController {
         
         MemberDTO memberDTO = memberService.memberSelectByMemberId(userId);
         
-        return new ModelAndView("admin/adminPage", "memberList", memberDTO);
+        //Service에서 리턴타입이 MemberDTO 로 되어있다. 하지만 admin/adminPage 에서는 반드시 List로 값을 주어야 되기 때문에 리스트로 넣어주는 코드.
+        List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+        if(memberDTO!=null) {
+            memberList.add(memberDTO);
+        }
+        
+        return new ModelAndView("admin/adminPage", "memberList", memberList);
         
     }
     
@@ -90,14 +93,13 @@ public class AdminController {
         
     }
     
-    
     /**
      * 쪽지 보내기
      * */
     @RequestMapping(value = "/sendMessage", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public void SendMessage(MessageDTO messageDTO) {
-        int result = messageService.messageInsert(messageDTO);
+        messageService.messageInsert(messageDTO);
     }
     
     /**
@@ -124,12 +126,11 @@ public class AdminController {
      * 강사 생성 폼 들어가기
      * */
     @RequestMapping("/adminInsertTeacherForm")
-    public String InsertTeacherForm() {
+    public ModelAndView InsertTeacherForm() {
         
-        return "admin/adminInsert";
+        return new ModelAndView("member/signUpForm", "authTeacher", "ROLE_TEACHER");
         
     }
-    
     
     /**
      * 관리자 - 클래스 룸 생성 페이지 이동
@@ -203,7 +204,6 @@ public class AdminController {
         }
         
         List<ReportDTO> reportList = reportService.selectAllReport(boardName);
-        System.out.println(reportList);
         return reportList;
         
     }
@@ -227,16 +227,5 @@ public class AdminController {
         
         return reportList;
     }
-    
-    /**
-     * 풀 카렌다로 가는 메소드
-     * */
-    @RequestMapping("/fullCalendar")
-    public ModelAndView fullCalendar() {
-        
-        
-        List<ClassRoomInfoDTO> list = classRoomService.getClassInfo();
-        
-        return new ModelAndView("/admin/fullCalendars", "classList", list);
-    }
+
 }

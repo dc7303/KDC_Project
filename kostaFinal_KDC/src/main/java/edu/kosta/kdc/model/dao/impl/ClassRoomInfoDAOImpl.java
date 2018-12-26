@@ -30,7 +30,7 @@ public class ClassRoomInfoDAOImpl implements ClassRoomInfoDAO {
     }
     
     /**
-     * 관리자 - 클래스 룸 생성
+     * 강사 - 클래스 룸 생성
      * */
     @Override
     public int createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) {
@@ -39,7 +39,7 @@ public class ClassRoomInfoDAOImpl implements ClassRoomInfoDAO {
     }
 
     /**
-     * 관리자 - 클래스 코드 중복 체크(ajax)
+     * 강사 - 클래스 코드 중복 체크(ajax)
      * */
     @Override
     public String codeCheck(String classRoomCode) {
@@ -53,26 +53,19 @@ public class ClassRoomInfoDAOImpl implements ClassRoomInfoDAO {
     }
 
     /**
-     * 관리자 - 강사 아이디 체크(ajax)
+     * 강사 - 강사 아이디 체크(ajax)
      * */
     @Override
     public String teacherCheck(String teacherId) {
 
         MemberDTO dto = sqlSession.selectOne("memberMapper.selectByMemberId", teacherId);
-        if(dto==null) {
+        
+        if(dto == null) {
             return "존재하지 않는 아이디입니다.";
         }else {
             return "존재하는 강사입니다.";
         }
     }
 
-    /**
-     * 관리자 - 풀캘린더에 들어갈 클래스 일정 모두 가져오기
-     * */
-    @Override
-    public List<ClassRoomInfoDTO> getClassInfo() {
-        
-        return sqlSession.selectList("classRoomInfoMapper.getClassInfo");
-    }
 
 }

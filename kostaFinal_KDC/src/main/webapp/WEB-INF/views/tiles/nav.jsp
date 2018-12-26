@@ -33,7 +33,7 @@
             <div class="app-layout-drawer-scroll">
             <!-- Drawer logo -->
               <div id="logo" class="">
-                <a href="/"><img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc.png" title="AppUI" alt="AppUI" /></a>
+                <a href="${pageContext.request.contextPath }/"><img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc.png" title="AppUI" alt="AppUI" /></a>
               </div>
   
                     <!-- Drawer navigation -->
@@ -64,7 +64,7 @@
                   <li class="nav-item nav-drawer-header">메뉴영역</li>
       
                   <li class="nav-item ">
-                    <a href="#"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
+                    <a href="${pageContext.request.contextPath }/notice/list"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
                   </li>
       
                   <li class="nav-item ">
@@ -72,23 +72,23 @@
                   </li>
       
                   <li class="nav-item ">
-                    <a href="#"><i class="ion-ios-list-outline"></i> Tech Q&A</a>
+                    <a href="${pageContext.request.contextPath}/reply/tech?classification=tech"><i class="ion-ios-list-outline"></i> Tech Q&A</a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="#"><i class="ion-ios-list-outline"></i> Tech 공유 게시판</a>
+                    <a href="${pageContext.request.contextPath}/reply/lib?classification=lib"><i class="ion-ios-list-outline"></i> Tech 공유 게시판</a>
                   </li>
       
                   <li class="nav-item nav-item-has-subnav">
                     <a href="#"><i class="ion-social-javascript-outline"></i> 반별 게시판</a>
                     <ul class="nav nav-subnav">
-      
+       
                       <li>
-                        <a href="#">반별 공지사항</a>
+                        <a href="${pageContext.request.contextPath }/notice/list?classification=classNotice">반별 공지사항</a>
                       </li>
         
                       <li>
-                        <a href="#">스케줄</a>
+                        <a href="${pageContext.request.contextPath}/calendar/calendarForm">스케줄</a>
                       </li>
         
                       <li>
@@ -99,11 +99,11 @@
                   </li>
       
                   <li class="nav-item ">
-                    <a href="javascript:void(0)"><i class="ion-ios-list-outline"></i> 스터디모집</a>
+                    <a href="${pageContext.request.contextPath}/reply/study?classification=study"><i class="ion-ios-list-outline"></i> 스터디모집</a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="javascript:void(0)"><i class="ion-ios-browsers-outline"></i> 포트폴리오</a>
+                    <a href="${pageContext.request.contextPath }/portfolio/selectAll"><i class="ion-ios-browsers-outline"></i> 포트폴리오</a>
                   </li>
                 </ul>
               </nav>

@@ -46,10 +46,15 @@
   
 
   
-    <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+
+    <!-- 
+        ExceptionResolver 
+        사용시 주석 풀것 
+    -->
+     <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <beans:property name="exceptionMappings">
             <beans:props>
-                <beans:prop key="java.lang.Exception">
+                <beans:prop key="edu.kosta.kdc.exception.KdcException">
                     error/errorView
                 </beans:prop>
             </beans:props>
