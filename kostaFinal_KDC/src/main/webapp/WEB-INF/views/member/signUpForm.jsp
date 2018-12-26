@@ -2,31 +2,10 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/logincss.css" />    
+<title></title>
+
 <head>
-  <style>
-
-
-
-  table {
-      margin-left: 10px;
-  	width: 800px;
-  }
-
-  td, th {
-  	padding: 10px;
-  	font-size: 15px;
-  }
-  tr td input { height: 40px; width: 400px}
-
-  .setbutton {
-  		height: 50px;
-  		width: 450px;
-  		background-color: #00280d;
-  		color: white;}
-
-  td, .ajax {
-           width:200px; height:30px;}
-  </style>
   </head>
   <body>
   <center>
@@ -36,16 +15,17 @@
 
   		<form method="post" action="${pageContext.request.contextPath }/member/memberInsert" id="signUpForm">
           <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-  			<table cellspacing="0" align="center">
-  				<caption>
-  					<h3>회원가입</h3>
+  			
+  				
+  					<h1 class="sign-title">회원가입</h1>
+                    <p class="underline"></p>
 
-  				</caption>
+  				<table cellspacing="0" align="center">
   				<input type="hidden" name="command" value="insert">
   				<tr>
   					<td id="">ID</td>
   					<td ><input type="text" name="memberId" placeholder="영문, 숫자로만 6~12자리 입력" /></td>
-            <td class="ajax"> 아이디를 입력하세요</td>
+               <td class="ajax"> 아이디를 입력하세요</td>
   				</tr>
 
 
