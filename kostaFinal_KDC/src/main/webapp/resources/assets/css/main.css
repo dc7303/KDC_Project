@@ -26,20 +26,20 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   text-align: center;
-  font-family:"나눔스퀘어라이트", "NanumSquareL", "ngeot", "돋움", "DotumChe", "Dotum";}
+  font-family:"占쎄돌占쎈땸占쎈뮞占쎌꼷堉깍옙�뵬占쎌뵠占쎈뱜", "NanumSquareL", "ngeot", "占쎈즻占쏙옙", "DotumChe", "Dotum";}
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
 
 html{
-	display: flex;
+	/* display: flex; */
 	justify-content: center;
 	align-items: center;
 }
 
 body {
-	line-height: 1;
+	
 	width:85%;
 
 
@@ -133,6 +133,18 @@ input, select, textarea {
 
 /* Table */
 
+.board-title{
+	
+	margin-top: 50px;
+	text-align: center;
+	underline:3px;
+}
+
+#board-select {
+	justify-content: center;
+	align-items: center;
+	
+}
 
 
 	.table-wrapper {
@@ -923,3 +935,5 @@ input, select, textarea {
 									.actions {
 										text-align: center;
 									}
+									
+									

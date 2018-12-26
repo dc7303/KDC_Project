@@ -21,7 +21,7 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   text-align: center;
-  font-family:"나눔스퀘어라이트", "NanumSquareL", "ngeot", "돋움", "DotumChe", "Dotum";}
+  font-family:"�굹�닎�뒪�섏뼱�씪�씠�듃", "NanumSquareL", "ngeot", "�룍��", "DotumChe", "Dotum";}
 
 
 .app-ui-mask-disable-scroll {
@@ -102,7 +102,7 @@ section, summary, time, mark, audio, video {
 
 .drawer-main {
 	margin-top: 24px;
-	font-size: 13px;
+	font-size: 17px;
 	-webkit-transform: translateZ(0);
 	        transform: translateZ(0);
 }

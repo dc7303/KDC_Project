@@ -81,7 +81,7 @@ Author: rustheme
 
 .drawer-main {
 	margin-top: 24px;
-	font-size: 13px;
+	font-size: 15px;
 	-webkit-transform: translateZ(0);
 	        transform: translateZ(0);
 }
@@ -102,11 +102,11 @@ Author: rustheme
 
 .nav-drawer > .active > a {
 	background-color: transparent;
-	border-color: #7dc855;
-}
+	/* border-color: #7dc855; */
+ }
 
 .nav-drawer > .active > a:hover, .nav-drawer > .active > a:focus, .nav-drawer > .active > a:active {
-	border-color: #7dc855;
+	/* border-color: #7dc855; */
 }
 
 /* Nav icon */
