@@ -11,27 +11,43 @@
 	const jq = jQuery.noConflict();
 	jq(function(){
 	  
-	  //게시여부가 true일 경우 체크박스 체크
-	  if(jq('#original-visibility').val()==='true'){
-	    jq('input[name=portFolioVisibility]').attr('checked','');
-	  }
-	  
-	  /* 수정버튼 클릭시 수정폼 노출, 정보 숨김 */
-	  jq('#update-portfolio').on('click',function(){
-	    if(jq('#portfolio-update-form').css("display")==='none'){
-	      jq('#portfolio-update-form').css("display","block");
-	      jq('#portfolio-info').css("display","none");
+	  //유효성검사(제목 여부만 체크)
+	  jq('#portfolio-form > input[type=button]').on('click',function(){
+	    var title = jq('input[name=portFolioMainTitle]');
+	    if (title.val().trim() === '') {
+	      alert('제목은 필수항목 입니다.');
+	      title.focus();
+	    } else {
+	      jq('#portfolio-form').submit();
 	    }
 	  });
-	  
-	  //포트폴리오 상세 수정버튼 클릭 이벤트(a 태그 대체해도 좋을듯함)
-	  jq('.update-detail').on('click',function(){
-	    var pk = jq(this).attr('id');
-	    pk = pk.substr(7);
-	    location.href='${pageContext.request.contextPath}/portfolio/selectDetail/'+pk;
-	  });
-	  
-	});
+  	
+
+    //게시여부가 true일 경우 체크박스 체크
+    if (jq('#original-visibility').val() === 'true') {
+      jq('input[name=portFolioVisibility]').attr('checked', '');
+    }
+
+    /* 수정버튼 클릭시 수정폼 노출, 정보 숨김 */
+    jq('#update-portfolio').on('click', function() {
+      if (jq('#portfolio-update-form').css("display") === 'none') {
+        jq('#portfolio-update-form').css("display", "block");
+        jq('#portfolio-info').css("display", "none");
+      }
+    });
+
+    //포트폴리오 상세 수정버튼 클릭 이벤트(a 태그 대체해도 좋을듯함)
+    jq('.update-detail')
+        .on(
+            'click',
+            function() {
+              var pk = jq(this).attr('id');
+              pk = pk.substr(7);
+              location.href = '${pageContext.request.contextPath}/portfolio/selectDetail/'
+                  + pk;
+            });
+
+  });
 </script>
 </head>
 <body>
@@ -42,11 +58,11 @@
         <!-- 대표이미지, 제목, 게시여부(체크박스) -->
       <form
         action="${pageContext.request.contextPath }/portfolio/insertPortfolio?${_csrf.parameterName}=${_csrf.token}"
-        method="post" enctype="multipart/form-data">
+        method="post" enctype="multipart/form-data" id="portfolio-form">
         <label>제목 : </label><input type="text" name="portFolioMainTitle"/></p></br> 
         <label>대표이미지 : </label><input type="file" name="MainImageFile" /></p></br> 
         <input type="checkBox" name="portFolioVisibility"/> <label>- 게시여부 </label></p></br>
-        <input type="submit" value="전송" />
+        <input type="button" value="전송" />
       </form>
     </c:when>
     <c:otherwise>
@@ -74,7 +90,7 @@
      <div id="portfolio-update-form" style="display:none;">
       <form
         action="${pageContext.request.contextPath }/portfolio/updatePortfolio?${_csrf.parameterName}=${_csrf.token}"
-        method="post" enctype="multipart/form-data">
+        method="post" enctype="multipart/form-data" id="portfolio-form">
         
         <label>제목 : </label>
         <input type="text" name="portFolioMainTitle" value="${portfolio.portFolioMainTitle}"/></p></br> 
@@ -85,7 +101,7 @@
         </br>         
         <label>대표이미지 : </label><input type="file" name="MainImageFile" /></p></br> 
         <input type="checkBox" name="portFolioVisibility" value="${portfolio.portFolioVisibility}"/> - 개시여부  </p></br>
-        <input type="submit" value="수정완료" />
+        <input type="button" value="수정완료" />
       </form>
      </div>
      <!-- 포트폴리오가 존재하는경우 정보 노출 -->

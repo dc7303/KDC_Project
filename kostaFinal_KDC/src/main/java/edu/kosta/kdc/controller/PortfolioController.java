@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.kosta.kdc.exception.KdcException;
@@ -25,7 +26,6 @@ import edu.kosta.kdc.model.service.PortfolioService;
 /**
  * 포트폴리오 CRUD 포트폴리오 유저와 1대1로 생성
  */
-
 @Controller
 @RequestMapping("/portfolio")
 public class PortfolioController {
@@ -37,11 +37,18 @@ public class PortfolioController {
      * 마이페이지 포트폴리오
      */
     @RequestMapping("/myPage")
-    public String myPage(Model model) {
+    public String myPage(Model model) throws KdcException {
         /*
-         * 시큐리티에서 id를 받아와야함 
+         * 시큐리티에서 로그인된 
+         * 회원정보를 받아옴
+         * 없는경우 권한없음 예외처리
          * */
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }
         
         //로그인된 사용자의 포트폴리오, 상세 정보를 조회
         PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(member.getMemberId());
@@ -64,7 +71,12 @@ public class PortfolioController {
             // 파일명을 DTO에 setter를 이용해 대입
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }
         
         portfolioDTO.setPortFolioMemberId(member.getMemberId());
         
@@ -88,15 +100,17 @@ public class PortfolioController {
 
         // 이미지를 등록하지 않을경우 파일생성안함
         if (!portfolioDetailDTO.getDeltailProjectImage().isEmpty()) {
-            // 대표이미지가 저장될 위치
             String path = session.getServletContext().getRealPath("/resources/testimg/photos");
-            // 사용자가 첨부한 파일
             MultipartFile file = portfolioDetailDTO.getDeltailProjectImage();
-            // 파일명을 DTO에 setter를 이용해 대입
             portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
         }
         
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }
         
         portfolioDetailDTO.setPortFolioDetailMemberId(member.getMemberId());
         
@@ -113,15 +127,17 @@ public class PortfolioController {
         
         // 이미지를 등록하지 않을경우 파일생성안함
         if (!portfolioDTO.getMainImageFile().isEmpty()) {
-            // 대표이미지가 저장될 위치
             String path = session.getServletContext().getRealPath("/resources/testimg/photos");
-            // 사용자가 첨부한 파일
             MultipartFile file = portfolioDTO.getMainImageFile();
-            // 파일명을 DTO에 setter를 이용해 대입
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
         
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }       
         portfolioDTO.setPortFolioMemberId(member.getMemberId());
         
         int result = service.updatePortfolio(portfolioDTO);
@@ -162,16 +178,18 @@ public class PortfolioController {
         int detailPk = portfolioDetailDTO.getPortFolioDetailPk();
         // 이미지를 등록하지 않을경우 파일생성안함
         if (!portfolioDetailDTO.getDeltailProjectImage().isEmpty()) {
-            // 대표이미지가 저장될 위치
             String path = session.getServletContext().getRealPath("/resources/testimg/photos");
-            // 사용자가 첨부한 파일
             MultipartFile file = portfolioDetailDTO.getDeltailProjectImage();
-            // 파일명을 DTO에 setter를 이용해 대입
             portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
             
         }
         
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            throw new KdcException("권한이 없습니다.");
+        }
         portfolioDetailDTO.setPortFolioDetailMemberId(member.getMemberId());
         
         int result = service.updateDetail(portfolioDetailDTO, hashTagName);
@@ -189,7 +207,7 @@ public class PortfolioController {
     }
     
     /**
-     * 모든 포트폴리오 조회(isDelte = true, isVisibility = true)
+     * 모든 포트폴리오 조회
      * */
     @RequestMapping("/selectAll")
     public String selectAll(Model model) {
@@ -199,7 +217,7 @@ public class PortfolioController {
     }
     
     /**
-     * 상세 조회(한 유저의 port)
+     * 상세 조회(한 유저의 포트폴리오)
      * */
     @RequestMapping("/selectAllDetail/{memberId}")
     public String selectAllDetail(@PathVariable String memberId, Model model){
@@ -218,6 +236,9 @@ public class PortfolioController {
         model.addAttribute("portfolioList", list);
         return "portfolio/selectAll";
     }
+    
+
+    
     
     /**
      * 이미지 저장 메소드
