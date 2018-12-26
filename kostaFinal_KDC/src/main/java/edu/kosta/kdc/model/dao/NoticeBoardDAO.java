@@ -40,4 +40,12 @@ public interface NoticeBoardDAO {
      */
     List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch);
 
+    /**
+     * 메인 페이지에 띄울 공지사항 글 5개 가져오는 메소드
+     * 
+     * @param
+     * @return List<NoticeBoardDTO>
+     * */
+    List<NoticeBoardDTO> selectFive();
+
 }

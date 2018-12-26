@@ -87,5 +87,12 @@
        
     </update>
     
-
+    <!-- 공지사항 최신 글 5개 가져오기 -->
+    <select id="selectFiveNotice" resultMap="noticeBoardDTO">
+        select * 
+        from NOTICE_BOARD 
+        <![CDATA[WHERE ROWNUM <= 5]]>
+        ORDER BY NOTICE_BOARD_PK DESC
+    </select>
+    
 </mapper>

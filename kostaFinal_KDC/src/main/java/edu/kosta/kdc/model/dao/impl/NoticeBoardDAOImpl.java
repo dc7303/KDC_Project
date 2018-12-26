@@ -1,6 +1,5 @@
 package edu.kosta.kdc.model.dao.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,5 +91,14 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
         map.put("noticeBoardSearch", noticeBoardSearch);
         
         return session.selectList("noticeBoardMapper.SearchTitleAndContents",map);
+    }
+
+    /**
+     * 메인 페이지에 띄울 공지사항 글 5개 가져오는 메소드
+     * */
+    @Override
+    public List<NoticeBoardDTO> selectFive() {
+        
+        return session.selectList("noticeBoardMapper.selectFiveNotice");
     }
  }

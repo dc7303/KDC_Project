@@ -129,4 +129,10 @@ public interface ReplyBoardDAO {
      * 모든 닉네임 가오기
      * */
     List<MemberDTO> allNicknames();
+
+    /**
+     * 메인화면에 띄울 댓글있는 게시판 게시글 5개 가져오기
+     * @param String 
+     * */
+    List<ReplyBoardDTO> selectFiveByTitle(String title);
 }

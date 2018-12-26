@@ -34,5 +34,10 @@ public interface NoticeBoardService {
      * 조건검색
      */
     List<NoticeBoardDTO> SelectSerch(String department, String noticeBoardSearch);
+
+    /**
+     * 메인 페이지에 띄울 공지사항 글 5개 가져오는 메소드
+     * */
+    List<NoticeBoardDTO> selectFive();
     
 }

@@ -72,7 +72,7 @@ public class MessageController {
     /**
      * 메시지 전송 (관리자 Ver) - Ajax로 연동 
      * */
-    @RequestMapping("/adminMessageInsert")
+    @RequestMapping(value = "/adminMessageInsert", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public void adminMessageInsert(MessageDTO messageDTO) throws KdcException {
         

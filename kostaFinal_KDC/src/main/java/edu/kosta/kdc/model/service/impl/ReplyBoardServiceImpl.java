@@ -362,4 +362,18 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
         return list;
     }
 
+    /**
+     * 메인화면에 띄울 tech 게시판 게시글 5개 가져오기
+     * */
+    @Override
+    public List<ReplyBoardDTO> selectFiveByTitle(String title) {
+        
+        List<ReplyBoardDTO> fiveSelectList = replyBoardDAO.selectFiveByTitle(title);
+        if(fiveSelectList == null) {
+            throw new KdcException("게시글이 존재하지 않습니다.");
+        }
+        
+        return fiveSelectList;
+    }
+
 }

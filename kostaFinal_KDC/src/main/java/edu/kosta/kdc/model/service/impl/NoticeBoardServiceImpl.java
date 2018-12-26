@@ -180,7 +180,17 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         
         return list;
     }
-
     
+    /**
+     * 메인 페이지에 띄울 공지사항 글 5개 가져오는 메소드
+     * 
+     * @param
+     * @return List<NoticeBoardDTO>
+     * */
+    @Override
+    public List<NoticeBoardDTO> selectFive() {
+        
+        return noticeBoardDAO.selectFive();
+    }
     
  }

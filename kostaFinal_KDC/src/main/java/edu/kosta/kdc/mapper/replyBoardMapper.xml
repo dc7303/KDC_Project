@@ -279,4 +279,13 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
     WHERE MEMBER_ISWITHDRAWAL = 'FALSE'
     ORDER BY MEMBER_NICKNAME ASC
 </select>
+
+<!-- index 페이지에 띄울 댓글 있는 게시판에서 글 5개씩 가져오기 -->
+<select id="selectFive" parameterType="String" resultMap="replyBoardMap">
+    SELECT *
+    FROM REPLY_BOARD
+    WHERE REPLY_BOARD_CLASSIFICATION=#{_parameter} and <![CDATA[ROWNUM <= 5]]>
+    ORDER BY REPLY_BOARD_PK DESC
+</select>
+
 </mapper>
