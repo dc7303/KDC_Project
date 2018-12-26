@@ -34,9 +34,6 @@ public class AdminController {
     private MessageService messageService;
     
     @Autowired
-    private ClassRoomService classRoomService;
-    
-    @Autowired
     private ReportService reportService;
     
     /**
@@ -75,48 +72,6 @@ public class AdminController {
         
     }
  
-    /**
-     * 관리자 페이지 - 메시지 리스트
-     * */
-    @RequestMapping("/messageList")
-    public ModelAndView MessageSelectAll(String memberId) {
-        
-        List<MessageDTO> list = messageService.messageAll(memberId);
-        
-        return new ModelAndView("admin/adminMessagePage", "messageList", list);
-        
-    }
-    
-    
-    /**
-     * 쪽지 보내기
-     * */
-    @RequestMapping(value = "/sendMessage", produces = "text/plain; charset=UTF-8")
-    @ResponseBody
-    public void SendMessage(MessageDTO messageDTO) {
-        
-        int result = messageService.messageInsert(messageDTO);
-    }
-    
-    /**
-     * 메시지 폼 띄우기
-     * */
-    @RequestMapping("/messageForm")
-    public ModelAndView MessageForm(String senderId) {
-        
-        return new ModelAndView("admin/empty/messageForm", "senderId", senderId);
-    }
-    
-    /**
-     * 메시지 삭제
-     * */
-    @RequestMapping(value="/deleteMessage")
-    public String deleteMessage(int messageNum) {
-        
-        messageService.messageDelete(messageNum);
-        
-        return "redirect:/admin/messageList";
-    }
     
     /**
      * 강사 생성 폼 들어가기
@@ -125,52 +80,6 @@ public class AdminController {
     public String InsertTeacherForm() {
         
         return "admin/adminInsert";
-        
-    }
-    
-    
-    /**
-     * 관리자 - 클래스 룸 생성 페이지 이동
-     * */
-    @RequestMapping("/classRoomInfo")
-    public String createClassRoomInfo() {
-        
-        return "/admin/adminClassRoomInfo";
-    }
-    
-    /**
-     * 관리자 - 클래스 룸 생성 + 각 채팅방 파일 생성 (파일이름 : 클래스 코드.txt)
-     * */
-    @RequestMapping("/insertClassRoom")
-    public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) throws Exception{
-
-        File file = new File("C:\\Edu\\final_workspace\\kostaFinal_KDC\\src\\main\\webapp\\resources\\chatFile", classRoomInfoDTO.getClassRoomInfoChatFile());
-        file.createNewFile();
-        
-        classRoomService.createClassRoom(classRoomInfoDTO);
-        
-        return "redirect:/admin/selectMember";
-    }
-    
-    /**
-     * 관리자 - 클래스 코드 이름 중복 체크 (ajax)
-     * */
-    @RequestMapping(value = "/codeCheck", produces = "text/plain; charset=UTF-8")
-    @ResponseBody
-    public String codeCheck(String classRoomCode) {
-        
-        return classRoomService.codeCheck(classRoomCode);
-        
-    }
-    
-    /**
-     * 관리자 - 강사 아이디 체크 (ajax)
-     * */
-    @RequestMapping(value = "/teacherCheck", produces = "text/plain; charset=UTF-8")
-    @ResponseBody
-    public String teacherCheck(String teacherId) {
-        
-        return classRoomService.teacherCheck(teacherId);
         
     }
     
@@ -218,15 +127,5 @@ public class AdminController {
         
         return "/admin/adminReportPage";
     }
-    
-    /**
-     * 풀 카렌다로 가는 메소드
-     * */
-    @RequestMapping("/fullCalendar")
-    public ModelAndView fullCalendar() {
-        
-        List<ClassRoomInfoDTO> list = classRoomService.getClassInfo();
-        
-        return new ModelAndView("/admin/fullCalendars", "classList", list);
-    }
+
 }

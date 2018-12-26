@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
- <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
 </head>
 <body>
   <sec:authorize access="isAuthenticated()">
@@ -53,6 +52,6 @@
   <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
   <input type="hidden" name="csrfToken" value="${_csrf.token }"/>
   <!-- 업데이트 유효성검사 -->
-  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/update-regex-check.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/memberInfoForm/update-regex-check.js"></script>
 </body>
 </html>

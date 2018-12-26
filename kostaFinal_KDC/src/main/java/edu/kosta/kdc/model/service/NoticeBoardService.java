@@ -8,12 +8,12 @@ public interface NoticeBoardService {
     /**
      * 전체검색
      */
-    List<NoticeBoardDTO> selectAll(NoticeBoardDTO noticeBoard, boolean state);
+    List<NoticeBoardDTO> selectAll(String classification);
 
     /**
      * 레코드 삽입
      */
-    int insert(NoticeBoardDTO noticeBoard);
+    int noticeInsert(NoticeBoardDTO noticeBoard, String classification);
 
     /**
      * 제목 선택해서 상세보기
@@ -34,5 +34,5 @@ public interface NoticeBoardService {
      * 조건검색
      */
     List<NoticeBoardDTO> SelectSerch(String department, String noticeBoardSearch);
-
+    
 }

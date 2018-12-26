@@ -27,7 +27,6 @@
   td, .ajax {
            width:200px; height:30px;}
   </style>
-  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
   </head>
   <body>
   <center>
@@ -115,6 +114,6 @@
   <input type="hidden" name="contextPath" value="${pageContext.request.contextPath }"/>
   <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
   <input type="hidden" name="csrfToken" value="${_csrf.token }"/>
-  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/signup-regex-check.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/memberInfoForm/signup-regex-check.js"></script>
   </body>
 </html>

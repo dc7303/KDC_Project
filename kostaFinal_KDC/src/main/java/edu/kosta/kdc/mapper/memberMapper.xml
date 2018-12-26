@@ -43,4 +43,8 @@
         set member_IsWithDrawal = 'TRUE'
         where member_id = #{_parameter}
     </update>
+    
+    <select id="selectAll" resultMap="memberDTO">
+        select * from member
+    </select>
 </mapper>

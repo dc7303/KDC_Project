@@ -49,7 +49,7 @@
 </script>
 </head>
 <body>
-<form action="${pageContext.request.contextPath }/admin/insertClassRoom" method="post" >
+<form action="${pageContext.request.contextPath }/classRoom/insertClassRoom" method="post" >
 <table border="1">
  <tr>
    <th>클래스 코드</th>

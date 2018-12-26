@@ -2,6 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
   <head>
     <meta charset="utf-8">
@@ -51,8 +52,13 @@
           
           <tr>
             <td>${state.count}</td>
-            <td><a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}">
-                ${replyBoardDTO.replyBoardTitle}</a></td>
+            <td>
+              <sec:authorize access="isAuthenticated()">
+                <sec:authentication var="member" property="principal" />
+              <a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}&memberId=${member.memberId}">
+                       ${replyBoardDTO.replyBoardTitle}</a>
+              </sec:authorize>
+            </td>
             <td>${replyBoardDTO.member.memberNickName}</td>
             <td>${replyBoardDTO.replyBoardDate}</td>
             <td>${replyBoardDTO.likeNum}</td>

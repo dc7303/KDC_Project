@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="noticeBoardMapper">
 
-<resultMap type="noticeBoardDTO" id="selectMap">
+<resultMap type="noticeBoardDTO" id="noticeBoardDTO">
     <id column="notice_board_pk" property="noticeBoardPk" />
     <result column="NOTICE_BOARD_CLASSIFICATION" property="noticeBoardClassification" />
+    <result column="NOTICE_BOARD_CLASSROOM_CODE" property="noticeBoardClassRoomCode" />
     <result column="NOTICE_BOARD_TITLE" property="noticeBoardTitle" />
     <result column="NOTICE_BOARD_WRITER_ID" property="noticeBoardWriterId" />
     <result column="NOTICE_BOARD_WRITE_DATE" property="noticeBoardDate" />
@@ -16,14 +17,18 @@
 </resultMap>
 
     <!-- 전체 검색 -->
-<select id="noticeBoardSelect" resultMap="selectMap">
+<select id="noticeBoardSelect" parameterType="map" resultMap="noticeBoardDTO">
     SELECT *
     FROM NOTICE_BOARD
     WHERE NOTICE_BOARD_ISDELETE= 'FALSE'
+    AND NOTICE_BOARD_CLASSIFICATION = #{classification}
+    <if test="classRoomCode != null">
+    AND NOTICE_BOARD_CLASSROOM_CODE = #{classRoomCode}
+    </if>
 </select>
 
     <!--  조건 검색 -->
-<select id="SearchTitleAndContents" parameterType="map" resultMap="selectMap">
+<select id="SearchTitleAndContents" parameterType="map" resultMap="noticeBoardDTO">
         SELECT * FROM NOTICE_BOARD
          WHERE
          NOTICE_BOARD_ISDELETE='FALSE'
@@ -42,7 +47,7 @@
     <insert id="noticeBoardInsert" parameterType="NoticeBoardDTO">
 
         INSERT INTO NOTICE_BOARD
-        VALUES (NOTICE_BOARD_SEQ.NEXTVAL, 'AAAA', #{noticeBoardTitle}, 'lake',
+        VALUES (NOTICE_BOARD_SEQ.NEXTVAL, #{noticeBoardClassification}, #{noticeBoardClassRoomCode}, #{noticeBoardTitle}, #{noticeBoardWriterId},
         SYSDATE,#{noticeBoardContents}, 0, #{noticeBoardAttachment},
         'FALSE')
 
@@ -51,7 +56,7 @@
 
     <!-- 게시글 상세보기 -->
     <select id="SelectNoticeBoardPK"
-        parameterType="NoticeBoardDTO" resultMap="selectMap">
+        parameterType="NoticeBoardDTO" resultMap="noticeBoardDTO">
         SELECT * FROM NOTICE_BOARD
         WHERE notice_board_pk = #{noticeBoardPk} 
 </select>
@@ -69,7 +74,7 @@
         UPDATE NOTICE_BOARD SET
         NOTICE_BOARD_TITLE = #{noticeBoardTitle},
         NOTICE_BOARD_CONTENTS = #{noticeBoardContents},
-        NOTICE_BOARD_ATTACHMENT = #{noticeBoardAttachment}
+        NOTICE_BOARD_ATTACHMENT  = #{noticeBoardAttachment}
         WHERE notice_board_pk = #{noticeBoardPk}
     </update>
     

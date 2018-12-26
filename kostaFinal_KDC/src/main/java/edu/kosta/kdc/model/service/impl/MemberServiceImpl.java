@@ -32,6 +32,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDTO memberSelectByMemberId(String memberId) {
         
+        //재사용을 위해 컨트롤러에서 null값 비교해서 메세지 출력 구현
         return memberDAO.memberSelectByMemberId(memberId);
         
     }
@@ -123,7 +124,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<MemberDTO> memberSelectAll() {
 
-        return memberDAO.memberSelectAll();
+        List<MemberDTO> list = memberDAO.memberSelectAll();
+        if(list == null) {
+            throw new KdcException("회원이 존재하지 않습니다.");
+        }
+        
+        return list;
 
     }
 

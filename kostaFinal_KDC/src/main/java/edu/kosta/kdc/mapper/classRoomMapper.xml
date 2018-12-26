@@ -2,4 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="classRoomMapper">
 
+    <resultMap type="classRoomDTO" id="classRoomDTO">
+        <id column="CLASSROOM_USER_ID" property="memberId"/>
+        <result column="CLASSROOM_CODE" property="classRoomCode"/>
+        <result column="CLASSROOM_ISCURRENT" property="classRoomIsCurrent" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+    </resultMap>
+
+    <!-- 아이디로 현재 디폴트된 클래스룸 가져오기 -->
+    <select id="selectCurrentCode" resultMap="classRoomDTO">
+        SELECT * FROM CLASSROOM WHERE CLASSROOM_USER_ID = #{_parameter} AND CLASSROOM_ISCURRENT = 'TRUE'
+    </select>
 </mapper>

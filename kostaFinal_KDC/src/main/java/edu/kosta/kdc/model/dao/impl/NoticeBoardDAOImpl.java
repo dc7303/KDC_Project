@@ -1,5 +1,6 @@
 package edu.kosta.kdc.model.dao.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.kosta.kdc.model.dao.NoticeBoardDAO;
 import edu.kosta.kdc.model.dto.NoticeBoardDTO;
+
 @Repository
 public class NoticeBoardDAOImpl implements NoticeBoardDAO {
     
@@ -20,17 +22,24 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
      *  전체 검색
      */
     @Override
-    public List<NoticeBoardDTO> selectAll(NoticeBoardDTO noticeBoard) {
+    public List<NoticeBoardDTO> selectAll(String classification, String classRoomCode) {
         
-        List<NoticeBoardDTO> list = session.selectList("noticeBoardMapper.noticeBoardSelect");
-        return list;
+        Map<String, String> map = new HashMap<>();      //파라미터 담을 Map
+        
+        map.put("classification", classification);
+        //반별게시판으로 접근했다면
+        if(classRoomCode != null) {
+           map.put("classRoomCode", classRoomCode);
+        }
+        
+        return session.selectList("noticeBoardMapper.noticeBoardSelect", map);
     }
 
     /**
      * 레코드 삽입
      */
     @Override
-    public int insert(NoticeBoardDTO noticeBoard) {
+    public int noticeInsert(NoticeBoardDTO noticeBoard) {
         
         return session.insert("noticeBoardMapper.noticeBoardInsert", noticeBoard);
     }

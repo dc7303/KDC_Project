@@ -7,7 +7,7 @@ $(function() {
   let arr = [];
   
   //window.onload = function() {
-    
+   
     $('input[name=hashTagInput]').val().trim()
     var existed = $('input[name=hashTagInput]').val().trim().split(',');
     
@@ -34,7 +34,7 @@ $(function() {
    * 태그 입력시 이벤트 발생
    */
   $('input[name=hashTagInput]').on('keyup', function(key) {
-    
+    console.log('키업');
     const regex = /^#([\w가-힣]*[\w가-힣]*[\w가-힣]){1,}/; //태그 유효성검사
     const regexSym = /[^\w^\#]/;          //# 제외한 특수문자
 

@@ -82,13 +82,13 @@
                   <li class="nav-item nav-item-has-subnav">
                     <a href="#"><i class="ion-social-javascript-outline"></i> 반별 게시판</a>
                     <ul class="nav nav-subnav">
-      
+       
                       <li>
-                        <a href="${pageContext.request.contextPath }/notice/list">반별 공지사항</a>
+                        <a href="${pageContext.request.contextPath }/notice/list?classification=classNotice">반별 공지사항</a>
                       </li>
         
                       <li>
-                        <a href="#">스케줄</a>
+                        <a href="${pageContext.request.contextPath}/calendar/calendarForm">스케줄</a>
                       </li>
         
                       <li>

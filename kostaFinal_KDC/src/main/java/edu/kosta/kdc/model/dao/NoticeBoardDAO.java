@@ -8,12 +8,12 @@ public interface NoticeBoardDAO {
     /**
      *  전체검색
      */
-    List<NoticeBoardDTO> selectAll (NoticeBoardDTO noticeBoard);
+    List<NoticeBoardDTO> selectAll (String classification, String classRoomCode);
     
     /**
      * 레코드 삽입
      */
-    int insert(NoticeBoardDTO noticeBoard);
+    int noticeInsert(NoticeBoardDTO noticeBoard);
     
     /**
      * 제목 검색해서 상세보기

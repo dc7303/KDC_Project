@@ -29,9 +29,9 @@ public class NoticeBoardController {
      * 전체 검색
      */
     @RequestMapping("/list")
-    public String Board(Model model, NoticeBoardDTO noticeBoard, boolean state) {
-
-        List<NoticeBoardDTO> list = noticeBoardService.selectAll(noticeBoard, state);
+    public String Board(Model model, String classification) {
+        
+        List<NoticeBoardDTO> list = noticeBoardService.selectAll(classification);
         model.addAttribute("list", list);
         
         return "notice/noticeList";
@@ -50,9 +50,9 @@ public class NoticeBoardController {
     }
 
     /**
-     * 글쓰기
+     * 글쓰기 폼
      */
-    @RequestMapping("/write")
+    @RequestMapping("/writeForm")
     public String insertForm() {
 
         return "notice/noticeWrite";
@@ -62,17 +62,17 @@ public class NoticeBoardController {
      * 레코드 삽입
      */
     @RequestMapping("/insert")
-    public String insert(NoticeBoardDTO noticeBoard) throws Exception {
+    public String insert(NoticeBoardDTO noticeBoard, String classification) throws Exception {
         
         if(noticeBoard.getFile() != null) {
-        MultipartFile file = noticeBoard.getFile();
-        String attachment = file.getOriginalFilename();
-
-        noticeBoard.setNoticeBoardAttachment(attachment);
-        file.transferTo(new File(path + "/" + attachment));
-        
+            MultipartFile file = noticeBoard.getFile();
+            String attachment = file.getOriginalFilename();
+    
+            noticeBoard.setNoticeBoardAttachment(attachment);
+            file.transferTo(new File(path + "/" + attachment));
+            
         }
-        noticeBoardService.insert(noticeBoard);
+        noticeBoardService.noticeInsert(noticeBoard, classification);
         
         return "redirect:list";
     }
@@ -81,8 +81,7 @@ public class NoticeBoardController {
      * 제목 선택해서 상세보기
      */
     @RequestMapping("/read")
-    public String read(int noticeBoardPk, Model model, HttpServletRequest request) throws Exception {
-        boolean state = request.getParameter("state") == null ? true : false;
+    public String noticeRead(int noticeBoardPk, Model model, HttpServletRequest request) throws Exception {
 
         NoticeBoardDTO noticeBoard = noticeBoardService.selectByNoticeBoardTitle(noticeBoardPk, true);
         model.addAttribute("NoticeBoardDTO", noticeBoard);
