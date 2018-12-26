@@ -76,12 +76,12 @@ public class ReplyBoardController {
      * 댓글 등록하기
      * */
     @RequestMapping("/replyInsert")
-    public String replyInsert(String classification,int replyBoardPk,String memberId, String mentionInput,ReplyBoardDTO replyBoardDTO, Model model) {
+    public String replyInsert(String classification,int replyBoardPk,String memberId, String mentionInput, String replyContents, ReplyBoardDTO replyBoardDTO, Model model) {
         replyBoardDTO.setMentionNickName(mentionInput);
         replyBoardDTO.setReplyBoardMention(mentionInput);
         replyBoardDTO.setReplyBoardWriterId(memberId);
         replyBoardDTO.setReplyBoardClassification(classification);
-        
+        replyBoardDTO.setReplyBoardContents(replyContents);
         replyBoardService.replyInsert(replyBoardDTO);        
         model.addAttribute("classification",classification);
         
