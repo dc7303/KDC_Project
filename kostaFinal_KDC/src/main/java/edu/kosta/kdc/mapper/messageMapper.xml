@@ -13,17 +13,18 @@
         <result column="MESSAGE_ISDELETE" property="messageIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     </resultMap>
     
-    
     <sql id="messageSelectSQL">
         MESSAGE_PK, MESSAGE_SENDER_ID, MESSAGE_RECEIVER_ID, MESSAGE_TITLE, MESSAGE_CONTENTS, MESSAGE_DATE, MESSAGE_ISREAD, MESSAGE_ISDELETE
     </sql>
-    
+
+    <!-- 모든 메시지 가져오기 -->    
     <select id="selectAll" resultMap="messageSelectMap" parameterType="String">
         select <include refid="messageSelectSQL"/>
         from message
         where MESSAGE_ISDELETE='FALSE' AND MESSAGE_RECEIVER_ID=#{receiverId}
     </select>
     
+    <!-- 메시지 보내기 -->
     <insert id="messageInsert" parameterType="MessageDTO">
         insert into
         message(<include refid="messageSelectSQL"/>)
@@ -36,6 +37,7 @@
         where message_pk=#{messageNum}
     </select>
     
+    <!-- 메시지 삭제 -->
     <update id="messageDelete" parameterType="int">
         update message
         set MESSAGE_ISDELETE='TRUE'

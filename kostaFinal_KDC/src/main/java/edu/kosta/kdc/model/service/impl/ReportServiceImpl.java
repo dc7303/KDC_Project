@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kosta.kdc.model.dao.ReportDAO;
 import edu.kosta.kdc.model.dto.ReportDTO;
@@ -19,18 +20,22 @@ public class ReportServiceImpl implements ReportService {
      * 관리자 - 해당 게시판의 모든 신고를 가져오는 메소드
      * */
     @Override
-    public List<ReportDTO> selectAll(String boardName) {
+    public List<ReportDTO> selectAllReport(String boardName) {
         
-        return reportDAO.selectAll(boardName);
+        return reportDAO.selectAllReport(boardName);
     }
 
     /**
      * 관리자 - 신고 삭제 메소드
      * */
     @Override
-    public int deleteReport(int reportNum) {
+    @Transactional
+    public List<ReportDTO> deleteReport(int reportNum, String boardName) {
         
-        return reportDAO.deleteReport(reportNum);
+        int result = reportDAO.deleteReport(reportNum);
+        
+        return reportDAO.selectAllReport(boardName);
+        
     }
 
 }

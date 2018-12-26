@@ -58,7 +58,7 @@ public class ClassRoomInfoDAOImpl implements ClassRoomInfoDAO {
     @Override
     public String teacherCheck(String teacherId) {
 
-        MemberDTO dto = sqlSession.selectOne("memberMapper.teacherCheck", teacherId);
+        MemberDTO dto = sqlSession.selectOne("memberMapper.selectByMemberId", teacherId);
         if(dto==null) {
             return "존재하지 않는 아이디입니다.";
         }else {

@@ -19,28 +19,7 @@ const jq = jQuery.noConflict();
 
 $(function(){
   
-/*   //이벤트 데이터
-  	const eventArr = (function() {
-  	  const arr = [];
-  	  const dateLength = $('input[name=title]').length;
-  	  
-  	  for(let i = 0; i < dateLength; i++) {
-  	    let title = $('input[name=title]').eq(i).val();
-  	    let start = $('input[name=startDate]').eq(i).val();
-  	    let end = $('input[name=endDate]').eq(i).val();
-  	    
-  
-  	    arr.push({
-  	      title: title,
-  	      start: start,
-  	      end: end,
-  	    });
-  	  }
-  	  
-  	  return arr;
-  	  
-  	})(); */
-  	
+	//이벤트 데이터
   const eventArr = (() => {
 	  const arr = [];
 	  const dateLength = $('input[name=title]').length;
@@ -63,7 +42,83 @@ $(function(){
 	})();
   	
   	console.log(eventArr);
-    const cal = $('#calendar').fullCalendar({
+    var $calendar = $('#calendar').fullCalendar({
+      	header: {
+      	  left: 'none',
+      	  center: 'title',
+      	},
+      	selectable: true,
+      	
+      	select: function(start, end, jsEvent, view) {
+      	  
+      	   // Ask for a title. If empty it will default to "New event"
+      	   var title = prompt("Enter a title for this event", "New event");
+
+      	   // If did not pressed Cancel button
+      	   if (title != null) {
+            	   // Create event
+            	   var event = {
+            	   title: title.trim() != "" ? title : "New event",
+            	   start: start,
+            	   end: end
+        	   };
+        	  
+        	  
+        	   // Push event into fullCalendar's array of events
+        	   // and displays it. The last argument is the
+        	   // "stick" value. If set to true the event
+        	   // will "stick" even after you move to other
+        	   // year, month, day or week.
+        	  
+        	   $calendar.fullCalendar("renderEvent", event, true);
+      	   };
+      	   // Whatever happens, unselect selection
+      	   $calendar.fullCalendar("unselect");
+      	  
+      	   },
+      	   select: function(start, end, jsEvent, view) {
+         	  
+        	   // Ask for a title. If empty it will default to "New event"
+        	   var title = prompt("Enter a title for this event", "New event");
+
+        	   // If did not pressed Cancel button
+        	   if (title != null) {
+              	   // Create event
+              	   var event = {
+              	   title: title.trim() != "" ? title : "New event",
+              	   start: start,
+              	   end: end
+          	   };
+          	  
+          	  
+          	   // Push event into fullCalendar's array of events
+          	   // and displays it. The last argument is the
+          	   // "stick" value. If set to true the event
+          	   // will "stick" even after you move to other
+          	   // year, month, day or week.
+          	  
+          	   $calendar.fullCalendar("renderEvent", event, true);
+        	   };
+        	   // Whatever happens, unselect selection
+        	   $calendar.fullCalendar("unselect");
+  		},
+  		editable : true,
+    		events: eventArr,
+  		eventClick: function(event, jsEvent, view){
+  		   // Ask for a title. If empty it will default to "New event"
+  		   var newTitle = prompt("Enter a new title for this event", event.title);
+  		  
+  		  
+  		   // If did not pressed Cancel button
+  		   if (newTitle != null) {
+  		   // Update event
+  		   event.title = newTitle.trim() != "" ? newTitle : event.title;
+  		  
+  		   // Call the "updateEvent" method
+  		   $calendar.fullCalendar("updateEvent", event);
+  		  
+  		   }
+  		},
     	events: eventArr
     });
     

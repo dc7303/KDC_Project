@@ -2,7 +2,7 @@ package edu.kosta.kdc.model.service;
 
 import java.util.List;
 
-import edu.kosta.kdc.model.dto.ReplyBoardDTO;
+
 import edu.kosta.kdc.model.dto.ReportDTO;
 
 public interface ReportService {
@@ -13,14 +13,15 @@ public interface ReportService {
      * @param String
      * @return List<ReportDTO>
      * */
-    List<ReportDTO> selectAll(String boardName);
+    List<ReportDTO> selectAllReport(String boardName);
 
     /**
      * 관리자 - 신고 삭제
+     * @param boardName 
      * 
-     * @param int
+     * @param int, String
      * @return int
      * */
-    int deleteReport(int reportNum);
+    List<ReportDTO> deleteReport(int reportNum, String boardName);
 
 }

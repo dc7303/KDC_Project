@@ -79,7 +79,10 @@ public class AdminController {
      * 관리자 페이지 - 메시지 리스트
      * */
     @RequestMapping("/messageList")
-    public ModelAndView MessageSelectAll(String memberId) {
+    public ModelAndView MessageSelectAll() {
+        
+        String memberId="admin";
+        //MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         List<MessageDTO> list = messageService.messageAll(memberId);
         
@@ -142,9 +145,12 @@ public class AdminController {
     @RequestMapping("/insertClassRoom")
     public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) throws Exception{
 
+        //클래스룸 생성하면 자동적으로 해당 code.txt text 파일 만들기
         File file = new File("C:\\Edu\\final_workspace\\kostaFinal_KDC\\src\\main\\webapp\\resources\\chatFile", classRoomInfoDTO.getClassRoomInfoChatFile());
         file.createNewFile();
+        
         int result = classRoomService.createClassRoom(classRoomInfoDTO);
+        
         return "redirect:/admin/selectMember";
     }
     
@@ -186,7 +192,7 @@ public class AdminController {
      * */
     @RequestMapping("/reportSelectByBoardNum")
     @ResponseBody
-    public List<ReportDTO> reportSelectByBoardNum(int boardNum, HttpServletRequest request) {
+    public List<ReportDTO> reportSelectByBoardNum(int boardNum) {
         
         String boardName=null;
         
@@ -196,23 +202,30 @@ public class AdminController {
         case 3: boardName = "lib"; break;
         }
         
-        List<ReportDTO> reportList = reportService.selectAll(boardName);
-        
-        request.setAttribute("reportList", reportList);
-        
+        List<ReportDTO> reportList = reportService.selectAllReport(boardName);
+        System.out.println(reportList);
         return reportList;
         
     }
     
     /**
-     * 관리자 - 신고 페이지에서 신고 내역 삭제
+     * 관리자ajax - 신고 페이지에서 신고 내역 삭제
      * */
     @RequestMapping("/deleteReport")
-    public String deleteReport(int reportNum) {
+    @ResponseBody
+    public List<ReportDTO> deleteReport(int reportNum, int boardNum) {
         
-        int result = reportService.deleteReport(reportNum);
+        String boardName=null;
         
-        return "/admin/adminReportPage";
+        switch (boardNum) {
+        case 1: boardName = "tech"; break;
+        case 2: boardName = "study"; break;
+        case 3: boardName = "lib"; break;
+        }
+        
+        List<ReportDTO> reportList = reportService.deleteReport(reportNum, boardName);
+        
+        return reportList;
     }
     
     /**
