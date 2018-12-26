@@ -74,10 +74,10 @@ jq(function(){
 
 
 <form name="writeForm" method="post"  id="editor-form" action="${pageContext.request.contextPath}/notice/insert?${_csrf.parameterName}=${_csrf.token}"  enctype="multipart/form-data">
-<input type="hidden" name="classification" value="classNotice"/>
+<input type="hidden" name="classification" value="${requestScope.classification }"/>
 <sec:authorize access="isAuthenticated()">
   <sec:authentication var="member" property="principal" />
-  <input type="hidden" name="memberId" value="${member.memberId}">
+  <input type="hidden" name="noticeBoardWriterId" value="${member.memberId}">
 </sec:authorize>
 <table>
        <thead>
