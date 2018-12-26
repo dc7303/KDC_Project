@@ -15,10 +15,19 @@ public class ReportDAOImpl implements ReportDAO {
     private SqlSession sqlSession;
     
     /**
+     * 신고 리스트 전체 가져오기
+     */
+    @Override
+    public List<ReportDTO> reportSelectAll() {
+
+        return sqlSession.selectList("reportMapper.selectAll");
+    }
+    
+    /**
      * 관리자 - 해당 게시판의 모든 신고들을 가져오는 메소드.
      * */
     @Override
-    public List<ReportDTO> selectAllReport(String boardName) {
+    public List<ReportDTO> reportSelectByBoardName(String boardName) {
         
         return sqlSession.selectList("reportMapper.selectReportByBoardName", boardName);
     }

@@ -18,12 +18,26 @@ public class ReportServiceImpl implements ReportService {
     private ReportDAO reportDAO;
     
     /**
+     * 신고 리스트 전체 가져오기
+     */
+    @Override
+    public List<ReportDTO> reportSelectAll() {
+
+        List<ReportDTO> list = reportDAO.reportSelectAll();
+        if(list == null) {
+            throw new KdcException("신고 내역 조회 실패입니다.");
+        }
+        
+        return list;
+    }
+    
+    /**
      * 관리자 - 해당 게시판의 모든 신고를 가져오는 메소드
      * */
     @Override
-    public List<ReportDTO> selectAllReport(String boardName) {
+    public List<ReportDTO> reportSelectByBoardName(String boardName) {
         
-        List<ReportDTO> list = reportDAO.selectAllReport(boardName);
+        List<ReportDTO> list = reportDAO.reportSelectByBoardName(boardName);
         
         if(list == null) {
             throw new KdcException("신고내역이 존재하지 않습니다.");
@@ -46,7 +60,7 @@ public class ReportServiceImpl implements ReportService {
             throw new KdcException("삭제 실패");
         }
         
-        return reportDAO.selectAllReport(boardName);
+        return reportDAO.reportSelectByBoardName(boardName);
     }
 
 }

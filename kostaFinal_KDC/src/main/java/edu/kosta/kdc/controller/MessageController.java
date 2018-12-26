@@ -34,15 +34,9 @@ public class MessageController {
     @Transactional
     public ModelAndView messageAll(HttpSession session, HttpServletRequest request) {
         
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        String id = member.getMemberId();
-        
         //접속된 ID로 메세지 리스트를 가져옴
-        List<MessageDTO> list = messageService.messageAll(id);
+        List<MessageDTO> list = messageService.messageAll();
         
-        //읽지 않은 메세지 count하는 메소드 호출
-        messageUnReadCount(session, member.getMemberId());
         
         return new ModelAndView("message/messageList", "messageList", list);
         
@@ -108,13 +102,9 @@ public class MessageController {
     @RequestMapping("/messageSelectDelete")
     @ResponseBody
     public void messageSelectDelete(@RequestParam(value = "deleteNumList[]")List<Integer> deleteNumList){
-        
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        String id = member.getMemberId();
 
         messageService.messageSelectDelete(deleteNumList);
-
+        
     }
     
     /**
@@ -154,18 +144,6 @@ public class MessageController {
         }else {
             return checkId;
         }
-        
-    }
-    
-    /**
-     * 읽지 않은 메세지 카운트
-     * */
-    @RequestMapping("/count")
-    public void messageUnReadCount(HttpSession session,  String id) {
-
-        int unReadCount = messageService.messageUnReadCount(id);
-        
-        session.setAttribute("unReadCount", unReadCount);
         
     }
 
