@@ -13,6 +13,7 @@
 
 
 
+
   <sec:authorize access="isAuthenticated()">
     <sec:authentication var="member" property="principal"/>
     
@@ -91,11 +92,7 @@
     
      <br/>
      <br/>
-     <hr>
-    
-
-
-    
+         
     
   </sec:authorize>
   

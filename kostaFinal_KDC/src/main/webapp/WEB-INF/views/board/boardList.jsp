@@ -6,34 +6,37 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <title>Insert title here</title>
 </head>
 <body>
-
+<br>
+<center><h3>내가 작성한 게시글 리스트</h3></center>
+<br>
 <table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
-<caption>내가 작성한 게시글 리스트</caption>
+
   
    <tr>
-        <td bgcolor="#00cc00">
-            <p align="center">
-            <font color="white"><b><span style="font-size:9pt;">분류</span></b></font></p> 
+        <td>
+            <p>
+            <font><b><span>분류</span></b></font></p> 
         </td>
-        <td bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">글제목</span></b></font></p>
+        <td>
+            <p><font><b><span>글제목</span></b></font></p>
         </td>
-        <td bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">작성날짜</span></b></font></p>
+        <td>
+            <p><font><b><span>작성날짜</span></b></font></p>
         </td>
-        <td bgcolor="#00cc00">
-            <p align="center"><font color="white"><b><span style="font-size:9pt;">삭제</span></b></font></p>
+        <td>
+            <p><font><b><span>삭제</span></b></font></p>
         </td>
     </tr>
 
     <c:choose>
     <c:when test="${empty requestScope.list}">
   <tr>
-        <td colspan="3">
-            <p align="center"><b><span style="font-size:9pt;">게시글이 없습니다.</span></b></p>
+        <td colspan="4">
+            <p align="center"><b><span>게시글이 없습니다.</span></b></p>
         </td>
     </tr>
     </c:when>

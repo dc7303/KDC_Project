@@ -41,6 +41,18 @@ public class MemberController {
     public void memberMyPage() {}
     
     /**
+     * 회원탈퇴페이지
+     * */
+    @RequestMapping("/myPagedelete")
+    public void myPagedelete() {}
+    
+    /**
+     * 회원정보수정으로이동
+     * */
+    @RequestMapping("/myPageupdate")
+    public void myPageupdate() {}
+    
+    /**
      * 회원가입 아이디 체크
      * 
      * @param memberId

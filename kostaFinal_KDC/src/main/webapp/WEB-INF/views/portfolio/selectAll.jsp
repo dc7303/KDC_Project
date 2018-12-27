@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <title>Insert title here</title>
 <script type="text/javascript">
   const jq = jQuery.noConflict(); 
