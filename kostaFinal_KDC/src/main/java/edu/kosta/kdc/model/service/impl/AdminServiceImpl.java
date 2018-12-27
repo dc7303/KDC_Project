@@ -1,11 +1,13 @@
 package edu.kosta.kdc.model.service.impl;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.kosta.kdc.model.dao.AdminDAO;
 import edu.kosta.kdc.model.dao.NoticeBoardDAO;
 import edu.kosta.kdc.model.dao.ReplyBoardDAO;
 import edu.kosta.kdc.model.service.AdminService;
@@ -18,6 +20,9 @@ public class AdminServiceImpl implements AdminService {
     
     @Autowired
     private NoticeBoardDAO noticeDAO;
+    
+    @Autowired
+    private AdminDAO adminDAO;
     
     @Override
     public Map<String, Integer> boardQuantityByClassification() {
@@ -40,6 +45,17 @@ public class AdminServiceImpl implements AdminService {
         map.put("findJob", noticeDAO.boardQuantityByClassification(findJobNotice));
         
         return map;
+        
+    }
+    
+    /**
+     * 방문자 수 저장하는 메소드
+     * */
+    @Override
+    public int userCountIntoDB(int todayUserCount) {
+        
+        return adminDAO.userCountIntoDB(todayUserCount);
+
     }
 
 }

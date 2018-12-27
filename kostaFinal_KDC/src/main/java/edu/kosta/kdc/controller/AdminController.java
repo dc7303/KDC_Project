@@ -200,7 +200,7 @@ public class AdminController {
     /**
      * 관리자ajax - 신고 페이지로 이동 (게시판 넘버에 해당하는 신고 띄우기)
      * */
-    @RequestMapping("/reportSelectByBoardNum")
+    @RequestMapping(value = "/reportSelectByBoardNum", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public List<ReportDTO> reportSelectByBoardNum(int boardNum) {
         

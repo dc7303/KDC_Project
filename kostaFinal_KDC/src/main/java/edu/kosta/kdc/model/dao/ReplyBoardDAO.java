@@ -129,7 +129,7 @@ public interface ReplyBoardDAO {
      * 모든 닉네임 가오기
      * */
     List<MemberDTO> allNicknames();
-    
+
     /**
      * classification 기준으로 컬럼 수량 가져오기.
      *
@@ -137,4 +137,11 @@ public interface ReplyBoardDAO {
      * @return
      */
     public int boardQuantityByClassification(String classification);
+
+    /**
+     * 메인화면에 띄울 댓글있는 게시판 게시글 5개 가져오기
+     * @param String 
+     * */
+    List<ReplyBoardDTO> selectFiveByTitle(String title);
+
 }

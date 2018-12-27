@@ -87,8 +87,18 @@
        
     </update>
     
+
     <!-- classification을 기준으로 컬럼 수 가져오기 -->
     <select id="boardQuantityByClassification" parameterType="string" resultType="java.lang.Integer">
         select count(*) from notice_board where notice_board_classification = #{_parameter};
     </select>
+
+    <!-- 공지사항 최신 글 5개 가져오기 -->
+    <select id="selectFiveNotice" resultMap="noticeBoardDTO">
+        select * 
+        from NOTICE_BOARD 
+        <![CDATA[WHERE ROWNUM <= 5]]>
+        ORDER BY NOTICE_BOARD_PK DESC
+    </select>
+
 </mapper>

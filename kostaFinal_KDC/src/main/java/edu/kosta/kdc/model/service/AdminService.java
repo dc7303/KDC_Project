@@ -14,5 +14,11 @@ public interface AdminService {
      * @return
      */
     public Map<String, Integer> boardQuantityByClassification();
+
+    /**
+     * 방문자 수 저장하는 메소드
+     * */
+    int userCountIntoDB(int todayUserCount);
+
     
 }

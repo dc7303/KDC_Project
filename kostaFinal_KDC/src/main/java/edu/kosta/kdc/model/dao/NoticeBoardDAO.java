@@ -47,4 +47,13 @@ public interface NoticeBoardDAO {
      * @return
      */
     public int boardQuantityByClassification(String classification);
+     
+     /**
+     * 메인 페이지에 띄울 공지사항 글 5개 가져오는 메소드
+     * 
+     * @param
+     * @return List<NoticeBoardDTO>
+     * */
+    List<NoticeBoardDTO> selectFive();
+
 }
