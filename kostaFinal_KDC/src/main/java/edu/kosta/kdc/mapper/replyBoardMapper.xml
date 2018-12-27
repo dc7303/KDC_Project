@@ -279,4 +279,20 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
     WHERE MEMBER_ISWITHDRAWAL = 'FALSE'
     ORDER BY MEMBER_NICKNAME ASC
 </select>
+
+<!-- classification을 기준으로 컬럼 수 가져오기 -->
+<select id="boardQuantityByClassification" parameterType="string" resultType="java.lang.Integer">
+    select nvl(count(*), 0) as count from reply_board where reply_board_classification = #{_parameter} 
+    and reply_board_reply_no is null
+    and reply_board_isdelete = 'FALSE'
+</select>
+
+<!-- index 페이지에 띄울 댓글 있는 게시판에서 글 5개씩 가져오기 -->
+<select id="selectFive" parameterType="String" resultMap="replyBoardMap">
+    SELECT *
+    FROM REPLY_BOARD
+    WHERE REPLY_BOARD_CLASSIFICATION=#{_parameter} and <![CDATA[ROWNUM <= 5]]> and REPLY_BOARD_REPLY_NO is null
+    ORDER BY REPLY_BOARD_PK DESC
+</select>
+
 </mapper>

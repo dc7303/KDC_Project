@@ -246,6 +246,10 @@ public class MemberController {
     @RequestMapping("/memberInsert")
     public String memberInsert(MemberDTO memberDTO, String authCode) {
         
+        if (authCode.equals("ROLE_TEACHER")) {
+            memberService.memberInsert(memberDTO, authCode);
+            
+        }
         memberService.memberInsert(memberDTO, authCode);
 
         return "/index";

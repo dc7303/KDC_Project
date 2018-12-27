@@ -93,4 +93,10 @@ public interface ReplyBoardService {
      * 멘션태그 제안하기(맨션이 있어야 insert가 되야되서 모든 nickname가져옴)
      * */
     List<String> allNicknames();
+
+    /**
+     * 메인화면에 띄울 tech 게시판 게시글 5개 가져오기
+     * @param String 
+     * */
+    List<ReplyBoardDTO> selectFiveByTitle(String String);
 }

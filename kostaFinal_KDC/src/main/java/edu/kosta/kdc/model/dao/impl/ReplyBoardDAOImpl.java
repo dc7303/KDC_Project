@@ -1,6 +1,7 @@
 package edu.kosta.kdc.model.dao.impl;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ import edu.kosta.kdc.model.dao.ReplyBoardDAO;
 import edu.kosta.kdc.model.dto.HashTagDTO;
 import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
-import edu.kosta.kdc.model.dto.ReportDTO;
 
 @Repository
 public class ReplyBoardDAOImpl implements ReplyBoardDAO {
@@ -263,6 +263,27 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
         List<MemberDTO> list = session.selectList("replyBoardMapper.allnicknames");
         
         return list;
+    }
+    
+    /**
+     * classification 기준으로 컬럼 수량 가져오기.
+     *
+     * @param classification
+     * @return
+     */
+    @Override
+    public int boardQuantityByClassification(String classification) {
+                
+        return session.selectOne("replyBoardMapper.boardQuantityByClassification", classification);
+    }
+
+    /**
+     * 메인화면에 띄울 댓글있는 게시판 게시글 5개 가져오기
+     * */
+    @Override
+    public List<ReplyBoardDTO> selectFiveByTitle(String title) {
+        
+        return session.selectList("replyBoardMapper.selectFive", title);
     }
 
 }

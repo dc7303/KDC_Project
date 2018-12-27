@@ -20,11 +20,13 @@
             <result column="REPLY_BOARD_VIEWS" property="replyBoardViews"/>
             <result column="REPLY_BOARD_MENTION" property="replyBoardMention"/>
             <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
-            <result column="likeNum" property="likeNum"/>
-            <result column="replyNum" property="replyNum"/>
-            <result column="mentionNickName" property="mentionNickName"/>
         </association>
     </resultMap>
+    
+    <select id="selectAll" resultMap="reportSelectMap">
+        select a.*, b.*
+        from report a, reply_board b where a.report_reply_board_pk = reply_board_pk and a.REPORT_ISDELETE='FALSE'
+    </select>
     
     <!-- 각 게시판 이름에 따라 신고 내용 가져오기 -->
     <select id="selectReportByBoardName" parameterType="String" resultMap="reportSelectMap">
