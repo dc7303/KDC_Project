@@ -10,11 +10,23 @@
 
 </head>
 <body>
+  <%
+	//1.application에 저장되어있는 userCount의 정보를 가져온다.
+	Object cnt = application.getAttribute("userCount");
+	
+	//2. session이 new 일때만 가지고 온 userCount의 값을 +1을 증가하여 다시 변경된 값으로 저장한다.
+	
+		int cn = (Integer)cnt;
+		
+		if(session.isNew()){
+		    cn++;
+		}
+    
+		application.setAttribute("userCount",cn);
+  %>
   <sec:authorize access="isAuthenticated()">
 	<sec:authentication var="member" property="principal" />
-    <script>
-      if()
-    </script>
+    
     <h2>
       ${member.memberId } 어서오십쇼.
     </h2>

@@ -12,7 +12,7 @@
 	jq(function(){
 	  jq("#classRoomCode").on('keyup',function(){
 	    jq.ajax({
-	      url:'${pageContext.request.contextPath}/admin/codeCheck' ,			// 서버 요청 주소
+	      url:'${pageContext.request.contextPath}/classRoom/codeCheck' ,			// 서버 요청 주소
 	      type:"post" ,			// 전송 방식. get or post
 	      dataType:"text" ,		// 서버가 보내오는 데이터타입(text,html,xml,json)
 	      data:"classRoomCode="+this.value,	// parameter
@@ -30,7 +30,7 @@
 	  
 	  jq("#classRoomInfoTeacherId").on('keyup',function(){
 	    jq.ajax({
-	      url:'${pageContext.request.contextPath}/admin/teacherCheck' ,			// 서버 요청 주소
+	      url:'${pageContext.request.contextPath}/classRoom/teacherCheck' ,			// 서버 요청 주소
 	      type:"post" ,			// 전송 방식. get or post
 	      dataType:"text" ,		// 서버가 보내오는 데이터타입(text,html,xml,json)
 	      data:"teacherId="+this.value,	// parameter
