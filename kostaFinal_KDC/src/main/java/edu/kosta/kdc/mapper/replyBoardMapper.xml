@@ -282,7 +282,9 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
 
 <!-- classification을 기준으로 컬럼 수 가져오기 -->
 <select id="boardQuantityByClassification" parameterType="string" resultType="java.lang.Integer">
-    select count(*) from reply_board where reply_board_classification = #{_parameter} and reply_board_reply_no is null
+    select nvl(count(*), 0) as count from reply_board where reply_board_classification = #{_parameter} 
+    and reply_board_reply_no is null
+    and reply_board_isdelete = 'FALSE'
 </select>
 
 <!-- index 페이지에 띄울 댓글 있는 게시판에서 글 5개씩 가져오기 -->

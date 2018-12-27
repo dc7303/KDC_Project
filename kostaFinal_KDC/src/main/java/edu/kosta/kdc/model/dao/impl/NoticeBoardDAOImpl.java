@@ -102,7 +102,7 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
     @Override
     public int boardQuantityByClassification(String classification) {
         
-        return session.selectOne("noticeBoardMapperboardQuantityByClassification", classification);
+        return session.selectOne("noticeBoardMapper.boardQuantityByClassification", classification);
     }
     
     /**
