@@ -11,6 +11,9 @@
 <body>
   <sec:authorize access="isAuthenticated()">
 	<sec:authentication var="member" property="principal" />
+    <script>
+      if()
+    </script>
     <h2>
       ${member.memberId } 어서오십쇼.
     </h2>

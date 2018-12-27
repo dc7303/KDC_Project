@@ -3,10 +3,12 @@ package edu.kosta.kdc.model.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kosta.kdc.model.dao.MessageDAO;
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.MessageDTO;
 import edu.kosta.kdc.model.service.MessageService;
 import edu.kosta.kdc.util.KdcException;
@@ -21,9 +23,19 @@ public class MessageServiceImpl implements MessageService {
      * 전체 메세지 리스트
      * */
     @Override
-    public List<MessageDTO> messageAll(String id) {
+    public List<MessageDTO> messageAll() {
 
-        return messageDAO.messageAll(id);
+        MemberDTO memberDTO = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        List<MessageDTO> messageList = messageDAO.messageAll(memberDTO.getMemberId());
+        if(messageList == null) {
+            throw new KdcException("쪽지가 존재하지 않습니다.");
+        }
+        
+        messageUnReadCount(memberDTO.getMemberId());
+        
+        
+        return messageList;
 
     }
 
@@ -121,7 +133,7 @@ public class MessageServiceImpl implements MessageService {
     public int messageUnReadCount(String id) {
 
         int count = messageDAO.messageUnReadCount(id);
-
+        
         return count;
     }
 

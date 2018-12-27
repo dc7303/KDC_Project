@@ -44,7 +44,10 @@
         where member_id = #{_parameter}
     </update>
     
-    <select id="selectAll" resultMap="memberDTO">
-        select * from member
+    <!-- 관리자 : 모든회원 출력 -->
+    <select id="memberSelectAll" resultMap="memberDTO">
+        select *
+        from member
+        where MEMBER_ISWITHDRAWAL='FALSE'
     </select>
 </mapper>

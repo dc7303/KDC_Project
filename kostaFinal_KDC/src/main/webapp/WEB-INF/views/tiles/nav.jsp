@@ -64,11 +64,19 @@
                   <li class="nav-item nav-drawer-header">메뉴영역</li>
       
                   <li class="nav-item ">
+<<<<<<< HEAD
                     <a href="${pageContext.request.contextPath }/notice/list?classification=notice"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
                   </li>
       
                   <li class="nav-item ">
                     <a href="${pageContext.request.contextPath }/notice/employ?classification=employ"><i class="ion-ios-compose-outline"></i> 취업게시판</a>
+=======
+                    <a href="${pageContext.request.contextPath }/notice/list?classification=generalNotice"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
+                  </li>
+      
+                  <li class="nav-item ">
+                    <a href="${pageContext.request.contextPath }/notice/list?classification=findJobNotice"><i class="ion-ios-compose-outline"></i> 취업게시판</a>
+>>>>>>> Mark42
                   </li>
       
                   <li class="nav-item ">

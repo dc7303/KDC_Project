@@ -68,7 +68,7 @@ public class MemberDAOImpl implements MemberDAO {
     @Override
     public List<MemberDTO> memberSelectAll() {
         
-        return sqlSession.selectList("memberMapper.selectAll");
+        return sqlSession.selectList("memberMapper.memberSelectAll");
         
     }
 

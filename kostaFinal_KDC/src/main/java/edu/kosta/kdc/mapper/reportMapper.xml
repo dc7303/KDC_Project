@@ -19,13 +19,16 @@
             <result column="REPLY_BOARD_CONTENTS" property="replyBoardContents"/>
             <result column="REPLY_BOARD_VIEWS" property="replyBoardViews"/>
             <result column="REPLY_BOARD_MENTION" property="replyBoardMention"/>
-            <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete"/>
-            <result column="likeNum" property="likeNum"/>
-            <result column="replyNum" property="replyNum"/>
-            <result column="mentionNickName" property="mentionNickName"/>
+            <result column="REPLY_BOARD_ISDELETE" property="replyBoardIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
         </association>
     </resultMap>
     
+    <select id="selectAll" resultMap="reportSelectMap">
+        select a.*, b.*
+        from report a, reply_board b where a.report_reply_board_pk = reply_board_pk and a.REPORT_ISDELETE='FALSE'
+    </select>
+    
+    <!-- 각 게시판 이름에 따라 신고 내용 가져오기 -->
     <select id="selectReportByBoardName" parameterType="String" resultMap="reportSelectMap">
         select a.*, b.*
         from report a, reply_board b
@@ -33,6 +36,7 @@
         and a.report_reply_board_pk = reply_board_pk and a.REPORT_ISDELETE='FALSE'
     </select>
 
+    <!-- 신고 삭제 -->
     <update id="deleteReport" parameterType="int">
         update report
         set REPORT_ISDELETE='TRUE'

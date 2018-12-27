@@ -23,7 +23,7 @@ function boardSelect(boardNum){
       xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
     },
     success:function(result){		// 성공 했을 시 함수
-      	str="";
+      	var str = "";
     	jq.each(result,function(index,item){
     	  str+="<tr>";
     	  str+="<th>"+(index+1)+"</th>";
@@ -44,9 +44,34 @@ function boardSelect(boardNum){
 }
 
 function deleteReport(reportNum){
-  
-  location.href="${pageContext.request.contextPath}/admin/deleteReport?reportNum="+reportNum+"&&boardNum="+bNum;
-  
+  jq.ajax({
+    url:'${pageContext.request.contextPath}/admin/deleteReport' ,			// 서버 요청 주소
+    type:"post" ,			// 전송 방식. get or post
+    dataType:"json" ,		// 서버가 보내오는 데이터타입(text,html,xml,json)
+    data: "reportNum="+reportNum+"&&boardNum="+bNum ,	// parameter
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+    },
+    success:function(result){		// 성공 했을 시 함수
+      	alert("삭제되었습니다");
+      	var str="";
+    	jq.each(result,function(index,item){
+    	  str+="<tr>";
+    	  str+="<th>"+(index+1)+"</th>";
+    	  str+="<th>"+item.reportReporterId+"</th>";
+    	  str+="<th>"+item.replyBoardDTO.replyBoardWriterId+"</th>";
+    	  str+="<th>"+item.reportPurpose+"</th>";
+    	  str+="<th>"+item.reportDate+"</th>";
+    	  str+="<th>"+"<input type='button' value='삭제' onclick='deleteReport("+item.reportPk+")'>"+"</th>";
+    	  str+="</tr>";
+    	})
+    	jq("#table tr:gt(0)").remove();
+    	jq("#table").append(str);
+    } ,
+    error: function(err){		// 실패 했을 시 함수
+    	alert(err+" => 오류 발생")
+    }
+  })
 }
 
 </script>

@@ -75,10 +75,17 @@ public class ReplyBoardController {
      * 댓글 등록하기
      * */
     @RequestMapping("/replyInsert")
+<<<<<<< HEAD
     public String replyInsert(String classification,int replyBoardPk, ReplyBoardDTO replyBoardDTO, Model model) {
         
+=======
+    public String replyInsert(String classification,int replyBoardPk,String memberId, String mentionInput, String replyContents, ReplyBoardDTO replyBoardDTO, Model model) {
+        replyBoardDTO.setMentionNickName(mentionInput);
+        replyBoardDTO.setReplyBoardMention(mentionInput);
+        replyBoardDTO.setReplyBoardWriterId(memberId);
+>>>>>>> Mark42
         replyBoardDTO.setReplyBoardClassification(classification);
-        
+        replyBoardDTO.setReplyBoardContents(replyContents);
         replyBoardService.replyInsert(replyBoardDTO);        
         model.addAttribute("classification",classification);
         
@@ -278,7 +285,7 @@ public class ReplyBoardController {
         
         return replyBoardService.mentionSuggest(keyWord);
     }
-    
+
     /**
      * 모든 닉네임 가오기
      * */

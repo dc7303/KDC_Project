@@ -11,7 +11,7 @@ public interface MessageService {
     /**
      * 전체 메세지 리스트
      * */
-    List<MessageDTO> messageAll(String id);
+    List<MessageDTO> messageAll();
 
     /**
      * 메세지 전송

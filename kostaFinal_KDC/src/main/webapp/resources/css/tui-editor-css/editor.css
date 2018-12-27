@@ -1,0 +1,15 @@
+@charset "EUC-KR";
+
+#editSection {
+  text-align: left;
+}
+
+.tui-editor-defaultUI .te-mode-switch-section {
+  height: 30px
+}
+
+.tui-editor-defaultUI .te-switch-button {
+  width: 120px;
+  border-radius: 0px;
+  line-height: 0px;
+}
