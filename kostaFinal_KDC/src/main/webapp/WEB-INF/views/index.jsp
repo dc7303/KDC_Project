@@ -14,16 +14,24 @@
 	//1.application에 저장되어있는 userCount의 정보를 가져온다.
 	Object cnt = application.getAttribute("userCount");
 	
-	//2. session이 new 일때만 가지고 온 userCount의 값을 +1을 증가하여 다시 변경된 값으로 저장한다.
+	//2. 만약 가져온 userCount정보가 null이라면(최초의 손님) userCount의 값을 1로 저장한후
+	//   다시 userCount의 정보를 가져온다.
+	if( cnt == null ){
+		application.setAttribute("userCount", 1);
+		cnt = application.getAttribute("userCount");
+			
+	}else{
+	//3.  가지고 온 userCount의 값을 +1을 증가하여 다시 변경된 값으로 저장한후 출력한다.
 	
 		int cn = (Integer)cnt;
 		
 		if(session.isNew()){
 		    cn++;
 		}
-    
+      
 		application.setAttribute("userCount",cn);
-  %>
+	}	
+%>
   <sec:authorize access="isAuthenticated()">
 	<sec:authentication var="member" property="principal" />
     
