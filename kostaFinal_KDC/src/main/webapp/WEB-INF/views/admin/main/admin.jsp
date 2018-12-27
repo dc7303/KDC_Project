@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DtdHTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+  <head>
   <title>Kosta Developer Community Admin Page</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,17 +36,76 @@
     .ajax {
       color: skyblue;
     }
+    table {
+      width: 100%;
+    }
     th {
       background-color: #2196F3;
       color: white;
     }
     td {
       text-align: center;
+      font-size: 10px;
     }
     .empty-list {
       text-align: center;
     }
   </style>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+    (function(jq) {
+      console.log('jqeury load');
+      jq.ajax({
+        url: '${pageContext.request.contextPath}/boardTotalChart',
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+        },
+        success: function(result) {
+          console.log('test');
+        },
+        error: function(err) {
+          console.log('err : ' + err);
+        }
+      });
+    })(jQuery);
+    
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(boardAllChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function boardAllChart() {
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 10],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+      
+    </script>
+  </head>
   <body>
     <!-- Sidebar/menu -->
     <nav
@@ -185,7 +245,7 @@
       <!-- 운영현황 -->
       <div class="w3-container" id="services" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-blue"><b>운영현황</b></h1>
-        <h1>차트</h1>
+        <div id="chart_div"></div>
       </div>
 
       <!-- 신고관리 -->
@@ -194,8 +254,6 @@
 
         <div class="w3-row-padding">
           <table border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black" id="table">
-          <caption>신고함 LIST</caption>
-          <caption>
           <div class="optionSelect">
             <select onchange="boardSelect(this.value)">
               <option value="0">게시판 선택</option>
@@ -211,7 +269,6 @@
               <option value="8">기타</option>
             </select>
           </div>
-          </caption>
              <tr>
                   <th>번호</th>
                   <th>신고인 아이디</th>
@@ -260,9 +317,6 @@
           <h1 class="w3-xxxlarge w3-text-blue"><b>쪽지관리</b></h1>
             <table border="0" cellpadding="5" cellspacing="2"
               width="100%" bordercolordark="white" bordercolorlight="black">
-          
-              <caption> 쪽지함 LIST </caption>
-          
               <tr>
                 <th><input type="checkbox" name="checkBoxAll" id="checkBoxAll" ></th>
                 <th>보낸사람</th>

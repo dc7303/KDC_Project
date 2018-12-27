@@ -87,5 +87,8 @@
        
     </update>
     
-
+    <!-- classification을 기준으로 컬럼 수 가져오기 -->
+    <select id="boardQuantityByClassification" parameterType="string" resultType="java.lang.Integer">
+        select count(*) from notice_board where notice_board_classification = #{_parameter};
+    </select>
 </mapper>

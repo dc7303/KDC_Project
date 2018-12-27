@@ -40,4 +40,11 @@ public interface NoticeBoardDAO {
      */
     List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch);
 
+    /**
+     * classification 기준으로 컬럼 수량 가져오기.
+     *
+     * @param classification
+     * @return
+     */
+    public int boardQuantityByClassification(String classification);
 }

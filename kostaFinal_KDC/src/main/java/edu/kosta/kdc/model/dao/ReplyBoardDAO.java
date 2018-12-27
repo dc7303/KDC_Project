@@ -129,4 +129,12 @@ public interface ReplyBoardDAO {
      * 모든 닉네임 가오기
      * */
     List<MemberDTO> allNicknames();
+    
+    /**
+     * classification 기준으로 컬럼 수량 가져오기.
+     *
+     * @param classification
+     * @return
+     */
+    public int boardQuantityByClassification(String classification);
 }

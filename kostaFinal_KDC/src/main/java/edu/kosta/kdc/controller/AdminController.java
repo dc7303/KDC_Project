@@ -1,8 +1,8 @@
 package edu.kosta.kdc.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.kosta.kdc.model.dto.ClassRoomInfoDTO;
 import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.MessageDTO;
 import edu.kosta.kdc.model.dto.ReportDTO;
+import edu.kosta.kdc.model.service.AdminService;
 import edu.kosta.kdc.model.service.ClassRoomService;
 import edu.kosta.kdc.model.service.MemberService;
 import edu.kosta.kdc.model.service.MessageService;
@@ -34,6 +34,9 @@ public class AdminController {
     
     @Autowired
     private ClassRoomService classRoomService;
+    
+    @Autowired
+    private AdminService adminServcie;
     
     //관리자 로그인
     @RequestMapping("/admin")
@@ -77,6 +80,19 @@ public class AdminController {
         return new ModelAndView("admin/adminPage", "memberList", list);    
     }
     
+    /**
+     * 운영현황 게시판 수 가져오기
+     * 
+     * @return
+     */
+    @RequestMapping(value = "/boardTotalChart", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String, Integer> boardTotalChart() {
+        
+        Map<String, Integer> map = adminServcie.boardQuantityByClassification();
+        
+        return map;
+    }
     /**
      * 관리자 페이지 - 아이디로 유저 검색하기
      * */

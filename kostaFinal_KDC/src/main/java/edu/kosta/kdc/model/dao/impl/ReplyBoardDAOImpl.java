@@ -264,5 +264,10 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
         
         return list;
     }
+    
+    public int boardQuantityByClassification(String classification) {
+                
+        return session.selectOne("replyBoardMapper.boardQuantityByClassification", classification);
+    }
 
 }
