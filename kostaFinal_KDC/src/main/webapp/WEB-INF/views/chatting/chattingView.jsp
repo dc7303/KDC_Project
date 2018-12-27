@@ -12,6 +12,7 @@
         width: 80%;
         height: 400px;
         background: lavender;
+        overflow: auto;
       }
       #chatting-input{
         width: 80%;
@@ -26,7 +27,45 @@
       #start-flag{
         text-align: center;
       }
-      
+      .my-block{
+        max-width: 90%;
+        margin: 2px 5px;
+        background: #7dc855;
+        padding: 10px;
+        border-radius: 15px;
+        float: right; 
+      }
+      .my-text{
+        word-break: break-all;
+      }
+      .my-align{
+        display: flow-root;
+      }
+      #send-btn{
+        background: #7dc855;
+        border: none;
+      }
+      #send-btn:hover{
+        background: #7DFC85;
+      }
+      /*상대가 보낸 메시지  */
+      .other-block{
+        max-width: 90%;
+        margin: 2px 5px;
+        float: left;
+      }
+      .other-align{
+        display: flow-root;
+      }
+      .other-text{
+        word-break: break-all;
+      }
+      .wrap-text{
+        border-radius: 15px;
+        background: white;
+        padding: 10px;
+        width: fit-content;
+      }
       
     </style>
     <title>Insert title here</title>
@@ -37,6 +76,15 @@
 	var sock = new SockJS("<c:url value="/echo"/>");
     var mySession = null;
     jq(function(){
+        //채팅로그 불러오기
+        var list = new Array(); 
+		<c:forEach items="${chatLog}" var="item">
+			list.push("${item}");
+		</c:forEach>
+        for(var i=0;i<list.length;i++){
+          createMsg(list[i]);
+        }
+        
      	sock.onmessage = onMessage;
     	sock.onclose = onClose;
      
@@ -44,60 +92,70 @@
     	jq('#send-btn').click(function(){
     		console.log('send message....');
     		sendMessage();
+    		jq('#message').val('');
+    		
     	});
+    	
     	//text필드에서 엔터 누를시에도 이벤트 발생
     	jq('#message').on('keypress',function(event){
     	  if(event.keyCode===13){
-    	    jq('#sendBtn').trigger('click');
+    	    jq('#send-btn').trigger('click');
     	    jq(this).val('');
     	  }
     	});
     	
-    	
+    	//현재 로그인된 사용자가 메시지를 보내는 함수
     	function sendMessage(){
     		var code = jq('input[name=room-code]').val();
     		var memberId = jq('#member-id').val();
-    		sock.send(code+'\\'+memberId+'\\'+$("#message").val());
+    		var contextPath = jq('#context-path').val();
+    		sock.send(code+'|'+memberId+'|'+contextPath+'|'+$("#message").val());
     	}
     	
+    	//서버에서 보내온 메시지 출력 함수
     	function onMessage(evt){
     		var data = evt.data;
-    		var memberId = null;
-    		var message = null;
-    		
-    		var strArray = data.split('|');
-    		
-    		memberId = strArray[0];
-    		message = strArray[1];
-    		
-    		console.log(memberId);
-    		console.log(jq('#member-id').val());
-    		
-    		/* if(memberId === jq('#member-id').val()){
-    		  alert('in my memberId');
-    		  var messageBlock = jq('<div>').attr('class','my-block');
-    		  jq('#chatting-room').append(jq(messageBlock));
-    		  var textBlock = jq('<span>').attr('class','my-text');
-    		  jq('.other-block').last().append(jq(textBlock));
-    		}else{
-    		  var messageBlock = jq('<div>').attr('class','other-block');
-    		  jq('#chatting-room').append(jq(messageBlock));
-    		  var idBlock = jq('<span>').attr('class','other-id').text(memberId);
-    		  jq('.other-block').last().append(jq(idBlock));
-    		  var textBlock = jq('<span>').attr('class','other-text');
-    		  jq('.other-block').last().append(jq(textBlock));
-    		}
-    		jq('#chatting-room').append(jq(messageBlock)); */
-    		
-    		
-    		
-    		/* console.log('메시지를 보낸사람 : ' + sessionid);
-    		console.log('현재메시지 : ' + message);
-    		 */
+    		createMsg(data);
     	}
     	
     	function onClose(evt){
     		console.log('연결끊김');
+    	}
+    	
+    	//메시지 엘리먼트 생성
+    	function createMsg(msg){
+    	  	var memberId = null;
+    	  	var message = null;
+    		
+    		var strArray = msg.split('|');
+    		
+    		memberId = strArray[0];
+    		message = strArray[1];
+    		
+    		//채팅유저가 본인인 경우||다른사람인경우
+    		if(memberId === jq('#member-id').val()){
+    		  var alignBlock = jq('<div>').attr('class','my-align');
+    		  jq('#chatting-room').append(jq(alignBlock));
+    		  var messageBlock = jq('<div>').attr('class','my-block');
+    		  jq('.my-align').last().append(jq(messageBlock));
+    		  var textBlock = jq('<span>').attr('class','my-text').text(message);
+    		  jq('.my-block').last().append(jq(textBlock)); 
+    		  
+    		}else{
+    		  var alignBlock = jq('<div>').attr('class','other-align');
+    		  jq('#chatting-room').append(jq(alignBlock));
+    		  var messageBlock = jq('<div>').attr('class','other-block');
+    		  jq('.other-align').last().append(jq(messageBlock));
+    		  var idBlock = jq('<span>').attr('class','other-id').text(memberId);
+    		  jq('.other-block').last().append(jq(idBlock));
+    		  var wrapText = jq('<div>').attr('class','wrap-text');
+    		  jq('.other-block').last().append(jq(wrapText));
+    		  var textBlock = jq('<span>').attr('class','other-text').text(message);
+    		  jq('.wrap-text').last().append(jq(textBlock));
+    		  
+    		}
+    		//스크롤 최하단으로 
+    		jq('#chatting-room').scrollTop(jq('#chatting-room').prop('scrollHeight'));
     	}
     });
     
@@ -105,7 +163,7 @@
   </head>
   <body>
   <sec:authentication var="member" property="principal" />
-   <input id="member-id" type="hidden" value="${member.memberId}">
+   <input id="member-id" type="hidden" value="${member.memberNickName}">
     <div id="chatting-room">
       <div id="start-flag">----채팅의 처음입니다----</div>      
     </div>
@@ -113,8 +171,7 @@
       <input id="message" name="message" type="text" />
       <input id="send-btn" type="button" value="입력" />
       <input name="room-code" type="hidden" value="${roomCode}" />
-     
+      <input id="context-path" type="hidden" value="${contextPath}"/>
     </div>
-
   </body>
 </html>

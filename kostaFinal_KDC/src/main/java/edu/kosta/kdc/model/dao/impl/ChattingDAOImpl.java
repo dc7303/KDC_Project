@@ -15,7 +15,7 @@ public class ChattingDAOImpl implements ChattingDAO{
     
     @Override
     public ClassRoomInfoDTO infoSelectByMemberId(String memberId) {
-        return sqlSession.selectOne("", memberId);
+        return sqlSession.selectOne("chattingMapper.infoSelectByMemberId", memberId);
     }
     
 }

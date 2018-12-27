@@ -1,5 +1,8 @@
 package edu.kosta.kdc.util;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 
@@ -37,24 +40,47 @@ public class EchoHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		//메시지에서 code부분 추출
+	    String [] arr;
 		String code = null;
-		String pureMessage = null;
 		String memberId = null;
-		code = message.getPayload().split("\\\\")[0];
-		memberId = message.getPayload().split("\\\\")[1];
-		pureMessage = message.getPayload().split("\\\\")[2];
+		String contextPath = null;
+		String pureMessage = null;
+		String newLine = System.getProperty("line.separator");
+		arr = message.getPayload().split("\\|");
+		code = arr[0];
+		memberId = arr[1];
+		contextPath = arr[2];
+		pureMessage = arr[3];
+		
+		//uri기반으로 가져옴
+		System.out.println("code : "+code);
+        System.out.println("memberId : "+memberId);
+        System.out.println("contextPath : "+contextPath);
+        System.out.println("pureMessage : "+pureMessage);
+		String path = contextPath+"/"+code+".txt";
+		
+		//파일에 작성
+		BufferedWriter bw = new BufferedWriter(new FileWriter(path,true));
+		PrintWriter pw = new PrintWriter(bw,true);
+		pw.write(memberId+"|"+pureMessage+newLine);
+		pw.flush();
+		pw.close();
+		
+		
 		
 		//code에 대한 세션리스트가 없는경우 socketMap에 추가
 		if(socketMap.get(code)==null) {
+		    System.out.println("맵추가!");
 			socketMap.put(code, new ArrayList<WebSocketSession>());
 		}
 		sessionList = socketMap.get(code);
 		if(!sessionList.contains(session)) {
+		    System.out.println("세션추가!");
 			sessionList.add(session);
 		}
 		
 		for(WebSocketSession sess : sessionList) {
-			sess.sendMessage(new TextMessage(memberId+" | "+pureMessage));
+			sess.sendMessage(new TextMessage(memberId+"|"+pureMessage));
 		}
 	}
 	
@@ -63,7 +89,6 @@ public class EchoHandler extends TextWebSocketHandler {
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		//세션리스트에서 제거
 		sessionList.remove(session);
-		
 		System.out.println("채팅 퇴장: "+session.getId());
 		
 		
