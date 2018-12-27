@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 <title>Insert title here</title>
+<!-- 해쉬태그 js -->
+<script src="${pageContext.request.contextPath}/resources/js/portfolio-hashtag.js"></script>
 <script>
 const jq = jQuery.noConflict();
 
@@ -56,12 +58,6 @@ jq(function(){
   	//PK값 hidden에 숨겨서 보내줄 name설정
   	jq('#original-pk').attr('name','portFolioDetailPk')
   	
-  	//HASH태그값 가져오기
-  	/* var hashTags = '${detail.portfolioDetailHashTagList}'
-  	console.log('hashTags = '+hashTags);
-  	 for(let hashTag of hashTags){
-  	  console.log(hashTag.hashTagName);
-  	}  */
   	
   	jq('input[name=hashTagName]').val();
   }
@@ -74,6 +70,15 @@ jq(function(){
   /* 에디터 폼 submit control */
   jq('#editor-submit').on('click',function(){
     var content = editor.getValue();
+  	//form 유효성검사(제목, 상세)
+  	if(jq('input[name=portfolioDetailProjectName]').val().trim()===''){
+  	  alert('제목은 필수입력사항 입니다.');
+  	  jq('input[name=portfolioDetailProjectName]').focus();
+  	  return;
+  	}else if(content.trim()===''){
+  	  alert('프로젝트 상세설명은 필수입력사항 입니다.')
+  	  return;
+  	}
     
     var input = jq('<input>').attr('type','hidden')
     	.attr('name','portfolioDetailDescription').val(content);
@@ -81,7 +86,10 @@ jq(function(){
     
     jq('#editor-form').submit();
     
-  }); 
+  });
+  
+  
+  
   
 });
 
@@ -98,16 +106,23 @@ jq(function(){
   <div id="original-img" style="display:none;">현재 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></div>
   </br> 
   <h5>해쉬태그 : </h5>
+  <span id="span">
+  <!-- 이벤트 발생시 태그가 여기에 추가 -->
+  </span>
+  <input type="hidden" id="hashTagName" name="hashTagName"/>
   <c:choose>
     <c:when test="${empty detail.portfolioDetailHashTagList}">
-      <input type="text" name="hashTagName"/></p></br>
+      <input type="text" name="hashTagInput"/>
     </c:when>
     <c:otherwise>
-    <input type="text" name="hashTagName" value="<c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag" >${hashTag.hashTagName}, </c:forEach>"/>
-    </p>
-    </br>
+      <input type="text" id = "hashTagInput" name="hashTagInput" value="<c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag" >${hashTag.hashTagName}, </c:forEach>"/>
     </c:otherwise>
   </c:choose>
+  <span id="suggest" style="float:left;">
+  <!-- 제시어 단어 출력부분 --> 
+  </span>
+  
+  <!-- 해쉬태그 끝-->
   
   <h5>프로젝트 이미지 </h5>
   <input type="file" name="DeltailProjectImage" /></p></br>
@@ -117,6 +132,10 @@ jq(function(){
   <input type="hidden" id="original-description" value="${detail.portfolioDetailDescription}"/>
   <input type="button" value="작성완료" id="editor-submit" />
 </form>
+<input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
+<input type="hidden" name="csrfToken" value="${_csrf.token}"/>
+<input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>
+
 
 </body>
 </html>

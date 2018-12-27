@@ -21,7 +21,6 @@ import edu.kosta.kdc.model.service.MessageService;
 import edu.kosta.kdc.model.service.ReportService;
 
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
@@ -36,6 +35,35 @@ public class AdminController {
     @Autowired
     private ClassRoomService classRoomService;
     
+    //관리자 로그인
+    @RequestMapping("/admin")
+    public String adminLogin() {
+        
+        return "/admin/main/signInForm";
+    }
+    
+    //관리자 페이지
+    @RequestMapping("/adminPage")
+    public ModelAndView adminPage() {
+        
+        //전체 유저 리스트 가져오기
+        List<MemberDTO> memberList = memberService.memberSelectAll();
+        
+        //신고 전체가져오기
+        List<ReportDTO> reportList = reportService.reportSelectAll();
+        
+        //쪽지 가져오기
+        List<MessageDTO> messageList = messageService.messageAll();
+        
+        ModelAndView mv = new ModelAndView();
+        
+        
+        mv.setViewName("/admin/main/admin");
+        
+        return mv;
+    }
+    
+    
     /**
      * 관리자 페이지 - 전체 유저 리스트 가져오기
      * */
@@ -44,8 +72,7 @@ public class AdminController {
                 
         List<MemberDTO> list = memberService.memberSelectAll();
         
-        return new ModelAndView("admin/adminPage", "memberList", list);
-        
+        return new ModelAndView("admin/adminPage", "memberList", list);    
     }
     
     /**
@@ -84,10 +111,7 @@ public class AdminController {
     @RequestMapping("/messageList")
     public ModelAndView MessageSelectAll() {
         
-        String memberId="admin";
-        //MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        List<MessageDTO> list = messageService.messageAll(memberId);
+        List<MessageDTO> list = messageService.messageAll();
         
         return new ModelAndView("admin/adminMessagePage", "messageList", list);
         
@@ -133,40 +157,6 @@ public class AdminController {
     }
     
     /**
-     * 관리자 - 클래스 룸 생성 페이지 이동
-     * */
-    @RequestMapping("/classRoomInfo")
-    public String createClassRoomInfo() {
-        return "/admin/adminClassRoomInfo";
-    }
-    
-    /**
-     * 관리자 - 클래스 룸 생성 + 각 채팅방 파일 생성 (파일이름 : 클래스 코드.txt)
-     * */
-    @RequestMapping("/insertClassRoom")
-    public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) throws Exception{
-
-        //클래스룸 생성하면 자동적으로 해당 code.txt text 파일 만들기
-        File file = new File("C:\\Edu\\final_workspace\\kostaFinal_KDC\\src\\main\\webapp\\resources\\chatFile", classRoomInfoDTO.getClassRoomInfoChatFile());
-        file.createNewFile();
-        
-        int result = classRoomService.createClassRoom(classRoomInfoDTO);
-        
-        return "redirect:/admin/selectMember";
-    }
-    
-    /**
-     * 관리자 - 클래스 코드 이름 중복 체크 (ajax)
-     * */
-    @RequestMapping(value = "/codeCheck", produces = "text/plain; charset=UTF-8")
-    @ResponseBody
-    public String codeCheck(String classRoomCode) {
-        
-        return classRoomService.codeCheck(classRoomCode);
-        
-    }
-    
-    /**
      * 관리자 - 강사 아이디 체크 (ajax)
      * */
     @RequestMapping(value = "/teacherCheck", produces = "text/plain; charset=UTF-8")
@@ -188,6 +178,7 @@ public class AdminController {
         
     }
     
+    
     /**
      * 관리자ajax - 신고 페이지로 이동 (게시판 넘버에 해당하는 신고 띄우기)
      * */
@@ -203,7 +194,7 @@ public class AdminController {
         case 3: boardName = "lib"; break;
         }
         
-        List<ReportDTO> reportList = reportService.selectAllReport(boardName);
+        List<ReportDTO> reportList = reportService.reportSelectByBoardName(boardName);
         return reportList;
         
     }

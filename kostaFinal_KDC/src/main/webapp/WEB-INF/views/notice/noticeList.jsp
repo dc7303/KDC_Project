@@ -21,7 +21,7 @@
     <br/><br/>
 
     <div class="write-button">
-      <a href="${pageContext.request.contextPath }/notice/writeForm?classification=classNotice" class="button">글쓰기</a>
+      <a href="${pageContext.request.contextPath }/notice/writeForm?classification=${requestScope.classification}" class="button">글쓰기</a>
     </div> <br/><br/>
 
     <div class="table-wrapper">

@@ -29,6 +29,7 @@
 		username-parameter="memberId"
 		password-parameter="memberPwd"
 		default-target-url="/"
+        authentication-success-handler-ref="memberAuthenticationSuccessHandler"
         authentication-failure-handler-ref="memberAuthenticationFailureHandler"
 	/>
 	 

@@ -28,8 +28,17 @@
 
 <script>  
 const jq = jQuery.noConflict();
-
-jq(function(){
+jq(function() {
+	jq('input[value=등록]').click(function() {
+	  if(jq('input[name=replyContents]').val().trim()===''){
+	    alert('댓글을 입력해주세요');
+	    jq('input[name=replyContents]').focus();
+	    return;
+	  }
+	jq('#replyWriteForm').submit();
+  });
+	
+	
     //viewer 세팅
     var contents = jq('#detail-description').val();
 	var editor = tui.Editor.factory({
@@ -395,7 +404,8 @@ jq(function(){
 <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO">
 <c:choose>
 <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
-   <form name="replyWriteForm" method="post" action="${pageContext.request.contextPath}/reply/replyInsert?classification=${requestScope.classification}&replyBoardPk=${requestScope.replyBoardPk}">
+   <form name="replyWriteForm" method="post" id="replyWriteForm" action="${pageContext.request.contextPath}/reply/replyInsert?classification=${requestScope.classification}&replyBoardPk=${requestScope.replyBoardPk}">
+   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
    <sec:authorize access="isAuthenticated()">
       <sec:authentication var="member" property="principal" />
       <input type="hidden" name="memberId" value="${member.memberId}">
@@ -407,14 +417,14 @@ jq(function(){
             <input type="text" value="@" name="mentionInput" autocomplete="off" style="width:150px;">
             <div id="suggest"></div>
         </td>
-        <td colspan="6"><input type="text" placeholder="댓글내용입력" name="replyBoardContents"></td>
+        <td colspan="6"><input type="text" placeholder="댓글내용입력" name="replyContents"></td>
         <td>
           <sec:authorize access="isAuthenticated()">
             <sec:authentication var="member" property="principal" />
             ${member.memberNickName}
           </sec:authorize>
         </td>
-        <td><input type=submit value="등록" ></td>
+        <td><input type=button value="등록" ></td>
       </tr>
       
     </form>

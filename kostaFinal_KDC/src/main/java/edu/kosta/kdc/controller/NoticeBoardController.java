@@ -33,6 +33,7 @@ public class NoticeBoardController {
         
         List<NoticeBoardDTO> list = noticeBoardService.selectAll(classification);
         model.addAttribute("list", list);
+        model.addAttribute("classification", classification);
         
         return "notice/noticeList";
     }
@@ -53,8 +54,10 @@ public class NoticeBoardController {
      * ±Û¾²±â Æû
      */
     @RequestMapping("/writeForm")
-    public String insertForm() {
+    public String insertForm(String classification, Model model) {
 
+        model.addAttribute("classification", classification);
+        
         return "notice/noticeWrite";
     }
 
@@ -74,7 +77,7 @@ public class NoticeBoardController {
         }
         noticeBoardService.noticeInsert(noticeBoard, classification);
         
-        return "redirect:list";
+        return "redirect:list?classification=" + classification;
     }
 
     /**
