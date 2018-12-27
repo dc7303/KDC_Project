@@ -2,6 +2,8 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
   <head>
     <meta charset="utf-8">
     <title></title>
@@ -10,11 +12,34 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
     
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
-
+<script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/highlight.pack.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/squire-rte/build/squire-raw.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-Editor.min.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 
 <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main2.js"></script>
-
+<script type="text/javascript">
+const jq = jQuery.noConflict();
+jq(function() {
+  //viewer 세팅
+  var contents = jq('#detail-description').val();
+  var editor = tui.Editor.factory({
+    el: document.querySelector('#viewer-section'),
+    viewer: true,
+    height: '500px',
+    initialValue: contents
+    });
+});
+</script>
 </head>
 
 <body>
@@ -52,8 +77,9 @@
       </td>
     </tr>
     <tr>
-      <td class="tech-content" colspan="10">
-      <span>${replyBoardDTO.replyBoardContents}</span>
+      <td class="tech-content" colspan="10" style=" text-align: left;">
+        <div id = "viewer-section"></div>
+        <input id ="detail-description" type="hidden" value="${replyBoardDTO.replyBoardContents}">
       </td>
     </tr>
     <tr>
@@ -81,9 +107,12 @@
 <c:when test="${replyBoardDTO.replyBoardPk==replyBoardReplyPk}">
 <tr>
 <form id="replyUpdate" method="post" action="${pageContext.request.contextPath}/reply/replyUpdate">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-
-<!-- 여기여기여기 -->
+  <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+  <sec:authorize access="isAuthenticated()">
+    <sec:authentication var="member" property="principal" />
+    <input type="hidden" name="memberId" value="${member.memberId}">
+  </sec:authorize>
+  <!-- 여기여기여기 -->
       <td><div id="mentionButton"></div>
           <input type="hidden" id="mentionNickName" name="mentionNickName"/>
           <c:choose>
@@ -97,7 +126,7 @@
 
           <div id="suggest"></div>
       </td>
-<!-- 여기여기여기 -->      
+  <!-- 여기여기여기 -->      
       
       <td colspan="7">
       <span><input type="text" name="replyBoardContents" value="${replyBoardDTO.replyBoardContents}"></span>

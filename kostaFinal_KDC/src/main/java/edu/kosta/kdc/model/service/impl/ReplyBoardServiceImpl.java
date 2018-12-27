@@ -161,6 +161,10 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     public int replyUpdate(ReplyBoardDTO replyBoardDTO) {
         
+        //@ 공백으로 변환
+        String revised = replyBoardDTO.getMentionNickName().replaceAll("@", "");
+        //replace 값 set
+        replyBoardDTO.setMentionNickName(revised);
         int result = 0;
         
         result = replyBoardDAO.replyUpdate(replyBoardDTO);

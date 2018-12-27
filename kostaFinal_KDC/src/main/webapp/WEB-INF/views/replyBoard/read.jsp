@@ -199,20 +199,20 @@ jq(function() {
       <!-- 여기부터 -->
       
       <td>
-      <c:choose>
-      <c:when test="${replyBoardDTO.updown.isUp==true}">
-      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
-      </c:when>
-      <c:when test="${replyBoardDTO.updown.isUp==false}">
-      <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
-      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
-      </c:when>      
-      <c:otherwise>
-      <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
-      <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
-      </c:otherwise>
-      </c:choose>
+        <c:choose>
+          <c:when test="${replyBoardDTO.updown.isUp==true}">
+          <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+          <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
+          </c:when>
+          <c:when test="${replyBoardDTO.updown.isUp==false}">
+          <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
+          <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
+          </c:when>      
+          <c:otherwise>
+          <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+          <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
+          </c:otherwise>
+        </c:choose>
       </td>
       
       <!-- 여기까지 -->
@@ -233,7 +233,7 @@ jq(function() {
     </tr>
     
     <tr>
-      <td class="tech-content" colspan="10" style=" text-align: left;">
+      <td class="tech-content" colspan="10" style=" text-align: left;" valign= top>
         <div id = "viewer-section"></div>
         <input id ="detail-description" type="hidden" value="${replyBoardDTO.replyBoardContents}">
       </td>
@@ -292,24 +292,29 @@ jq(function() {
         </td>
         <td colspan="4">
          <span id="replyBoardContents" style="float: left; padding-right:10px">${replyBoardDTO.replyBoardContents }</span>
-        
-        <form id="replyUpdateForm" method="post" action="${pageContext.request.contextPath}/reply/replyUpdateForm" style="float: left; padding-right: 10px">
-            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-            <input type="hidden" name="state" value="true"/>
-            <input type="hidden" name="replyBoardPk" value="${replyBoardDTO.replyBoardReplyNo}"/>
-            <input type="hidden" name="classification" value="${requestScope.classification}"/>
-            <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}"/>      
-            <input type="image" src="${pageContext.request.contextPath}/resources/testimg/replyBoard/reply_Update.png" style="height:20px;">
-        </form>
-        
+        <c:if test="${replyBoardDTO.replyBoardWriterId eq requestScope.memberId}">
+          <form id="replyUpdateForm" method="post" action="${pageContext.request.contextPath}/reply/replyUpdateForm" style="float: left; padding-right: 10px">
+              <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+              <input type="hidden" name="state" value="true"/>
+              <input type="hidden" name="replyBoardPk" value="${replyBoardDTO.replyBoardReplyNo}"/>
+              <input type="hidden" name="classification" value="${requestScope.classification}"/>
+              <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}"/>      
+              <input type="image" src="${pageContext.request.contextPath}/resources/testimg/replyBoard/reply_Update.png" style="height:20px;">
+          </form>
+          
           <form id="replyDeleteForm" method="post" action="${pageContext.request.contextPath}/reply/replyDelete" style="float: left; padding-right: 10px">
               <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+              <sec:authorize access="isAuthenticated()">
+                <sec:authentication var="member" property="principal" />
+                <input type="hidden" name="memberId" value="${member.memberId}">
+              </sec:authorize>
               <input type="hidden" name="state" value="true"/>
               <input type="hidden" name="replyBoardPk" value="${requestScope.replyBoardPk}"/>
               <input type="hidden" name="classification" value="${requestScope.classification}">
               <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}">            
               <input type="image" src="${pageContext.request.contextPath}/resources/testimg/replyBoard/reply_Delete.png" style="height:20px;">
           </form>
+        </c:if>
         </td>   
         <td>
         <span>${replyBoardDTO.replyBoardDate}</span>
@@ -398,7 +403,6 @@ jq(function() {
   </script>
         
         <!-- 여기까지 -->
-  
         <td>
         <span>${replyBoardDTO.member.memberNickName}</span>
         </td>
@@ -408,14 +412,18 @@ jq(function() {
             <input type="button" name="댓글신고${state.count}" value="댓글신고">
           </span>
           <script>
-
             jq("input[name=댓글신고${state.count}]").click(function() {
-                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "width=400,height=500,history=no,resizable=no,status=no,scrollbars=yes,menubar=no")
+              window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
             });
           </script>
         </td>
       </tr>
   </c:when>
+  <%-- <c:when test="${empty replyBoardDTO.replyBoardReplyNo>0}">
+    <tr>
+      <td colspan="10">댓글이 없습니다.</td>
+    </tr>   
+  </c:when> --%>
   </c:choose>
   </c:forEach>
 <!-- 댓글멘션부분 수정 시작 -->

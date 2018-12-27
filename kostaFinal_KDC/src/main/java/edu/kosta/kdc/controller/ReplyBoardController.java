@@ -5,14 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 import edu.kosta.kdc.model.dto.ReportDTO;
 import edu.kosta.kdc.model.service.ReplyBoardService;
@@ -87,7 +85,7 @@ public class ReplyBoardController {
         replyBoardService.replyInsert(replyBoardDTO);        
         model.addAttribute("classification",classification);
         
-        return "redirect:read?replyBoardPk="+replyBoardPk;
+        return "redirect:read?replyBoardPk="+replyBoardPk+"&memberId="+memberId;
     }
     
     /**
@@ -159,11 +157,11 @@ public class ReplyBoardController {
      * 댓글 수정하기
      * */
     @RequestMapping("/replyUpdate")
-    public String replyUpdate(String classification, int replyBoardReplyNo,int replyBoardPk, ReplyBoardDTO replyBoardDTO, String replyBoardContents, String mentionNickName) {
+    public String replyUpdate(String classification, int replyBoardReplyNo,int replyBoardPk, String memberId,ReplyBoardDTO replyBoardDTO, String replyBoardContents, String mentionNickName) {
         replyBoardDTO.setMentionNickName(mentionNickName);
         replyBoardService.replyUpdate(replyBoardDTO);
         
-        return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
+        return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk+"&memberId="+memberId;
     }
     
     /**
@@ -180,11 +178,11 @@ public class ReplyBoardController {
      * 댓글 삭제하기
      * */
     @RequestMapping("/replyDelete")
-    public String replyDelete(int replyBoardReplyPk, String classification, ReplyBoardDTO replyBoardDTO, int replyBoardPk) {
+    public String replyDelete(int replyBoardReplyPk, String classification, String memberId, ReplyBoardDTO replyBoardDTO, int replyBoardPk) {
         
         replyBoardService.replyDelete(replyBoardReplyPk);
         
-        return "redirect:read?replyBoardPk="+replyBoardPk+"&classification="+classification;
+        return "redirect:read?replyBoardPk="+replyBoardPk+"&classification="+classification+"&memberId="+memberId;
     }
     
     /**
