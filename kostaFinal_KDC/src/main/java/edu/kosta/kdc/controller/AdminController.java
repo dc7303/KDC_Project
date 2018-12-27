@@ -56,7 +56,9 @@ public class AdminController {
         List<MessageDTO> messageList = messageService.messageAll();
         
         ModelAndView mv = new ModelAndView();
-        
+        mv.addObject("memberList", memberList);
+        mv.addObject("reportList", reportList);
+        mv.addObject("messageList", messageList);
         
         mv.setViewName("/admin/main/admin");
         
