@@ -371,7 +371,6 @@ jq(function() {
           error : function(err){   
              alert(err+" => 오류 발생");
           }
-         
        });
       });
         
