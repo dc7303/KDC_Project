@@ -5,12 +5,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 import edu.kosta.kdc.model.dto.ReportDTO;
 import edu.kosta.kdc.model.service.ReplyBoardService;
@@ -76,12 +78,12 @@ public class ReplyBoardController {
      * 댓글 등록하기
      * */
     @RequestMapping("/replyInsert")
-    public String replyInsert(String classification,int replyBoardPk,String memberId, String mentionInput, String replyContents, ReplyBoardDTO replyBoardDTO, Model model) {
-        replyBoardDTO.setMentionNickName(mentionInput);
-        replyBoardDTO.setReplyBoardMention(mentionInput);
+    public String replyInsert(String classification,int replyBoardPk,String memberId, String mentionNickName, String replyContents, ReplyBoardDTO replyBoardDTO, Model model) {
+        replyBoardDTO.setMentionNickName(mentionNickName);
         replyBoardDTO.setReplyBoardWriterId(memberId);
         replyBoardDTO.setReplyBoardClassification(classification);
         replyBoardDTO.setReplyBoardContents(replyContents);
+
         replyBoardService.replyInsert(replyBoardDTO);        
         model.addAttribute("classification",classification);
         
@@ -100,7 +102,6 @@ public class ReplyBoardController {
         replyBoardDTO.setReplyBoardClassification(classification);
         
         List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTO, state);
-
         model.addAttribute("replyBoardDTO",list);
         model.addAttribute("classification",classification);
         model.addAttribute("replyBoardPk",replyBoardPk);
@@ -158,8 +159,8 @@ public class ReplyBoardController {
      * 댓글 수정하기
      * */
     @RequestMapping("/replyUpdate")
-    public String replyUpdate(String classification, int replyBoardReplyNo,int replyBoardPk, ReplyBoardDTO replyBoardDTO, String replyBoardContents) {
-        
+    public String replyUpdate(String classification, int replyBoardReplyNo,int replyBoardPk, ReplyBoardDTO replyBoardDTO, String replyBoardContents, String mentionNickName) {
+        replyBoardDTO.setMentionNickName(mentionNickName);
         replyBoardService.replyUpdate(replyBoardDTO);
         
         return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
@@ -170,7 +171,6 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/delete")
     public String replyBoardDelete(int replyBoardPk,String classification) {
-        System.out.println("controller replyBoardPk : " + replyBoardPk);
         replyBoardService.replyBoardDelete(replyBoardPk);
         
         return "redirect:"+classification+"?classification="+classification;

@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
     
+    <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main2.js"></script>
 <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
@@ -26,6 +27,12 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 
+<style type="text/css">
+.replyUpdateImg{
+  height: 50px;
+  width: 50px;
+}
+</style>
 <script>  
 const jq = jQuery.noConflict();
 jq(function() {
@@ -158,6 +165,7 @@ jq(function() {
 </head>
 
 <body>
+<span style="text-align: center"><h1>${requestScope.classification}게시판 입니다.</h1></span>
 <table>
        <thead>
           <tr class="titel-color">
@@ -184,7 +192,7 @@ jq(function() {
       <span>${replyBoardDTO.member.memberNickName}</span>
       </td>
       
-      <td>
+      <td style="width: 130px">
       <span>${replyBoardDTO.replyBoardDate}</span>
       </td>
       
@@ -225,31 +233,51 @@ jq(function() {
     </tr>
     
     <tr>
-      <td class="tech-content" colspan="10">
+      <td class="tech-content" colspan="10" style=" text-align: left;">
         <div id = "viewer-section"></div>
         <input id ="detail-description" type="hidden" value="${replyBoardDTO.replyBoardContents}">
       </td>
     </tr>
     <tr>
-   
       <td colspan="10">
       <span>${replyBoardDTO.hashTag.hashTagName}</span>
       </td>
+      
     </tr>
-
+    
+    <c:if test="${replyBoardDTO.replyBoardWriterId eq requestScope.memberId}">
+      <tr>
+        <td colspan="10" align="center" valign="middle">
+        <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
+          <form name="requestForm" method=post  id="requestForm">
+          <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+          
+          <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
+          <c:choose>
+          <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
+                <input type=hidden name="replyBoardPk" value="${replyBoardDTO.replyBoardPk}">
+          </c:when>
+          </c:choose>
+          </c:forEach>
+    
+            <input type=hidden name="state" value="true">
+            <input type=hidden name="classification" value="${requestScope.classification}">
+            <input type=button value="수정하기" >
+            <input type=button value="삭제하기" >
+          </form>
+        </td>
+      </tr>
+    </c:if>
 </c:when>
 </c:choose>
 </c:forEach>
 
     <tr class="titel-color">
-    <td>댓글번호</td>
     <td>멘션</td>
-    <td>댓글내용</td>
+    <td colspan="4">댓글내용</td>
     <td>댓글작성일</td>
     <td colspan="2">좋아요</td>
     <td>댓글작성자</td>
-    <td>수정</td>
-    <td>삭제</td>
     <td>신고</td>
     </tr>
         
@@ -259,21 +287,36 @@ jq(function() {
   <c:choose>
   <c:when test="${replyBoardDTO.replyBoardReplyNo>0}">
       <tr>
-        <td>
-        <span>${state.count-1}</span>
-        </td>
-        <td>
+        <td style="width: 80px">
         <span id="mentionNickName">${replyBoardDTO.mentionNickName}</span>
         </td>
-        <td>
-        <span id="replyBoardContents">${replyBoardDTO.replyBoardContents }</span>
-        </td>      
+        <td colspan="4">
+         <span id="replyBoardContents" style="float: left; padding-right:10px">${replyBoardDTO.replyBoardContents }</span>
+        
+        <form id="replyUpdateForm" method="post" action="${pageContext.request.contextPath}/reply/replyUpdateForm" style="float: left; padding-right: 10px">
+            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+            <input type="hidden" name="state" value="true"/>
+            <input type="hidden" name="replyBoardPk" value="${replyBoardDTO.replyBoardReplyNo}"/>
+            <input type="hidden" name="classification" value="${requestScope.classification}"/>
+            <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}"/>      
+            <input type="image" src="${pageContext.request.contextPath}/resources/testimg/replyBoard/reply_Update.png" style="height:20px;">
+        </form>
+        
+          <form id="replyDeleteForm" method="post" action="${pageContext.request.contextPath}/reply/replyDelete" style="float: left; padding-right: 10px">
+              <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+              <input type="hidden" name="state" value="true"/>
+              <input type="hidden" name="replyBoardPk" value="${requestScope.replyBoardPk}"/>
+              <input type="hidden" name="classification" value="${requestScope.classification}">
+              <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}">            
+              <input type="image" src="${pageContext.request.contextPath}/resources/testimg/replyBoard/reply_Delete.png" style="height:20px;">
+          </form>
+        </td>   
         <td>
         <span>${replyBoardDTO.replyBoardDate}</span>
         </td>
   
         <!-- 여기부터 -->
-        <td>
+        <td style="width: 100px">
         <c:choose>
         <c:when test="${replyBoardDTO.updown.isUp==true}">
           <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up_black.png" name="replyBlack${state.count}" id="reply_thumbs_up_black" onclick="window.location.reload()"><br/>
@@ -288,6 +331,9 @@ jq(function() {
           <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png" name="replyDisLike${state.count}"id="reply_thumbs_down" onclick="window.location.reload()">
         </c:otherwise>
         </c:choose>
+        </td>
+        <td style="width: 1px">
+        <span>${replyBoardDTO.likeNum}</span>
         </td>
         
   <script>  /* 댓글 좋아요, 싫어요 */
@@ -356,36 +402,10 @@ jq(function() {
         <!-- 여기까지 -->
   
         <td>
-        <span>${replyBoardDTO.likeNum}</span>
-        </td>
-        <td>
         <span>${replyBoardDTO.member.memberNickName}</span>
         </td>
         
-        <td><span>             
-          <form id="replyUpdateForm" method="post" action="${pageContext.request.contextPath}/reply/replyUpdateForm">
-            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-            <input type="hidden" name="state" value="true"/>
-            <input type="hidden" name="replyBoardPk" value="${replyBoardDTO.replyBoardReplyNo}"/>
-            <input type="hidden" name="classification" value="${requestScope.classification}"/>
-            <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}"/>      
-            <input type="submit" value="수정">
-          </form>
-        </span>
-        </td>
-        
-          <td><span>
-            <form id="replyDeleteForm" method="post" action="${pageContext.request.contextPath}/reply/replyDelete">
-              <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-              <input type="hidden" name="state" value="true"/>
-              <input type="hidden" name="replyBoardPk" value="${requestScope.replyBoardPk}"/>
-              <input type="hidden" name="classification" value="${requestScope.classification}">
-              <input type="hidden" name="replyBoardReplyPk" value="${replyBoardDTO.replyBoardPk}">            
-              <input type="submit" value="삭제">           
-            </form>
-          </span>
-          </td>
-        <td>
+        <td style="width: 90px">
           <span>
             <input type="button" name="댓글신고${state.count}" value="댓글신고">
           </span>
@@ -411,13 +431,12 @@ jq(function() {
       <input type="hidden" name="memberId" value="${member.memberId}">
     </sec:authorize>
       <tr>
-        <td>${replyBoardDTO.replyNum+1}</td>
         <td><div id="mentionButton"></div>
             <input type="hidden" id="mentionNickName" name="mentionNickName"/>
-            <input type="text" value="@" name="mentionInput" autocomplete="off" style="width:150px;">
+            <input type="text" placeholder="@닉네임, 형태로입력" name="mentionInput" autocomplete="off" style="width: 150px">
             <div id="suggest"></div>
         </td>
-        <td colspan="6"><input type="text" placeholder="댓글내용입력" name="replyContents"></td>
+        <td colspan="7"><input type="text" placeholder="댓글내용입력" name="replyContents"></td>
         <td>
           <sec:authorize access="isAuthenticated()">
             <sec:authentication var="member" property="principal" />
@@ -431,29 +450,8 @@ jq(function() {
 </c:when>
 </c:choose>
 </c:forEach>
-<!-- 댓글멘션부분 수정 끝 -->
 
-    <tr>
-      <td colspan="10" align="center" valign="middle">
-      <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
-      <form name="requestForm" method=post  id="requestForm">
-      <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-      
-      <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
-      <c:choose>
-      <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
-            <input type=hidden name="replyBoardPk" value="${replyBoardDTO.replyBoardPk}">
-      </c:when>
-      </c:choose>
-      </c:forEach>
-
-        <input type=hidden name="state" value="true">
-        <input type=hidden name="classification" value="${requestScope.classification}">
-        <input type=button value="수정하기" >
-        <input type=button value="삭제하기" >
-      </form>
-      </td>
-    </tr>
+    
 </table>
 
 <div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?classification=${requestScope.classification}">리스트로 돌아가기</a>&gt;</span></div>
