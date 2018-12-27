@@ -265,6 +265,13 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
         return list;
     }
     
+    /**
+     * classification 기준으로 컬럼 수량 가져오기.
+     *
+     * @param classification
+     * @return
+     */
+    @Override
     public int boardQuantityByClassification(String classification) {
                 
         return session.selectOne("replyBoardMapper.boardQuantityByClassification", classification);
