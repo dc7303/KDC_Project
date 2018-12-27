@@ -56,5 +56,11 @@ public interface MemberDAO {
      * */
     List<MemberDTO> memberSelectAll();
 
+    
+    /**
+     * 이메일  보내면서 pwd update해주기
+     * */
+    int pwdSearchEmailSend(String email);
+
 
 }

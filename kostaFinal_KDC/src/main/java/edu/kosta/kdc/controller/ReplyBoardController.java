@@ -5,12 +5,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 import edu.kosta.kdc.model.dto.ReportDTO;
 import edu.kosta.kdc.model.service.ReplyBoardService;
@@ -92,18 +94,24 @@ public class ReplyBoardController {
      * 상세보기
      * */
     @RequestMapping("/read")
-    public String read(int replyBoardPk,String classification, String memberId, ReplyBoardDTO replyBoardDTO, HttpServletRequest request, Model model) {
-
+    public String read(int replyBoardPk,String classification, ReplyBoardDTO replyBoardDTO, HttpServletRequest request, Model model) {
+        MemberDTO member = null;
+        
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+           member = new MemberDTO();
+           member.setMemberId("a");
+        }
         boolean state = request.getParameter("state") == null ? true : false;
         
-        replyBoardDTO.setReplyBoardWriterId(memberId);
+        replyBoardDTO.setReplyBoardWriterId(member.getMemberId());
         replyBoardDTO.setReplyBoardClassification(classification);
-        
         List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTO, state);
         model.addAttribute("replyBoardDTO",list);
         model.addAttribute("classification",classification);
         model.addAttribute("replyBoardPk",replyBoardPk);
-        model.addAttribute("memberId",memberId);
+        model.addAttribute("memberId",member.getMemberId());
         return "replyBoard/read";
     }
     

@@ -25,11 +25,12 @@
 
     <h2>${requestScope.classification}</h2>
     <br/><br/>
-
-    <div class="write-button">
-      <a href="write?classification=${requestScope.classification}" class="button">글쓰기</a>
-    </div> <br/><br/>
-
+    <sec:authorize access="isAuthenticated()">
+        <div class="write-button">
+          <a href="write?classification=${requestScope.classification}" class="button">글쓰기</a>
+        </div> <br/><br/>
+    </sec:authorize>
+    
     <div class="table-wrapper">
       <table>
         <thead>
@@ -56,33 +57,46 @@
     <c:forEach items="${requestScope.list}" var="replyBoardDTO" varStatus="state">          
           
           <tr>
-              <sec:authorize access="isAuthenticated()">
-                <sec:authentication var="member" property="principal"/>
-
             <td colspan="2">
             <input type="hidden" value="${replyBoardDTO.replyBoardDate}"  name="newBoardCheck${state.count}">
             
             <script type="text/javascript">
-            jq(function(){
-              
-             var writeDate = $('input[name=newBoardCheck${state.count}]').val();            
-             var adjustedWriteDate = new Date(writeDate);
-             var currentDate = new Date();
-             currentDate.setDate(currentDate.getDate()-1);
-
-             if(adjustedWriteDate>currentDate){
-               $('span[name=span${state.count}]').append("<img src='${pageContext.request.contextPath}/resources/testimg/replyBoard/newImg.jpg'/>");
-             }      
-            });
+              jq(function(){
+                
+               var writeDate = jq('input[name=newBoardCheck${state.count}]').val();            
+               var adjustedWriteDate = new Date(writeDate);
+               var currentDate = new Date();
+               currentDate.setDate(currentDate.getDate()-1);
+  
+               if(adjustedWriteDate>currentDate){
+                 jq('span[name=span${state.count}]').append("<img src='${pageContext.request.contextPath}/resources/testimg/replyBoard/newImg.jpg'/>");
+               }      
+              });
             </script>
             
               <span name="span${state.count}"></span>
 
-              <a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}&memberId=${member.memberId}">
+                <c:if test="${replyBoardDTO.authName eq 'ROLE_ADMIN'}">
+                <a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}" style="color: red; font-weight: bold">
                        ${replyBoardDTO.replyBoardTitle}</a>
+                </c:if>
+                
+                <c:if test="${replyBoardDTO.authName eq 'ROLE_MEMBER'}">
+                <a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}" style="color: #7dc855">
+                       ${replyBoardDTO.replyBoardTitle}</a>
+                </c:if>
+                
+                <c:if test="${replyBoardDTO.authName eq 'ROLE_TEACHER'}">
+                <a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}" style="color: orange; font-weight: bold">
+                       ${replyBoardDTO.replyBoardTitle}</a>
+                </c:if>
+                
+                <c:if test="${replyBoardDTO.authName eq 'ROLE_COMPANY'}">
+                <a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}" style="color: blue">
+                       ${replyBoardDTO.replyBoardTitle}</a>
+                </c:if>
             </td>
-
-                </sec:authorize>
+            
             <td>${replyBoardDTO.member.memberNickName}</td>
             <td>${replyBoardDTO.replyBoardDate}</td>
             <td>${replyBoardDTO.likeNum}</td>
@@ -101,23 +115,22 @@
 
         <div class="field half">
 
-    <form action="${pageContext.request.contextPath}/reply/replyBoardListSearch">
-       <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-       <input type="hidden" name="classification" value="${requestScope.classification}"/>
-        <select name="department" id="department">
-          <option value="">- 분류 -</option>
-          <option value="A.REPLY_BOARD_TITLE">제목</option>
-          <option value="A.REPLY_BOARD_CONTENTS">내용</option>
-          <option value="B.MEMBER_NICKNAME">작성자</option>
-          <option value="C.HASHTAG">해시태그</option>
-        </select>
-
-        <input class="tech-board-search" type="text" name="boardSearch"/>
-        <input type="submit" value="검색"/>
-    </form>
+        <form action="${pageContext.request.contextPath}/reply/replyBoardListSearch">
+           <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+           <input type="hidden" name="classification" value="${requestScope.classification}"/>
+            <select name="department" id="department">
+              <option value="">- 분류 -</option>
+              <option value="A.REPLY_BOARD_TITLE">제목</option>
+              <option value="A.REPLY_BOARD_CONTENTS">내용</option>
+              <option value="B.MEMBER_NICKNAME">작성자</option>
+              <option value="C.HASHTAG">해시태그</option>
+            </select>
+    
+            <input class="tech-board-search" type="text" name="boardSearch"/>
+            <input type="submit" value="검색"/>
+        </form>
 
    </div>
-
 
   </body>
 </html>

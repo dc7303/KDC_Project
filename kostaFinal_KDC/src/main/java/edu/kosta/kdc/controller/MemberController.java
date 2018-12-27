@@ -1,10 +1,8 @@
 package edu.kosta.kdc.controller;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +20,7 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
     
-    /**
+     /**
      * 로그인폼
      */
     @RequestMapping("/signInForm")
@@ -279,4 +277,23 @@ public class MemberController {
         
         return "/index";
     }
+    
+    /**
+     * 비밀번호 찾기  폼 띄우기
+     * */
+    @RequestMapping("/passwordSearch")
+    public String passwordSearch() {
+        return "/member/passwordSearchPopUpForm";
+    }
+    
+    /**
+     * 이메일 보내주기
+     * @throws Exception 
+     * */
+    @RequestMapping("/emailSend")
+    @ResponseBody
+    public String emailSend(String email) throws Exception {
+        return "sucess";
+    }
+    
 }

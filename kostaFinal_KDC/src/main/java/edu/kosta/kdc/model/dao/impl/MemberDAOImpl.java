@@ -72,4 +72,12 @@ public class MemberDAOImpl implements MemberDAO {
         
     }
 
+    /**
+     * 이메일 보내면서 비밀번호 수정해주기
+     * */
+    @Override
+    public int pwdSearchEmailSend(String email) {
+        return sqlSession.update("memberMapper.pwdSearchEmailSend",email);
+    }
+
 }

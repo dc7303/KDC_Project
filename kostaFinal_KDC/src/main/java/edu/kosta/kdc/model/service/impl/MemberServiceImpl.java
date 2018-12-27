@@ -133,6 +133,15 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    /**
+     * 이메일 보내면서 비밀번호 update해주기
+     * */
+    @Override
+    public int pwdSearchEmailSend(String email) {
+       
+        return memberDAO.pwdSearchEmailSend(email);
+    }
+
     
     
 }

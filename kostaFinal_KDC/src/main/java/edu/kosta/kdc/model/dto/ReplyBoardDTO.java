@@ -15,6 +15,7 @@ public class ReplyBoardDTO {
     private int likeNum;                           //좋아요수
     private int replyNum;                          //댓글수
     private String mentionNickName;                //인물태그 닉네임
+    private String authName;                       //로그인 한사람의 권한
     
     //1:1인경우
     private MemberDTO member;
@@ -26,7 +27,7 @@ public class ReplyBoardDTO {
     public ReplyBoardDTO(int replyBoardPk, String replyBoardClassification, int replyBoardReplyNo,
             String replyBoardTitle, String replyBoardWriterId, String replyBoardDate, String replyBoardContents,
             int replyBoardViews, String replyBoardMention, boolean replyBoardIsDelete, int likeNum, int replyNum,
-            String mentionNickName, MemberDTO member, UpDownDTO updown, HashTagDTO hashTag) {
+            String mentionNickName, String authName,  MemberDTO member, UpDownDTO updown, HashTagDTO hashTag) {
         super();
         this.replyBoardPk = replyBoardPk;
         this.replyBoardClassification = replyBoardClassification;
@@ -41,6 +42,7 @@ public class ReplyBoardDTO {
         this.likeNum = likeNum;
         this.replyNum = replyNum;
         this.mentionNickName = mentionNickName;
+        this.authName = authName;
         this.member = member;
         this.updown = updown;
         this.hashTag = hashTag;
@@ -131,6 +133,12 @@ public class ReplyBoardDTO {
     }
     public void setMentionNickName(String mentionNickName) {
         this.mentionNickName = mentionNickName;
+    }
+    public String getAuthName() {
+        return authName;
+    }
+    public void setAuthName(String authName) {
+        this.authName = authName;
     }
     public MemberDTO getMember() {
         return member;

@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
@@ -169,12 +168,16 @@ jq(function() {
 <table>
        <thead>
           <tr class="titel-color">
-            <td colspan="5">글제목</td>
             <td>글쓴이</td>
+            <td colspan="4">글제목</td>
             <td>등록날짜</td>
-            <td>좋아요</td>
-            <td>조회수</td>
-            <td>신고</td>
+            <sec:authorize access="isAuthenticated()">
+              <td colspan="2">좋아요</td>
+            </sec:authorize>
+              <td>조회수</td>
+            <sec:authorize access="isAuthenticated()">
+              <td>신고</td>
+            </sec:authorize>
           </tr>
         </thead>
 
@@ -183,13 +186,12 @@ jq(function() {
 <c:choose>
 <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
     <tr>
-    
-      <td colspan="5">
-      <span>${replyBoardDTO.replyBoardTitle}</span>
+      <td>
+        <span>${replyBoardDTO.member.memberNickName}</span>
       </td>
       
-      <td>
-      <span>${replyBoardDTO.member.memberNickName}</span>
+      <td colspan="4">
+      <span>${replyBoardDTO.replyBoardTitle}</span>
       </td>
       
       <td style="width: 130px">
@@ -197,39 +199,43 @@ jq(function() {
       </td>
       
       <!-- 여기부터 -->
-      
-      <td>
-        <c:choose>
-          <c:when test="${replyBoardDTO.updown.isUp==true}">
-          <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
-          <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
-          </c:when>
-          <c:when test="${replyBoardDTO.updown.isUp==false}">
-          <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
-          <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
-          </c:when>      
-          <c:otherwise>
-          <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
-          <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
-          </c:otherwise>
-        </c:choose>
-      </td>
-      
+      <sec:authorize access="isAuthenticated()">
+        <td>
+          <c:choose>
+            <c:when test="${replyBoardDTO.updown.isUp==true}">
+            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+            <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
+            </c:when>
+            <c:when test="${replyBoardDTO.updown.isUp==false}">
+            <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
+            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
+            </c:when>      
+            <c:otherwise>
+            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
+            </c:otherwise>
+          </c:choose>
+        </td>
+        <td>
+          <span>${replyBoardDTO.likeNum}</span>
+        </td>
+      </sec:authorize>
       <!-- 여기까지 -->
       
       <td>
       <span>${replyBoardDTO.replyBoardViews}</span>
       </td>
       
-      <td>
-      <span><input type="button" value="신고"/></span>
-      <script>
-      		jq("input[value=신고]").click(function() {
-              window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
-          });
+      <sec:authorize access="isAuthenticated()">
+        <td>
+        <span><input type="button" value="신고"/></span>
+        <script>
+        		jq("input[value=신고]").click(function() {
+                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
+            });
         </script>
-      </td>
-            
+        </td>
+      </sec:authorize>      
     </tr>
     
     <tr>
@@ -276,19 +282,28 @@ jq(function() {
     <td>멘션</td>
     <td colspan="4">댓글내용</td>
     <td>댓글작성일</td>
-    <td colspan="2">좋아요</td>
+    <sec:authorize access="isAuthenticated()">
+      <td colspan="2">좋아요</td>
+    </sec:authorize>  
     <td>댓글작성자</td>
-    <td>신고</td>
+    <sec:authorize access="isAuthenticated()">
+      <td>신고</td>
+    </sec:authorize>
     </tr>
         
+<c:set var="replyBoardSize" value="${requestScope.replyBoardDTO.size()}"/>
 
   <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO" varStatus="state">
-  
+  <c:if test="${replyBoardSize <=1 }">
+        <tr>
+          <td colspan="10">댓글이 없습니다.</td>
+        </tr>
+      </c:if>
   <c:choose>
   <c:when test="${replyBoardDTO.replyBoardReplyNo>0}">
       <tr>
         <td style="width: 80px">
-        <span id="mentionNickName">${replyBoardDTO.mentionNickName}</span>
+        <a id="mentionNickName" href="#">${replyBoardDTO.mentionNickName}</a>
         </td>
         <td colspan="4">
          <span id="replyBoardContents" style="float: left; padding-right:10px">${replyBoardDTO.replyBoardContents }</span>
@@ -321,25 +336,27 @@ jq(function() {
         </td>
   
         <!-- 여기부터 -->
-        <td style="width: 100px">
-        <c:choose>
-        <c:when test="${replyBoardDTO.updown.isUp==true}">
-          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up_black.png" name="replyBlack${state.count}" id="reply_thumbs_up_black" onclick="window.location.reload()"><br/>
-          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png">
-        </c:when>
-        <c:when test="${replyBoardDTO.updown.isUp==false}">
-          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png"><br/>
-          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down_black.png" name="replyBlack${state.count}"id="reply_thumbs_down_black" onclick="window.location.reload()">
-        </c:when>      
-        <c:otherwise>
-          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png" name="replyLike${state.count}" id="reply_thumbs_up" onclick="window.location.reload()"><br/>
-          <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png" name="replyDisLike${state.count}"id="reply_thumbs_down" onclick="window.location.reload()">
-        </c:otherwise>
-        </c:choose>
-        </td>
-        <td style="width: 1px">
-        <span>${replyBoardDTO.likeNum}</span>
-        </td>
+        <sec:authorize access="isAuthenticated()">
+          <td style="width: 100px">
+          <c:choose>
+          <c:when test="${replyBoardDTO.updown.isUp==true}">
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up_black.png" name="replyBlack${state.count}" id="reply_thumbs_up_black" onclick="window.location.reload()"><br/>
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png">
+          </c:when>
+          <c:when test="${replyBoardDTO.updown.isUp==false}">
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png"><br/>
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down_black.png" name="replyBlack${state.count}"id="reply_thumbs_down_black" onclick="window.location.reload()">
+          </c:when>      
+          <c:otherwise>
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png" name="replyLike${state.count}" id="reply_thumbs_up" onclick="window.location.reload()"><br/>
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png" name="replyDisLike${state.count}"id="reply_thumbs_down" onclick="window.location.reload()">
+          </c:otherwise>
+          </c:choose>
+          </td>
+          <td style="width: 1px">
+          <span>${replyBoardDTO.likeNum}</span>
+          </td>
+        </sec:authorize>
         
   <script>  /* 댓글 좋아요, 싫어요 */
     jq(function() {
@@ -405,58 +422,56 @@ jq(function() {
         <!-- 여기까지 -->
         <td>
         <span>${replyBoardDTO.member.memberNickName}</span>
-        </td>
         
-        <td style="width: 90px">
-          <span>
-            <input type="button" name="댓글신고${state.count}" value="댓글신고">
-          </span>
-          <script>
-            jq("input[name=댓글신고${state.count}]").click(function() {
-              window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
-            });
-          </script>
         </td>
+        <sec:authorize access="isAuthenticated()">
+          <td style="width: 90px">
+            <span>
+              <input type="button" name="댓글신고${state.count}" value="댓글신고">
+            </span>
+            <script>
+              jq("input[name=댓글신고${state.count}]").click(function() {
+                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
+              });
+            </script>
+          </td>
+        </sec:authorize>
       </tr>
   </c:when>
-  <%-- <c:when test="${empty replyBoardDTO.replyBoardReplyNo>0}">
-    <tr>
-      <td colspan="10">댓글이 없습니다.</td>
-    </tr>   
-  </c:when> --%>
   </c:choose>
   </c:forEach>
 <!-- 댓글멘션부분 수정 시작 -->
-<c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO">
-<c:choose>
-<c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
-   <form name="replyWriteForm" method="post" id="replyWriteForm" action="${pageContext.request.contextPath}/reply/replyInsert?classification=${requestScope.classification}&replyBoardPk=${requestScope.replyBoardPk}">
-   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-   <sec:authorize access="isAuthenticated()">
-      <sec:authentication var="member" property="principal" />
-      <input type="hidden" name="memberId" value="${member.memberId}">
-    </sec:authorize>
-      <tr>
-        <td><div id="mentionButton"></div>
-            <input type="hidden" id="mentionNickName" name="mentionNickName"/>
-            <input type="text" placeholder="@닉네임, 형태로입력" name="mentionInput" autocomplete="off" style="width: 150px">
-            <div id="suggest"></div>
-        </td>
-        <td colspan="7"><input type="text" placeholder="댓글내용입력" name="replyContents"></td>
-        <td>
-          <sec:authorize access="isAuthenticated()">
-            <sec:authentication var="member" property="principal" />
-            ${member.memberNickName}
-          </sec:authorize>
-        </td>
-        <td><input type=button value="등록" ></td>
-      </tr>
-      
-    </form>
-</c:when>
-</c:choose>
-</c:forEach>
-
+<sec:authorize access="isAuthenticated()">
+  <c:forEach items="${requestScope.replyBoardDTO}" var="replyBoardDTO">
+  <c:choose>
+  <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
+     <form name="replyWriteForm" method="post" id="replyWriteForm" action="${pageContext.request.contextPath}/reply/replyInsert?classification=${requestScope.classification}&replyBoardPk=${requestScope.replyBoardPk}">
+     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+     <sec:authorize access="isAuthenticated()">
+        <sec:authentication var="member" property="principal" />
+        <input type="hidden" name="memberId" value="${member.memberId}">
+      </sec:authorize>
+        <tr>
+          <td style="width: 130px"><div id="mentionButton"></div>
+              <input type="hidden" id="mentionNickName" name="mentionNickName"/>
+              <input type="text" placeholder="@닉네임, 형태로입력" name="mentionInput" autocomplete="off">
+              <div id="suggest"></div>
+          </td>
+          <td colspan="7"><input type="text" placeholder="댓글내용입력(50자 이내 입력)" name="replyContents" maxlength="100"></td>
+          <td>
+            <sec:authorize access="isAuthenticated()">
+              <sec:authentication var="member" property="principal" />
+              ${member.memberNickName}
+            </sec:authorize>
+          </td>
+          <td><input type=button value="등록" ></td>
+        </tr>
+        
+      </form>
+  </c:when>
+  </c:choose>
+  </c:forEach>
+</sec:authorize>
     
 </table>
 

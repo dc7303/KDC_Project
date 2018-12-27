@@ -40,6 +40,15 @@
     }
 
     </style>
+    <script>
+    const jq = jQuery.noConflict();
+    jq(function() {
+      jq("input[value=비밀번호찾기]").click(function() {
+        window.open("${pageContext.request.contextPath}/member/passwordSearch", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no");
+      });  
+    });
+    
+    </script>
     </head>
     <body>
     	<h1><b>KDC</b></h1>
@@ -54,6 +63,9 @@
           </div>
           <div class="button">
             <input type="submit" value="SignIn">
+          </div>
+          <div class="button">
+            <input type="button" value="비밀번호찾기">
           </div>
         </form>
     </body>

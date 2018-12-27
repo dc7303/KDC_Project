@@ -57,5 +57,10 @@ public interface MemberService {
      * */
     List<MemberDTO> memberSelectAll();
 
+    /**
+     * 이메일 보내기
+     * */
+    int pwdSearchEmailSend(String email);
+
   
 }
