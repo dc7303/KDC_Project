@@ -72,4 +72,15 @@ public class MemberDAOImpl implements MemberDAO {
         
     }
 
+    /**
+     * 멤버 전체 수 가져오기
+     */
+    @Override
+    public int memberTotalCount() {
+        
+        return sqlSession.selectOne("memberMapper.memberTotalCount");
+    }
+    
+    
+
 }

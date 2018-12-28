@@ -50,6 +50,9 @@
     .empty-list {
       text-align: center;
     }
+    /*
+    <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
+    */
   </style>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
@@ -58,7 +61,7 @@
       // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
 
-      
+      //전체 게시글 이용 비율 차트 렌더링
       jq.ajax({
         url: '${pageContext.request.contextPath}/boardTotalChart',
         type: 'get',
@@ -92,7 +95,7 @@
             chart.draw(data, options);
             
           };
-         
+          //콜백함수로 넘기기.
           google.charts.setOnLoadCallback(boardAll);
           
           
@@ -102,34 +105,81 @@
         }
       });
       
-    
-/*       // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function boardAllChart(result) {
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 10],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-        ]);
-
-        // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':400,
-                       'height':300};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      } */
       
-      
+      /**
+       *  멤버 리스트 불러오기
+       */
+      jq.ajax({
+        url: '${pageContext.request.contextPath}/adminMemberList',
+        type: 'get',
+        dataType: 'json',
+        data: {
+          currentPage: '3',
+        },
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+        },
+        success: function(result) {
+          console.log(result.pageDTO);
+          var memberList = result.memberList;
+          var pageDTO = result.pageDTO;
+          //멤버 리스트가 존재할때
+          var str = '<tr class="table-tr">';
+          
+          if(memberList !== null) {
+            //멤버 리스트 셋팅
+            for(var i = 0; i < memberList.length; i++) {
+              console.log(result.memberList[i].memberId);
+              str += '<td>' + result.memberList[i].memberId + '</td>';
+              str += '<td>' + result.memberList[i].memberName + '</td>';
+              str += '<td>' + result.memberList[i].memberNickName + '</td>';
+              str += '<td>' + result.memberList[i].memberBirth + '</td>';
+              str += '<td>' + result.memberList[i].memberPhone + '</td>';
+              str += '<td>' + result.memberList[i].memberEmail + '</td>';
+              str += '<td>' + result.memberList[i].memberDate + '</td>';
+              str += '<td><input type="button" value="삭제" id="deleteMember"></td></tr>'
+            }
+          }else {
+            str += '<td class="empty-list" colspan="8">등록된 유저가 없습니다.</td>'
+          }
+          
+          str += '<td class="page-selector" colspan="8">'
+          //첫 페이지로 이동 
+          if(pageDTO.firstMove) {
+            str += '<a href="#" class="first-move">첫페이지로</a>';
+          }
+          
+          //이전페이지로 이동
+          if(pageDTO.backPage) {
+            str += '<a href="#" class="back-page">◀</a>  ';
+          }
+          
+          //페이지 수 셋팅
+          for(var pageCount = pageDTO.startPage; pageCount <= pageDTO.endPage; pageCount++) {
+            if(pageCount !== pageCount){
+              str += '<a href="#" class="page-number" value="' + pageCount + '">' + pageCount + '</a>  '
+            }else {
+              str += '<a href="#" class="current-page" value="' + pageCount + '">' + pageCount + '</a>'
+            }
+          }
+          
+          //다음 페이지
+          if(pageDTO.nextPage) {
+            str += '<a href="#" class="next-page">▶</a>';
+          }
+          
+          //마지막 페이지
+          if(pageDTO.lastMove) {
+            str += '<a href="#" class="last-move">마지막페이지로</a>';
+          }
+          
+          jq('.admin-table').eq(0).append(str);
+        },
+        error: function(err) {
+          console.log('err : ' + err);
+        }
+      });
+       
     })(jQuery);
     
       
@@ -238,7 +288,7 @@
                 <th>유저 추방</th>
             </tr>
             
-            <c:choose>
+ <%--            <c:choose>
             <c:when test="${empty requestScope.memberList}">
             <tr>
                 <td class="empty-list" colspan="8">
@@ -252,7 +302,7 @@
                 <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'">
                     <td>${memberList.memberId}</td>
                     <td>
-                  <%-- <a href="${pageContext.request.contextPath}/board/read/${memberList}"> --%>
+                  <a href="${pageContext.request.contextPath}/board/read/${memberList}">
                         ${memberList.memberName}
                       </td>
                     <td>${memberList.memberNickName}</td>
@@ -267,7 +317,7 @@
                 </tr>
             </c:forEach>
           </c:otherwise>
-        </c:choose>
+        </c:choose> --%>
         </table>
       </div>
 
