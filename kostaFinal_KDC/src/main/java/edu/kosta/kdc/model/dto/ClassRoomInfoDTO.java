@@ -107,6 +107,15 @@ public class ClassRoomInfoDTO {
     public void setClassRoomList(List<ClassRoomDTO> classRoomList) {
         this.classRoomList = classRoomList;
     }
+
+    @Override
+    public String toString() {
+        return "ClassRoomInfoDTO [classRoomCode=" + classRoomCode + ", classRoomInfoName=" + classRoomInfoName
+                + ", classRoomInfoStartDate=" + classRoomInfoStartDate + ", classRoomInfoEndDate="
+                + classRoomInfoEndDate + ", classRoomInfoTeacherId=" + classRoomInfoTeacherId
+                + ", classRoomInfoChatFile=" + classRoomInfoChatFile + ", classRommInfoIsDelete="
+                + classRommInfoIsDelete + "]";
+    }
     
     
 }

@@ -31,7 +31,6 @@ public class EchoHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception{
 		//클라이언트의 세션을 세션리스트에 add()로 추가
 		
-		//sessionList.add(session);
 		System.out.println(session.getId()+"님이 연결됨");
 		System.out.println("채팅방 입장자 : "+session.getId());
 	}
@@ -39,28 +38,25 @@ public class EchoHandler extends TextWebSocketHandler {
 	/*연결된 모든 사용자에게 for문으로 메시지를 전달*/
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		//메시지에서 code부분 추출
+		//메시지에서 추출할 정보들 초기화
 	    String [] arr;
 		String code = null;
 		String memberId = null;
-		String contextPath = null;
 		String pureMessage = null;
+		String chatFile = null;
+		
+		//os별 개행문자 정의
 		String newLine = System.getProperty("line.separator");
+		
+		//jsp에서 정한 구분자로 구분하여 배열생성
 		arr = message.getPayload().split("\\|");
 		code = arr[0];
 		memberId = arr[1];
-		contextPath = arr[2];
+		chatFile = arr[2];
 		pureMessage = arr[3];
 		
-		//uri기반으로 가져옴
-		System.out.println("code : "+code);
-        System.out.println("memberId : "+memberId);
-        System.out.println("contextPath : "+contextPath);
-        System.out.println("pureMessage : "+pureMessage);
-		String path = contextPath+"/"+code+".txt";
-		
 		//파일에 작성
-		BufferedWriter bw = new BufferedWriter(new FileWriter(path,true));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(chatFile,true));
 		PrintWriter pw = new PrintWriter(bw,true);
 		pw.write(memberId+"|"+pureMessage+newLine);
 		pw.flush();
@@ -90,7 +86,6 @@ public class EchoHandler extends TextWebSocketHandler {
 		//세션리스트에서 제거
 		sessionList.remove(session);
 		System.out.println("채팅 퇴장: "+session.getId());
-		
 		
 	}
 }

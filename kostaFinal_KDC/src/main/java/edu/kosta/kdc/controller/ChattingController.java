@@ -29,13 +29,9 @@ public class ChattingController {
     private  ChattingService service;
     
     @RequestMapping("/chatting")
-    public String chatting(Model model,HttpSession session) {
+    public String chatting(Model model) {
         //code 가 존재하는 코드인지 체크
-        /*
-         * 1. code에 해당하는 classroom_infoDTO의 chatfile명을 가져옴(없으면 예외처리)
-        2. 해당 chatfile에 있는 내용을 읽어와서 채팅창에 뿌려줌
-        3. 
-        */
+   
         MemberDTO member = null;
         try {
             member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -47,11 +43,10 @@ public class ChattingController {
         ClassRoomInfoDTO info = service.infoSelectByMemberId(member.getMemberId());
         
         //코드에 해당하는 파일 읽어서 뿌려주기
-        String path = session.getServletContext().getRealPath("/resources/chatFile");
         List<String> chatLog =new ArrayList<>();
         try{
             //파일 객체 생성
-            File file = new File(path+"/"+info.getClassRoomInfoChatFile());
+            File file = new File(info.getClassRoomInfoChatFile());
             //입력 스트림 생성
             FileReader fr = new FileReader(file);
             //입력 버퍼 생성
@@ -62,16 +57,15 @@ public class ChattingController {
             }
             //.readLine()은 끝에 개행문자를 읽지 않는다.            
             br.close();
-        }catch(Exception E) {
-            E.printStackTrace();
-            throw new KdcException("채팅 로그를 읽어오는데 실패했습니다.");
+        }catch(Exception e) {
+            e.printStackTrace();
         }
        
-        //code를 request에 저장하여 전달
-        model.addAttribute("contextPath", path);
-        //채팅로그 전달
+        
+        //채팅관련 정보 request로 전달
         model.addAttribute("chatLog", chatLog);
         model.addAttribute("roomCode", info.getClassRoomCode());
+        model.addAttribute("chatFile", info.getClassRoomInfoChatFile());
         return "chatting/chattingView";
     }
 

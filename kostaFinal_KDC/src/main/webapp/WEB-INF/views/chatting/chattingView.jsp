@@ -108,8 +108,8 @@
     	function sendMessage(){
     		var code = jq('input[name=room-code]').val();
     		var memberId = jq('#member-id').val();
-    		var contextPath = jq('#context-path').val();
-    		sock.send(code+'|'+memberId+'|'+contextPath+'|'+$("#message").val());
+    		var chatFile = jq('#chat-file').val();
+    		sock.send(code+'|'+memberId+'|'+chatFile+'|'+$("#message").val());
     	}
     	
     	//서버에서 보내온 메시지 출력 함수
@@ -171,7 +171,7 @@
       <input id="message" name="message" type="text" />
       <input id="send-btn" type="button" value="입력" />
       <input name="room-code" type="hidden" value="${roomCode}" />
-      <input id="context-path" type="hidden" value="${contextPath}"/>
+      <input id="chat-file" type="hidden" value="${chatFile}"/>
     </div>
   </body>
 </html>
