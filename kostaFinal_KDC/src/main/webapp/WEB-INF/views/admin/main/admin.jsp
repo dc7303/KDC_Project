@@ -55,7 +55,10 @@
   <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
   <script type="text/javascript">
     (function(jq) {
-      console.log('jqeury load');
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      
       jq.ajax({
         url: '${pageContext.request.contextPath}/boardTotalChart',
         type: 'get',
@@ -64,24 +67,46 @@
           xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
         },
         success: function(result) {
-          console.log('test');
+          
+          const boardAll = function boardAllChart() {
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'contents');
+            data.addColumn('number', 'quantity');
+            
+            //addRows할 배열 변수
+            var dataArr =[];
+            for(let key in result) {
+              dataArr.push([key, result[key]]);
+            }
+            //물리 데이터 담기
+            data.addRows(dataArr);
+
+            // Set chart options
+            var options = {'title':'모든 게시글 이용 비율',
+                           'width':500,
+                           'height':400};
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+            
+          };
+         
+          google.charts.setOnLoadCallback(boardAll);
+          
+          
         },
         error: function(err) {
           console.log('err : ' + err);
         }
       });
-    })(jQuery);
+      
     
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(boardAllChart);
-
-      // Callback that creates and populates a data table,
+/*       // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
       // draws it.
-      function boardAllChart() {
+      function boardAllChart(result) {
         // Create the data table.
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Topping');
@@ -102,7 +127,11 @@
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
-      }
+      } */
+      
+      
+    })(jQuery);
+    
       
     </script>
   </head>
