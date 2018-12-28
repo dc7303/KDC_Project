@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <title>Insert title here</title>
 
 </head>
@@ -61,7 +62,7 @@
 
 <div>
   
-  <div style="width:30%; float:left; margin-right:100px">
+  <div style="width:40%; float:left; margin-right:100px">
     <h4 class="notice-header">공지사항 게시판</h4>
     <table border="1" width="80%">
       <colgroup>
@@ -71,16 +72,16 @@
         <col width="*">
       </colgroup>
       <c:choose>
-        <c:when test="${empty requestScope.noticeListFive }">
+        <c:when test="${empty requestScope.generalNoticeListFive }">
           <th colspan="4">게시물이 존재하지 않습니다.</th>
         </c:when>
         <c:otherwise>
-          <c:forEach items="${requestScope.noticeListFive }" var="noticeListFive">
+          <c:forEach items="${requestScope.generalNoticeListFive }" var="generalNoticeListFive">
             <tr>
-              <th><a href="#">${noticeListFive.noticeBoardTitle }</a></th>
-              <th>${noticeListFive.noticeBoardWriterId }</th>
-              <th>${noticeListFive.noticeBoardDate }</th>
-              <th>${noticeListFive.noticeBoardViews }</th>
+              <th><a href="#">${generalNoticeListFive.noticeBoardTitle }</a></th>
+              <th>${generalNoticeListFive.noticeBoardWriterId }</th>
+              <th>${generalNoticeListFive.noticeBoardDate }</th>
+              <th>${generalNoticeListFive.noticeBoardViews }</th>
             </tr>
           </c:forEach>  
         </c:otherwise>
@@ -88,7 +89,7 @@
     </table>
   </div>
   
-  <div style="width:30%; float:left">
+  <div style="width:40%; float:left">
     <h4 class="Tech-header">Tech 게시판</h4>
     <table border="1" width="80%">
       <colgroup>
@@ -115,7 +116,7 @@
     </table>
   </div>
   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-  <div style="width:50%;">
+  <div style="width:80%;">
     <h4 class="QnA-header" style="margin-left:auto; margin-right:auto;">Q&A 게시판</h4>
     <table border="1" width="80%">
       <colgroup>

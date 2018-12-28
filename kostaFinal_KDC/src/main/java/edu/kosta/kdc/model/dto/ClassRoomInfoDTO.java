@@ -28,7 +28,7 @@ public class ClassRoomInfoDTO {
         this.classRoomInfoChatFile = classRoomInfoChatFile;
         this.classRommInfoIsDelete = classRommInfoIsDelete;
     }
-
+    
     public String getClassRoomCode() {
         return classRoomCode;
     }

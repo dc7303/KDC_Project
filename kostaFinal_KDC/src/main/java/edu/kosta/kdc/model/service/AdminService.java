@@ -1,8 +1,11 @@
 package edu.kosta.kdc.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+
+import edu.kosta.kdc.model.dto.VisitDTO;
 
 @Service
 public interface AdminService {
@@ -19,6 +22,11 @@ public interface AdminService {
      * 방문자 수 저장하는 메소드
      * */
     int userCountIntoDB(int todayUserCount);
+
+    /**
+     * 방문자 수 가져오기 (최근 5일)
+     * */
+    public List<VisitDTO> visitNumListSelect();
 
     
 }

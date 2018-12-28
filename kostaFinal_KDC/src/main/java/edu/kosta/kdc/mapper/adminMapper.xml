@@ -2,9 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminMapper">
 
+    <resultMap type="visitDTO" id="visitMap">
+        <id column="VISIT_PK" property="visitPk"/>
+        <result column="VISIT_DATE" property="visitDate"/>
+        <result column="VISIT_NUM" property="visitNum"/>
+    </resultMap>
+
     <insert id="insertTodayUserCount" parameterType="int">
         insert into visit
         values (VISIT_SEQ.NEXTVAL, SYSDATE, #{_parameter})
     </insert>
+
+    <select id="visitNumListSelect" resultMap="visitMap">
+        select *
+        from visit
+        where to_char(visit_date, 'YYYYMMDD') <![CDATA[<=]]> to_char(SYSDATE, 'YYYYMMDD') and <![CDATA[ROWNUM <= 5]]>
+    </select>
 
 </mapper>

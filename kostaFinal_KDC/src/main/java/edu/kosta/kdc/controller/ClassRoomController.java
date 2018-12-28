@@ -52,17 +52,18 @@ public class ClassRoomController {
     @RequestMapping("/insertClassRoom")
     public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO,HttpSession session) throws Exception{
 
-        //채팅방 파일 이름과 경로를 알아온다.
-        String fileName = classRoomInfoDTO.getClassRoomCode()+".txt";
-        String path = session.getServletContext().getRealPath("/resources/chatFile");
+        //채팅방 파일을 만들 경로를 알아온다.
+        String path = "C:\\Edu\\chatFile\\";
         
-        //채팅방 파일명이 null 이므로, fileName을 DTO에 set시켜준다.
-        classRoomInfoDTO.setClassRoomInfoChatFile(fileName);
+        //DB에서 랜덤하게 파일 명을 생성하므로, 스케줄러를 이용하기 위해 경로를 DTO안에 chatFile에 set시킨다.
+        classRoomInfoDTO.setClassRoomInfoChatFile(path);
         
+        String fileName = classRoomService.createClassRoom(classRoomInfoDTO);
+        
+        System.out.println("fileName : " + fileName);
+        //채팅방 파일 생성
         File file = new File(path, fileName);
         file.createNewFile();
-        
-        classRoomService.createClassRoom(classRoomInfoDTO);
         
         return "classRoom/classList";
     }
