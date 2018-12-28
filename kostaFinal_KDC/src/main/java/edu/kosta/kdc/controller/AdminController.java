@@ -54,72 +54,22 @@ public class AdminController {
     @RequestMapping(value = "/adminMemberList", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public Map<String, Object> adminMemberList(@RequestParam(value = "currentPage") String currentPage) {
-        /*
-        int page = Integer.parseInt(currentPage);       //현재 페이지
-        int countList = 5;      //한페이지에 출력될 게시물 수
-        int countPage = 10;      //한 화면에 출력될 페이지 수
         
-        int totalCount = memberService.memberTotalCount();     //컬럼 수
-        
-        int totalPage = totalCount / countList;     //전체 페이지
-        
-        boolean firstMove = false;      //첫 페이지로 이동하는 at 생성 여부
-        boolean backPage = false;       //이전 페이지로
-        boolean nextPage = false;       //다음 페이지로
-        boolean lastMove = false;       //마지막 페이지로
-        
-        //컬럼이 255개일 경우 출력될 게시물 수 와 % 연산자 사용시 5개의 남는 컬럼이 발생함.
-        //이를 해결하기위해 % 연산하여 0보다 클 경우 페이지 수를 +1 해준다.
-        if(totalCount % countList > 0) {
-            totalPage++;
-        }
-        
-        //현재 페이지가 총 페이지보다 크다면 현재 페이지를 마지막 최종페이지 값으로.
-        if(totalPage < page) {
-            page = totalPage;
-        }
-        
-        //페이지 시작 
-        int startPage = ((page - 1) / 10) * 10 + 1;
-        
-        //마지막 페이지
-        int endPage = startPage + countPage -1;
-        
-        //마지막 페이지가 totalPage보다 크면 안되기 때문에 end페이지가 클 경우 맞춘다.
-        if(endPage > totalPage) {
-            endPage = totalPage;
-        }
-        
-        //startPage가 1이 아닐 경우 처음으로 이동하는 at을 추가할 수 있게 해준다.
-        if(startPage > 1 || page > 1) {
-            firstMove = true;
-        }
-        
-        //페이지가 1이 아닌 경우 이전페이지로 이동해주는 at을 추가하게 해준다.
-        if(page > 1) {
-            backPage = true;
-        }
-
-        //<다음> 셋팅
-        if(page < totalPage) {
-            nextPage = true;
-        }
-        
-        //마지막 페이지 셋팅
-        if(endPage < totalPage) {
-            lastMove = true;
-        }
-        */
         int setPage = Integer.parseInt(currentPage);       //현재 페이지
         int setTotalCount = memberService.memberTotalCount();     //컬럼 수
         
         //view로 보낼 json map
         Map<String, Object> map = new HashMap<>();
         
+        //페이지 정보 셋팅 및 DTO 리턴 받기
         PageDTO pageDTO = pageHandler.pageInfoSet(setPage, 10, 10, setTotalCount);
         
-        //전체 유저 리스트 가져오기
-        List<MemberDTO> memberList = memberService.memberSelectAll();
+        //데이터 조회할 ROWNUM 범위 를 select 인수로 전달.
+        int firstColumnRange = pageDTO.getFirstColumnRange();
+        int lastColumnRange = pageDTO.getLastColumnRange();
+        
+        //페이지에 해당하는 유저 리스트 가져오기
+        List<MemberDTO> memberList = memberService.memberSelectAll(firstColumnRange, lastColumnRange);
         
         map.put("pageDTO", pageDTO);
         map.put("memberList", memberList);
@@ -150,17 +100,6 @@ public class AdminController {
         return mv;
     }
     
-    
-    /**
-     * 관리자 페이지 - 전체 유저 리스트 가져오기
-     * */
-    @RequestMapping("/selectMember")
-    public ModelAndView MemberSelectAll() {
-                
-        List<MemberDTO> list = memberService.memberSelectAll();
-        
-        return new ModelAndView("admin/adminPage", "memberList", list);    
-    }
     
     /**
      * 운영현황 게시판 수 가져오기

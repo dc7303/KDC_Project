@@ -44,7 +44,14 @@ public class PageHandlerImpl implements PageHandler {
             totalCount = setTotalCount;
         }
         
-        int totalPage = totalCount / countList;     //전체 페이지
+        //출력할 페이지 수
+        int totalPage = totalCount / countList;
+        
+        //컬럼조회 시작 범위 (DB에서 사용)
+        int firstColumnRange = (page - 1) * countList + 1;
+        
+        //컬럼조회 마지막 범위 (DB에서 사용)
+        int lastColumnRange = page * countList;
         
         boolean firstMove = false;      //첫 페이지로 이동하는 at 생성 여부
         boolean backPage = false;       //이전 페이지로
@@ -94,6 +101,8 @@ public class PageHandlerImpl implements PageHandler {
         }
         
         
-        return new PageDTO(page, countList, countPage, totalCount, totalPage, firstMove, backPage, nextPage, lastMove, startPage, endPage);
+        return new PageDTO(page, countList, countPage, totalCount,
+                totalPage, firstColumnRange, lastColumnRange, firstMove, 
+                backPage, nextPage, lastMove, startPage, endPage);
     }
 }

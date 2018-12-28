@@ -49,12 +49,12 @@ public interface MemberDAO {
     int updateByIsWithDrawal(String memberId);
     
     /**
-     * 관리자 페이지에서 유저 조회 시 모든 유저 가져오는 메소드
+     * 관리자 페이지에서 페이지에 해당하는 멤버 가져오기
      * 
      * @param
      * @return
      * */
-    List<MemberDTO> memberSelectAll();
+    List<MemberDTO> memberSelectAll(int firstColumnRange, int lastColumnRange);
 
     /**
      * 멤버 전체 수 가져오기

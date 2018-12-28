@@ -12,6 +12,8 @@
         <result column="MEMBER_EMAIL" property="memberEmail"/>
         <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
         <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+        <result column="RNUM" property="rnumOne"/>
+        <result column="RNUM_1" property="rnumTwo"/>
     </resultMap>
     
     <!-- 회원가입 -->
@@ -54,5 +56,22 @@
     <!-- 총 유저 수 -->
     <select id="memberTotalCount" resultType="java.lang.Integer">
         select nvl(count(*), 0) as totalCount from member
+    </select>
+    
+    <!-- 
+        페이징 처리시 레코드 값가져오기
+        서브쿼리를 한번만 사용해서 rownum값을 비교하면,
+        만약 데이터가 10000개일 때 10000개의 모두 번호를 다 할당하고
+        논리에 맞는 데이터를 가져오게 된다.
+        하지만 서브쿼리에 서브쿼리 where절을 추가할 시 첫번째 서브쿼리의 조건만큼
+        번호를 할 당한 후 다음 조건의 번호만큼 조회를 하기 때문에 성능면에서 우수하다.
+        그래서 복잡한 쿼리문을 사용할 수 밖에 없었습니다.    
+     -->
+    <select id="memberPagingSelect" parameterType="map" resultMap="memberDTO">
+        select x.rnum, x.* from (
+        select rownum as rnum, a.* from (
+        select * from member order by member_join_date) a 
+        where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+        where x.rnum <![CDATA[ >= ]]> #{firstColumn}
     </select>
 </mapper>

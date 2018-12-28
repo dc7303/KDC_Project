@@ -8,6 +8,9 @@ public class PageDTO {
     private int totalCount; //total 컬럼 수 (DB에서 가져온다)
     private int totalPage;  //전체 페이지
     
+    private int firstColumnRange;    //컬럼 첫번째 범위
+    private int lastColumnRange;     //컬럼 마지막 범위
+    
     //페이징 버튼 출력 여부
     private boolean firstMove;  //첫 페이지로 이동 at
     private boolean backPage;   //이전 페이지로 at
@@ -19,14 +22,17 @@ public class PageDTO {
     
     public PageDTO() {}
     
-    public PageDTO(int page, int countList, int countPage, int totalCount, int totalPage, boolean firstMove,
-            boolean backPage, boolean nextPage, boolean lastMove, int startPage, int endPage) {
+    public PageDTO(int page, int countList, int countPage, int totalCount, int totalPage, int firstColumnRange,
+            int lastColumnRange, boolean firstMove, boolean backPage, boolean nextPage, boolean lastMove, int startPage,
+            int endPage) {
         super();
         this.page = page;
         this.countList = countList;
         this.countPage = countPage;
         this.totalCount = totalCount;
         this.totalPage = totalPage;
+        this.firstColumnRange = firstColumnRange;
+        this.lastColumnRange = lastColumnRange;
         this.firstMove = firstMove;
         this.backPage = backPage;
         this.nextPage = nextPage;
@@ -34,6 +40,7 @@ public class PageDTO {
         this.startPage = startPage;
         this.endPage = endPage;
     }
+
     public int getPage() {
         return page;
     }
@@ -99,6 +106,22 @@ public class PageDTO {
     }
     public void setEndPage(int endPage) {
         this.endPage = endPage;
+    }
+
+    public int getFirstColumnRange() {
+        return firstColumnRange;
+    }
+
+    public void setFirstColumnRange(int firstColumnRange) {
+        this.firstColumnRange = firstColumnRange;
+    }
+
+    public int getLastColumnRange() {
+        return lastColumnRange;
+    }
+
+    public void setLastColumnRange(int lastColumnRange) {
+        this.lastColumnRange = lastColumnRange;
     }
     
     
