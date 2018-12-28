@@ -37,11 +37,6 @@ CREATE TABLE MESSAGE(
     MESSAGE_ISDELETE VARCHAR2(5 CHAR) NOT NULL CHECK(MESSAGE_ISDELETE IN('TRUE','FALSE'))
 );
 
-insert into message values(MESSAGE_SEQ.nextval,'seonghyeon','seonghyeon1','하하','호호호',sysdate,'FALSE','FALSE');
-select * from MEMBER;
-select * from MESSAGE;
-update message set MESSAGE_ISDELETE='FALSE';
-
 --클래스 정보 테이블 생성
 CREATE TABLE CLASSROOM_INFO(
     CLASSROOM_CODE VARCHAR2(10 CHAR) PRIMARY KEY,
@@ -112,7 +107,6 @@ CREATE TABLE REPORT(
     REPORT_ISDELETE VARCHAR2(5 CHAR) NOT NULL CHECK(REPORT_ISDELETE IN('TRUE','FALSE'))
 );
 
-insert into REPORT values (REPORT_SEQ.NEXTVAL, 1, 'stream', sysdate, '욕설', 'FALSE')
 --포트폴리오 테이블 생성 
 --학생 한명당 하나
 CREATE TABLE PORTFOLIO(
@@ -155,8 +149,7 @@ CREATE TABLE CALENDAR(
     CALENDAR_COLOR VARCHAR2(10 CHAR) NOT NULL
 );
 
-
-commit;
+commit
 
 ----------시퀀스
 --테이블명_SEQ

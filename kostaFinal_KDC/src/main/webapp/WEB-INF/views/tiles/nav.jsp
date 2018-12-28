@@ -89,7 +89,7 @@
                       <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오</a></li>
                       <li><a href="${pageContext.request.contextPath}/board/boardList">내가 쓴 글</a></li>
                       <li><a href="${pageContext.request.contextPath}/message/messageList" name="messageList">받은쪽지함</a></li>
-                      <li><a href="${pageContext.request.contextPath }/member/myPagedelete">회원탈퇴</a></li>
+                      
                         
                     </ul>
                   </li>

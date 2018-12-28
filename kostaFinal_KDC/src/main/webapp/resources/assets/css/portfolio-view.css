@@ -1,0 +1,64 @@
+*{margin: 0; auto;}
+
+
+/* selectAllDetail */
+
+h2.selectalldetail-title{
+  color: gray;
+  letter-spacing: 4px;
+}
+
+.underline{
+  text-align: center;
+  width: 100px;
+  border: solid 2px tomato;
+ 
+}
+
+table{
+  margin-left: 50px;
+  width: 1300px;
+  height: 800px;
+  
+}
+
+
+table tr td{
+  
+  border: solid 1px gray;
+}
+
+.view-title-name{
+  height: 50px;
+  background-color: #999;
+}
+
+.view-hashtag{
+  height: 50px;
+  background-color: pink;
+}
+
+.view-content{
+  background-color: skyblue;
+}
+
+
+.title-01{
+  
+  
+}
+
+.title-02{
+  
+  
+}
+
+.title-03{
+  
+  
+}
+
+.title-04{
+  
+  
+}

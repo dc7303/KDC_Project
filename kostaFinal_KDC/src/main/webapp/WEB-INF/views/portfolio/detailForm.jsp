@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio.css" />
 <title>Insert title here</title>
 <!-- 해쉬태그 js -->
 <script src="${pageContext.request.contextPath}/resources/js/portfolio-hashtag.js"></script>
@@ -96,20 +97,30 @@ jq(function(){
 </script>
 </head>
 <body>
+<center>
 <sec:authentication var="member" property="principal" />
-  <h3>${member.memberId}님의 상세 포트폴리오 작성 폼 입니다</h3>
+  <h3 class="detailhead-portfolio">${member.memberId}님의 상세 포트폴리오 작성 폼 입니다</h3></p></br>
 <form action="${pageContext.request.contextPath }/portfolio/insertDetail?${_csrf.parameterName}=${_csrf.token}"
    method="post" enctype="multipart/form-data" id="editor-form">
    
-  <h5>프로젝트명 : </h5>
+   <hr class="hr-border">
+   
+   <label class="label-portfolio">프로젝트명</label></p></br>
   <input type="text" name="portfolioDetailProjectName" value="${detail.portfolioDetailProjectName}"/></p></br>
   <div id="original-img" style="display:none;">현재 이미지 : <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></div>
-  </br> 
-  <h5>해쉬태그 : </h5>
+  <p>*프로젝트명을 입력하세요<br>
+     ex) 커뮤니티 사이트 프로젝트</p>
+  
+  <hr class="hr-border">
+  
+  <label class="label-portfolio">해쉬태그</label></p></br>
   <span id="span">
   <!-- 이벤트 발생시 태그가 여기에 추가 -->
   </span>
   <input type="hidden" id="hashTagName" name="hashTagName"/>
+
+  
+  
   <c:choose>
     <c:when test="${empty detail.portfolioDetailHashTagList}">
       <input type="text" name="hashTagInput"/>
@@ -118,24 +129,34 @@ jq(function(){
       <input type="text" id = "hashTagInput" name="hashTagInput" value="<c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag" >${hashTag.hashTagName}, </c:forEach>"/>
     </c:otherwise>
   </c:choose>
-  <span id="suggest" style="float:left;">
+  <span id="suggest">
   <!-- 제시어 단어 출력부분 --> 
-  </span>
+  </span></p></br>
+  <p>#OOO 내용입력후 스페이스 </p>
   
   <!-- 해쉬태그 끝-->
+  <hr class="hr-border">
   
-  <h5>프로젝트 이미지 </h5>
+  <label class="label-portfolio">프로젝트 이미지</label>
   <input type="file" name="DeltailProjectImage" /></p></br>
+  <p>*프로젝트 이미지 파일을 선택해주세요. </p>
+  <hr class="hr-border">
   
+  
+  <label class="label-portfolio">프로젝트 설명</label>
   <div id="editSection"></div>
   <input type="hidden" id="original-pk"name="" value="${detail.portFolioDetailPk}">
   <input type="hidden" id="original-description" value="${detail.portfolioDetailDescription}"/>
+  <br/><br/><br/>
   <input type="button" value="작성완료" id="editor-submit" />
+  <br/><br/><br/>
+  
+  
 </form>
 <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
 <input type="hidden" name="csrfToken" value="${_csrf.token}"/>
 <input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>
 
-
+</center>
 </body>
 </html>

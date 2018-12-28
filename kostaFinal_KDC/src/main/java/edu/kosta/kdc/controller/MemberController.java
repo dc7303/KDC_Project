@@ -39,13 +39,7 @@ public class MemberController {
      */
     @RequestMapping("/myPage")
     public void memberMyPage() {}
-    
-    /**
-     * 회원탈퇴페이지
-     * */
-    @RequestMapping("/myPagedelete")
-    public void myPagedelete() {}
-    
+
     /**
      * 회원정보수정으로이동
      * */
