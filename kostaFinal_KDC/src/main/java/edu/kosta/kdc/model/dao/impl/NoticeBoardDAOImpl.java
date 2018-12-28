@@ -94,6 +94,18 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
     }
 
     /**
+     * classification 기준으로 컬럼 수량 가져오기.
+     *
+     * @param classification
+     * @return
+     */
+    @Override
+    public int boardQuantityByClassification(String classification) {
+        
+        return session.selectOne("noticeBoardMapperboardQuantityByClassification", classification);
+    }
+    
+    /**
      * 메인 페이지에 띄울 공지사항 글 5개 가져오는 메소드
      * */
     @Override

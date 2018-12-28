@@ -264,6 +264,11 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
         
         return list;
     }
+    
+    public int boardQuantityByClassification(String classification) {
+                
+        return session.selectOne("replyBoardMapper.boardQuantityByClassification", classification);
+    }
 
     /**
      * 메인화면에 띄울 댓글있는 게시판 게시글 5개 가져오기

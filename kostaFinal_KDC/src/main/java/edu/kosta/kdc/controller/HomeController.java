@@ -3,7 +3,6 @@ package edu.kosta.kdc.controller;
 
 import java.util.List;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,7 @@ public class HomeController {
         List<NoticeBoardDTO> noticeListFive = noticeBoardService.selectFive();
         
         //date String이 시 분 초 까지 나오므로, 월-일 만 나오게 subString해서 저장.
-        for(int i=0; i<5; i++) {
+        for(int i = 0; i < noticeListFive.size(); i++) {
             str = noticeListFive.get(i).getNoticeBoardDate();
             subStr = str.substring(5, 10);
             noticeListFive.get(i).setNoticeBoardDate(subStr);
@@ -69,7 +68,7 @@ public class HomeController {
         List<ReplyBoardDTO> techListFive = replyBoardService.selectFiveByTitle(title);
         
         //date String이 시 분 초 까지 나오므로, 월-일 만 나오게 subString해서 저장.
-        for(int i=0; i<5 ;i++) {
+        for(int i = 0; i < techListFive.size(); i++) {
             str = techListFive.get(i).getReplyBoardDate();
             subStr = str.substring(5, 10);
             techListFive.get(i).setReplyBoardDate(subStr);
@@ -83,7 +82,7 @@ public class HomeController {
         List<ReplyBoardDTO> libListFive = replyBoardService.selectFiveByTitle(title);
         
         //date String이 시 분 초 까지 나오므로, 월-일 만 나오게 subString해서 저장.
-        for(int i=0; i<5 ;i++) {
+        for(int i = 0; i < libListFive.size(); i++) {
             str = libListFive.get(i).getReplyBoardDate();
             subStr = str.substring(5, 10);
             libListFive.get(i).setReplyBoardDate(subStr);
