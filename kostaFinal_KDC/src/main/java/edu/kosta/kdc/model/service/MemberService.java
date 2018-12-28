@@ -57,5 +57,10 @@ public interface MemberService {
      * */
     List<MemberDTO> memberSelectAll();
 
-  
+    /**
+     * 멤버 전체 수 가져오기
+     * 
+     * @return
+     */
+    int memberTotalCount();
 }

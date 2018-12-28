@@ -50,4 +50,9 @@
         from member
         where MEMBER_ISWITHDRAWAL='FALSE'
     </select>
+    
+    <!-- 총 유저 수 -->
+    <select id="memberTotalCount" resultType="java.lang.Integer">
+        select nvl(count(*), 0) as totalCount from member
+    </select>
 </mapper>

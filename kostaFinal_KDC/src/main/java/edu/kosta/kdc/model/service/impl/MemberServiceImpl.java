@@ -133,6 +133,24 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    /**
+     * 멤버 전체 수 가져오기
+     * 
+     * @return
+     */
+    @Override
+    public int memberTotalCount() {
+        
+        int result = 0;
+        
+        result = memberDAO.memberTotalCount();
+        if(result == 0) {
+            throw new KdcException("회원이 존재하지 않습니다.");
+        }
+        
+        return result;
+    }
+
     
     
 }
