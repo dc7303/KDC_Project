@@ -285,15 +285,4 @@ public class MemberController {
     public String passwordSearch() {
         return "/member/passwordSearchPopUpForm";
     }
-    
-    /**
-     * 이메일 보내주기
-     * @throws Exception 
-     * */
-    @RequestMapping("/emailSend")
-    @ResponseBody
-    public String emailSend(String email) throws Exception {
-        return "sucess";
-    }
-    
 }

@@ -5,6 +5,7 @@
     <param-value>
             /WEB-INF/spring/dbConfig/mybatis-context.xml
             /WEB-INF/spring/security/spring-security.xml
+            /WEB-INF/spring/emailSend/mvc-config.xml
         </param-value>
   </context-param>
   <filter>
@@ -43,7 +44,6 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  
   
   <servlet>
     <servlet-name>appServlet</servlet-name>
