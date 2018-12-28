@@ -17,7 +17,29 @@
     <script type="text/javascript">
     const jq = jQuery.noConflict();
     </script>
+  <style type="text/css">
+  #new-img{
+  /* Chrome, Safari, Opera */
+  -webkit-animation: invert-new 0.5s infinite; 
+  animation: invert-new 0.5s infinite;
+}
 
+/* Chrome, Safari, Opera */
+@-webkit-keyframes invert-new {
+  50% {
+    -webkit-filter: invert(100%); 
+    filter: invert(100%);
+  }
+}
+
+/* Standard syntax */
+@keyframes invert-new {
+  50% {
+    -webkit-filter: invert(100%); 
+    filter: invert(100%);
+  }
+}
+  </style>
   </head>
 
   <body>
@@ -69,7 +91,7 @@
                currentDate.setDate(currentDate.getDate()-1);
   
                if(adjustedWriteDate>currentDate){
-                 jq('span[name=span${state.count}]').append("<img src='${pageContext.request.contextPath}/resources/testimg/replyBoard/newImg.jpg'/>");
+                 jq('span[name=span${state.count}]').append("<img src='${pageContext.request.contextPath}/resources/testimg/replyBoard/newImg.jpg' id='new-img'/>");
                }      
               });
             </script>
