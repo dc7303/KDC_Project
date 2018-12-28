@@ -53,16 +53,18 @@ const jq = jQuery.noConflict();
   	         alert("이메일을 다시 입력해주세요");
   	      }
       	});
-  	
+  	    if(jq(".ajax").text()=="이메일이 일치합니다."){
+  	      	jq("#mail-table").css("display","none");
+  	    	jq("#mail-loding-img").attr("src","${pageContext.request.contextPath}/resources/testimg/replyBoard/mailLoding.gif");
+  	    }
   	 });
-    
-    
   
 });
 </script>
 </head>
 <body>
-<table>
+<img id="mail-loding-img" style="width: 400px;"></img>
+<table id="mail-table">
 <caption>
   <h1>비밀번호 찾기</h1>
 </caption>
