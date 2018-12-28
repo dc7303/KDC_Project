@@ -53,9 +53,9 @@ public class AdminController {
     
     @RequestMapping(value = "/adminMemberList", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public Map<String, Object> adminMemberList(@RequestParam(value = "currentPage") String currentPage) {
+    public Map<String, Object> adminMemberList(int currentPage) {
         
-        int setPage = Integer.parseInt(currentPage);       //현재 페이지
+        int setPage = currentPage;       //현재 페이지
         int setTotalCount = memberService.memberTotalCount();     //컬럼 수
         
         //view로 보낼 json map

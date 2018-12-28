@@ -21,20 +21,20 @@ public class PageHandlerImpl implements PageHandler {
         //현재 페이지
         //setPage가 0일 경우 디폴트 1
         int page = 1;
-        if(setPage == 0) {
+        if(setPage > 1) {
             page = setPage;
         }
         
         //한페이지에 출력될 게시물 수
         //5이하일 경우 디폴트 5로 설정
         int countList = 5;
-        if(setCountList < 5) {
+        if(setCountList > 5) {
             countList = setCountList;
         }
 
         //한 화면에 출력될 페이지 수
         int countPage = 5;
-        if(setCountPage < 5) {
+        if(setCountPage > 5) {
             countPage = setCountPage;
         }
         
@@ -52,6 +52,9 @@ public class PageHandlerImpl implements PageHandler {
         
         //컬럼조회 마지막 범위 (DB에서 사용)
         int lastColumnRange = page * countList;
+        
+        System.out.println(firstColumnRange);
+        System.out.println(lastColumnRange);
         
         boolean firstMove = false;      //첫 페이지로 이동하는 at 생성 여부
         boolean backPage = false;       //이전 페이지로
