@@ -134,12 +134,27 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 이메일 보내면서 비밀번호 update해주기
+     * 임시비밀번호 db에 update해주기
      * */
     @Override
-    public int pwdSearchEmailSend(String email) {
-       
-        return memberDAO.pwdSearchEmailSend(email);
+    public int updatePwdByEmail(String uuid, String email) {
+      //인코딩 패스워드 셋팅
+        String encodePwd = passwordEncoder.encode(uuid);
+        System.out.println("인코딩된 Pwd : "+encodePwd);
+        int result = memberDAO.updatePwdByEmail(encodePwd, email);
+        System.out.println("결과 : "+ result);
+        return result;
+    }
+
+    @Override
+    public boolean memberByEmailCheck(String emailCheck) {
+        boolean result = false;
+        MemberDTO memberDTO = memberDAO.memberByEmailCheck(emailCheck);
+        
+        //검색 결과 DTO 존재할 경우 True 반환
+        if(memberDTO != null) result = true;
+        
+        return result;
     }
 
     

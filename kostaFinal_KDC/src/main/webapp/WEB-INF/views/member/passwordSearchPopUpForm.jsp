@@ -9,48 +9,74 @@
 <script type="text/javascript">
 const jq = jQuery.noConflict();
 
-jq(function() {
-  const emailCheck = 'input[name=email]';       // Email Check
-
-  //email Check
-    jq(emailCheck).on('keyup', function() {
-      jq.ajax({
-        url : '${pageContext.request.contextPath }/member/passwordSearch',
-        type : 'post',
-        beforeSend : function(xhr) {
-          xhr.setRequestHeader($(csrfName).val(), $(csrfToken).val());
-        },
-        dataType : 'text',
-        data : {
-          emailCheck : $(emailCheck).val()
-        },
-        success : function(result) {
-          $('.emailCheck').text(result);
-          if ($(memberId).val() === '') {
-            $('.emailCheck').val('이메일을 입력하세요');
+  jq(function() {
+    
+    jq("input[name=email]").keyup(function() {
+    	//email Check
+        jq.ajax({
+          url : "${pageContext.request.contextPath}/member/memberByEmailCheck",
+          type : "post",
+          dataType : "text",
+          beforeSend: function(xhr) {
+ 	         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+ 	      },
+          data : {
+            emailCheck : jq("input[name=email]").val()
+          },
+          success : function(result) {
+            jq(".ajax").text(result);
+            if ($(memberId).val() === '') {
+              jq(".ajax").text("이메일을 입력하세요");
+            }
+          },
+          error : function(err) {
+            console.log(err)
           }
-        },
-        error : function(err) {
-          console.log(err);
-        }
-      });
+        });
     });
+    
+    jq("input[name=emailSend]").click(function() {
+       var email = jq("input[name=email]").val();
+  	    jq.ajax({
+  	      url : "${pageContext.request.contextPath}/member/emailSend",
+  	      type : "post",   
+  	      dataType : "text", 
+  	      beforeSend: function(xhr) {
+  	         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+  	      },
+  	      data : "email="+email,
+  	      success : function(result){   //성공했을 때
+  	        alert("임시비밀번호 발급이 되었습니다.");
+  	        window.close();   
+  	      },
+  	      error : function(err){   //실패했을 때
+  	         alert("이메일을 다시 입력해주세요");
+  	      }
+      	});
+  	
+  	 });
+    
+    
   
 });
 </script>
 </head>
 <body>
-<h1>비밀번호 찾기</h1>
-  <form action="${pageContext.request.contextPath}/member/emailSend" method="post">
-    <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-               이메일 : <input type="text" name="email" placeholder="회원가입시 등록한 이메일 작성" style="width:200px"/>
-       <span class="emailCheck"></span>
-       <input type="hidden" name="subject"><br>
-       <input type="hidden" name="content">
-    <br><br>
-    <input type="submit" value="임시 비밀번호 발급받기"/>
-    
-  </form>
-
+<table>
+<caption>
+  <h1>비밀번호 찾기</h1>
+</caption>
+  <tr>
+    <th id="">이메일 : </th>
+    <td ><input type="text" name="email" placeholder="회원가입시 등록한 이메일 작성" style="width:200px"/></td>
+    <td class="ajax"> 이메일을 입력하세요</td>
+  </tr>
+  <tr>
+  <td></td>
+  </tr>
+  <tr >
+    <td colspan="2"><input type="button" name="emailSend" value="임시 비밀번호 발급받기" style="margin-right: 10px"/><input type="button" value="닫기" onclick="window.close()"/></td>
+  </tr>
+</table>
 </body>
 </html>

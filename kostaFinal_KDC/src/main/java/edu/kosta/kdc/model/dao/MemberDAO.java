@@ -56,11 +56,15 @@ public interface MemberDAO {
      * */
     List<MemberDTO> memberSelectAll();
 
-    
     /**
-     * 이메일  보내면서 pwd update해주기
+     * 임시비밀번호 db에 update해주기
      * */
-    int pwdSearchEmailSend(String email);
+    int updatePwdByEmail(String encodePwd, String email);
+
+    /**
+     * 비밀번호 찾기에서 이메일 맞는지 확인
+     * */
+    MemberDTO memberByEmailCheck(String emailCheck);
 
 
 }

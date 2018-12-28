@@ -20,9 +20,8 @@ public class EmailController {
 	@RequestMapping(value="emailSend")
     @ResponseBody
 	public String submit(EmailForm emailform, String email) throws Exception{
-	   System.out.println("¿Ã∏ﬁ¿œ"+email);
-	   emailform.setReceiver(email);
-            emailSender.sendEmail(emailform);
+	        emailform.setReceiver(email);
+            emailSender.sendEmail(emailform, email);
 		return "success";
 	}
 	

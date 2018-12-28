@@ -1,13 +1,14 @@
 package edu.kosta.kdc.model.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
-
-
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kosta.kdc.emailSend.EmailForm;
 import edu.kosta.kdc.model.dao.MemberDAO;
 import edu.kosta.kdc.model.dto.MemberDTO;
 
@@ -73,11 +74,21 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     /**
-     * 이메일 보내면서 비밀번호 수정해주기
+     * 임시비밀번호 db에 update해주기
      * */
     @Override
-    public int pwdSearchEmailSend(String email) {
-        return sqlSession.update("memberMapper.pwdSearchEmailSend",email);
+    public int updatePwdByEmail(String encodePwd, String email) {
+        Map<String, String> map = new HashMap<>();
+        map.put("memberPwd", encodePwd);
+        map.put("memberEmail", email);
+        
+        return sqlSession.update("memberMapper.updatePwdByEmail",map);
+    }
+
+    @Override
+    public MemberDTO memberByEmailCheck(String emailCheck) {
+        
+        return sqlSession.selectOne("memberMapper.memberByEmailCheck", emailCheck);
     }
 
 }

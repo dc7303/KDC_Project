@@ -285,4 +285,22 @@ public class MemberController {
     public String passwordSearch() {
         return "/member/passwordSearchPopUpForm";
     }
+    
+    /**
+     * 이메일 일치하는지 검사
+     * */
+    @RequestMapping(value = "/memberByEmailCheck", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String memberByEmailCheck(String emailCheck) {
+        System.out.println("email : "+emailCheck);
+        String message = "";
+        boolean emailCheckResult = memberService.memberByEmailCheck(emailCheck);
+        if(emailCheckResult) {
+            message="이메일이 일치합니다.";
+        }else {
+            message="일치하는 이메일이 없습니다.";
+        }
+        
+        return message;
+    }
 }
