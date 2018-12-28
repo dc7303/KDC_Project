@@ -25,9 +25,9 @@ jq(function() {
           emailCheck : $(emailCheck).val()
         },
         success : function(result) {
-          $('.emailCheck').eq(0).text(result);
+          $('.emailCheck').text(result);
           if ($(memberId).val() === '') {
-            $('.emailCheck').eq(0).text('이메일을 입력하세요');
+            $('.emailCheck').val('이메일을 입력하세요');
           }
         },
         error : function(err) {
@@ -43,7 +43,7 @@ jq(function() {
 <h1>비밀번호 찾기</h1>
   <form action="${pageContext.request.contextPath}/member/emailSend" method="post">
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-               이메일 : <input type="email" name="email" placeholder="회원가입시 등록한 이메일 작성" style="width:200px"/>
+               이메일 : <input type="text" name="email" placeholder="회원가입시 등록한 이메일 작성" style="width:200px"/>
        <span class="emailCheck"></span>
        <input type="hidden" name="subject"><br>
        <input type="hidden" name="content">
