@@ -18,7 +18,7 @@
     const jq = jQuery.noConflict();
     </script>
   <style type="text/css">
-  #new-img{
+  .new-img{
   /* Chrome, Safari, Opera */
   -webkit-animation: invert-new 0.5s infinite; 
   animation: invert-new 0.5s infinite;
@@ -90,7 +90,7 @@
                currentDate.setDate(currentDate.getDate()-1);
   
                if(adjustedWriteDate>currentDate){
-                 jq('span[name=span${state.count}]').append("<img src='${pageContext.request.contextPath}/resources/testimg/replyBoard/newImg.jpg' id='new-img'/>");
+                 jq('span[name=span${state.count}]').append("<img src='${pageContext.request.contextPath}/resources/testimg/replyBoard/newImg.jpg' class='new-img'/>");
                }      
               });
             </script>
@@ -134,23 +134,21 @@
       </table>
     </div>
 
-        <div class="field half">
-
-        <form action="${pageContext.request.contextPath}/reply/replyBoardListSearch">
-           <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-           <input type="hidden" name="classification" value="${requestScope.classification}"/>
-            <select name="department" id="department">
-              <option value="">- 분류 -</option>
-              <option value="A.REPLY_BOARD_TITLE">제목</option>
-              <option value="A.REPLY_BOARD_CONTENTS">내용</option>
-              <option value="B.MEMBER_NICKNAME">작성자</option>
-              <option value="C.HASHTAG">해시태그</option>
-            </select>
-    
-            <input class="tech-board-search" type="text" name="boardSearch"/>
-            <input type="submit" value="검색"/>
-        </form>
-
+    <div class="field half">
+      <form action="${pageContext.request.contextPath}/reply/replyBoardListSearch">
+         <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+         <input type="hidden" name="classification" value="${requestScope.classification}"/>
+          <select name="department" id="department">
+            <option value="">- 분류 -</option>
+            <option value="A.REPLY_BOARD_TITLE">제목</option>
+            <option value="A.REPLY_BOARD_CONTENTS">내용</option>
+            <option value="B.MEMBER_NICKNAME">작성자</option>
+            <option value="C.HASHTAG">해시태그</option>
+          </select>
+  
+          <input class="tech-board-search" type="text" name="boardSearch"/>
+          <input type="submit" value="검색"/>
+      </form>
    </div>
 
   </body>

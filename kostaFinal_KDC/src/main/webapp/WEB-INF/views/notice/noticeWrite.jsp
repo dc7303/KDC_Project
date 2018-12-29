@@ -24,24 +24,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
-<script language=javascript>
-function checkValid() {
-    var f = window.document.writeForm;
-      
-   if ( f.modelNum.value == "") {
-       alert( "제목을 입력해 주세요." );
-       f.modelNum.focus();
-      return false;
-    }
-   if ( f.modelName.value == "" ) {
-      alert( "글 내용을 입력해 주세요." );
-      f.modelName.focus();
-      return false;
-   }
-    return true;
-}
-</script>
-
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/tui-editor-css/editor.css">
+  
 <script>
 const jq = jQuery.noConflict();
 
@@ -58,6 +42,17 @@ jq(function(){
   /* 에디터 폼 submit control */
   jq('#editor-submit').on('click',function(){
     var content = editor.getValue();
+    
+    if(jq('input[name=noticeBoardTitle]').val().trim()===''){
+      alert('제목을 입력해주세요');
+      jq('input[name=noticeBoardTitle]').focus();
+      return;
+    }else if(content.trim()===''){
+      alert('내용을 입력해주세요');
+      return;
+    }
+    
+    
     
     var input = jq('<input>').attr('type','hidden').attr('name','noticeBoardContents').val(content);
     jq('#editor-form').append(jq(input));
@@ -82,13 +77,12 @@ jq(function(){
 <table>
        <thead>
           <tr class="titel-color">
-            <td colspan="6">글제목</td>
+            <td colspan="7">글제목</td>
             <td>글쓴이</td>
-            <td>등록날짜</td>
           </tr>
         </thead>
     <tr>
-      <td colspan="6">
+      <td colspan="7">
       <span><input type=text name="noticeBoardTitle" placeholder="게시글 제목 작성"></span>
       </td>
       <td>
@@ -98,9 +92,6 @@ jq(function(){
           ${member.memberNickName}
         </sec:authorize>
       </span>
-      </td>
-      <td>
-      <span>현재시간표출</span>
       </td>
     </tr>
     
@@ -112,7 +103,7 @@ jq(function(){
 
     <tr>
       <td>
-        <p align="right"><b><span style="font-size:9pt;">*첨부파일</span></b></p>
+        <p align="right"><b><span style="font-size:9pt;">첨부파일</span></b></p>
         <b><span style="font-size:9pt;">
         <input type="file" name="file" maxlength="60" size="40"></span></b>
       </td>
@@ -120,7 +111,7 @@ jq(function(){
     <tr>
       <td colspan="8" height="20" colspan="4" align="center" valign="middle">
 
-      <input type=submit value="글쓰기" id="editor-submit" />
+      <input type=button value="글쓰기" id="editor-submit" />
       <input type=reset value="다시쓰기">
 
       </td>

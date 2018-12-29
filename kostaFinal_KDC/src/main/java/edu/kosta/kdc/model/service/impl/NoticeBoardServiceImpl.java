@@ -170,10 +170,10 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
      *   검색 리스트
      */
     @Override
-    public List<NoticeBoardDTO> SelectSerch(String department, String noticeBoardSearch) {
+    public List<NoticeBoardDTO> SelectSerch(String department, String noticeBoardSearch, String classification) {
      
         //게시글 조회
-        List<NoticeBoardDTO> list = noticeBoardDAO.SelechSerch(department, noticeBoardSearch);
+        List<NoticeBoardDTO> list = noticeBoardDAO.SelechSerch(department, noticeBoardSearch, classification);
         if(list == null) {
             throw new KdcException("게시글이 존재하지 않습니다.");
         }

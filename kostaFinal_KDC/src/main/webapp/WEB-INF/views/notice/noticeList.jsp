@@ -13,23 +13,48 @@
     
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css"/></noscript>
   </head>
+  <script type="text/javascript">
+    const jq = jQuery.noConflict();
+    </script>
+<style type="text/css">
+.new-img {
+  /* Chrome, Safari, Opera */
+  -webkit-animation: invert-new 0.5s infinite;
+  animation: invert-new 0.5s infinite;
+}
 
-  <body>
+/* Chrome, Safari, Opera */
+@
+-webkit-keyframes invert-new {
+ 50% {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+}
 
+/* Standard syntax */
+@
+keyframes invert-new { 
+ 50% {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+}
+</style>
+<body>
 
     <h2>${requestScope.classification}</h2>
     <br/><br/>
-
-    <div class="write-button">
-      <a href="${pageContext.request.contextPath }/notice/writeForm?classification=${requestScope.classification}" class="button">글쓰기</a>
-    </div> <br/><br/>
-
+    <sec:authorize access="isAuthenticated()">
+      <div class="write-button">
+        <a href="${pageContext.request.contextPath }/notice/writeForm?classification=${requestScope.classification}" class="button">글쓰기</a>
+      </div> <br/><br/>
+    </sec:authorize>
     <div class="table-wrapper">
       <table>
         <thead>
           <tr>
-            <th>글번호</th>
-            <th>글제목</th>
+            <th colspan="2">글제목</th>
             <th>글쓴이</th>
             <th><a href="#">등록날짜</a></th>
             <th><a href="#">조회수</a></th>            
@@ -49,14 +74,45 @@
     <c:forEach items="${requestScope.list}" var="NoticeBoardDTO" varStatus="state">          
           
           <tr>
-            <td>${state.count}</td>
-            <td>
-              <sec:authorize access="isAuthenticated()">
-                <sec:authentication var="member" property="principal" />
-              <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}">
+            <td colspan="2">
+            <input type="hidden" value="${NoticeBoardDTO.noticeBoardDate}"  name="newBoardCheck${state.count}">
+            <script type="text/javascript">
+              jq(function(){
+                
+               var writeDate = jq('input[name=newBoardCheck${state.count}]').val();            
+               var adjustedWriteDate = new Date(writeDate);
+               var currentDate = new Date();
+               currentDate.setDate(currentDate.getDate()-1);
+  
+               if(adjustedWriteDate>currentDate){
+                 jq('span[name=span${state.count}]').append("<img src='${pageContext.request.contextPath}/resources/testimg/replyBoard/newImg.jpg' class='new-img'/>");
+               }      
+              });
+            </script>
+            <span name="span${state.count}"></span>
+
+                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_ADMIN'}">
+                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: red; font-weight: bold">
                        ${NoticeBoardDTO.noticeBoardTitle}</a>
-              </sec:authorize>
+                </c:if>
+                
+                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_MEMBER'}">
+                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: #7dc855">
+                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                </c:if>
+                
+                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_TEACHER'}">
+                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: orange; font-weight: bold">
+                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                </c:if>
+                
+                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_COMPANY'}">
+                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: blue">
+                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                </c:if>
+            
             </td>
+            
             <td>${NoticeBoardDTO.noticeBoardWriterId}</td>
             <td>${NoticeBoardDTO.noticeBoardDate}</td>
             <td>${NoticeBoardDTO.noticeBoardViews}</td>

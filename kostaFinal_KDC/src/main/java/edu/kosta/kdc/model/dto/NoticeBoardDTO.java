@@ -16,6 +16,8 @@ public class NoticeBoardDTO {
     private int noticeBoardViews;               //조회수
     private String noticeBoardAttachment;       //첨부파일
     private boolean noticeBoardIsDelete;        //삭제 여부
+    private String authName;                    //게시글쓴 사람의 권한
+
    
     private MultipartFile file;
     
@@ -23,7 +25,7 @@ public class NoticeBoardDTO {
 
     public NoticeBoardDTO(int noticeBoardPk, String noticeBoardClassification, String noticeBoardClassRoomCode,
             String noticeBoardTitle, String noticeBoardWriterId, String noticeBoardDate, String noticeBoardContents,
-            int noticeBoardViews, String noticeBoardAttachment, boolean noticeBoardIsDelete, MultipartFile file) {
+            int noticeBoardViews, String noticeBoardAttachment, boolean noticeBoardIsDelete, MultipartFile file, String authName) {
         super();
         this.noticeBoardPk = noticeBoardPk;
         this.noticeBoardClassification = noticeBoardClassification;
@@ -36,6 +38,7 @@ public class NoticeBoardDTO {
         this.noticeBoardAttachment = noticeBoardAttachment;
         this.noticeBoardIsDelete = noticeBoardIsDelete;
         this.file = file;
+        this.authName = authName;
     }
 
     public int getNoticeBoardPk() {
@@ -125,6 +128,13 @@ public class NoticeBoardDTO {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
+
+    public String getAuthName() {
+        return authName;
+    }
+
+    public void setAuthName(String authName) {
+        this.authName = authName;
+    }
     
 }

@@ -84,12 +84,12 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
     }
 
     @Override
-    public List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch) {
-        
+    public List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch, String classification) {
+         System.out.println("department"+department);
         Map<String, Object> map = new HashMap<>();
         map.put("department", department);
         map.put("noticeBoardSearch", noticeBoardSearch);
-        
+        map.put("classification",classification);
         return session.selectList("noticeBoardMapper.SearchTitleAndContents",map);
     }
 

@@ -7,9 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
-    
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" /> 
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 
 <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
@@ -79,13 +78,12 @@ jq(function(){
 <table>
        <thead>
           <tr class="titel-color">
-            <td colspan="6">글제목</td>
+            <td colspan="7">글제목</td>
             <td>글쓴이</td>
-            <td>등록날짜</td>
           </tr>
         </thead>
     <tr>
-      <td colspan="6">
+      <td colspan="7">
       <span><input type=text name="replyBoardTitle" placeholder="게시글 제목 작성"></span>
       </td>
       <td>
@@ -96,9 +94,7 @@ jq(function(){
         </sec:authorize>
       </span>
       </td>
-      <td>
-      <span>현재시간표출</span>
-      </td>
+      
     </tr>
     
     <tr>
