@@ -59,8 +59,6 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
 
     @Override
     public int replyInsert(ReplyBoardDTO replyBoardDTO) {
-        System.out.println(replyBoardDTO.getMentionNickName());
-        System.out.println(replyBoardDTO.getReplyBoardContents());
         return session.insert("replyBoardMapper.replyInsert", replyBoardDTO);
     }
 

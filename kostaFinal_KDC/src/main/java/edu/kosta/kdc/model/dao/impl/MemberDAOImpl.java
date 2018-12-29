@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kosta.kdc.emailSend.EmailForm;
 import edu.kosta.kdc.model.dao.MemberDAO;
 import edu.kosta.kdc.model.dto.MemberDTO;
 
@@ -87,5 +88,23 @@ public class MemberDAOImpl implements MemberDAO {
     }
     
     
+
+    /**
+     * 임시비밀번호 db에 update해주기
+     * */
+    @Override
+    public int updatePwdByEmail(String encodePwd, String email) {
+        Map<String, String> map = new HashMap<>();
+        map.put("memberPwd", encodePwd);
+        map.put("memberEmail", email);
+        
+        return sqlSession.update("memberMapper.updatePwdByEmail",map);
+    }
+
+    @Override
+    public MemberDTO memberByEmailCheck(String emailCheck) {
+        
+        return sqlSession.selectOne("memberMapper.memberByEmailCheck", emailCheck);
+    }
 
 }

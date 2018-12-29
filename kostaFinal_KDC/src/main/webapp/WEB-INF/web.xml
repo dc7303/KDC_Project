@@ -8,6 +8,7 @@ version="2.5">
     <param-value>
             /WEB-INF/spring/dbConfig/mybatis-context.xml
             /WEB-INF/spring/security/spring-security.xml
+            /WEB-INF/spring/emailSend/mvc-config.xml
         </param-value>
   </context-param>
   <filter>
@@ -61,7 +62,6 @@ version="2.5">
     <load-on-startup>1</load-on-startup>
     
   </servlet>
-  
   
   <servlet-mapping>
     <servlet-name>appServlet</servlet-name>

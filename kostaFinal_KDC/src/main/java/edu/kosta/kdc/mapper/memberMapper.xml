@@ -74,4 +74,17 @@
         where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
         where x.rnum <![CDATA[ >= ]]> #{firstColumn}
     </select>
+    
+    <!-- 임시비밀번호 update해주기 -->
+    <update id="updatePwdByEmail" parameterType="java.util.Map">
+        update member
+        set member_pw = #{memberPwd}
+        where member_email = #{memberEmail}
+    </update>
+    
+    <!-- 비밀번호 찾기에서 이메일 맞는지 확인 -->
+    <select id="memberByEmailCheck" parameterType="String" resultMap="memberDTO">
+        select * from member where member_email = #{_parameter}
+    </select>
+    
 </mapper>

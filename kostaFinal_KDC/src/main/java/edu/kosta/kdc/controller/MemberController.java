@@ -1,10 +1,8 @@
 package edu.kosta.kdc.controller;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +20,7 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
     
-    /**
+     /**
      * 로그인폼
      */
     @RequestMapping("/signInForm")
@@ -282,5 +280,31 @@ public class MemberController {
         memberService.updateByIsWithDrawal(memberId);
         
         return "/index";
+    }
+    
+    /**
+     * 비밀번호 찾기  폼 띄우기
+     * */
+    @RequestMapping("/passwordSearch")
+    public String passwordSearch() {
+        return "/member/passwordSearchPopUpForm";
+    }
+    
+    /**
+     * 이메일 일치하는지 검사
+     * */
+    @RequestMapping(value = "/memberByEmailCheck", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String memberByEmailCheck(String emailCheck) {
+        System.out.println("email : "+emailCheck);
+        String message = "";
+        boolean emailCheckResult = memberService.memberByEmailCheck(emailCheck);
+        if(emailCheckResult) {
+            message="이메일이 일치합니다.";
+        }else {
+            message="일치하는 이메일이 없습니다.";
+        }
+        
+        return message;
     }
 }

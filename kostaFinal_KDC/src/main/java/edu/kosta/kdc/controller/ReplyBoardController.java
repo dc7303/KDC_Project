@@ -5,12 +5,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 import edu.kosta.kdc.model.dto.ReportDTO;
 import edu.kosta.kdc.model.service.ReplyBoardService;
@@ -76,35 +78,40 @@ public class ReplyBoardController {
      * 댓글 등록하기
      * */
     @RequestMapping("/replyInsert")
-    public String replyInsert(String classification,int replyBoardPk,String memberId, String mentionInput, String replyContents, ReplyBoardDTO replyBoardDTO, Model model) {
-        replyBoardDTO.setMentionNickName(mentionInput);
-        replyBoardDTO.setReplyBoardMention(mentionInput);
+    public String replyInsert(String classification,int replyBoardPk,String memberId, String mentionNickName, String replyContents, ReplyBoardDTO replyBoardDTO, Model model) {
+        replyBoardDTO.setMentionNickName(mentionNickName);
         replyBoardDTO.setReplyBoardWriterId(memberId);
         replyBoardDTO.setReplyBoardClassification(classification);
         replyBoardDTO.setReplyBoardContents(replyContents);
+
         replyBoardService.replyInsert(replyBoardDTO);        
         model.addAttribute("classification",classification);
         
-        return "redirect:read?replyBoardPk="+replyBoardPk;
+        return "redirect:read?replyBoardPk="+replyBoardPk+"&memberId="+memberId;
     }
     
     /**
      * 상세보기
      * */
     @RequestMapping("/read")
-    public String read(int replyBoardPk,String classification, String memberId, ReplyBoardDTO replyBoardDTO, HttpServletRequest request, Model model) {
-
+    public String read(int replyBoardPk,String classification, ReplyBoardDTO replyBoardDTO, HttpServletRequest request, Model model) {
+        MemberDTO member = null;
+        
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+           member = new MemberDTO();
+           member.setMemberId("a");
+        }
         boolean state = request.getParameter("state") == null ? true : false;
         
-        replyBoardDTO.setReplyBoardWriterId(memberId);
+        replyBoardDTO.setReplyBoardWriterId(member.getMemberId());
         replyBoardDTO.setReplyBoardClassification(classification);
-        
         List<ReplyBoardDTO> list = replyBoardService.selectByReplyBoardPK(replyBoardDTO, state);
-
         model.addAttribute("replyBoardDTO",list);
         model.addAttribute("classification",classification);
         model.addAttribute("replyBoardPk",replyBoardPk);
-        model.addAttribute("memberId",memberId);
+        model.addAttribute("memberId",member.getMemberId());
         return "replyBoard/read";
     }
     
@@ -158,11 +165,11 @@ public class ReplyBoardController {
      * 댓글 수정하기
      * */
     @RequestMapping("/replyUpdate")
-    public String replyUpdate(String classification, int replyBoardReplyNo,int replyBoardPk, ReplyBoardDTO replyBoardDTO, String replyBoardContents) {
-        
+    public String replyUpdate(String classification, int replyBoardReplyNo,int replyBoardPk, String memberId,ReplyBoardDTO replyBoardDTO, String replyBoardContents, String mentionNickName) {
+        replyBoardDTO.setMentionNickName(mentionNickName);
         replyBoardService.replyUpdate(replyBoardDTO);
         
-        return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk;
+        return "redirect:read?classification="+classification+"&replyBoardPk="+replyBoardPk+"&memberId="+memberId;
     }
     
     /**
@@ -170,7 +177,6 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/delete")
     public String replyBoardDelete(int replyBoardPk,String classification) {
-        System.out.println("controller replyBoardPk : " + replyBoardPk);
         replyBoardService.replyBoardDelete(replyBoardPk);
         
         return "redirect:"+classification+"?classification="+classification;
@@ -180,11 +186,11 @@ public class ReplyBoardController {
      * 댓글 삭제하기
      * */
     @RequestMapping("/replyDelete")
-    public String replyDelete(int replyBoardReplyPk, String classification, ReplyBoardDTO replyBoardDTO, int replyBoardPk) {
+    public String replyDelete(int replyBoardReplyPk, String classification, String memberId, ReplyBoardDTO replyBoardDTO, int replyBoardPk) {
         
         replyBoardService.replyDelete(replyBoardReplyPk);
         
-        return "redirect:read?replyBoardPk="+replyBoardPk+"&classification="+classification;
+        return "redirect:read?replyBoardPk="+replyBoardPk+"&classification="+classification+"&memberId="+memberId;
     }
     
     /**

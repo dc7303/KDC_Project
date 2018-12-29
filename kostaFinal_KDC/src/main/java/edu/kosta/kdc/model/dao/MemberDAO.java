@@ -57,6 +57,17 @@ public interface MemberDAO {
     List<MemberDTO> memberSelectAll(int firstColumnRange, int lastColumnRange);
 
     /**
+     * 임시비밀번호 db에 update해주기
+     * */
+    int updatePwdByEmail(String encodePwd, String email);
+
+    /**
+     * 비밀번호 찾기에서 이메일 맞는지 확인
+     * */
+    MemberDTO memberByEmailCheck(String emailCheck);
+
+
+    /**
      * 멤버 전체 수 가져오기
      * 
      * @return

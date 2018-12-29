@@ -63,4 +63,16 @@ public interface MemberService {
      * @return
      */
     int memberTotalCount();
+
+    /**
+     * 임시비밀번호 db에 update해주기
+     * */
+    int updatePwdByEmail(String uuid, String email);
+
+    /**
+     * 비밀번호 찾기에서 이메일 맞는지 확인
+     * */
+    boolean memberByEmailCheck(String emailCheck);
+
+
 }
