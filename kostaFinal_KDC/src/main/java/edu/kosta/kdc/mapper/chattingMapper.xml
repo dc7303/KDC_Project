@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chattingMapper">
+    <resultMap type="classRoomInfoDTO" id="selectClassInfo">
+        <id column="CLASSROOM_CODE" property="classRoomCode"/>
+        <result column="CLASSROOM_INFO_NAME" property="classRoomInfoName"/>
+        <result column="CLASSROOM_INFO_START_DATE" property="classRoomInfoStartDate"/>
+        <result column="CLASSROOM_INFO_END_DATE" property="classRoomInfoEndDate"/>
+        <result column="CLASSROOM_INFO_TEACHER_ID" property="classRoomInfoTeacherId"/>
+        <result column="CLASSROOM_INFO_CHAT_FILE" property="classRoomInfoChatFile"/>
+        <result column="CLASSROOM_INFO_ISDELETE" property="classRommInfoIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <collection property="classRoomList" ofType="classRoomDTO">
+            <id column="CLASSROOM_USER_ID" property="memberId"/>
+            <id column="CLASSROOM_CODE" property="classRoomCode"/>
+            <result column="CLASSROOM_ISCURRENT" property="classRoomIsCurrent" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        </collection>
+    </resultMap>
+    
+    <resultMap type="classRoomInfoDTO" id="infoDTO">
+        <id column="CLASSROOM_CODE" property="classRoomCode"/>
+        <result column="CLASSROOM_INFO_NAME" property="classRoomInfoName"/>
+        <result column="CLASSROOM_INFO_START_DATE" property="classRoomInfoStartDate"/>
+        <result column="CLASSROOM_INFO_END_DATE" property="classRoomInfoEndDate"/>
+        <result column="CLASSROOM_INFO_TEACHER_ID" property="classRoomInfoTeacherId"/>
+        <result column="CLASSROOM_INFO_CHAT_FILE" property="classRoomInfoChatFile"/>
+        <result column="CLASSROOM_INFO_ISDELETE" property="classRommInfoIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+    </resultMap>
+
+    <!-- 회원아이디로 현재클래스룸의 상세정보를 조회 -->
+    <select id="infoSelectByMemberId" parameterType="string" resultMap="selectClassInfo">
+        SELECT *
+        FROM CLASSROOM
+        INNER JOIN CLASSROOM_INFO
+        ON CLASSROOM.CLASSROOM_CODE = CLASSROOM_INFO.CLASSROOM_CODE
+        AND CLASSROOM.CLASSROOM_ISCURRENT = 'TRUE'
+        WHERE CLASSROOM_INFO.CLASSROOM_INFO_ISDELETE = 'FALSE'
+        AND CLASSROOM.CLASSROOM_USER_ID = #{_parameter}
+    </select>
+    
+    <!-- 채팅로그초기화를 위한 클래스정보 조회 -->
+    <select id="infoListSelect" resultMap="infoDTO">
+        SELECT *
+        FROM CLASSROOM_INFO
+        WHERE CLASSROOM_INFO_ISDELETE = 'FALSE'
+    </select>
+    
+    
+</mapper>

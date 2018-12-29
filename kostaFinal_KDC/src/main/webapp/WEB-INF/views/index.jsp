@@ -145,5 +145,7 @@
     </table>
   </div>
 </div>
+  <a href="${pageContext.request.contextPath }/admin/selectMember">관리자 페이지로</a><br/>
+<a href="${pageContext.request.contextPath }/chatting">채팅하기</a>
 </body>
 </html>

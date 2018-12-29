@@ -1,5 +1,7 @@
 package edu.kosta.kdc.model.dto;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class ClassRoomInfoDTO {
@@ -14,11 +16,14 @@ public class ClassRoomInfoDTO {
     
     private MultipartFile file; //<input type="file" name="file"
     
-    public ClassRoomInfoDTO() {}
+    //클래스 상세와  join할 클래스DTO들
+    private List<ClassRoomDTO> classRoomList;
     
+    public ClassRoomInfoDTO() {}
+
     public ClassRoomInfoDTO(String classRoomCode, String classRoomInfoName, String classRoomInfoStartDate,
             String classRoomInfoEndDate, String classRoomInfoTeacherId, String classRoomInfoChatFile,
-            boolean classRommInfoIsDelete) {
+            boolean classRommInfoIsDelete, MultipartFile file, List<ClassRoomDTO> classRoomList) {
         super();
         this.classRoomCode = classRoomCode;
         this.classRoomInfoName = classRoomInfoName;
@@ -27,6 +32,8 @@ public class ClassRoomInfoDTO {
         this.classRoomInfoTeacherId = classRoomInfoTeacherId;
         this.classRoomInfoChatFile = classRoomInfoChatFile;
         this.classRommInfoIsDelete = classRommInfoIsDelete;
+        this.file = file;
+        this.classRoomList = classRoomList;
     }
     
     public String getClassRoomCode() {
@@ -92,7 +99,23 @@ public class ClassRoomInfoDTO {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
+
+    public List<ClassRoomDTO> getClassRoomList() {
+        return classRoomList;
+    }
+
+    public void setClassRoomList(List<ClassRoomDTO> classRoomList) {
+        this.classRoomList = classRoomList;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassRoomInfoDTO [classRoomCode=" + classRoomCode + ", classRoomInfoName=" + classRoomInfoName
+                + ", classRoomInfoStartDate=" + classRoomInfoStartDate + ", classRoomInfoEndDate="
+                + classRoomInfoEndDate + ", classRoomInfoTeacherId=" + classRoomInfoTeacherId
+                + ", classRoomInfoChatFile=" + classRoomInfoChatFile + ", classRommInfoIsDelete="
+                + classRommInfoIsDelete + "]";
+    }
     
     
 }
