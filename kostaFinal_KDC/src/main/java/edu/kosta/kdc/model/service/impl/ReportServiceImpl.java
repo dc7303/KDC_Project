@@ -23,14 +23,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public int reportSelectQuantity() {
         
-        int result = 0;
-        
-        result = reportDAO.reportSelectQuantity();
-        if(result == 0) {
-            throw new KdcException("조회할 신고내역이 없습니다.");
-        }
-        
-        return result;
+        return reportDAO.reportSelectQuantity();
     }
     
     /**

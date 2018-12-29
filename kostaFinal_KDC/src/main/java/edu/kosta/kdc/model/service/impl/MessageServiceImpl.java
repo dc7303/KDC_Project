@@ -20,14 +20,24 @@ public class MessageServiceImpl implements MessageService {
     private MessageDAO messageDAO;
 
     /**
+     * 조회할 메세지 리스트 수 가져오기
+     * @return
+     */
+    @Override
+    public int messageSelectQuntity() {
+        
+        return messageDAO.messageSelectQuntity();
+    }
+    
+    /**
      * 전체 메세지 리스트
      * */
     @Override
-    public List<MessageDTO> messageAll() {
+    public List<MessageDTO> messageAll(int firstColumnRange, int lastColumnRange) {
 
         MemberDTO memberDTO = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        List<MessageDTO> messageList = messageDAO.messageAll(memberDTO.getMemberId());
+        List<MessageDTO> messageList = messageDAO.messageAll(memberDTO.getMemberId(), firstColumnRange, lastColumnRange);
         if(messageList == null) {
             throw new KdcException("쪽지가 존재하지 않습니다.");
         }

@@ -45,11 +45,26 @@ public class AdminController {
     
     @Autowired PageHandler pageHandler;
     
-    //관리자 로그인
+    /**
+     * 관리자 로그인
+     *
+     * @return
+     */
     @RequestMapping("/admin")
     public String adminLogin() {
         
         return "/admin/main/signInForm";
+    }
+    
+    /**
+     * 관리자 페이지
+     * 
+     * @return
+     */
+    @RequestMapping("/adminPage")
+    public String adminPage() {
+        
+        return "/admin/main/admin";
     }
     
     /**
@@ -115,21 +130,39 @@ public class AdminController {
         return map;
         
     }
-    //관리자 페이지
-    @RequestMapping("/adminPage")
-    public ModelAndView adminPage() {
+    
+    /**
+     * 메세지 리스트 가져오기
+     * 
+     * @param currentPage
+     * @return
+     */
+    @RequestMapping(value = "/adminMessageList")
+    @ResponseBody
+    public Map<String, Object> adminMessageList(int currentPage) {
+        
+        int setPage = currentPage;       //현재 페이지
+        int setTotalCount = messageService.messageSelectQuntity();     //컬럼 수
+        
+        //view로 보낼 json map
+        Map<String, Object> map = new HashMap<>();
+        
+        //페이지 정보 셋팅 및 DTO 리턴 받기
+        PageDTO pageDTO = pageHandler.pageInfoSet(setPage, 10, 10, setTotalCount);
+        
+        //데이터 조회할 ROWNUM 범위 를 select 인수로 전달.
+        int firstColumnRange = pageDTO.getFirstColumnRange();
+        int lastColumnRange = pageDTO.getLastColumnRange();
         
         //쪽지 가져오기
-        List<MessageDTO> messageList = messageService.messageAll();
+        List<MessageDTO> messageList = messageService.messageAll(firstColumnRange, lastColumnRange);
         
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("messageList", messageList);
+        map.put("pageDTO", pageDTO);
+        map.put("messageList", messageList);
         
-        mv.setViewName("/admin/main/admin");
+        return map;
         
-        return mv;
     }
-    
     
     /**
      * 운영현황 게시판 수 가져오기
@@ -202,18 +235,6 @@ public class AdminController {
         
     }
  
-    /**
-     * 관리자 페이지 - 메시지 리스트
-     * */
-    @RequestMapping("/messageList")
-    public ModelAndView MessageSelectAll() {
-        
-        List<MessageDTO> list = messageService.messageAll();
-        
-        return new ModelAndView("admin/adminMessagePage", "messageList", list);
-        
-    }
-    
     /**
      * 쪽지 보내기
      * */

@@ -9,6 +9,10 @@ public class ReportDTO {
     private String reportPurpose;       //신고 내용
     private boolean reportIsDelete;     //삭제여부
     
+    private int rnumOne;            //페이징 처리시 ROWNUM 잉여데이터
+    private int rnumTwo;            //페이징 처리시 ROWNUM 잉여데이터
+    
+    
     //1:1인 경우
     private ReplyBoardDTO replyBoardDTO;
     
@@ -25,6 +29,22 @@ public class ReportDTO {
         this.reportIsDelete = reportIsDelete;
         this.replyBoardDTO = replyBoardDTO;
     }
+    
+    
+    public ReportDTO(int reportPk, int reportReplyBoardPk, String reportReporterId, String reportDate,
+            String reportPurpose, boolean reportIsDelete, int rnumOne, int rnumTwo, ReplyBoardDTO replyBoardDTO) {
+        super();
+        this.reportPk = reportPk;
+        this.reportReplyBoardPk = reportReplyBoardPk;
+        this.reportReporterId = reportReporterId;
+        this.reportDate = reportDate;
+        this.reportPurpose = reportPurpose;
+        this.reportIsDelete = reportIsDelete;
+        this.rnumOne = rnumOne;
+        this.rnumTwo = rnumTwo;
+        this.replyBoardDTO = replyBoardDTO;
+    }
+
     public int getReportPk() {
         return reportPk;
     }
@@ -68,6 +88,22 @@ public class ReportDTO {
 
     public void setReplyBoardDTO(ReplyBoardDTO replyBoardDTO) {
         this.replyBoardDTO = replyBoardDTO;
+    }
+
+    public int getRnumOne() {
+        return rnumOne;
+    }
+
+    public void setRnumOne(int rnumOne) {
+        this.rnumOne = rnumOne;
+    }
+
+    public int getRnumTwo() {
+        return rnumTwo;
+    }
+
+    public void setRnumTwo(int rnumTwo) {
+        this.rnumTwo = rnumTwo;
     }
     
     

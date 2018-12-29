@@ -11,6 +11,9 @@ public class MessageDTO {
     private boolean messageIsRead;   //읽음 여부
     private boolean messageIsDelete; //삭제 여부
     
+    private int rnumOne;            //페이징 처리시 ROWNUM 잉여데이터
+    private int rnumTwo;            //페이징 처리시 ROWNUM 잉여데이터
+    
     public MessageDTO() {}
     
     public MessageDTO(int messageNum, String senderId, String receiverId, String messageTitle, String messageContents,
@@ -25,6 +28,22 @@ public class MessageDTO {
         this.messageIsRead = messageIsRead;
         this.messageIsDelete = messageIsDelete;
     }
+    
+    public MessageDTO(int messageNum, String senderId, String receiverId, String messageTitle, String messageContents,
+            String messageDate, boolean messageIsRead, boolean messageIsDelete, int rnumOne, int rnumTwo) {
+        super();
+        this.messageNum = messageNum;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.messageTitle = messageTitle;
+        this.messageContents = messageContents;
+        this.messageDate = messageDate;
+        this.messageIsRead = messageIsRead;
+        this.messageIsDelete = messageIsDelete;
+        this.rnumOne = rnumOne;
+        this.rnumTwo = rnumTwo;
+    }
+
     public int getMessageNum() {
         return messageNum;
     }
@@ -72,6 +91,22 @@ public class MessageDTO {
     }
     public void setMessageIsDelete(boolean messageIsDelete) {
         this.messageIsDelete = messageIsDelete;
+    }
+
+    public int getRnumOne() {
+        return rnumOne;
+    }
+
+    public void setRnumOne(int rnumOne) {
+        this.rnumOne = rnumOne;
+    }
+
+    public int getRnumTwo() {
+        return rnumTwo;
+    }
+
+    public void setRnumTwo(int rnumTwo) {
+        this.rnumTwo = rnumTwo;
     }
     
     

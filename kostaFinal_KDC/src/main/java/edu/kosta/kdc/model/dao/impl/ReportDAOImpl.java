@@ -36,7 +36,7 @@ public class ReportDAOImpl implements ReportDAO {
         map.put("firstColumn", firstColumnRange);
         map.put("lastColumn", lastColumnRange);
         
-        return sqlSession.selectList("reportMapper.selectAll", map);
+        return sqlSession.selectList("reportMapper.reportPagingSelect", map);
     }
     
     /**

@@ -9,6 +9,8 @@
         <result column="REPORT_DATE" property="reportDate"/>
         <result column="REPORT_PURPOSE" property="reportPurpose"/>
         <result column="REPORT_ISDELETE" property="reportIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <result column="RNUM" property="rnumOne"/>
+        <result column="RNUM_1" property="rnumTwo"/>
         <association property="replyBoardDTO" javaType="replyBoardDTO">
             <id column="REPLY_BOARD_PK" property="replyBoardPk"/>
             <result column="REPLY_BOARD_CLASSIFICATION" property="replyBoardClassification"/>
@@ -47,12 +49,14 @@
     <select id="reportTotalCount" resultType="java.lang.Integer">
         select nvl(count(*), 0) as totalCount from report where report_isdelete = 'FALSE'
     </select>
-    
+   
     <!-- 페이징 select -->
-    <select id="REPORTPagingSelect" parameterType="map" resultMap="reportDTO">
+    <select id="reportPagingSelect" parameterType="map" resultMap="reportSelectMap">
         select x.rnum, x.* from (
         select rownum as rnum, a.* from (
-        select * from report order by report_date desc) a 
+        select g.*, h.* from report g, reply_board h
+        where g.report_reply_board_pk = h.reply_board_pk and
+        g.report_isdelete = 'FALSE' order by report_date desc) a 
         where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
         where x.rnum <![CDATA[ >= ]]> #{firstColumn}
     </select>

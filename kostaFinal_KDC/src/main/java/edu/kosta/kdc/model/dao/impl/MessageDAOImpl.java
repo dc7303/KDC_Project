@@ -1,6 +1,8 @@
 package edu.kosta.kdc.model.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,28 @@ public class MessageDAOImpl implements MessageDAO {
     private SqlSession session;
 
     /**
+     * 조회할 메세지 리스트 수 가져오기
+     * @return
+     */
+    @Override
+    public int messageSelectQuntity() {
+
+        return session.selectOne("messageMapper.messageTotalCount");
+    }
+    
+    /**
      * 전체 메세지 리스트
      */
     @Override
-    public List<MessageDTO> messageAll(String id) {
+    public List<MessageDTO> messageAll(String id, int firstColumnRange, int lastColumnRange) {
 
-        List<MessageDTO> list = session.selectList("messageMapper.selectAll", id);
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("receiverId", id);
+        map.put("firstColumn", firstColumnRange);
+        map.put("lastColumn", lastColumnRange);
+        
+        List<MessageDTO> list = session.selectList("messageMapper.messagePagingSelect", map);
 
         return list;
 

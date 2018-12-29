@@ -11,6 +11,8 @@
         <result column="MESSAGE_DATE" property="messageDate"/>
         <result column="MESSAGE_ISREAD" property="messageIsRead" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
         <result column="MESSAGE_ISDELETE" property="messageIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <result column="RNUM" property="rnumOne"/>
+        <result column="RNUM_1" property="rnumTwo"/>
     </resultMap>
     
     <sql id="messageSelectSQL">
@@ -64,6 +66,21 @@
         select count(case when MESSAGE_ISREAD='FALSE' then 1 end)
         from MESSAGE
         where MESSAGE_RECEIVER_ID=#{receiverId} AND MESSAGE_ISDELETE='FALSE'
+    </select>
+    
+    <!-- 총 쪽지 수 -->
+    <select id="messageTotalCount" resultType="java.lang.Integer">
+        select nvl(count(*), 0) as totalCount from message where MESSAGE_ISDELETE = 'FALSE'
+    </select>
+        
+    <!-- 페이징 select -->
+    <select id="messagePagingSelect" parameterType="map" resultMap="messageSelectMap">
+        select x.rnum, x.* from (
+        select rownum as rnum, a.* from (
+        select * from message where message_isdelete = 'FASLE'
+        and message_recevier_id = #{receiverId}) a 
+        where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+        where x.rnum <![CDATA[ >= ]]> #{firstColumn}
     </select>
 
 </mapper>

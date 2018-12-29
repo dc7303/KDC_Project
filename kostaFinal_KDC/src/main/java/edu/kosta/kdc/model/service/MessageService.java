@@ -9,9 +9,15 @@ import edu.kosta.kdc.util.KdcException;
 public interface MessageService {
     
     /**
+     * 조회할 메세지 리스트 수 가져오기
+     * @return
+     */
+    int messageSelectQuntity();
+    
+    /**
      * 전체 메세지 리스트
      * */
-    List<MessageDTO> messageAll();
+    List<MessageDTO> messageAll(int firstColumnRange, int lastColumnRange);
 
     /**
      * 메세지 전송
