@@ -33,7 +33,7 @@ public class EmailSender {
 		MimeMessageHelper helper = new MimeMessageHelper(msg, true, "UTF-8");
 		System.out.println("임시비밀번호 : " + uuid);
 		msg.setSubject("임시 비밀번호 입니다."); //메일 제목
-		helper.setText("임시 비밀번호는 <b>"+uuid+"</b>입니다.<br><br>임시 비밀번호 받으신후 꼭 비밀번호를 수정해주시기 바랍니다.", true);//메일 내용
+		helper.setText("임시 비밀번호는 <b style='color: blue'>"+uuid+"</b>입니다.<br><br>임시 비밀번호 받으신후 꼭 비밀번호를 수정해주시기 바랍니다.", true);//메일 내용
 		msg.setRecipient(RecipientType.TO, new InternetAddress(emailForm.getReceiver()));
 		mailSender.send(msg);
 		
