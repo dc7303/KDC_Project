@@ -204,7 +204,9 @@
           xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
         },
         success: function(result) {
-          console.log(result);
+          var resultStr = reportPaging(result);
+          jq('.report-table').eq(0).html(resultStr);
+          
         },
         error: function(err) {
           console.log('err : ' + err);
@@ -225,7 +227,8 @@
           xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
         },
         success: function(result) {
-          console.log(result);
+          var resultStr = messagePaging(result);
+          jq('.message-table').eq(0).html(resultStr);
         },
         error: function(err) {
           console.log('err : ' + err);
@@ -235,7 +238,6 @@
       //페이지 번호 click 이벤트
       jq(document).on('click', '.page-number', function() {
         var currentPage = parseInt(jq(this).text());
-        console.log(currentPage)
         jq.ajax({
           url: '${pageContext.request.contextPath}/adminMemberList',
           type: 'get',
@@ -266,22 +268,134 @@
 				'<th>휴대폰번호</th><th>이메일</th><th>가입일</th>' + 
 				'<th>유저 추방</th></tr><tr class="table-tr">';
           
-          if(memberList !== null) {
+          if(memberList.length !== 0) {
             //멤버 리스트 셋팅
             for(var i = 0; i < memberList.length; i++) {
-              str += '<td>' + result.memberList[i].memberId + '</td>';
-              str += '<td>' + result.memberList[i].memberName + '</td>';
-              str += '<td>' + result.memberList[i].memberNickName + '</td>';
-              str += '<td>' + result.memberList[i].memberBirth + '</td>';
-              str += '<td>' + result.memberList[i].memberPhone + '</td>';
-              str += '<td>' + result.memberList[i].memberEmail + '</td>';
-              str += '<td>' + result.memberList[i].memberDate + '</td>';
+              str += '<td>' + memberList[i].memberId + '</td>';
+              str += '<td>' + memberList[i].memberName + '</td>';
+              str += '<td>' + memberList[i].memberNickName + '</td>';
+              str += '<td>' + memberList[i].memberBirth + '</td>';
+              str += '<td>' + memberList[i].memberPhone + '</td>';
+              str += '<td>' + memberList[i].memberEmail + '</td>';
+              str += '<td>' + memberList[i].memberDate + '</td>';
               str += '<td><input type="button" value="삭제" id="deleteMember"></td></tr>'
             }
           }else {
             str += '<td class="empty-list" colspan="8">등록된 유저가 없습니다.</td>'
           }
           
+          
+          str += '<td class="page-selector" colspan="8">';
+          //첫 페이지로 이동 
+          if(pageDTO.firstMove) {
+            str += '<a href="#" class="first-move">첫페이지로</a>';
+          }
+          
+          //이전페이지로 이동
+          if(pageDTO.backPage) {
+            str += '<a href="#" class="back-page">◀</a>  ';
+          }
+          
+          //페이지 수 셋팅
+          for(var pageCount = pageDTO.startPage; pageCount <= pageDTO.endPage; pageCount++) {
+            if(pageCount !== pageDTO.page){
+              str += '<a href="#" class="page-number" value="' + pageCount + '">' + pageCount + '</a>  '
+            }else {
+              str += '<a href="#" class="current-page" value="' + pageCount + '">' + pageCount + '</a>'
+            }
+          }
+          
+          //다음 페이지
+          if(pageDTO.nextPage) {
+            str += '<a href="#" class="next-page">▶</a>';
+          }
+          
+          //마지막 페이지
+          if(pageDTO.lastMove) {
+            str += '<a href="#" class="last-move">마지막페이지로</a>';
+          }
+          return str;
+        }
+      
+      //report Paging 모듈
+      function reportPaging(result) {
+          var reportList = result.reportList;
+          var pageDTO = result.pageDTO;
+          //멤버 리스트가 존재할때
+          
+		var str = '<tr><th>신고인 아이디</th><th>피신고인 아이디</th>' + 
+		'<th>신고 내용</th><th>신고한 날짜</th><th>삭제</th></tr>';
+          
+          if(reportList.length !== 0) {
+            //멤버 리스트 셋팅
+            for(var i = 0; i < reportList.length; i++) {
+              str += '<td>' + reportList[i].reportReporterId + '</td>';
+              str += '<td>' + reportList[i].replyBoardDTO.replyBoardWriterId + '</td>';
+              str += '<td>' + reportList[i].reportPurpose + '</td>';
+              str += '<td>' + reportList[i].reportDate + '</td>';
+              str += '<td><input type="button" value="삭제" id="deleteReport" onclick="deleteReport(' + reportList[i].reportPk + ')"></td></tr>'
+            }
+          }else {
+            str += '<td class="empty-list" colspan="5">등록된 신고가 없습니다.</td>'
+          }
+          
+          
+          str += '<td class="page-selector" colspan="8">';
+          //첫 페이지로 이동 
+          if(pageDTO.firstMove) {
+            str += '<a href="#" class="first-move">첫페이지로</a>';
+          }
+          
+          //이전페이지로 이동
+          if(pageDTO.backPage) {
+            str += '<a href="#" class="back-page">◀</a>  ';
+          }
+          
+          //페이지 수 셋팅
+          for(var pageCount = pageDTO.startPage; pageCount <= pageDTO.endPage; pageCount++) {
+            if(pageCount !== pageDTO.page){
+              str += '<a href="#" class="page-number" value="' + pageCount + '">' + pageCount + '</a>  '
+            }else {
+              str += '<a href="#" class="current-page" value="' + pageCount + '">' + pageCount + '</a>'
+            }
+          }
+          
+          //다음 페이지
+          if(pageDTO.nextPage) {
+            str += '<a href="#" class="next-page">▶</a>';
+          }
+          
+          //마지막 페이지
+          if(pageDTO.lastMove) {
+            str += '<a href="#" class="last-move">마지막페이지로</a>';
+          }
+          return str;
+        }
+      
+      //messageList Paging 모듈
+      function messagePaging(result) {
+          var messageList = result.messageList;
+          var pageDTO = result.pageDTO;
+          //멤버 리스트가 존재할때
+		var str = '<tr><th><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th><th>보낸사람</th>' + 
+					'<th>쪽지제목</th><th>전송일</th><th>답장</th><th>삭제</th></tr>';
+          
+          if(messageList.length !== 0) {
+            //멤버 리스트 셋팅
+            for(var i = 0; i < messageList.length; i++) {
+              str += '<td>' + messageList[i].senderId + '</td>';
+              str += '<td><a href="${pageContext.request.contextPath}/message/' + messageList[i].messageNum + '">'
+              				+ messageList[i].messageTitle + '</a></td>';
+              str += '<td>' + messageList[i].messageDate + '</td>';
+              str += '<td><input type="button" value="답장" id="replyMessage">' +
+              			'<input type="hidden" name="senderId" value="' + messageList[i].senderId + '"></td>';
+              str += '<td>' + messageList[i].memberPhone + '</td>';
+              str += '<td><input type="hidden" value="' + messageList.messageNum + '">' + 
+              		'<input type="button" value="삭제" id="deleteMessage"/></td></tr>';
+            }
+          }else {
+            str += '<td class="empty-list" colspan="8">쪽지가 없습니다.</td>';
+          }
           
           str += '<td class="page-selector" colspan="8">';
           //첫 페이지로 이동 
@@ -443,8 +557,7 @@
         <h1 class="w3-xxxlarge w3-text-blue"><b>신고관리</b></h1>
 
         <div class="w3-row-padding">
-          <table class="report-table">
-          <div class="optionSelect">
+        <div class="optionSelect">
             <select onchange="boardSelect(this.value)">
               <option value="0">게시판 선택</option>
               <option value="1">TECH 게시판</option>
@@ -459,46 +572,14 @@
               <option value="8">기타</option>
             </select>
           </div>
+          <table class="report-table">
              <tr>
-                  <th>번호</th>
                   <th>신고인 아이디</th>
                   <th>피신고인 아이디</th>
                   <th>신고 내용</th>
                   <th>신고한 날짜</th>
                   <th>삭제</th>
               </tr>
-              
-            <c:choose>
-            <c:when test="${empty requestScope.reportList}">
-            <tr>
-                <td class="empty-list" colspan="6">
-                  신고내역이 없습니다.
-                </td>
-            </tr>
-            </c:when> 
-            <c:otherwise>
-               <c:forEach items="${requestScope.reportList}" var="reportList">
-                      <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'">
-                          <td>
-                              
-                          </td>
-                          <td>
-                              ${reportList.reportReporterId}
-                          </td>
-                          <td>
-                            <a href="${pageContext.request.contextPath}/message/${messageList.messageNum}"> <!-- path variable RESTful -->
-                              ${reportList.replyBoardDTO.replyBoardWriterId}
-                            </a>
-                          </td>
-                          <td>${reportList.reportPurpose}</td>
-                          <td>${reportList.reportDate}</td>
-                          <td>
-                              <input type="button" value="삭제" id="deleteReport" onclick="deleteReport(${reportList.reportPk})">
-                          </td>
-                      </tr>
-                </c:forEach>
-              </c:otherwise>
-              </c:choose>
           </table>
         </div>
 
@@ -515,50 +596,6 @@
                 <th>삭제</th>
               </tr>
           
-              <c:choose>
-                <c:when test="${empty requestScope.messageList}">
-                  <tr>
-                    <td class="empty-list" colspan="6">
-                      받은 쪽지가 없습니다.
-                    </td>
-                  </tr>
-                </c:when>
-                <c:otherwise>
-                <!-- 접속된 ID로  message list 출력 -->
-                  <c:forEach items="${requestScope.messageList}" var="message">
-                    <tr onmouseover="this.style.background='#eaeaea'"
-                      onmouseout="this.style.background='white'" id="messageTitles"> <!-- id="messageTitles" -->
-                      <td>
-                            <input type="checkbox" name="checkNum"  value="${message.messageNum}"  id="${message.messageNum}">
-                      </td>
-                      <td>${message.senderId}</td>
-                      <td>
-                        <a href="${pageContext.request.contextPath}/message/${message.messageNum}">
-                              <!-- path variable RESTful -->
-                              <!-- 읽은 메세지, 읽지않은 메세지 구분 -->
-                              <c:choose>
-                                <c:when test="${message.messageIsRead == 'FALSE'}">
-                                  ${message.messageTitle}
-                                </c:when>
-                                <c:otherwise>${message.messageTitle}
-                                </c:otherwise>
-                              </c:choose>
-                          </a>
-                      </td>
-                      <td>${message.messageDate}</td>
-                      <td>
-                          <!-- 답장 클릭시, ajax로 ID유뮤체크 후 답장 페이지로 이동  -->
-                          <input type="button" value="답장" id="replyMessage">
-                          <input type="hidden" name="senderId" value="${message.senderId}">
-                      </td>
-                      <td>
-                          <input type="hidden" value="${message.messageNum}">
-                          <input  type="button" value="삭제" id="deleteMessage" >
-                      </td>
-                    </tr>
-                  </c:forEach>
-                </c:otherwise>
-              </c:choose>
             </table>
         </div>
 
