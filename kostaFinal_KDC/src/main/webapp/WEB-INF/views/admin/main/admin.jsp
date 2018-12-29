@@ -50,6 +50,9 @@
     .empty-list {
       text-align: center;
     }
+    .admin-table {
+      height: 550px;
+    }
     /*
     <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
     */
@@ -179,10 +182,67 @@
           xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
         },
         success: function(result) {
+          var resultStr = memberPaging(result);
+          jq('.admin-table').eq(0).html(resultStr);
+        },
+        error: function(err) {
+          console.log('err : ' + err);
+        }
+      });
+      
+      /**
+       * 신고 리스트 가져오기
+       */
+      jq.ajax({
+        url: '${pageContext.request.contextPath}/adminReportList',
+        type: 'get',
+        dataType: 'json',
+        data: {
+          currentPage: 1,
+        },
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+        },
+        success: function(result) {
+          console.log(result);
+        },
+        error: function(err) {
+          console.log('err : ' + err);
+        }
+      });
+      //페이지 번호 click 이벤트
+      jq(document).on('click', '.page-number', function() {
+        var currentPage = parseInt(jq(this).text());
+        console.log(currentPage)
+        jq.ajax({
+          url: '${pageContext.request.contextPath}/adminMemberList',
+          type: 'get',
+          dataType: 'json',
+          data: {
+            currentPage: currentPage,
+          },
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+          },
+          success: function(result) {
+            var strResult = memberPaging(result);
+            jq('.admin-table').eq(0).html(strResult);
+          },
+          error: function(err) {
+            console.log('err : ' + err);
+          }
+        });
+      });
+      
+      //member Paging 모듈
+      function memberPaging(result) {
           var memberList = result.memberList;
           var pageDTO = result.pageDTO;
           //멤버 리스트가 존재할때
-          var str = '<tr class="table-tr">';
+		var str =
+				'<tr><th>유저id</th><th>유저이름</th><th>닉네임</th><th>생년월일</th>' + 
+				'<th>휴대폰번호</th><th>이메일</th><th>가입일</th>' + 
+				'<th>유저 추방</th></tr><tr class="table-tr">';
           
           if(memberList !== null) {
             //멤버 리스트 셋팅
@@ -200,7 +260,8 @@
             str += '<td class="empty-list" colspan="8">등록된 유저가 없습니다.</td>'
           }
           
-          str += '<td class="page-selector" colspan="8">'
+          
+          str += '<td class="page-selector" colspan="8">';
           //첫 페이지로 이동 
           if(pageDTO.firstMove) {
             str += '<a href="#" class="first-move">첫페이지로</a>';
@@ -229,88 +290,8 @@
           if(pageDTO.lastMove) {
             str += '<a href="#" class="last-move">마지막페이지로</a>';
           }
-          
-          jq('.admin-table').eq(0).append(str);
-        },
-        error: function(err) {
-          console.log('err : ' + err);
+          return str;
         }
-      });
-       
-      //페이지 번호 click 이벤트
-      jq(document).on('click', '.page-number', function() {
-        var currentPage = parseInt(jq(this).text());
-        console.log(currentPage)
-        jq.ajax({
-          url: '${pageContext.request.contextPath}/adminMemberList',
-          type: 'get',
-          dataType: 'json',
-          data: {
-            currentPage: currentPage,
-          },
-          beforeSend: function(xhr) {
-            xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
-          },
-          success: function(result) {
-
-            var memberList = result.memberList;
-            var pageDTO = result.pageDTO;
-            //멤버 리스트가 존재할때
-            var str = '<tr class="table-tr">';
-            
-            if(memberList !== null) {
-              //멤버 리스트 셋팅
-              for(var i = 0; i < memberList.length; i++) {
-                str += '<td>' + result.memberList[i].memberId + '</td>';
-                str += '<td>' + result.memberList[i].memberName + '</td>';
-                str += '<td>' + result.memberList[i].memberNickName + '</td>';
-                str += '<td>' + result.memberList[i].memberBirth + '</td>';
-                str += '<td>' + result.memberList[i].memberPhone + '</td>';
-                str += '<td>' + result.memberList[i].memberEmail + '</td>';
-                str += '<td>' + result.memberList[i].memberDate + '</td>';
-                str += '<td><input type="button" value="삭제" id="deleteMember"></td></tr>'
-              }
-            }else {
-              str += '<td class="empty-list" colspan="8">등록된 유저가 없습니다.</td>'
-            }
-            
-            str += '<td class="page-selector" colspan="8">'
-            //첫 페이지로 이동 
-            if(pageDTO.firstMove) {
-              str += '<a href="#" class="first-move">첫페이지로</a>';
-            }
-            
-            //이전페이지로 이동
-            if(pageDTO.backPage) {
-              str += '<a href="#" class="back-page">◀</a>  ';
-            }
-            
-            //페이지 수 셋팅
-            for(var pageCount = pageDTO.startPage; pageCount <= pageDTO.endPage; pageCount++) {
-              if(pageCount !== pageDTO.page){
-                str += '<a href="#" class="page-number" value="' + pageCount + '">' + pageCount + '</a>  '
-              }else {
-                str += '<a href="#" class="current-page" value="' + pageCount + '">' + pageCount + '</a>'
-              }
-            }
-            
-            //다음 페이지
-            if(pageDTO.nextPage) {
-              str += '<a href="#" class="next-page">▶</a>';
-            }
-            
-            //마지막 페이지
-            if(pageDTO.lastMove) {
-              str += '<a href="#" class="last-move">마지막페이지로</a>';
-            }
-            jq('.table-tr').remove();
-            jq('.admin-table').eq(0).append(str);
-          },
-          error: function(err) {
-            console.log('err : ' + err);
-          }
-        });
-      });
     })(jQuery);
     
       
@@ -421,6 +402,7 @@
             
         </table>
       </div>
+      <div class="member-paging"></div>
 
       <!-- 운영현황 -->
       <div class="w3-container" id="services" style="margin-top:75px; float: left;">

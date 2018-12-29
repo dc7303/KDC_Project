@@ -1,6 +1,8 @@
 package edu.kosta.kdc.model.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,26 @@ public class ReportDAOImpl implements ReportDAO {
     private SqlSession sqlSession;
     
     /**
+     * 조회할 컬럼 수 가져오기
+     */
+    @Override
+    public int reportSelectQuantity() {
+        
+        return sqlSession.selectOne("reportMapper.reportTotalCount");
+    }
+    
+    /**
      * 신고 리스트 전체 가져오기
      */
     @Override
-    public List<ReportDTO> reportSelectAll() {
+    public List<ReportDTO> reportSelectAll(int firstColumnRange, int lastColumnRange) {
 
-        return sqlSession.selectList("reportMapper.selectAll");
+        Map<String, Integer> map = new HashMap<>();
+        
+        map.put("firstColumn", firstColumnRange);
+        map.put("lastColumn", lastColumnRange);
+        
+        return sqlSession.selectList("reportMapper.selectAll", map);
     }
     
     /**

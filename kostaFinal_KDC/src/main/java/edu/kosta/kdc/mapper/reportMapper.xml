@@ -42,4 +42,18 @@
         set REPORT_ISDELETE='TRUE'
         where REPORT_PK=#{_parameter}
     </update>
+    
+    <!-- 총 신고 수 -->
+    <select id="reportTotalCount" resultType="java.lang.Integer">
+        select nvl(count(*), 0) as totalCount from report where report_isdelete = 'FALSE'
+    </select>
+    
+    <!-- 페이징 select -->
+    <select id="REPORTPagingSelect" parameterType="map" resultMap="reportDTO">
+        select x.rnum, x.* from (
+        select rownum as rnum, a.* from (
+        select * from report order by report_date desc) a 
+        where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+        where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+    </select>
 </mapper>

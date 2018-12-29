@@ -52,6 +52,12 @@ public class AdminController {
         return "/admin/main/signInForm";
     }
     
+    /**
+     * 멤버 리스트 가져오기 (paging)
+     * 
+     * @param currentPage
+     * @return
+     */
     @RequestMapping(value = "/adminMemberList", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public Map<String, Object> adminMemberList(int currentPage) {
@@ -78,22 +84,45 @@ public class AdminController {
         return map;
     }
     
-    
+    /**
+     * 신고 리스트 가져오기
+     * 
+     * @param currentPage
+     * @return
+     */
+    @RequestMapping(value = "/adminReportList", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> adminReportList(int currentPage) {
+        int setPage = currentPage;       //현재 페이지
+        int setTotalCount = reportService.reportSelectQuantity();     //컬럼 수
+        
+        //view로 보낼 json map
+        Map<String, Object> map = new HashMap<>();
+        
+        //페이지 정보 셋팅 및 DTO 리턴 받기
+        PageDTO pageDTO = pageHandler.pageInfoSet(setPage, 10, 10, setTotalCount);
+        
+        //데이터 조회할 ROWNUM 범위 를 select 인수로 전달.
+        int firstColumnRange = pageDTO.getFirstColumnRange();
+        int lastColumnRange = pageDTO.getLastColumnRange();
+        
+        //신고 전체가져오기
+        List<ReportDTO> reportList = reportService.reportSelectAll(firstColumnRange, lastColumnRange);
+        
+        map.put("pageDTO", pageDTO);
+        map.put("reportList", reportList);
+        
+        return map;
+        
+    }
     //관리자 페이지
     @RequestMapping("/adminPage")
     public ModelAndView adminPage() {
-        /*
-        //전체 유저 리스트 가져오기
-        List<MemberDTO> memberList = memberService.memberSelectAll();
-        */
-        //신고 전체가져오기
-        List<ReportDTO> reportList = reportService.reportSelectAll();
         
         //쪽지 가져오기
         List<MessageDTO> messageList = messageService.messageAll();
         
         ModelAndView mv = new ModelAndView();
-        mv.addObject("reportList", reportList);
         mv.addObject("messageList", messageList);
         
         mv.setViewName("/admin/main/admin");

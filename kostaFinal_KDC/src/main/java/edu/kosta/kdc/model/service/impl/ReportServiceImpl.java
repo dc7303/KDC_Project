@@ -18,12 +18,28 @@ public class ReportServiceImpl implements ReportService {
     private ReportDAO reportDAO;
     
     /**
+     * 신고 리스트 조회할 수량조회
+     */
+    @Override
+    public int reportSelectQuantity() {
+        
+        int result = 0;
+        
+        result = reportDAO.reportSelectQuantity();
+        if(result == 0) {
+            throw new KdcException("조회할 신고내역이 없습니다.");
+        }
+        
+        return result;
+    }
+    
+    /**
      * 신고 리스트 전체 가져오기
      */
     @Override
-    public List<ReportDTO> reportSelectAll() {
+    public List<ReportDTO> reportSelectAll(int firstColumnRange, int lastColumnRange) {
 
-        List<ReportDTO> list = reportDAO.reportSelectAll();
+        List<ReportDTO> list = reportDAO.reportSelectAll(firstColumnRange, lastColumnRange);
         if(list == null) {
             throw new KdcException("신고 내역 조회 실패입니다.");
         }
