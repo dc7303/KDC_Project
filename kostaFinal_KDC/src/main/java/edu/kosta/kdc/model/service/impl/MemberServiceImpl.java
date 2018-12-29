@@ -122,9 +122,9 @@ public class MemberServiceImpl implements MemberService {
      * 모든 회원 정보 가져오기
      * */
     @Override
-    public List<MemberDTO> memberSelectAll() {
+    public List<MemberDTO> memberSelectAll(int firstColumnRange, int lastColumnRange) {
 
-        List<MemberDTO> list = memberDAO.memberSelectAll();
+        List<MemberDTO> list = memberDAO.memberSelectAll(firstColumnRange, lastColumnRange);
         if(list == null) {
             throw new KdcException("회원이 존재하지 않습니다.");
         }

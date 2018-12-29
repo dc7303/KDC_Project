@@ -1,8 +1,8 @@
 package edu.kosta.kdc.model.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
-
-
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,12 +63,17 @@ public class MemberDAOImpl implements MemberDAO {
     }
     
     /**
-     * 모든 회원 정보 가져오기
+     * 모든 회원 정보 가져오기 ( 페이징 처리 )
      * */
     @Override
-    public List<MemberDTO> memberSelectAll() {
+    public List<MemberDTO> memberSelectAll(int firstColumnRange, int lastColumnRange) {
         
-        return sqlSession.selectList("memberMapper.memberSelectAll");
+        Map<String, Integer> map = new HashMap<>();
+        
+        map.put("firstColumn", firstColumnRange);
+        map.put("lastColumn", lastColumnRange);
+        
+        return sqlSession.selectList("memberMapper.memberPagingSelect", map);
         
     }
 
