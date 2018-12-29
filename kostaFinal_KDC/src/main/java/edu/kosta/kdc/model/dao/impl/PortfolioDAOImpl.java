@@ -1,6 +1,8 @@
 package edu.kosta.kdc.model.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class PortfolioDAOImpl implements edu.kosta.kdc.model.dao.PortfolioDAO {
     public int deletePortfolioByMemberId(String memberId) {
         // TODO Auto-generated method stub
         return 0;
-    }
+    } 
 
     // 게시된 모든 포트폴리오 조회
     @Override
@@ -51,6 +53,15 @@ public class PortfolioDAOImpl implements edu.kosta.kdc.model.dao.PortfolioDAO {
     @Override
     public PortfolioDTO selectAllDetail(String memberId) {
         return sqlSession.selectOne("portfolioMapper.selectAllDetail", memberId);
+    }
+
+    //분류별 키워드 검색
+    @Override
+    public List<PortfolioDTO> selectByKeyword(String keyfield, String keyword) {
+        Map<String, String> map = new HashMap<>();
+        map.put("keyfield", keyfield);
+        map.put("keyword", keyword);
+        return sqlSession.selectList("portfolioMapper.selectByKeyword", map);
     }
 
     

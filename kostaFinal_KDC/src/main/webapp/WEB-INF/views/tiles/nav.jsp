@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <html class="app-ui">
@@ -12,7 +14,7 @@
 
       <!-- Document title -->
       <title>KOSTA Developer Community</title>
-
+    
       <!-- AppUI CSS stylesheets -->
       <link rel="stylesheet" id="css-font-awesome" href="${pageContext.request.contextPath }/resources/css/testcss/font-awesome.css" />
       <link rel="stylesheet" id="css-ionicons" href="${pageContext.request.contextPath }/resources/css/testcss/ionicons.css" />
@@ -20,9 +22,22 @@
       <link rel="stylesheet" id="css-app" href="${pageContext.request.contextPath }/resources/css/testcss/app.css" />
       <link rel="stylesheet" id="css-app-custom" href="${pageContext.request.contextPath }/resources/css/testcss/app-custom.css" />
         <!-- End Stylesheets -->
+        
+         <script type="text/javascript">
+        $(document).on('click', '.logout-Btn', function() {
+          $('#logoutForm').submit();
+        });
+       
+        </script>
+ 
+      
+      </style>
+       
     </head>
 
     <body class="app-ui layout-has-drawer layout-has-fixed-header">
+    
+    
       <div class="app-layout-canvas">
         <div class="app-layout-container">
 
@@ -43,64 +58,87 @@
     
                   <li class="nav-item nav-drawer-header">로그인영역</li>
       
+                   <sec:authorize access="isAnonymous()">
                   <li class="nav-item active">
                     <a href="${pageContext.request.contextPath }/member/signInForm"><i class="ion-ios-speedometer-outline" id=""></i> 로그인</a>
                   </li>
-      
-                  <!-- <li class="nav-item active">
-                    <a href="#"><i class="ion-ios-speedometer-outline"></i> 로그아웃</a>
-                  </li> -->
-      
-      
-      
+         </sec:authorize>
+   
+                <sec:authorize access="isAuthenticated()">
+               <li class="nav-item active">
+                <form id="logoutForm" action="${pageContext.request.contextPath}/member/logout"  method="post">
+               <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+               </form>
+               <a href="#"  class="logout-Btn"><i class="ion-ios-speedometer-outline"></i> 로그아웃</a>
+            </li>
+         </sec:authorize>
+    
+         <sec:authorize access="isAnonymous()">
                   <li class="nav-item">
                     <a href="${pageContext.request.contextPath }/member/signUpForm"><i class="ion-ios-monitor-outline"></i> 회원가입</a>
                   </li>
+         </sec:authorize>
       
-            <!-- <li class="nav-item">
-                   <a href="#"><i class="ion-ios-monitor-outline"></i> 마이페이지</a>
-                 </li> -->
+        
+                  <li class="nav-item nav-item-has-subnav" >
+                    <a href="#"><i class="ion-ios-monitor-outline"></i> 마이페이지</a>
+                    <!--  <a href="${pageContext.request.contextPath }/member/myPage"><i class="ion-ios-monitor-outline"></i> 마이페이지</a> -->
+                  <ul class="nav nav-subnav">
+          
       
-                  <li class="nav-item nav-drawer-header">메뉴영역</li>
+                       <li><a href="${pageContext.request.contextPath }/member/myPageupdate">회원정보수정</a></li>
+          
+              
+                        
+                        <sec:authorize access="hasRole('ROLE_STUDENT')">
+                        
+                              <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오</a></li>
+                        
+                      
+                        </sec:authorize>
+                        
+                          <sec:authorize access="hasRole('ROLE_TEACHER')" >
+                          ${teacher}
+                          
+                      <li><a href="${pageContext.request.contextPath }/classRoom/classRoomInsertForm">클래스 생성</a></li>
+                     
+                      </sec:authorize>
+                      
+                      <li><a href="${pageContext.request.contextPath}/board/boardList">내가 쓴 글</a></li>
+                      <li><a href="${pageContext.request.contextPath}/message/messageList" name="messageList">받은쪽지함</a></li>
+                      
+                        
+                    </ul>
+                  </li>
+   
+                       <li class="nav-item nav-drawer-header">메뉴영역</li>
       
                   <li class="nav-item ">
-<<<<<<< HEAD
-                    <a href="${pageContext.request.contextPath }/notice/list?classification=notice"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
+                    <a href="#"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath }/notice/employ?classification=employ"><i class="ion-ios-compose-outline"></i> 취업게시판</a>
-=======
-                    <a href="${pageContext.request.contextPath }/notice/list?classification=generalNotice"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
+                    <a href="#"><i class="ion-ios-compose-outline"></i> 취업게시판</a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath }/notice/list?classification=findJobNotice"><i class="ion-ios-compose-outline"></i> 취업게시판</a>
->>>>>>> Mark42
+                    <a href="#"><i class="ion-ios-list-outline"></i> Tech Q&A</a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/tech?classification=tech"><i class="ion-ios-list-outline"></i> Tech Q&A</a>
-                  </li>
-      
-                  <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/lib?classification=lib"><i class="ion-ios-list-outline"></i> Tech 공유 게시판</a>
+                    <a href="#"><i class="ion-ios-list-outline"></i> Tech 공유 게시판</a>
                   </li>
       
                   <li class="nav-item nav-item-has-subnav">
                     <a href="#"><i class="ion-social-javascript-outline"></i> 반별 게시판</a>
                     <ul class="nav nav-subnav">
-       
+      
                       <li>
-
-                        <a href="${pageContext.request.contextPath }/notice/list?classification=notice"> 공지사항</a>
-
-                        <a href="${pageContext.request.contextPath }/notice/classNotice?classification=classNotice">반별 공지사항</a>
-
+                        <a href="${pageContext.request.contextPath }/notice/list">반별 공지사항</a>
                       </li>
         
                       <li>
-                        <a href="${pageContext.request.contextPath}/calendar/calendarSelectByClassCode">스케줄</a>
+                        <a href="#">스케줄</a>
                       </li>
         
                       <li>
@@ -111,11 +149,11 @@
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/study?classification=study"><i class="ion-ios-list-outline"></i> 스터디모집</a>
+                    <a href="javascript:void(0)"><i class="ion-ios-list-outline"></i> 스터디모집</a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath }/portfolio/selectAll"><i class="ion-ios-browsers-outline"></i> 포트폴리오</a>
+                    <a href="javascript:void(0)"><i class="ion-ios-browsers-outline"></i> 포트폴리오</a>
                   </li>
                 </ul>
               </nav>

@@ -1,11 +1,15 @@
 package edu.kosta.kdc.controller;
 
 import java.io.File;
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.kosta.kdc.exception.KdcException;
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.PortfolioDTO;
 import edu.kosta.kdc.model.dto.PortfolioDetailDTO;
 import edu.kosta.kdc.model.service.PortfolioService;
@@ -38,19 +43,15 @@ public class PortfolioController {
          * 회원정보를 받아옴
          * 없는경우 권한없음 예외처리
          * */
-<<<<<<< HEAD
-        String memberId = "dctest01";
-=======
         MemberDTO member = null;
         try {
             member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         }catch(ClassCastException e) {
             throw new KdcException("권한이 없습니다.");
         }
->>>>>>> MergBranch
         
         //로그인된 사용자의 포트폴리오, 상세 정보를 조회
-        PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(memberId);
+        PortfolioDTO portfolioDTO = service.selectPortfolioByMemberId(member.getMemberId());
         model.addAttribute("portfolio", portfolioDTO);
         
         return "portfolio/myPage";
@@ -70,8 +71,6 @@ public class PortfolioController {
             // 파일명을 DTO에 setter를 이용해 대입
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
-<<<<<<< HEAD
-=======
         MemberDTO member = null;
         try {
             member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -80,7 +79,6 @@ public class PortfolioController {
         }
         
         portfolioDTO.setPortFolioMemberId(member.getMemberId());
->>>>>>> MergBranch
         
         int result = service.insertPortfolio(portfolioDTO);
 
@@ -106,9 +104,6 @@ public class PortfolioController {
             MultipartFile file = portfolioDetailDTO.getDeltailProjectImage();
             portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
         }
-<<<<<<< HEAD
-
-=======
         
         MemberDTO member = null;
         try {
@@ -119,7 +114,6 @@ public class PortfolioController {
         
         portfolioDetailDTO.setPortFolioDetailMemberId(member.getMemberId());
         
->>>>>>> MergBranch
         int result = service.insertDetail(portfolioDetailDTO,hashTagName);
         
         return "redirect:/portfolio/myPage";
@@ -138,8 +132,6 @@ public class PortfolioController {
             portfolioDTO.setPortFolioMainImage(saveImage(path, file));
         }
         
-<<<<<<< HEAD
-=======
         MemberDTO member = null;
         try {
             member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -148,7 +140,6 @@ public class PortfolioController {
         }       
         portfolioDTO.setPortFolioMemberId(member.getMemberId());
         
->>>>>>> MergBranch
         int result = service.updatePortfolio(portfolioDTO);
         
         return "redirect:/portfolio/myPage";
@@ -192,8 +183,6 @@ public class PortfolioController {
             portfolioDetailDTO.setPortfolioDeltailProjectImage(saveImage(path, file));
             
         }
-<<<<<<< HEAD
-=======
         
         MemberDTO member = null;
         try {
@@ -203,8 +192,8 @@ public class PortfolioController {
         }
         portfolioDetailDTO.setPortFolioDetailMemberId(member.getMemberId());
         
->>>>>>> MergBranch
         int result = service.updateDetail(portfolioDetailDTO, hashTagName);
+        
         return "redirect:selectDetail/"+detailPk;
     }
     
@@ -238,8 +227,6 @@ public class PortfolioController {
     }
     
     /**
-<<<<<<< HEAD
-=======
      * 분류별 키워드 검색 
      * */
     @RequestMapping("/portfolioListSearch")
@@ -254,7 +241,6 @@ public class PortfolioController {
     
     
     /**
->>>>>>> MergBranch
      * 이미지 저장 메소드
      * */
     private String saveImage(String path, MultipartFile file) {

@@ -32,7 +32,7 @@ public interface ReplyBoardService {
      * @param: state true이면 조회수증가, false이면 조회증가안함.
      *                transaction으로 묶여야한다. 
      * */
-    List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB, boolean state);
+    List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTO, boolean state);
 
     /**
      * 게시글 수정하기
@@ -62,17 +62,17 @@ public interface ReplyBoardService {
     /**
      * replyBoard 좋아요
      * */
-    int replyBoardLike(int replyBoardPk);
+    int replyBoardLike(ReplyBoardDTO replyBoardDTO);
 
     /**
      * replyBoard 싫어요
      * */
-    int replyBoardDisLike(int replyBoardPk);
+    int replyBoardDisLike(ReplyBoardDTO replyBoardDTO);
 
     /**
      * replyBoard 좋아요,싫어요 취소 기능
      * */
-    int replyBoardLikeCancle(int replyBoardPk);
+    int replyBoardLikeCancle(ReplyBoardDTO replyBoardDTO);
 
     /**
      * 해시태그 제안하기
@@ -82,7 +82,7 @@ public interface ReplyBoardService {
     /**
      * 신고 insert하기
      * */
-    int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords);
+    int reportPopInsert(String reportContents, int replyBoardPkReport, String otherWords, String memberId);
 
     /**
      * 멘션태그 제안하기

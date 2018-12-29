@@ -38,7 +38,7 @@ public interface ReplyBoardDAO {
     /**
      * 게시글 제목에 해당하는 상세보기
      * */
-    List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTODB);
+    List<ReplyBoardDTO> selectByReplyBoardPK(ReplyBoardDTO replyBoardDTO);
 
     /**
      * 게시글 수정하기
@@ -93,17 +93,17 @@ public interface ReplyBoardDAO {
     /**
      * replyBoard좋아요 기능
      * */
-    int replyBoardLike(int replyBoardPk);
+    int replyBoardLike(ReplyBoardDTO replyBoardDTO);
 
     /**
      * replyBoard싫어요 기능
      * */
-    int replyBoardDisLike(int replyBoardPk);
+    int replyBoardDisLike(ReplyBoardDTO replyBoardDTO);
     
     /**
      * replyBoard 좋아요, 싫어요 취소 기능
      * */
-    int replyBoardLikeCancle(int replyBoardPk);
+    int replyBoardLikeCancle(ReplyBoardDTO replyBoardDTO);
     
     /**
      * 해시태그 제안하기
@@ -113,12 +113,12 @@ public interface ReplyBoardDAO {
     /**
      * 신고하기 insert(radio박스에 있는거 체크할시)
      * */
-    int reportPopInsert(String reportContents, int replyBoardPk);
+    int reportPopInsert(String reportContents, int replyBoardPk, String memberId);
     
     /**
      * 신고하기 insert(radio박스에서 기타를 선택했을 경우)
      * */
-    int reportPopOtherInsert(String otherWords, int replyBoardPkReport);
+    int reportPopOtherInsert(String otherWords, int replyBoardPkReport, String memberId);
     
     /**
      * 멘션태그 제안하기

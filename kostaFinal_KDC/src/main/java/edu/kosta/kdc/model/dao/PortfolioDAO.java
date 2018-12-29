@@ -11,7 +11,7 @@ public interface PortfolioDAO {
 
     // 조회(id에 해당하는 포트폴리오)
     PortfolioDTO selectPortfolioByMemberId(String memberId);
-    
+
     // 게시된 모든 포트폴리오 조회
     List<PortfolioDTO> selectAll();
 
@@ -23,4 +23,7 @@ public interface PortfolioDAO {
 
     // 포트폴리오 조회(상세포함)
     PortfolioDTO selectAllDetail(String memberId);
+
+    // 조건으로 검색
+    List<PortfolioDTO> selectByKeyword(String keyfield, String keyword);
 }

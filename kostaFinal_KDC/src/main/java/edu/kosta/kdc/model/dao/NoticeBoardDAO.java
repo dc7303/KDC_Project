@@ -38,7 +38,6 @@ public interface NoticeBoardDAO {
     /**
      *  조건검색
      */
-    List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch, String classification);
+    List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch);
 
 }
-

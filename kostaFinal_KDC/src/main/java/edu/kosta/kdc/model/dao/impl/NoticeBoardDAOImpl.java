@@ -1,9 +1,10 @@
 package edu.kosta.kdc.model.dao.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,13 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
     public List<NoticeBoardDTO> selectAll(String classification, String classRoomCode) {
         
         Map<String, String> map = new HashMap<>();      //파라미터 담을 Map
-        
         map.put("classification", classification);
+       
         //반별게시판으로 접근했다면
         if(classRoomCode != null) {
            map.put("classRoomCode", classRoomCode);
         }
-        
+
         return session.selectList("noticeBoardMapper.noticeBoardSelect", map);
     }
 
@@ -83,18 +84,14 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
      
        
     }
-/**
- *  조건검색
- */
+
     @Override
-    public List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch, String classification) {
+    public List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch) {
         
         Map<String, Object> map = new HashMap<>();
         map.put("department", department);
         map.put("noticeBoardSearch", noticeBoardSearch);
-        map.put("classification", classification);
         
         return session.selectList("noticeBoardMapper.SearchTitleAndContents",map);
     }
  }
-

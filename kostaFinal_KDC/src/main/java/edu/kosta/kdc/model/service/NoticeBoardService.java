@@ -1,4 +1,3 @@
-
 package edu.kosta.kdc.model.service;
 
 import java.util.List;
@@ -34,7 +33,8 @@ public interface NoticeBoardService {
     /**
      * 조건검색
      */
-    List<NoticeBoardDTO> SelectSerch(String department, String noticeBoardSearch, String classification);
+    List<NoticeBoardDTO> SelectSerch(String department, String noticeBoardSearch);
+
+
     
 }
-

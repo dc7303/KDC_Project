@@ -1,4 +1,3 @@
-
 package edu.kosta.kdc.model.service.impl;
 
 import java.util.List;
@@ -29,10 +28,11 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     
     /**
      *  전체검색
+     *
      */
     @Override
     public List<NoticeBoardDTO> selectAll(String classification) {
- 
+        
         //반별 공지사항일 경우 사용될 클래스룸 코드
         String classRoomCode = null;
         
@@ -52,7 +52,7 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
                 }
                 
                 classRoomCode = classRoomDTO.getClassRoomCode();
-       }else {
+            }else {
                 throw new KdcException("Kosta 수강생 또는 강사만 접근가능합니다.");
             }
         }
@@ -100,7 +100,7 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         //DTO 셋팅
         noticeBoard.setNoticeBoardClassification(classification);
         noticeBoard.setNoticeBoardClassRoomCode(classRoomCode);
-        
+        System.out.println(classRoomCode);
         
         int result = 0;
         //게시글 Insert
@@ -171,10 +171,10 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
      *   검색 리스트
      */
     @Override
-    public List<NoticeBoardDTO> SelectSerch(String department, String noticeBoardSearch, String classification) {
+    public List<NoticeBoardDTO> SelectSerch(String department, String noticeBoardSearch) {
      
         //게시글 조회
-        List<NoticeBoardDTO> list = noticeBoardDAO.SelechSerch(department, noticeBoardSearch,classification);
+        List<NoticeBoardDTO> list = noticeBoardDAO.SelechSerch(department, noticeBoardSearch);
         if(list == null) {
             throw new KdcException("게시글이 존재하지 않습니다.");
         }
@@ -185,4 +185,3 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     
     
  }
-
