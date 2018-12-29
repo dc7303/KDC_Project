@@ -78,7 +78,7 @@
         select x.rnum, x.* from (
         select rownum as rnum, a.* from (
         select * from message where message_isdelete = 'FASLE'
-        and message_recevier_id = #{receiverId}) a 
+        and message_receiver_id = #{receiverId}) a 
         where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
         where x.rnum <![CDATA[ >= ]]> #{firstColumn}
     </select>

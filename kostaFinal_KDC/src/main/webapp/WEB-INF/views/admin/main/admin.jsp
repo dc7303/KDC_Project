@@ -210,6 +210,28 @@
           console.log('err : ' + err);
         }
       });
+      
+      /**
+       * 메세지 리스트 가져오기
+       */
+      jq.ajax({
+        url: '${pageContext.request.contextPath}/adminMessageList',
+        type: 'get',
+        dataType: 'json',
+        data: {
+          currentPage: 1,
+        },
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+        },
+        success: function(result) {
+          console.log(result);
+        },
+        error: function(err) {
+          console.log('err : ' + err);
+        }
+      });
+      
       //페이지 번호 click 이벤트
       jq(document).on('click', '.page-number', function() {
         var currentPage = parseInt(jq(this).text());
