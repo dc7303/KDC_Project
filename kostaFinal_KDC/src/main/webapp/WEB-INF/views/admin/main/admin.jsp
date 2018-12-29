@@ -38,6 +38,7 @@
     }
     table {
       width: 100%;
+      border-collapse:collapse;
     }
     th {
       background-color: #2196F3;
@@ -45,13 +46,15 @@
     }
     td {
       text-align: center;
-      font-size: 10px;
+      font-size: 13px;
+      padding: none;
     }
     .empty-list {
       text-align: center;
     }
-    .admin-table {
-      height: 550px;
+    .page-selector {
+      border: none;
+      background-color: white;
     }
     /*
     <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
@@ -266,12 +269,12 @@
 		var str =
 				'<tr><th>유저id</th><th>유저이름</th><th>닉네임</th><th>생년월일</th>' + 
 				'<th>휴대폰번호</th><th>이메일</th><th>가입일</th>' + 
-				'<th>유저 추방</th></tr><tr class="table-tr">';
+				'<th>유저 추방</th></tr>';
           
           if(memberList.length !== 0) {
             //멤버 리스트 셋팅
             for(var i = 0; i < memberList.length; i++) {
-              str += '<td>' + memberList[i].memberId + '</td>';
+              str += '<tr class="table-tr w3-hover-amber"><td>' + memberList[i].memberId + '</td>';
               str += '<td>' + memberList[i].memberName + '</td>';
               str += '<td>' + memberList[i].memberNickName + '</td>';
               str += '<td>' + memberList[i].memberBirth + '</td>';
@@ -329,7 +332,7 @@
           if(reportList.length !== 0) {
             //멤버 리스트 셋팅
             for(var i = 0; i < reportList.length; i++) {
-              str += '<td>' + reportList[i].reportReporterId + '</td>';
+              str += '<tr class="table-tr w3-hover-amber"><td>' + reportList[i].reportReporterId + '</td>';
               str += '<td>' + reportList[i].replyBoardDTO.replyBoardWriterId + '</td>';
               str += '<td>' + reportList[i].reportPurpose + '</td>';
               str += '<td>' + reportList[i].reportDate + '</td>';
@@ -374,22 +377,23 @@
       
       //messageList Paging 모듈
       function messagePaging(result) {
+        console.log(result);
           var messageList = result.messageList;
           var pageDTO = result.pageDTO;
-          //멤버 리스트가 존재할때
+          //메세지 리스트가 존재할때
 		var str = '<tr><th><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th><th>보낸사람</th>' + 
 					'<th>쪽지제목</th><th>전송일</th><th>답장</th><th>삭제</th></tr>';
           
           if(messageList.length !== 0) {
-            //멤버 리스트 셋팅
+            //메세지 리스트 셋팅
             for(var i = 0; i < messageList.length; i++) {
+              str += '<tr class="table-tr w3-hover-amber"><td><input type="checkbox"/></td>';
               str += '<td>' + messageList[i].senderId + '</td>';
               str += '<td><a href="${pageContext.request.contextPath}/message/' + messageList[i].messageNum + '">'
               				+ messageList[i].messageTitle + '</a></td>';
               str += '<td>' + messageList[i].messageDate + '</td>';
               str += '<td><input type="button" value="답장" id="replyMessage">' +
               			'<input type="hidden" name="senderId" value="' + messageList[i].senderId + '"></td>';
-              str += '<td>' + messageList[i].memberPhone + '</td>';
               str += '<td><input type="hidden" value="' + messageList.messageNum + '">' + 
               		'<input type="button" value="삭제" id="deleteMessage"/></td></tr>';
             }
@@ -524,7 +528,7 @@
 
       <!-- 유저리스트 -->
       <div class="w3-row-padding">
-        <table class="admin-table">
+        <table class="admin-table w3-table w3-centered">
           <tr>
                 <th>유저id</th>
                 <th>유저이름</th>
@@ -538,17 +542,17 @@
             
         </table>
       </div>
-      <div class="member-paging"></div>
+
 
       <!-- 운영현황 -->
       <div class="w3-container" id="services" style="margin-top:75px; float: left;">
         <h1 class="w3-xxxlarge w3-text-blue"><b>운영현황</b></h1>
-        <div id="chart_div"></div>
+        <div id="chart_div"></div>  
       </div>
 
       <!-- 방문자 수 현황 -->
-      <div class="w3-container" id="services" style="margin-top:75px; float: left;">
-        <h1 class="w3-xxxlarge w3-text-blue"><b>방문자 수현황</b></h1>
+      <div class="w3-container" style="margin-top:75px; float: left ;">
+        <h1 class="w3-xxxlarge w3-text-blue"><b>방문자 수 현황</b></h1>
         <div id="columnChart_div"></div>
       </div>
       
@@ -557,7 +561,7 @@
         <h1 class="w3-xxxlarge w3-text-blue"><b>신고관리</b></h1>
 
         <div class="w3-row-padding">
-        <div class="optionSelect">
+          <div class="optionSelect">
             <select onchange="boardSelect(this.value)">
               <option value="0">게시판 선택</option>
               <option value="1">TECH 게시판</option>
@@ -572,7 +576,7 @@
               <option value="8">기타</option>
             </select>
           </div>
-          <table class="report-table">
+          <table class="report-table w3-table w3-centered">
              <tr>
                   <th>신고인 아이디</th>
                   <th>피신고인 아이디</th>
@@ -582,11 +586,13 @@
               </tr>
           </table>
         </div>
+      </div>
+      
 
         <!-- 쪽지관리  -->
         <div class="w3-container" id="packages" style="margin-top:75px">
           <h1 class="w3-xxxlarge w3-text-blue"><b>쪽지관리</b></h1>
-            <table class="message-table">
+            <table class="message-table w3-table w3-centered">
               <tr>
                 <th><input type="checkbox" name="checkBoxAll" id="checkBoxAll" ></th>
                 <th>보낸사람</th>

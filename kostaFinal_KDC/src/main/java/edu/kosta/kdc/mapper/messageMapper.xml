@@ -77,7 +77,7 @@
     <select id="messagePagingSelect" parameterType="map" resultMap="messageSelectMap">
         select x.rnum, x.* from (
         select rownum as rnum, a.* from (
-        select * from message where message_isdelete = 'FASLE'
+        select * from message where message_isdelete = 'FALSE'
         and message_receiver_id = #{receiverId}) a 
         where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
         where x.rnum <![CDATA[ >= ]]> #{firstColumn}
