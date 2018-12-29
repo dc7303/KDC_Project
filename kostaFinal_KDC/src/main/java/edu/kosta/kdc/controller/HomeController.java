@@ -48,24 +48,24 @@ public class HomeController {
         String subStr="";
         
         //index.jsp 에 뿌릴 게시판 이름을 담는 변수
-        String title="";
+        String classification="";
         
         //공지사항 게시판에서 메인화면에 보일 5가지 글 가져오기
-        List<NoticeBoardDTO> noticeListFive = noticeBoardService.selectFive();
+        List<NoticeBoardDTO> generalNoticeListFive = noticeBoardService.selectFive();
         
         //date String이 시 분 초 까지 나오므로, 월-일 만 나오게 subString해서 저장.
-        for(int i = 0; i < noticeListFive.size(); i++) {
-            str = noticeListFive.get(i).getNoticeBoardDate();
+        for(int i = 0; i < generalNoticeListFive.size(); i++) {
+            str = generalNoticeListFive.get(i).getNoticeBoardDate();
             subStr = str.substring(5, 10);
-            noticeListFive.get(i).setNoticeBoardDate(subStr);
+            generalNoticeListFive.get(i).setNoticeBoardDate(subStr);
         }
         
         //공지사항 게시판 5가지 글 저장
-        request.setAttribute("noticeListFive", noticeListFive);
+        request.setAttribute("generalNoticeListFive", generalNoticeListFive);
         
         //Tech 게시판에서 메인화면에 보일 5가지 글 가져오기
-        title = "tech";
-        List<ReplyBoardDTO> techListFive = replyBoardService.selectFiveByTitle(title);
+        classification = "tech";
+        List<ReplyBoardDTO> techListFive = replyBoardService.selectFiveByTitle(classification);
         
         //date String이 시 분 초 까지 나오므로, 월-일 만 나오게 subString해서 저장.
         for(int i = 0; i < techListFive.size(); i++) {
@@ -78,8 +78,8 @@ public class HomeController {
         request.setAttribute("techListFive", techListFive);
         
         //lib 게시판에서 메인화면에 보일 5가지 글 가져오기
-        title = "lib";
-        List<ReplyBoardDTO> libListFive = replyBoardService.selectFiveByTitle(title);
+        classification = "lib";
+        List<ReplyBoardDTO> libListFive = replyBoardService.selectFiveByTitle(classification);
         
         //date String이 시 분 초 까지 나오므로, 월-일 만 나오게 subString해서 저장.
         for(int i = 0; i < libListFive.size(); i++) {

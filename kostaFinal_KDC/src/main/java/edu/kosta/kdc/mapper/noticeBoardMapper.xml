@@ -98,7 +98,7 @@
     <select id="selectFiveNotice" resultMap="noticeBoardDTO">
         select * 
         from NOTICE_BOARD 
-        <![CDATA[WHERE ROWNUM <= 5]]>
+        WHERE notice_board_classification = 'notice' and <![CDATA[ ROWNUM <= 5]]>
         ORDER BY NOTICE_BOARD_PK DESC
     </select>
 

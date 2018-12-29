@@ -2,6 +2,7 @@ package edu.kosta.kdc.model.service.impl;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import edu.kosta.kdc.model.dao.AdminDAO;
 import edu.kosta.kdc.model.dao.NoticeBoardDAO;
 import edu.kosta.kdc.model.dao.ReplyBoardDAO;
+import edu.kosta.kdc.model.dto.VisitDTO;
 import edu.kosta.kdc.model.service.AdminService;
 
 @Service
@@ -56,6 +58,15 @@ public class AdminServiceImpl implements AdminService {
         
         return adminDAO.userCountIntoDB(todayUserCount);
 
+    }
+
+    /**
+     * 방문자 수 가져오는 메소드 (최근 5일) 
+     * */
+    @Override
+    public List<VisitDTO> visitNumListSelect() {
+        
+        return adminDAO.visitNumListSelect();
     }
 
 }

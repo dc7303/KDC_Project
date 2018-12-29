@@ -104,7 +104,66 @@
           console.log('err : ' + err);
         }
       });
-      
+
+      jq.ajax({
+        url: '${pageContext.request.contextPath}/visitNumChart',
+        type: 'post',
+        dataType: 'json',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+        },
+        success: function(result) {
+
+          	const visitNum = function visitNumChart(){
+            
+            // Create the data table.
+            var columnData = new google.visualization.DataTable();
+            columnData.addColumn('string', 'visitDate');
+            columnData.addColumn('number', 'VisitNum');
+            columnData.addColumn({type: 'string', role: 'style'});
+          	
+            //addRows할 배열 변수
+            var dataArr =[];
+          	
+            $.each(result, function(index, item){
+              
+              if(index % 2 == 0){
+                dataArr.push([item.visitDate,item.visitNum,'#ff0000']);
+              }else{
+                dataArr.push([item.visitDate,item.visitNum,'#2196F3']);
+              }
+              
+            });
+          	
+          	//물리 데이터 담기
+            columnData.addRows(dataArr);
+          	
+            var columnOptions = {
+                title: '최근 5일 방문자 수 추이',
+                width:500,
+                height:400,
+                bar : {
+              		groupWidth : '50%'
+              	},
+                vAxis: {
+                  title: '방문자 수'
+                }
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.ColumnChart(document.getElementById('columnChart_div'));
+            chart.draw(columnData, columnOptions);
+            
+          };
+          
+          google.charts.setOnLoadCallback(visitNum);
+          
+        },
+        error: function(err) {
+          console.log('err : ' + err);
+        }
+      });
+
       
       /**
        *  멤버 리스트 불러오기
@@ -364,17 +423,23 @@
       </div>
 
       <!-- 운영현황 -->
-      <div class="w3-container" id="services" style="margin-top:75px">
+      <div class="w3-container" id="services" style="margin-top:75px; float: left;">
         <h1 class="w3-xxxlarge w3-text-blue"><b>운영현황</b></h1>
         <div id="chart_div"></div>
       </div>
 
+      <!-- 방문자 수 현황 -->
+      <div class="w3-container" id="services" style="margin-top:75px; float: left;">
+        <h1 class="w3-xxxlarge w3-text-blue"><b>방문자 수현황</b></h1>
+        <div id="columnChart_div"></div>
+      </div>
+      
       <!-- 신고관리 -->
       <div class="w3-container" id="designers" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-blue"><b>신고관리</b></h1>
 
         <div class="w3-row-padding">
-          <table border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black" id="table">
+          <table class="report-table">
           <div class="optionSelect">
             <select onchange="boardSelect(this.value)">
               <option value="0">게시판 선택</option>
@@ -436,8 +501,7 @@
         <!-- 쪽지관리  -->
         <div class="w3-container" id="packages" style="margin-top:75px">
           <h1 class="w3-xxxlarge w3-text-blue"><b>쪽지관리</b></h1>
-            <table border="0" cellpadding="5" cellspacing="2"
-              width="100%" bordercolordark="white" bordercolorlight="black">
+            <table class="message-table">
               <tr>
                 <th><input type="checkbox" name="checkBoxAll" id="checkBoxAll" ></th>
                 <th>보낸사람</th>

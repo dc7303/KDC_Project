@@ -13,10 +13,17 @@
     </resultMap>
     
     <!-- 클래스룸 생성 -->
-    <insert id="createClassRoom">
+    <insert id="createClassRoom" parameterType="classRoomInfoDTO">
         insert into CLASSROOM_INFO
-        values (#{classRoomCode},#{classRoomInfoName},#{classRoomInfoStartDate},#{classRoomInfoEndDate},#{classRoomInfoTeacherId},#{classRoomInfoChatFile},'FALSE')
+        values (sys_guid(),#{classRoomInfoName},#{classRoomInfoStartDate},#{classRoomInfoEndDate},#{classRoomInfoTeacherId},#{classRoomInfoChatFile}||sys_guid()||'.txt','FALSE')
     </insert>
+    
+    <!-- 클래스룸 생성 후 채팅파일 만들기 위해 파일명(경로+파일명 으로 되어있음.) 가져오기 -->
+    <select id="selectChatFileName" parameterType="classRoomInfoDTO" resultType="string">
+        select CLASSROOM_INFO_CHAT_FILE
+        from (SELECT * FROM CLASSROOM_INFO WHERE CLASSROOM_INFO_TEACHER_ID = #{classRoomInfoTeacherId})
+        where ROWNUM=1
+    </select>
     
     <!-- 클래스룸 코드가 맞는지 확인(ajax) -->
     <select id="codeCheck" parameterType="String" resultMap="classRoomInfoDTO">

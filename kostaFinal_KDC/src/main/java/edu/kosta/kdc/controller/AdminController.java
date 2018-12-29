@@ -17,6 +17,7 @@ import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.MessageDTO;
 import edu.kosta.kdc.model.dto.PageDTO;
 import edu.kosta.kdc.model.dto.ReportDTO;
+import edu.kosta.kdc.model.dto.VisitDTO;
 import edu.kosta.kdc.model.service.AdminService;
 import edu.kosta.kdc.model.service.ClassRoomService;
 import edu.kosta.kdc.model.service.MemberService;
@@ -114,6 +115,34 @@ public class AdminController {
         
         return map;
     }
+    
+    /**
+     * 방문자 수 가져오기 (최근 5일)
+     * */
+    @RequestMapping(value = "/visitNumChart", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public List<VisitDTO> visitNumListSelect() {
+        
+        //날짜 (연, 월, 일, 시, 분, 초) 변수
+        String str="";
+        
+        //날짜 (연, 월, 일 만 있는) 변수. view에 뿌릴 때 시, 분, 초 제외시키려고 만듦.
+        String subStr="";
+        
+        //방문자 수 가져오기
+        List<VisitDTO> visitList = adminServcie.visitNumListSelect();
+
+        //date String이 시 분 초 까지 나오므로, 월-일 만 나오게 subString해서 저장.
+        for(int i = 0; i < visitList.size(); i++) {
+            str = visitList.get(i).getVisitDate();
+            subStr = str.substring(5, 10);
+            visitList.get(i).setVisitDate(subStr);
+        }
+        
+        return visitList;
+        
+    }
+    
     /**
      * 관리자 페이지 - 아이디로 유저 검색하기
      * */

@@ -291,7 +291,7 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
 <select id="selectFive" parameterType="String" resultMap="replyBoardMap">
     SELECT *
     FROM REPLY_BOARD
-    WHERE REPLY_BOARD_CLASSIFICATION=#{_parameter} and <![CDATA[ROWNUM <= 5]]> and REPLY_BOARD_REPLY_NO is null
+    WHERE REPLY_BOARD_CLASSIFICATION=#{_parameter} and <![CDATA[ROWNUM <= 5]]> and REPLY_BOARD_REPLY_NO is null and reply_board_isdelete = 'FALSE'
     ORDER BY REPLY_BOARD_PK DESC
 </select>
 

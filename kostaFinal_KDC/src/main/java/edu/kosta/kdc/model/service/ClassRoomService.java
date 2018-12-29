@@ -16,7 +16,7 @@ public interface ClassRoomService {
      * 
      * @param classRoomInfoDTO
      * */
-    int createClassRoom(ClassRoomInfoDTO classRoomInfoDTO);
+    String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO);
 
     /**
      * 관리자 - 코드 중복 체크(ajax)

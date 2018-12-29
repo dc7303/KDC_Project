@@ -53,9 +53,6 @@ public class PageHandlerImpl implements PageHandler {
         //컬럼조회 마지막 범위 (DB에서 사용)
         int lastColumnRange = page * countList;
         
-        System.out.println(firstColumnRange);
-        System.out.println(lastColumnRange);
-        
         boolean firstMove = false;      //첫 페이지로 이동하는 at 생성 여부
         boolean backPage = false;       //이전 페이지로
         boolean nextPage = false;       //다음 페이지로

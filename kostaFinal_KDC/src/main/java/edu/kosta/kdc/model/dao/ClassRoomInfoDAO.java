@@ -33,4 +33,11 @@ public interface ClassRoomInfoDAO {
     String teacherCheck(String teacherId);
 
 
+    /**
+     * 클래스룸 생성이 성공했을 때 채팅 파일 생성을 위한 파일명을 가져오는 메소드
+     * @param classRoomInfoDTO 
+     * */
+    String selectChatFileName(ClassRoomInfoDTO classRoomInfoDTO);
+
+
 }
