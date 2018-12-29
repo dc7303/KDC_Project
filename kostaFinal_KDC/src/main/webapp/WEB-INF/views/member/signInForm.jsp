@@ -25,5 +25,16 @@
           </div>
         </form>
         
+     
+
+       <div> 아직 회원이지 않으신가요? &nbsp;
+            <a href="${pageContext.request.contextPath }/member/signUpForm"> 회원가입 </a>
+       </div>
+       
+       <div> 비밀번호를 찾고 싶으시다면? &nbsp;
+            <a href="#"> 비밀번호 찾기 </a>
+       </div>
+    
+        
     </body>
 </html>

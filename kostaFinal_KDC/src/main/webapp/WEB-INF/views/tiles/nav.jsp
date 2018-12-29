@@ -61,15 +61,16 @@
       
                    <sec:authorize access="isAnonymous()">
                   <li class="nav-item active">
-                    <a href="${pageContext.request.contextPath }/member/signInForm"><i class="ion-ios-speedometer-outline" id=""></i> 로그인</a>
+<a href="${pageContext.request.contextPath }/member/signInForm"><i class="ion-ios-speedometer-outline" id=""></i> 로그인</a>
                   </li>
          </sec:authorize>
    
                 <sec:authorize access="isAuthenticated()">
                <li class="nav-item active">
                 <form id="logoutForm" action="${pageContext.request.contextPath}/member/logout"  method="post">
-                  <a href="#" id="logout-Btn"><i class="ion-ios-speedometer-outline" id=""><input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/></i> 로그아웃</a>
+               <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
                </form>
+               <a href="#"  class="logout-Btn"><i class="ion-ios-speedometer-outline"></i> 로그아웃</a>
             </li>
          </sec:authorize>
     
@@ -79,22 +80,40 @@
                   </li>
          </sec:authorize>
       
-         <sec:authorize access="isAuthenticated()">
+        
                   <li class="nav-item nav-item-has-subnav" >
                     <a href="#"><i class="ion-ios-monitor-outline"></i> 마이페이지</a>
                     <!--  <a href="${pageContext.request.contextPath }/member/myPage"><i class="ion-ios-monitor-outline"></i> 마이페이지</a> -->
                   <ul class="nav nav-subnav">
-       
+          
+      
                        <li><a href="${pageContext.request.contextPath }/member/myPageupdate">회원정보수정</a></li>
-                      <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오</a></li>
+          
+              
+                        
+                        <sec:authorize access="hasRole('ROLE_STUDENT')">
+                        
+                              <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오</a></li>
+                        
+                      
+                        </sec:authorize>
+                        
+                          <sec:authorize access="hasRole('ROLE_TEACHER')" >
+                          ${teacher}
+                          
+                      <li><a href="${pageContext.request.contextPath }/classRoom/classRoomInsertForm">클래스 생성</a></li>
+                     
+                      </sec:authorize>
+                      
                       <li><a href="${pageContext.request.contextPath}/board/boardList">내가 쓴 글</a></li>
                       <li><a href="${pageContext.request.contextPath}/message/messageList" name="messageList">받은쪽지함</a></li>
                       
                         
                     </ul>
                   </li>
+
                   
-         </sec:authorize>
+      
       
                   <li class="nav-item nav-drawer-header">메뉴영역</li>
       
