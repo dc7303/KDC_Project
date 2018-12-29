@@ -105,13 +105,13 @@
             <c:otherwise>
          <tr class="view-content">
           <td colspan="2">     
-                포트폴리오 이미지 : <img
+               <img
                 src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></td>
             </c:otherwise>
           </c:choose>
           </br>
             <td colspan="2">
-          <h5>상세 설명 :</h5>
+          <h5></h5>
           <div id="viewer-section-${status.index}"></div>
           
           
