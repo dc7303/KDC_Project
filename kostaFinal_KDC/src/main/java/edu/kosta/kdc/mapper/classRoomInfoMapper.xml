@@ -22,7 +22,7 @@
     <select id="selectChatFileName" parameterType="classRoomInfoDTO" resultType="string">
         select CLASSROOM_INFO_CHAT_FILE
         from (SELECT * FROM CLASSROOM_INFO WHERE CLASSROOM_INFO_TEACHER_ID = #{classRoomInfoTeacherId})
-        where ROWNUM=1
+        where CLASSROOM_INFO_ISDELETE='FALSE' and ROWNUM=1
     </select>
     
     <!-- 클래스룸 코드가 맞는지 확인(ajax) -->

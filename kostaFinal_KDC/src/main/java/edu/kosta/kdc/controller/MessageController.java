@@ -35,7 +35,7 @@ public class MessageController {
     public ModelAndView messageAll(HttpSession session, HttpServletRequest request) {
         
         //접속된 ID로 메세지 리스트를 가져옴
-        List<MessageDTO> list = messageService.messageAll();
+        List<MessageDTO> list = messageService.messageAll(0, 0);
         
         
         return new ModelAndView("message/messageList", "messageList", list);
