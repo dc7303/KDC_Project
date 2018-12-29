@@ -44,7 +44,6 @@
 
   <body>
 
-
     <h2>${requestScope.classification}</h2>
     <br/><br/>
     <sec:authorize access="isAuthenticated()">
