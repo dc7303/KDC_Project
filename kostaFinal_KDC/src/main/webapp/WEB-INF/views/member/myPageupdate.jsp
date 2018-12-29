@@ -13,8 +13,10 @@
 
 
 
+
   <sec:authorize access="isAuthenticated()">
     <sec:authentication var="member" property="principal"/>
+      <br/>
     
       <h2>회원정보 수정</h2>
        <p class="underline"></p>
@@ -88,14 +90,24 @@
     </form>
     
        </div>
-    
+      <hr>
      <br/>
      <br/>
-     <hr>
+   
+     
+      <div class="memberdelete">
     
-
-
+    <h2>회원탈퇴</h2>
+    <br/>
+     <p class="underline"></p>
+    <form action="${pageContext.request.contextPath }/member/memberDelete" method="post">
+      <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+      ID  <input type="text" name="memberId" value="${member.memberId }" readonly="readonly"/><br/>
+      <input type="button" value="탈퇴하기" class="mypage-button" />
+    </form>
     
+    </div>
+         
     
   </sec:authorize>
   

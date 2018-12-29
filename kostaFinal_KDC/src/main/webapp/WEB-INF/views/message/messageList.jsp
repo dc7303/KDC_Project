@@ -9,6 +9,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+    
+ <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css"/></noscript>
 <script type="text/javascript">
 
 const jq = jQuery.noConflict();
@@ -99,52 +102,45 @@ jq(function(){
 
 </head>
 <body>
-
+ <center><h2> 쪽지함 LIST </h2></center>
 <h5>안읽은 쪽지 : ${sessionScope.unReadCount}</h5>
 
   <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
   <table align="center" border="0" cellpadding="5" cellspacing="2"
     width="100%" bordercolordark="white" bordercolorlight="black">
 
-    <caption> 쪽지함 LIST </caption>
-
     <tr>
-      <td bgcolor="#00cc00">
-        <p align="center">
-          <font color="white"><b>
-            <span style="font-size: 9pt;">
+      <td>
+        <p>
+          <font><b>
+            <span>
               <input type="checkbox" name="checkBoxAll" id="checkBoxAll" >
             </span></b></font>
         </p>
       </td>
-      <td bgcolor="#00cc00">
-        <p align="center">
-          <font color="white"><b><span
-              style="font-size: 9pt;">보낸사람</span></b></font>
+      <td>
+        <p>
+          <font><b><span>보낸사람</span></b></font>
         </p>
       </td>
-      <td bgcolor="#00cc00">
-        <p align="center">
-          <font color="white" style="font-weight: bold;"><b><span
-              style="font-size:9pt;">쪽지제목</span></b></font>
+      <td>
+        <p>
+          <font><b><span>쪽지제목</span></b></font>
         </p>
       </td>
-      <td bgcolor="#00cc00">
-        <p align="center">
-          <font color="white"><b><span
-              style="font-size: 9pt;">전송일</span></b></font>
+      <td>
+        <p>
+          <font><b><span>전송일</span></b></font>
         </p>
       </td>
-      <td bgcolor="#00cc00">
-        <p align="center">
-          <font color="white"><b><span
-              style="font-size: 9pt;">답장</span></b></font>
+      <td>
+        <p>
+          <font><b><span>답장</span></b></font>
         </p>
       </td>
-      <td bgcolor="#00cc00">
-        <p align="center">
-          <font color="white"><b><span
-              style="font-size: 9pt;">삭제</span></b></font>
+      <td>
+        <p>
+          <font><b><span>삭제</span></b></font>
         </p>
       </td>
     </tr>
@@ -152,7 +148,7 @@ jq(function(){
     <c:choose>
       <c:when test="${empty requestScope.messageList}">
         <tr>
-          <td colspan="3">
+          <td colspan="6">
             <p align="center">
               <b><span style="font-size: 9pt;">받은 쪽지가 없습니다.</span></b>
             </p>

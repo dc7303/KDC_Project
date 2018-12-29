@@ -65,7 +65,7 @@
     .underline{
        width: 40px;
        border: solid 2px #666;
-       margin-bottom: 40px;
+      
        
     }
     
@@ -75,7 +75,7 @@
      }
 
      td, th {
-      padding: 10px;
+      padding: 7px;
    	  font-size: 17px;
      }
      tr td input { height: 40px; width: 400px}
@@ -103,9 +103,40 @@
   		background-color: gray;
   		color: white;
   		}
+  		
+  		.mypage-menu{
+  		 border-bottom: 2px green solid;
+  		 width: 700px;
+  		}
 
  
-  		
-  		
+ 
+         .mypage-menu  ul li{
+         margin-top: 30px;
+         display:inline-block;
+         padding: 20px;
+         text-align: center;
+        
+         }
+  	
+  	 /*   .memberupdate{
+  	     background-color: white;
+  	     text-align: center;
+  	     float:left;
+  	     border: solid 1px lightgray;
+  	     padding: 20px;
+  	     width: 880px;
+  	     height: 630px;
+  	    }
+  	    
+  	    .memberdelete{
+  	    background-color: white;
+  	     text-align: center;
+  	     float:left;
+  	      height: 630px;
+  	      width: 300px;
+  	    
+  	    }
+  		 */
      
      

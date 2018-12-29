@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
-
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio-view.css" />
 <title>Insert title here</title>
 <script type="text/javascript">
   const jq = jQuery.noConflict();
@@ -43,8 +43,10 @@
 </script>
 </head>
 <body>
-selectAllDetail
-<div id="portfolio-info">
+<h2 class="selectalldetail-title">PORTFOLIO</h2>
+<p class="underline"></p>
+
+<%-- <div id="portfolio-info">
             아이디: ${portfolio.portFolioMemberId}</p>
             제목: ${portfolio.portFolioMainTitle} </p>
             대표이미지 :
@@ -59,8 +61,8 @@ selectAllDetail
       </br>
       
      </div>
-<hr color="green">
-</br>
+      --%>
+
 <c:choose>
        <c:when test="${empty portfolio.portFolioDetailList}">
                 포트폴리오 상세정보가 없습니다.
@@ -70,34 +72,60 @@ selectAllDetail
          </br>
          <c:forEach items="${portfolio.portFolioDetailList}" var="detail" varStatus="status">
         <div>
-          프로젝트명 : ${detail.portfolioDetailProjectName}
-          </p>
-          해쉬태그 :
+        
+     <table>
+      <tbody>
+        <tr class="view-title-name">   
+           <td class="title-01">프로젝트명 </td>
+          <td class="title-01"> ${detail.portfolioDetailProjectName}</p></td>
+        
+          <td class="title-01">아이디</td>     
+          <td class="title-01">${portfolio.portFolioMemberId}</p></td>  
+           
+         
+        </tr>  
+          
+          
+        <tr class="view-hashtag">          
+           <td colspan="4"> <!-- 해쉬태그 -->  
           <c:forEach items="${detail.portfolioDetailHashTagList}"
             var="hashTag">
               ${hashTag.hashTagName}
             </c:forEach>
+             </td>
           </p>
           </br>
+          
+          
+          
           <c:choose>
             <c:when test="${empty detail.portfolioDeltailProjectImage}">
               <h5>사진이 없습니다.</h5>
             </c:when>
             <c:otherwise>
+         <tr class="view-content">
+          <td colspan="2">     
                 포트폴리오 이미지 : <img
-                src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}">
+                src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></td>
             </c:otherwise>
           </c:choose>
           </br>
+            <td colspan="2">
           <h5>상세 설명 :</h5>
           <div id="viewer-section-${status.index}"></div>
+          
+          
           <input id="detail-description-${status.index}" type="hidden"
             value="${detail.portfolioDetailDescription}">
+            </td>
+        </tr>
+     </tbody>
+    </table>
         </div>
         <hr color="red">
          </c:forEach>
        </c:otherwise>
-     </c:choose>
+ </c:choose>
      <input id = "detailList-length" type="hidden" value = "${fn:length(portfolio.portFolioDetailList)}" />
 </body>
 </html>
