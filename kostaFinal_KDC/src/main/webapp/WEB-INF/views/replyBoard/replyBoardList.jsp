@@ -48,7 +48,7 @@
     <br/><br/>
     <sec:authorize access="isAuthenticated()">
         <div class="write-button">
-          <a href="write?classification=${requestScope.classification}" class="button">글쓰기</a>
+          <a href="write?classification=${requestScope.classification}?pageNo=1" class="button">글쓰기</a>
         </div> <br/><br/>
     </sec:authorize>
     
@@ -56,12 +56,12 @@
       <table>
         <thead>
           <tr>
-            <th colspan="2">글제목</th>
+            <th colspan="2"><a href="${pageContext.request.contextPath}/reply/pkOrderby?sort=REPLY_BOARD_PK&pageNo=1&classification=${requestScope.classification}">글제목</a></th>
             <th>글쓴이</th>
-            <th><a href="${pageContext.request.contextPath}/reply/dateOrderby?sort=reply_board_write_date&classification=${requestScope.classification}">등록날짜</a></th>
-            <th><a href="${pageContext.request.contextPath}/reply/likeOrderby?sort=likeNum&classification=${requestScope.classification}">좋아요</a></th>
-            <th><a href="${pageContext.request.contextPath}/reply/replyOrderby?sort=replyNum&classification=${requestScope.classification}">댓글수</a></th>
-            <th><a href="${pageContext.request.contextPath}/reply/viewOrderby?sort=REPLY_BOARD_VIEWS&classification=${requestScope.classification}">조회수</a></th>            
+           <th><a href="${pageContext.request.contextPath}/reply/dateOrderby?sort=reply_board_write_date&pageNo=1&classification=${requestScope.classification}">등록날짜</a></th>
+            <th><a href="${pageContext.request.contextPath}/reply/likeOrderby?sort=likeNum&pageNo=1&classification=${requestScope.classification}">좋아요</a></th>
+            <th><a href="${pageContext.request.contextPath}/reply/replyOrderby?sort=replyNum&pageNo=1&classification=${requestScope.classification}">댓글수</a></th>
+            <th><a href="${pageContext.request.contextPath}/reply/viewOrderby?sort=REPLY_BOARD_VIEWS&pageNo=1&classification=${requestScope.classification}">조회수</a></th>            
           </tr>
         </thead>
         <tbody>
@@ -138,6 +138,7 @@
       <form action="${pageContext.request.contextPath}/reply/replyBoardListSearch">
          <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
          <input type="hidden" name="classification" value="${requestScope.classification}"/>
+         <input type="hidden" name="pageNo" value="1"/>
           <select name="department" id="department">
             <option value="">- 분류 -</option>
             <option value="A.REPLY_BOARD_TITLE">제목</option>
@@ -150,6 +151,14 @@
           <input type="submit" value="검색"/>
       </form>
    </div>
-
+  
+  
+    <c:set var="endPage" value="${listSize/5}"></c:set>
+    <div>
+    <c:forEach var="i" begin="1" end="${endPage+1}" step="1">
+      <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}">${i}</a> 
+    </c:forEach>
+    </div>
+  
   </body>
 </html>

@@ -24,20 +24,16 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
      * selectAll(전체 정렬)
      */
     @Override
-    public List<ReplyBoardDTO> selectAll(String title) {
-
-        return session.selectList("replyBoardMapper.replyBoardSelectAll", title);
+    public List<ReplyBoardDTO> selectAll(Map<String, Object> map) {
+        return session.selectList("replyBoardMapper.replyBoardSelectAll", map);
     }
+
 
     /**
      * 정렬하여 select
      */
     @Override
-    public List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort) {
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("classification", classification);
-        map.put("sort", sort);
+    public List<ReplyBoardDTO> replyBoardSelectAllOrderBy(Map<String, Object> map) {
 
         return session.selectList("replyBoardMapper.replyBoardSelectAllOrderBy", map);
     }
@@ -169,13 +165,7 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
      * replyBoard게시판에서 조건별 검색
      */
     @Override
-    public List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch, String classification) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("department", department);
-        map.put("boardSearch", boardSearch);
-        map.put("classification", classification);
+    public List<ReplyBoardDTO> replyBoardListSearch(Map<String, Object> map) {
 
         return session.selectList("replyBoardMapper.replyBoardListSearch", map);
     }

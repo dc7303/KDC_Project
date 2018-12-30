@@ -72,11 +72,11 @@
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/tech?classification=tech"><i class="ion-ios-list-outline"></i> Tech Q&A</a>
+                    <a href="${pageContext.request.contextPath}/reply/tech?classification=tech&pageNo=1"> Tech Q&A </a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/lib?classification=lib"><i class="ion-ios-list-outline"></i> Tech 공유 게시판</a>
+                    <a href="${pageContext.request.contextPath}/reply/lib?classification=lib&pageNo=1"> Tech 공유 게시판</a>
                   </li>
       
                   <li class="nav-item nav-item-has-subnav">
@@ -99,7 +99,7 @@
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/study?classification=study"><i class="ion-ios-list-outline"></i> 스터디모집</a>
+                    <a href="${pageContext.request.contextPath}/reply/study?classification=studypageNo=1">  스터디모집 </a>
                   </li>
       
                   <li class="nav-item ">

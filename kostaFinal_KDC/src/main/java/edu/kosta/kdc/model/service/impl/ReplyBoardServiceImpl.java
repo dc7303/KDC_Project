@@ -13,8 +13,10 @@ import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dao.ReplyBoardDAO;
 import edu.kosta.kdc.model.dto.HashTagDTO;
 import edu.kosta.kdc.model.dto.MemberDTO;
+import edu.kosta.kdc.model.dto.PageDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 import edu.kosta.kdc.model.service.ReplyBoardService;
+import edu.kosta.kdc.util.interfaces.PageHandler;
 
 @Service
 public class ReplyBoardServiceImpl implements ReplyBoardService {
@@ -22,16 +24,33 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Autowired
     private ReplyBoardDAO replyBoardDAO;
     
+    @Autowired
+    PageHandler pageHandler;
+
+    
     /**
      * selectAll(전체 정렬)
      * */
     @Override
-    public List<ReplyBoardDTO> selectAll(String title) {
+    public List<ReplyBoardDTO> selectAll(String title, int pageNo) {
+
+        int totalCount = replyBoardDAO.boardQuantityByClassification(title);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNo, 5, 5, totalCount);
         
-        List<ReplyBoardDTO> list = replyBoardDAO.selectAll(title);
+        int firstColumnRange = pageDTO.getFirstColumnRange();
+        int lastColumnRange = pageDTO.getLastColumnRange();
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("classification", title);
+        map.put("firstColumn", firstColumnRange);
+        map.put("lastColumn", lastColumnRange);        
+        
+        List<ReplyBoardDTO> list = replyBoardDAO.selectAll(map);
+
         if(list == null) {
             throw new KdcException("게시글이 존재하지 않습니다.");
-        }
+        }        
         
         return list;
     }
@@ -40,16 +59,37 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * 정렬하여 select
      * */
     @Override
-    public List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort) {
+    public List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort, int pageNo) {
+
+        int totalCount = replyBoardDAO.boardQuantityByClassification(classification);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNo, 5, 5, totalCount);
         
-        List<ReplyBoardDTO> list = replyBoardDAO.replyBoardSelectAllOrderBy(classification, sort);
+        int firstColumnRange = pageDTO.getFirstColumnRange();
+        int lastColumnRange = pageDTO.getLastColumnRange();
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("classification", classification);
+        map.put("firstColumn", firstColumnRange);
+        map.put("lastColumn", lastColumnRange);
+        map.put("sort", sort);
+        
+        List<ReplyBoardDTO> list = replyBoardDAO.replyBoardSelectAllOrderBy(map);
         if(list == null) {
             throw new KdcException("게시글이 존재하지 않습니다.");
         }
         
-        return replyBoardDAO.replyBoardSelectAllOrderBy(classification, sort);
+        return replyBoardDAO.replyBoardSelectAllOrderBy(map);
     }
     
+    /**
+     * 게시판 종류별 전체 게시물 수 가져오기
+     */
+    @Override
+    public int boardQuantityByClassification(String title) {
+        return replyBoardDAO.boardQuantityByClassification(title);
+    }
+
     /**
      *  레코드 삽입
      */
@@ -223,9 +263,21 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
      * replyBoard게시판에서 조건별 검색하기
      * */
     @Override
-    public List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch,String classification) {
+    public List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch,String classification, int pageNo) {
+        int totalCount = replyBoardDAO.boardQuantityByClassification(classification);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNo, 5, 5, totalCount);
         
-        List<ReplyBoardDTO> list = replyBoardDAO.replyBoardListSearch(department, boardSearch,classification);
+        int firstColumnRange = pageDTO.getFirstColumnRange();
+        int lastColumnRange = pageDTO.getLastColumnRange();
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("classification", classification);
+        map.put("firstColumn", firstColumnRange);
+        map.put("lastColumn", lastColumnRange);
+        map.put("department", department);
+        map.put("boardSearch", boardSearch);
+        List<ReplyBoardDTO> list = replyBoardDAO.replyBoardListSearch(map);
         
         if(list == null) {
             throw new KdcException("게시글이 존재하지 않습니다.");

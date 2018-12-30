@@ -28,25 +28,32 @@ public class ReplyBoardController {
      * 전체 리스트 보기
      * */
     @RequestMapping(value= {"/tech","/lib","/study"})
-    public String list(String classification, Model model) {
+    public String list(String classification, Model model, int pageNo) {
         
         model.addAttribute("classification",classification);
         
-        List<ReplyBoardDTO> list = replyBoardService.selectAll(classification);
+        int listSize = replyBoardService.boardQuantityByClassification(classification);
+        List<ReplyBoardDTO> list = replyBoardService.selectAll(classification, pageNo);
         model.addAttribute("list",list);
+        model.addAttribute("listSize",listSize);
+        model.addAttribute("sort", "REPLY_BOARD_PK");
         
         return "replyBoard/replyBoardList";
     }
+
     
     /**
      * 정렬하기 select
      * */
-    @RequestMapping(value= {"/dateOrderby","/likeOrderby","/viewOrderby","/replyOrderby"})
-    public String SelectOrderby(String classification, String sort, Model model) {
-        
-        List<ReplyBoardDTO> list = replyBoardService.replyBoardSelectAllOrderBy(classification, sort);
+    @RequestMapping(value= {"/dateOrderby","/likeOrderby","/viewOrderby","/replyOrderby", "/pkOrderby", "/orderBy"})
+    public String SelectOrderby(String classification, String sort, Model model, int pageNo) {
+ 
+        int listSize = replyBoardService.boardQuantityByClassification(classification);
+        List<ReplyBoardDTO> list = replyBoardService.replyBoardSelectAllOrderBy(classification, sort, pageNo);
         model.addAttribute("classification",classification);
         model.addAttribute("list",list);
+        model.addAttribute("listSize",listSize);
+        model.addAttribute("sort", sort);
         
         return "replyBoard/replyBoardList";
     }
@@ -71,7 +78,7 @@ public class ReplyBoardController {
         replyBoardDTO.setReplyBoardClassification(classification);
         replyBoardService.insertReply(replyBoardDTO, hashTagName);
         
-        return "redirect:tech?classification="+classification;
+        return "redirect:tech?classification="+classification+"pageNo=1";
     }
     
     /**
@@ -197,13 +204,18 @@ public class ReplyBoardController {
      * replyBoardList 검색하기
      * */
     @RequestMapping("/replyBoardListSearch")
-    public String replyBoardListSearch(@RequestParam(value="classification") String classification, String department, String boardSearch, Model model) {
-        
+    public String replyBoardListSearch(int pageNo, String classification, String department, String boardSearch, Model model) {
+        System.out.println("pageNo :"+pageNo);
         model.addAttribute("classification",classification);
         
-        List<ReplyBoardDTO> list = replyBoardService.replyBoardListSearch(department, boardSearch, classification);
+        int listSize = replyBoardService.boardQuantityByClassification(classification);
+
+        List<ReplyBoardDTO> list = replyBoardService.replyBoardListSearch(department, boardSearch, classification, pageNo);
         model.addAttribute("list",list);
-        
+        model.addAttribute("listSize",listSize);
+        model.addAttribute("sort", "REPLY_BOARD_PK");
+        model.addAttribute("department",department);
+        model.addAttribute("boardSearch",boardSearch);
         return "replyBoard/replyBoardList";
     }
     
