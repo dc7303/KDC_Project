@@ -55,15 +55,22 @@
       white-space:nowrap;
       overflow: hidden;
       text-overflow:ellipsis;
+      cursor: pointer;
     }
     .empty-list {
       text-align: center;
+    }
+    
+    /* 유저 관리 테이블 cursor 개별 설정 */
+    .admin-table tr td {
+      cursor: context-menu;
     }
     
     /* 페이징 */
     .page-selector {
       border: none;
       background-color: white;
+      cursor: context-menu;
     }
     
     /* 페이징 번호 */
@@ -95,11 +102,13 @@
     <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
     */
   </style>
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.css">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.min.js"></script>
   <script type="text/javascript">
-    (function(jq) {
-      
+    $(function() {
+      var jq = jQuery.noConflict(true);
       // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
 
@@ -170,7 +179,7 @@
             //addRows할 배열 변수
             var dataArr =[];
           	
-            $.each(result, function(index, item){
+            jq.each(result, function(index, item){
               
               if(index % 2 == 0){
                 dataArr.push([item.visitDate,item.visitNum,'#ff0000']);
@@ -489,7 +498,7 @@
                 				'<input type="button" value="해결" class="deleteReport""></td></tr>';
               }
               
-              str += '<tr class="table-tr w3-hover-amber"><td>' + reportList[i].reportReporterId + '</td>';
+              str += '<tr class="report-tr w3-hover-amber"><td>' + reportList[i].reportReporterId + '</td>';
               str += '<td>' + reportList[i].replyBoardDTO.replyBoardWriterId + '</td>';
               str += '<td>' + boardFind + '</td>';
               str += '<td>' + reportList[i].reportPurpose + '</td>';
@@ -730,9 +739,56 @@
           });
       	}
       });
-    })(jQuery);
-    
       
+      
+      /**
+       * dialog 설정
+       */
+       jq( "#dialog" ).dialog({
+         autoOpen: false,
+         modal: true,
+         show: {
+           effect: "blind",
+           duration: 500
+         },
+         hide: {
+           effect: "explode",
+           duration: 500
+         },
+       });
+
+      /**
+       * 신고 내용 보기
+       */
+      jq(document).on('click', '.report-tr', function(event) {
+        //마우스 좌표(다이알로그 오픈 위치 설정)
+        var x = event.clientX; 
+        var y = event.clientY;
+        //pk가져오기
+        var reportPk = jq(this).children().eq(6).children().eq(0).val();
+        console.log(reportPk);
+        
+        jq.ajax({
+          url:'${pageContext.request.contextPath}/report/reportRead',
+          type:"get" ,			
+          dataType:"json" ,		
+          data: {
+            reportPk: reportPk,
+          },
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+          },
+          success: function(result) {
+            jq('.dialog-subject').text(result.reportReporterId);
+            jq('.dialog-content').text(result.reportPurpose);
+            jq("#dialog").dialog("open", {position: [ x, y ]});
+          },
+          error: function(err) {
+            console.log('err : ' + err);
+          }
+      	});
+      });
+    });
     </script>
   </head>
   <body>
@@ -826,7 +882,7 @@
 
       <!-- 유저리스트 -->
       <div class="w3-row-padding">
-        <table id="admin-table" class="admin-table w3-table w3-centered">
+        <table class="admin-table w3-table w3-centered">
           <tr>
             <th>유저id</th>
             <th>유저이름</th>
@@ -1031,6 +1087,11 @@
       <!-- End page content -->
     </div>
 
+    <!-- jquery-ui dialog -->
+    <div id="dialog" title="Basic dialog">
+      <div class="dialog-subject"></div>
+      <div class="dialog-content"></div>
+    </div>
 
     <input type="hidden" name="contextPath" value="${pageContext.request.contextPath }"/>
     <input typp="hidden" name="csrfName" value="${_csrf.headerName }"/>

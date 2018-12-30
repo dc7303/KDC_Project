@@ -60,4 +60,13 @@
         where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
         where x.rnum <![CDATA[ >= ]]> #{firstColumn}
     </select>
+    
+    <!-- 신고내용 자세히 보기 -->
+    <select id="selectByReportPk" parameterType="int" resultMap="reportSelectMap">
+        select a.*, b.*
+        from report a, reply_board b 
+        where a.report_pk = #{_parameter}
+        and a.report_reply_board_pk = reply_board_pk 
+        and a.REPORT_ISDELETE='FALSE'
+    </select>
 </mapper>

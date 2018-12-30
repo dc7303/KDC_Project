@@ -72,4 +72,20 @@ public class ReportServiceImpl implements ReportService {
         return result;
     }
 
+    /**
+     * 관리자 - 신고내용 자세히 보기
+     */
+    @Override
+    public ReportDTO selectByReportPk(int reportPk) {
+        
+        ReportDTO reportDTO = null;
+        
+        reportDTO = reportDAO.selectByReportPk(reportPk);
+        if(reportDTO == null) {
+            throw new KdcException("조회하시려는 신고 번호가 잘못되었습니다.");
+        }
+        
+        return reportDTO;
+    }
+
 }
