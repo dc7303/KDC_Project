@@ -370,7 +370,7 @@
                 withdrawalBtn = '<td><input type="button" value="복구" class="secessionMember" value="' + memberList[i].memberId + '"></td></tr>';
               }else {
                 memberIsWithdrawal = '<td style="color:blue">정상</td>';
-                withdrawalBtn = '<td><input type="button" value="삭제" class="secessionMember" value="' + memberList[i].memberId + '"></td></tr>';
+                withdrawalBtn = '<td><input type="button" value="추방" class="secessionMember" value="' + memberList[i].memberId + '"></td></tr>';
               }
               str += '<tr class="table-tr w3-hover-amber"><td>' + memberList[i].memberId + '</td>';
               str += '<td>' + memberList[i].memberName + '</td>';
@@ -609,8 +609,13 @@
        * 멤버 추방 or 복구
        */
        jq(document).on('click', '.secessionMember', function() {
+         //memberId 가져오기 위한 dom selector
          var memberId = jq(this).parent().parent().children().eq(0).text();
-         var memberStatus = jq(this).parent().parent().children().eq(7)[0];
+         //'탈퇴' or '복구' 입력하기 위한 dom selector
+         var memberStatus = jq(this).parent().parent().children().eq(7);
+         //버튼 변경을 위한 dom slector
+         var changeBtn = jq(this);
+         console.log(changeBtn)
          
          //추방 또는 복구 선택
          var isWithDrawal = true;	//복구 삭제 플래그
@@ -619,16 +624,16 @@
          if(jq(this).val() === '복구') {
            confirm = window.confirm('정말 복구하시겠습니까?');
            isWithDrawal = false;
-         }else if(jq(this).val() === '삭제') {
+         }else if(jq(this).val() === '추방') {
            confirm = window.confirm('정말 추방하시겠습니까?');
            isWithDrawal = true;
          }
-         console.log(confirm);
+         
          if(confirm){
            jq.ajax({
              url: '${pageContext.request.contextPath}/member/memberDelete',
              type: 'get',
-             dataType: 'json',
+             dataType: 'text',
              data: {
      			memberId: memberId,
      			isWithDrawal: isWithDrawal,
@@ -639,9 +644,13 @@
              success: function(result) {
                alert(result);
                if(isWithDrawal) {
-                 memberStatus.html('<td style="color:red">탈퇴</td>');
+                 memberStatus.text('탈퇴');
+                 memberStatus.css('color', 'red')
+                 changeBtn.val('복구');
                }else {
-                 memberStatus.html('<td style="color:blue">복구</td>'); 
+                 memberStatus.text('정상');
+                 memberStatus.css('color', 'blue')
+                 changeBtn.val('추방');
                }
              },
              error: function(err) {

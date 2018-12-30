@@ -55,7 +55,7 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     /**
-     * È¸¿øÅ»Åð
+     * È¸¿øÁ¤º¸ Å»Åð ¶Ç´Â º¹±¸
      */
     @Override
     public int updateByIsWithDrawal(String memberId, boolean isWithDrawal) {
