@@ -95,6 +95,8 @@ public class AdminController {
         
         map.put("pageDTO", pageDTO);
         map.put("memberList", memberList);
+        map.put("keyword", null);
+        map.put("word", null);
         
         return map;
     }
@@ -206,20 +208,34 @@ public class AdminController {
     }
     
     /**
-     * 관리자 페이지 - 아이디로 유저 검색하기
+     * 관리자 페이지 - 키워드로 가져오기
      * */
-    @RequestMapping("/selectMemberByUserId")
-    public ModelAndView MemberSelectByUserId(String userId) {
+    @RequestMapping(value = "/selectMemberByKeyword", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> MemberSelectByUserId(String keyword, String word, int currentPage) {
         
-        MemberDTO memberDTO = memberService.memberSelectByMemberId(userId);
+        int setPage = currentPage;       //현재 페이지
+        int setTotalCount = memberService.memberSelectByKewordQuntity(keyword, word);     //컬럼 수
         
-        //Service에서 리턴타입이 MemberDTO 로 되어있다. 하지만 admin/adminPage 에서는 반드시 List로 값을 주어야 되기 때문에 리스트로 넣어주는 코드.
-        List<MemberDTO> memberList = new ArrayList<MemberDTO>();
-        if(memberDTO!=null) {
-            memberList.add(memberDTO);
-        }
+        //view로 보낼 json map
+        Map<String, Object> map = new HashMap<>();
         
-        return new ModelAndView("admin/adminPage", "memberList", memberList);
+        //페이지 정보 셋팅 및 DTO 리턴 받기
+        PageDTO pageDTO = pageHandler.pageInfoSet(setPage, 10, 10, setTotalCount);
+        
+        //데이터 조회할 ROWNUM 범위 를 select 인수로 전달.
+        int firstColumnRange = pageDTO.getFirstColumnRange();
+        int lastColumnRange = pageDTO.getLastColumnRange();
+        
+        
+        List<MemberDTO> memberList = memberService.memberSelectByKeyword(keyword, word, firstColumnRange, lastColumnRange);
+        
+        map.put("pageDTO", pageDTO);
+        map.put("memberList", memberList);
+        map.put("keyword", keyword);
+        map.put("word", word);
+                
+        return map;
         
     }
     
@@ -264,15 +280,6 @@ public class AdminController {
         return "redirect:/admin/messageList";
     }
     
-    /**
-     * 강사 생성 폼 들어가기
-     * */
-    @RequestMapping("/adminInsertTeacherForm")
-    public ModelAndView InsertTeacherForm() {
-        
-        return new ModelAndView("member/signUpForm", "authTeacher", "ROLE_TEACHER");
-        
-    }
     
     /**
      * 관리자 - 강사 아이디 체크 (ajax)
@@ -282,17 +289,6 @@ public class AdminController {
     public String teacherCheck(String teacherId) {
         
         return classRoomService.teacherCheck(teacherId);
-        
-    }
-    
-    /**
-     * 관리자 - 신고 페이지로 이동
-     * */
-    @RequestMapping("/adminReportList")
-    public String reportPage() {
-       
-        
-        return "/admin/adminReportPage";
         
     }
     

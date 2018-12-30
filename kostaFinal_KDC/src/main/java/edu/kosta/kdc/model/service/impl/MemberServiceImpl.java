@@ -164,6 +164,9 @@ public class MemberServiceImpl implements MemberService {
         return result;
     }
 
+    /**
+     * 멤버 이메일 체크
+     */
     @Override
     public boolean memberByEmailCheck(String emailCheck) {
         boolean result = false;
@@ -174,7 +177,29 @@ public class MemberServiceImpl implements MemberService {
         
         return result;
     }
-
     
+    /**
+     * 멤버 범위내 수량 가져오기
+     */
+    @Override
+    public int memberSelectByKewordQuntity(String keyword, String word) {
+        
+        return memberDAO.memberSelectByKewordQuntity(keyword, word);
+    }
+
+    /**
+     * 멤버 키워드 검색
+     */
+    @Override
+    public List<MemberDTO> memberSelectByKeyword(String keyword, String word, int firstColumnRange,
+            int lastColumnRange) {
+
+        List<MemberDTO> list = memberDAO.memberSelectByKeyword(keyword, word, firstColumnRange, lastColumnRange);
+        if(list == null) {
+            throw new KdcException("존재하지 않습니다.");
+        }
+        
+        return list;
+    }
     
 }

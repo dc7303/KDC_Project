@@ -73,4 +73,22 @@ public interface MemberDAO {
      * @return
      */
     int memberTotalCount();
+    
+    /**
+     * 키워드 검색 범위 내 수량 가져오기
+     * @return
+     */
+    int memberSelectByKewordQuntity(String keyword, String word);
+    
+    /**
+     * 멤버 키워드로 검색 (페이징 처리)
+     * 
+     * @param keyword
+     * @param word
+     * @param firstColumnRange
+     * @param lastColumnRange
+     * @return
+     */
+    List<MemberDTO> memberSelectByKeyword(String keyword, String word, int firstColumnRange, int lastColumnRange);
+    
 }

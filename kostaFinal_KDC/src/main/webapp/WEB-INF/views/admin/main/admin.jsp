@@ -72,6 +72,10 @@
       color: #FF0000;
       text-weight: 1200;
     }
+    
+    .member-search {
+      padding-left: 32%;
+    }
     /*
     <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
     */
@@ -80,6 +84,7 @@
   <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
   <script type="text/javascript">
     (function(jq) {
+      
       // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
 
@@ -89,7 +94,7 @@
         type: 'get',
         dataType: 'json',
         beforeSend: function(xhr) {
-          xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+          xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
         },
         success: function(result) {
           
@@ -261,9 +266,19 @@
       
       //member 페이지 번호 click 이벤트
       jq(document).on('click', '.member-page-at', function(event) {
+        var url = '${pageContext.request.contextPath}/adminMemberList';
+        
+        var keyword = jq('#memberPageKeyword').val();
+        var word = jq('#memberPageWord').val();
+        console.log(keyword,word);
+        //keyword가 전체검색이 아니라면
+        if(keyword !== 'all') {
+          url = '${pageContext.request.contextPath}/selectMemberByKeyword?keyword=' + keyword + '&word=' + word;
+        }
+ 
         var currentPage = jq(this)[0].title;
         jq.ajax({
-          url: '${pageContext.request.contextPath}/adminMemberList',
+          url: url,
           type: 'get',
           dataType: 'json',
           data: {
@@ -336,6 +351,8 @@
       function memberPaging(result) {
           var memberList = result.memberList;
           var pageDTO = result.pageDTO;
+          var keyword = result.keyword;		//검색 키워드
+          var word = result.word;			//검색 내용
           //멤버 리스트가 존재할때
 		var str =
 				'<tr><th>유저id</th><th>유저이름</th><th>닉네임</th><th>생년월일</th>' + 
@@ -388,6 +405,21 @@
           if(pageDTO.lastMove) {
             str += '<span class="member-page-at" title="' + pageDTO.endPage + '">마지막페이지로</span>';
           }
+          
+          //키워드 셋팅(키워드 조회시 페이징 처리 렌더링시 사용됨)
+          if(keyword !== null) {
+            str += '<input type="hidden" id="memberPageKeyword" value="' + keyword + '"/>';
+          }else {
+            str += '<input type="hidden" id="memberPageKeyword" value="all"/>';
+          }
+          
+          if(word !== null) {
+            str += '<input type="hidden" id="memberPageWord" value="' + word + '"/>';
+          }else {
+            str += '<input type="hidden" id="memberPageWord" value="all"/>';
+          }
+          
+          
           return str;
         }
       
@@ -511,6 +543,57 @@
           }
           return str;
         }
+      
+      
+      /*
+      <div class="member-search">
+      <select name="memberSearchKeyword">
+        <option value="none">키워드선택</option>
+        <option value="memberId1">유저ID</option>
+        <option value="memberName">유저이름</option>
+        <option value="memberNickName">유저닉네임</option>
+        <option value="memberEmail">유저이메일</option>
+      </select>
+      <input type="text" name="memberSearchInput"/>
+      <input type="button" id="memberSearchBtn" value="검색"/>
+    </div>
+    */
+      /**
+       * 멤버 키워드 검색
+       */
+       jq(document).on('click', '#memberSearchBtn', function() {
+         var keyword = jq('select[name=memberSearchKeyword]').val();
+         var word = jq('input[name=memberSearchInput]').val();
+         //키워드가 없을 때 alert
+         if(keyword === 'none') {
+           alert('검색하실 키워드를 선택해주세요.');
+         //내용이 없을 때 alert
+         }else if(word === null || word === '') {
+           alert('검색하실 내용을 입력해주세요.')
+         }else {
+           jq.ajax({
+             url: '${pageContext.request.contextPath}/selectMemberByKeyword',
+             type: 'get',
+             dataType: 'json',
+             data: {
+               currentPage: 1,
+               keyword: keyword,
+               word: word,
+             },
+             beforeSend: function(xhr) {
+               xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+             },
+             success: function(result) {
+               var resultStr = memberPaging(result);
+               jq('.admin-table').eq(0).html(resultStr);
+             },
+             error: function(err) {
+               console.log('err : ' + err);
+             }
+           });
+         }
+       });
+       
     })(jQuery);
     
       
@@ -618,8 +701,18 @@
             <th>가입일</th>
             <th>유저 추방</th>
           </tr>
-            
         </table>
+        <div class="member-search">
+          <select name="memberSearchKeyword">
+            <option value="none">키워드선택</option>
+            <option value="memberId">유저ID</option>
+            <option value="memberName">유저이름</option>
+            <option value="memberNickName">유저닉네임</option>
+            <option value="memberEmail">유저이메일</option>
+          </select>
+          <input type="text" name="memberSearchInput"/>
+          <input type="button" id="memberSearchBtn" value="검색"/>
+        </div>
       </div>
 
 
@@ -794,7 +887,9 @@
     </div>
 
 
-
+    <input type="hidden" name="contextPath" value="${pageContext.request.contextPath }"/>
+    <input typp="hidden" name="csrfName" value="${_csrf.headerName }"/>
+    <input type="hidden" name="csrfToken" value="${_csrf.token }"/>
     <script>
       // Script to open and close sidebar
       function w3_open() {
