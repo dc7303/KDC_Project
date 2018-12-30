@@ -59,7 +59,7 @@ public class ReportServiceImpl implements ReportService {
      * */
     @Override
     @Transactional
-    public List<ReportDTO> deleteReport(int reportNum, String boardName) {
+    public int deleteReport(int reportNum) {
         
         int result = 0;
         
@@ -69,7 +69,7 @@ public class ReportServiceImpl implements ReportService {
             throw new KdcException("삭제 실패");
         }
         
-        return reportDAO.reportSelectByBoardName(boardName);
+        return result;
     }
 
 }

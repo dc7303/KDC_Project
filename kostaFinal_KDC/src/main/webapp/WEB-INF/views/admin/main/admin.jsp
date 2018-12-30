@@ -445,8 +445,8 @@
           
           //report 리스트가 존재할때
           
-		var str = '<tr><th>신고인</th><th>피신고인자</th><th>게시판</th>' + 
-		'<th>신고 내용</th><th>신고한 날짜</th><th>삭제</th></tr>';
+		var str = '<tr><th>신고인</th><th>피신고인</th><th>게시판</th>' + 
+		'<th>신고 내용</th><th>신고일</th><th>처리여부</th><th>처리</th></tr>';
           
           if(reportList.length !== 0) {
             //report 리스트 셋팅
@@ -461,12 +461,26 @@
                 boardFind = '스터디'
               }
               
+              //처리 결과에 따라 버튼과 처리 상태 셋팅
+              var isDelete = reportList[i].replyBoardIsDelete;
+              var reportStatus = '';//처리상태
+              var isDeleteBtn = '';//처리 버튼
+              if(isDelete) {
+                reprotStatus = '<td style="color:blue">완료</td>';
+                isDeleteBtn = '<td></td>';
+              }else {
+                reportStatus = '<td style="color:red">미완료</td>';
+                isDeleteBtn = '<td><input type="hidden" value="' + reportList[i].reportPk + '"/>' + 
+                				'<input type="button" value="해결" class="deleteReport""></td></tr>';
+              }
+              
               str += '<tr class="table-tr w3-hover-amber"><td>' + reportList[i].reportReporterId + '</td>';
               str += '<td>' + reportList[i].replyBoardDTO.replyBoardWriterId + '</td>';
               str += '<td>' + boardFind + '</td>';
               str += '<td>' + reportList[i].reportPurpose + '</td>';
               str += '<td>' + reportList[i].reportDate + '</td>';
-              str += '<td><input type="button" value="삭제" id="deleteReport" onclick="deleteReport(' + reportList[i].reportPk + ')"></td></tr>'
+              str += reportStatus;
+              str += isDeleteBtn;
             }
           }else {
             str += '<td class="empty-list" colspan="5">등록된 신고가 없습니다.</td>'
@@ -658,8 +672,39 @@
              }
            });
          }
-         
        });
+      
+      
+      /**
+       * 신고 해결하기 
+       */
+      jq(document).on('click', '.deleteReport', function() {
+        var reportPk = jq(this).parent().children().eq(0).val();	//hidden report pk값
+        var removeColumn = jq(this).parent().parent();		//해당 컬럼 삭제하기 위한 변수
+        
+        var confirm = window.confirm('해결처리하시겠습니까?');
+        
+        if(confirm) {
+          jq.ajax({
+            url:'${pageContext.request.contextPath}/deleteReport',
+            type:"post" ,			
+            dataType:"text" ,		
+            data: {
+              reportNum: reportPk,
+            },
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+            },
+            success: function(result) {
+              alert(result);
+              removeColumn.remove();
+            },
+            error: function(err) {
+              console.log('err : ' + err);
+            }
+          });
+      	}
+      });
     })(jQuery);
     
       
@@ -800,20 +845,6 @@
         <h1 class="w3-xxxlarge w3-text-blue"><b>신고관리</b></h1>
 
         <div class="w3-row-padding">
-          <div class="optionSelect">
-            <select onchange="boardSelect(this.value)">
-              <option value="0">게시판 선택</option>
-              <option value="1">TECH 게시판</option>
-              <option value="2">스터디게시판</option>
-              <option value="3">QA 게시판</option>
-            </select>
-            <select>
-              <option value="4">신고 유형</option>
-              <option value="5">욕설</option>
-              <option value="6">도배</option>
-              <option value="7">상업적 글</option>
-              <option value="8">기타</option>
-            </select>
           </div>
           <table class="report-table w3-table w3-centered">
              <tr>
@@ -821,8 +852,9 @@
                   <th>피신고인</th>
                   <th>게시판</th>
                   <th>신고 내용</th> 
-                  <th>신고한 날짜</th>
-                  <th>삭제</th>
+                  <th>신고일</th>
+                  <th>처리여부</th>
+                  <th>처리</th>
               </tr>
           </table>
             <div class="report-search">

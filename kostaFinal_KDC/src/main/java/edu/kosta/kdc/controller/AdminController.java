@@ -304,21 +304,13 @@ public class AdminController {
     /**
      * 관리자ajax - 신고 페이지에서 신고 내역 삭제
      * */
-    @RequestMapping("/deleteReport")
+    @RequestMapping(value = "/deleteReport", produces = "text/plain; charset=UTF-8")
     @ResponseBody
-    public List<ReportDTO> deleteReport(int reportNum, int boardNum) {
+    public String deleteReport(int reportNum) {
         
-        String boardName=null;
+        reportService.deleteReport(reportNum);
         
-        switch (boardNum) {
-        case 1: boardName = "tech"; break;
-        case 2: boardName = "study"; break;
-        case 3: boardName = "lib"; break;
-        }
-        
-        List<ReportDTO> reportList = reportService.deleteReport(reportNum, boardName);
-        
-        return reportList;
+        return "처리완료되었습니다.";
     }
     
 

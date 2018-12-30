@@ -36,6 +36,6 @@ public interface ReportService {
      * @param int, String
      * @return int
      * */
-    List<ReportDTO> deleteReport(int reportNum, String boardName);
+    int deleteReport(int reportNum);
 
 }
