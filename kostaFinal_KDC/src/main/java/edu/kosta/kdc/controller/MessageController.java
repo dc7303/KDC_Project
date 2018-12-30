@@ -25,22 +25,7 @@ import edu.kosta.kdc.util.KdcException;
 public class MessageController {
 
     @Autowired
-    private MessageService messageService;
-    
-    /**
-     * 전체 메세지 리스트
-     * */
-    @RequestMapping("/messageList")
-    @Transactional
-    public ModelAndView messageAll(HttpSession session, HttpServletRequest request) {
-        
-        //접속된 ID로 메세지 리스트를 가져옴
-        List<MessageDTO> list = messageService.messageAll();
-        
-        
-        return new ModelAndView("message/messageList", "messageList", list);
-        
-    }
+    private MessageService messageService; 
     
     /**
      * 메세지 전송(=메세지 답장)

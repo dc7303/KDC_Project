@@ -24,6 +24,9 @@
     body {
       font-size: 16px;
     }
+    a {
+      text-decoration: none;
+    }
     .w3-half img {
       margin-bottom: -6px;
       margin-top: 16px;
@@ -55,6 +58,19 @@
     .page-selector {
       border: none;
       background-color: white;
+    }
+    .page-selector span {
+      font-size: 15px;
+      padding-left: 8px;
+      padding-right: 8px;
+      cursor: pointer;
+    }
+    .page-selector span:hover {
+      color: orange;
+    }
+    .current-page {
+      color: #FF0000;
+      text-weight: 1200;
     }
     /*
     <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
@@ -111,6 +127,9 @@
         }
       });
 
+      /**
+       *  방문자 수 차트
+       */
       jq.ajax({
         url: '${pageContext.request.contextPath}/visitNumChart',
         type: 'post',
@@ -214,7 +233,7 @@
         error: function(err) {
           console.log('err : ' + err);
         }
-      });
+      }); 
       
       /**
        * 메세지 리스트 가져오기
@@ -238,9 +257,11 @@
         }
       });
       
-      //페이지 번호 click 이벤트
-      jq(document).on('click', '.page-number', function() {
-        var currentPage = parseInt(jq(this).text());
+      
+      
+      //member 페이지 번호 click 이벤트
+      jq(document).on('click', '.member-page-at', function(event) {
+        var currentPage = jq(this)[0].title;
         jq.ajax({
           url: '${pageContext.request.contextPath}/adminMemberList',
           type: 'get',
@@ -261,7 +282,57 @@
         });
       });
       
-      //member Paging 모듈
+    //report 페이지 번호 click 이벤트
+      jq(document).on('click', '.report-page-at', function(event) {
+        var currentPage = jq(this)[0].title;
+        jq.ajax({
+          url: '${pageContext.request.contextPath}/adminReportList',
+          type: 'get',
+          dataType: 'json',
+          data: {
+            currentPage: currentPage,
+          },
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+          },
+          success: function(result) {
+            var strResult = reportPaging(result);
+            jq('.report-table').eq(0).html(strResult);
+          },
+          error: function(err) {
+            console.log('err : ' + err);
+          }
+        });
+      });
+    
+    //message 페이지 번호 click 이벤트
+      jq(document).on('click', '.message-page-at', function(event) {
+        var currentPage = jq(this)[0].title;
+        jq.ajax({
+          url: '${pageContext.request.contextPath}/adminMessageList',
+          type: 'get',
+          dataType: 'json',
+          data: {
+            currentPage: currentPage,
+          },
+          beforeSend: function(xhr) {
+            xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+          },
+          success: function(result) {
+            var strResult = messagePaging(result);
+            jq('.message-table').eq(0).html(strResult);
+          },
+          error: function(err) {
+            console.log('err : ' + err);
+          }
+        });
+      });
+      
+      
+      
+      /**
+       *  멤버 리스트 렌더링 모듈
+       */
       function memberPaging(result) {
           var memberList = result.memberList;
           var pageDTO = result.pageDTO;
@@ -291,46 +362,50 @@
           str += '<td class="page-selector" colspan="8">';
           //첫 페이지로 이동 
           if(pageDTO.firstMove) {
-            str += '<a href="#" class="first-move">첫페이지로</a>';
+            str += '<span class="member-page-at" title="' + 1 + '">첫페이지로</span>';
           }
           
           //이전페이지로 이동
           if(pageDTO.backPage) {
-            str += '<a href="#" class="back-page">◀</a>  ';
+            str += '<span class="member-page-at" title="' + (pageDTO.page - 1) + '">◀</span>';
           }
           
           //페이지 수 셋팅
           for(var pageCount = pageDTO.startPage; pageCount <= pageDTO.endPage; pageCount++) {
             if(pageCount !== pageDTO.page){
-              str += '<a href="#" class="page-number" value="' + pageCount + '">' + pageCount + '</a>  '
+              str += '<span class="member-page-at" title="' + pageCount + '">' + pageCount + '</span>'
             }else {
-              str += '<a href="#" class="current-page" value="' + pageCount + '">' + pageCount + '</a>'
+              str += '<span class="current-page" title="' + pageCount + '">' + pageCount + '</span>'
             }
           }
           
           //다음 페이지
           if(pageDTO.nextPage) {
-            str += '<a href="#" class="next-page">▶</a>';
+            str += '<span class="member-page-at" title="' + (pageDTO.page + 1) + '">▶</span>';
           }
           
           //마지막 페이지
           if(pageDTO.lastMove) {
-            str += '<a href="#" class="last-move">마지막페이지로</a>';
+            str += '<span class="member-page-at" title="' + pageDTO.endPage + '">마지막페이지로</span>';
           }
           return str;
         }
       
-      //report Paging 모듈
+      
+      
+      /**
+       *  신고 리스트 렌더링 모듈
+       */
       function reportPaging(result) {
           var reportList = result.reportList;
           var pageDTO = result.pageDTO;
-          //멤버 리스트가 존재할때
+          //report 리스트가 존재할때
           
 		var str = '<tr><th>신고인 아이디</th><th>피신고인 아이디</th>' + 
 		'<th>신고 내용</th><th>신고한 날짜</th><th>삭제</th></tr>';
           
           if(reportList.length !== 0) {
-            //멤버 리스트 셋팅
+            //report 리스트 셋팅
             for(var i = 0; i < reportList.length; i++) {
               str += '<tr class="table-tr w3-hover-amber"><td>' + reportList[i].reportReporterId + '</td>';
               str += '<td>' + reportList[i].replyBoardDTO.replyBoardWriterId + '</td>';
@@ -346,38 +421,42 @@
           str += '<td class="page-selector" colspan="8">';
           //첫 페이지로 이동 
           if(pageDTO.firstMove) {
-            str += '<a href="#" class="first-move">첫페이지로</a>';
+            str += '<span class="report-page-at" title="' + 1 + '">첫페이지로</span>';
           }
           
           //이전페이지로 이동
           if(pageDTO.backPage) {
-            str += '<a href="#" class="back-page">◀</a>  ';
+            str += '<span class="report-page-at" title="' + (pageDTO.page - 1) +  '">◀</span>  ';
           }
           
           //페이지 수 셋팅
           for(var pageCount = pageDTO.startPage; pageCount <= pageDTO.endPage; pageCount++) {
             if(pageCount !== pageDTO.page){
-              str += '<a href="#" class="page-number" value="' + pageCount + '">' + pageCount + '</a>  '
+              str += '<span class="report-page-at" title="' + pageCount + '">' + pageCount + '</span>'
             }else {
-              str += '<a href="#" class="current-page" value="' + pageCount + '">' + pageCount + '</a>'
+              str += '<span class="current-page" title="' + pageCount + '">' + pageCount + '</span>'
             }
           }
           
           //다음 페이지
           if(pageDTO.nextPage) {
-            str += '<a href="#" class="next-page">▶</a>';
+            str += '<span class="report-page-at" title="' + (pageDTO.page + 1) + '">▶</span>';
           }
           
           //마지막 페이지
           if(pageDTO.lastMove) {
-            str += '<a href="#" class="last-move">마지막페이지로</a>';
+            str += '<span class="report-page-at" title="' + pageDTO.endPage + '">마지막페이지로</span>';
           }
           return str;
         }
       
-      //messageList Paging 모듈
+      
+      
+      
+      /**
+       *  메세지 리스트 렌더링 모듈
+       */
       function messagePaging(result) {
-        console.log(result);
           var messageList = result.messageList;
           var pageDTO = result.pageDTO;
           //메세지 리스트가 존재할때
@@ -404,31 +483,31 @@
           str += '<td class="page-selector" colspan="8">';
           //첫 페이지로 이동 
           if(pageDTO.firstMove) {
-            str += '<a href="#" class="first-move">첫페이지로</a>';
+            str += '<span class="message-page-at" title="' + 1 + '">첫페이지로</span>';
           }
           
           //이전페이지로 이동
           if(pageDTO.backPage) {
-            str += '<a href="#" class="back-page">◀</a>  ';
+            str += '<span class="message-page-at" title="' + (pageDTO.page - 1) + '">◀</span>  ';
           }
           
           //페이지 수 셋팅
           for(var pageCount = pageDTO.startPage; pageCount <= pageDTO.endPage; pageCount++) {
             if(pageCount !== pageDTO.page){
-              str += '<a href="#" class="page-number" value="' + pageCount + '">' + pageCount + '</a>  '
+              str += '<span class="message-page-at" title="' + pageCount + '">' + pageCount + '</span>'
             }else {
-              str += '<a href="#" class="current-page" value="' + pageCount + '">' + pageCount + '</a>'
+              str += '<span class="current-page" title="' + pageCount + '">' + pageCount + '</span>'
             }
           }
           
           //다음 페이지
           if(pageDTO.nextPage) {
-            str += '<a href="#" class="next-page">▶</a>';
+            str += '<span class="message-page-at" title="' + (pageDTO.page + 1) + '">▶</span>';
           }
           
           //마지막 페이지
           if(pageDTO.lastMove) {
-            str += '<a href="#" class="last-move">마지막페이지로</a>';
+            str += '<span class="message-page-at" title="' + pageDTO.endPage + '">마지막페이지로</span>';
           }
           return str;
         }
@@ -528,17 +607,17 @@
 
       <!-- 유저리스트 -->
       <div class="w3-row-padding">
-        <table class="admin-table w3-table w3-centered">
+        <table id="admin-table" class="admin-table w3-table w3-centered">
           <tr>
-                <th>유저id</th>
-                <th>유저이름</th>
-                <th>닉네임</th>
-                <th>생년월일</th>
-                <th>휴대폰번호</th>
-                <th>이메일</th>
-                <th>가입일</th>
-                <th>유저 추방</th>
-            </tr>
+            <th>유저id</th>
+            <th>유저이름</th>
+            <th>닉네임</th>
+            <th>생년월일</th>
+            <th>휴대폰번호</th>
+            <th>이메일</th>
+            <th>가입일</th>
+            <th>유저 추방</th>
+          </tr>
             
         </table>
       </div>
