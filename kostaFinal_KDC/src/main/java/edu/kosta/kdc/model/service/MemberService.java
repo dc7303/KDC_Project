@@ -47,7 +47,7 @@ public interface MemberService {
      * @return
      */
 
-    int updateByIsWithDrawal(String memberId);
+    int updateByIsWithDrawal(String memberI, boolean isWithDrawal);
     
     /**
      * 관리자 페이지에서 유저 조회 시 모든 유저 가져오는 메소드

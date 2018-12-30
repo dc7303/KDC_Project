@@ -58,9 +58,17 @@ public class MemberDAOImpl implements MemberDAO {
      * È¸¿øÅ»Åð
      */
     @Override
-    public int updateByIsWithDrawal(String memberId) {
+    public int updateByIsWithDrawal(String memberId, boolean isWithDrawal) {
         
-        return sqlSession.update("memberMapper.updateByIsWithDrawal", memberId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("memberId", memberId);
+        String drawal = "FALSE";
+        if(isWithDrawal) {
+            drawal = "TRUE";
+        }
+        map.put("isWithDrawal", drawal);
+        
+        return sqlSession.update("memberMapper.updateByIsWithDrawal", map);
     }
     
     /**

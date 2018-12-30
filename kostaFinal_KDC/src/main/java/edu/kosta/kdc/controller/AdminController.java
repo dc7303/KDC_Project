@@ -238,18 +238,6 @@ public class AdminController {
         return map;
         
     }
-    
-    /**
-     * 관리자 페이지 - 유저 삭제
-     * */
-    @RequestMapping("{memberId}")
-    public String MemberDeleteByUserId(@PathVariable String memberId) {
-        
-        memberService.updateByIsWithDrawal(memberId);
-        
-        return "redirect:/admin/selectMember";
-        
-    }
  
     /**
      * 쪽지 보내기

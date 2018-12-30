@@ -105,14 +105,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 회원정보 삭제
+     * 회원정보 삭제 또는 복구
      */
     @Override 
-    public int updateByIsWithDrawal(String memberId) throws KdcException {
+    public int updateByIsWithDrawal(String memberId, boolean isWithDrawal) throws KdcException {
 
         int result = 0;
         
-        result = memberDAO.updateByIsWithDrawal(memberId);
+        result = memberDAO.updateByIsWithDrawal(memberId, isWithDrawal);
         if(result == 0) throw new KdcException("탈퇴 실패입니다.");
         
         return result;

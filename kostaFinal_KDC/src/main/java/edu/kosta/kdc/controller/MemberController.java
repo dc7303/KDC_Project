@@ -274,12 +274,19 @@ public class MemberController {
      * @param memberDTO
      * @return
      */
-    @RequestMapping("/memberDelete")
-    public String memberUpdateByIsWithDrawal(String memberId) {
+    @RequestMapping(value = "/memberDelete", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String memberUpdateByIsWithDrawal(String memberId, boolean isWithDrawal) {
         
-        memberService.updateByIsWithDrawal(memberId);
+        memberService.updateByIsWithDrawal(memberId, isWithDrawal);
         
-        return "/index";
+        String resultMessage = "";
+        if(isWithDrawal) {
+            resultMessage = "삭제되었습니다.";
+        }else {
+            resultMessage = "복구되었습니다.";
+        }
+        return resultMessage;
     }
     
     /**

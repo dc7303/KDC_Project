@@ -73,7 +73,7 @@
       text-weight: 1200;
     }
     
-    .member-search {
+    .member-search, .report-search, .message-search {
       padding-left: 32%;
     }
     /*
@@ -356,12 +356,22 @@
           //멤버 리스트가 존재할때
 		var str =
 				'<tr><th>유저id</th><th>유저이름</th><th>닉네임</th><th>생년월일</th>' + 
-				'<th>휴대폰번호</th><th>이메일</th><th>가입일</th>' + 
+				'<th>휴대폰번호</th><th>이메일</th><th>가입일</th><th>탈퇴여부</th>' + 
 				'<th>유저 추방</th></tr>';
           
           if(memberList.length !== 0) {
             //멤버 리스트 셋팅
             for(var i = 0; i < memberList.length; i++) {
+              //탈퇴 여부에 따른 버튼 및 메세지 셋팅
+              var memberIsWithdrawal = memberList[i].memberIsWithdrawal;
+              var withdrawalBtn = '';
+              if(memberIsWithdrawal) {
+                memberIsWithdrawal = '<td style="color:red">탈퇴</td>';
+                withdrawalBtn = '<td><input type="button" value="복구" class="secessionMember" value="' + memberList[i].memberId + '"></td></tr>';
+              }else {
+                memberIsWithdrawal = '<td style="color:blue">정상</td>';
+                withdrawalBtn = '<td><input type="button" value="삭제" class="secessionMember" value="' + memberList[i].memberId + '"></td></tr>';
+              }
               str += '<tr class="table-tr w3-hover-amber"><td>' + memberList[i].memberId + '</td>';
               str += '<td>' + memberList[i].memberName + '</td>';
               str += '<td>' + memberList[i].memberNickName + '</td>';
@@ -369,7 +379,8 @@
               str += '<td>' + memberList[i].memberPhone + '</td>';
               str += '<td>' + memberList[i].memberEmail + '</td>';
               str += '<td>' + memberList[i].memberDate + '</td>';
-              str += '<td><input type="button" value="삭제" id="deleteMember"></td></tr>'
+              str += memberIsWithdrawal;
+              str += withdrawalBtn;
             }
           }else {
             str += '<td class="empty-list" colspan="8">등록된 유저가 없습니다.</td>'
@@ -431,16 +442,28 @@
       function reportPaging(result) {
           var reportList = result.reportList;
           var pageDTO = result.pageDTO;
+          
           //report 리스트가 존재할때
           
-		var str = '<tr><th>신고인 아이디</th><th>피신고인 아이디</th>' + 
+		var str = '<tr><th>신고인</th><th>피신고인자</th><th>게시판</th>' + 
 		'<th>신고 내용</th><th>신고한 날짜</th><th>삭제</th></tr>';
           
           if(reportList.length !== 0) {
             //report 리스트 셋팅
             for(var i = 0; i < reportList.length; i++) {
+              //게시판 종류셋팅 
+              var boardFind = reportList[i].replyBoardDTO.replyBoardClassification;
+              if(boardFind === 'tech') {
+                boardFind = '테크Q&A';
+              }else if(boardFind === 'lib') {
+                boardFind = '기술공유';
+              }else if(boardFind === 'study') {
+                boardFind = '스터디'
+              }
+              
               str += '<tr class="table-tr w3-hover-amber"><td>' + reportList[i].reportReporterId + '</td>';
               str += '<td>' + reportList[i].replyBoardDTO.replyBoardWriterId + '</td>';
+              str += '<td>' + boardFind + '</td>';
               str += '<td>' + reportList[i].reportPurpose + '</td>';
               str += '<td>' + reportList[i].reportDate + '</td>';
               str += '<td><input type="button" value="삭제" id="deleteReport" onclick="deleteReport(' + reportList[i].reportPk + ')"></td></tr>'
@@ -545,19 +568,6 @@
         }
       
       
-      /*
-      <div class="member-search">
-      <select name="memberSearchKeyword">
-        <option value="none">키워드선택</option>
-        <option value="memberId1">유저ID</option>
-        <option value="memberName">유저이름</option>
-        <option value="memberNickName">유저닉네임</option>
-        <option value="memberEmail">유저이메일</option>
-      </select>
-      <input type="text" name="memberSearchInput"/>
-      <input type="button" id="memberSearchBtn" value="검색"/>
-    </div>
-    */
       /**
        * 멤버 키워드 검색
        */
@@ -585,6 +595,7 @@
              },
              success: function(result) {
                var resultStr = memberPaging(result);
+               jq('input[name=memberSearchInput]').val('');
                jq('.admin-table').eq(0).html(resultStr);
              },
              error: function(err) {
@@ -593,7 +604,53 @@
            });
          }
        });
-       
+      
+      /**
+       * 멤버 추방 or 복구
+       */
+       jq(document).on('click', '.secessionMember', function() {
+         var memberId = jq(this).parent().parent().children().eq(0).text();
+         var memberStatus = jq(this).parent().parent().children().eq(7)[0];
+         
+         //추방 또는 복구 선택
+         var isWithDrawal = true;	//복구 삭제 플래그
+         var confirm = false;		//confirm 메소드 변수
+         
+         if(jq(this).val() === '복구') {
+           confirm = window.confirm('정말 복구하시겠습니까?');
+           isWithDrawal = false;
+         }else if(jq(this).val() === '삭제') {
+           confirm = window.confirm('정말 추방하시겠습니까?');
+           isWithDrawal = true;
+         }
+         console.log(confirm);
+         if(confirm){
+           jq.ajax({
+             url: '${pageContext.request.contextPath}/member/memberDelete',
+             type: 'get',
+             dataType: 'json',
+             data: {
+     			memberId: memberId,
+     			isWithDrawal: isWithDrawal,
+             },
+             beforeSend: function(xhr) {
+               xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}' );
+             },
+             success: function(result) {
+               alert(result);
+               if(isWithDrawal) {
+                 memberStatus.html('<td style="color:red">탈퇴</td>');
+               }else {
+                 memberStatus.html('<td style="color:blue">복구</td>'); 
+               }
+             },
+             error: function(err) {
+               console.log('err : ' + err);
+             }
+           });
+         }
+         
+       });
     })(jQuery);
     
       
@@ -699,6 +756,7 @@
             <th>휴대폰번호</th>
             <th>이메일</th>
             <th>가입일</th>
+            <th>가입상태</th>
             <th>유저 추방</th>
           </tr>
         </table>
@@ -750,15 +808,26 @@
           </div>
           <table class="report-table w3-table w3-centered">
              <tr>
-                  <th>신고인 아이디</th>
-                  <th>피신고인 아이디</th>
-                  <th>신고 내용</th>
+                  <th>신고인</th>
+                  <th>피신고인</th>
+                  <th>게시판</th>
+                  <th>신고 내용</th> 
                   <th>신고한 날짜</th>
                   <th>삭제</th>
               </tr>
           </table>
+            <div class="report-search">
+            <select name="reportSearchKeyword">
+              <option value="none">키워드선택</option>
+              <option value="memberId">유저ID</option>
+              <option value="memberName">유저이름</option>
+              <option value="memberNickName">유저닉네임</option>
+              <option value="memberEmail">유저이메일</option>
+            </select>
+            <input type="text" name="reportSearchInput"/>
+            <input type="button" id="reportSearchBtn" value="검색"/>
+          </div>
         </div>
-      </div>
       
 
         <!-- 쪽지관리  -->
@@ -773,8 +842,18 @@
                 <th>답장</th>
                 <th>삭제</th>
               </tr>
-          
             </table>
+            <div class="message-search">
+            <select name="messageSearchKeyword">
+              <option value="none">키워드선택</option>
+              <option value="memberId">유저ID</option>
+              <option value="memberName">유저이름</option>
+              <option value="memberNickName">유저닉네임</option>
+              <option value="memberEmail">유저이메일</option>
+            </select>
+            <input type="text" name="messageSearchInput"/>
+            <input type="button" id="messageSearchBtn" value="검색"/>
+          </div>
         </div>
 
       <!-- 강사생성 -->
