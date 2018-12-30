@@ -42,6 +42,7 @@
     table {
       width: 100%;
       border-collapse:collapse;
+      table-layout: fixed;
     }
     th {
       background-color: #2196F3;
@@ -51,31 +52,45 @@
       text-align: center;
       font-size: 13px;
       padding: none;
+      white-space:nowrap;
+      overflow: hidden;
+      text-overflow:ellipsis;
     }
     .empty-list {
       text-align: center;
     }
+    
+    /* 페이징 */
     .page-selector {
       border: none;
       background-color: white;
     }
+    
+    /* 페이징 번호 */
     .page-selector span {
       font-size: 15px;
       padding-left: 8px;
       padding-right: 8px;
       cursor: pointer;
     }
+    
+    /* 페이징 번호 hover */
     .page-selector span:hover {
       color: orange;
     }
+    
+    /* 현재 페이지 css */
     .current-page {
       color: #FF0000;
       text-weight: 1200;
     }
     
+    /* 검색 위치 설정 */
     .member-search, .report-search, .message-search {
       padding-left: 32%;
     }
+    
+    
     /*
     <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
     */
@@ -445,8 +460,8 @@
           
           //report 리스트가 존재할때
           
-		var str = '<tr><th>신고인</th><th>피신고인</th><th>게시판</th>' + 
-		'<th>신고 내용</th><th>신고일</th><th>처리여부</th><th>처리</th></tr>';
+		var str = '<tr><th width="10%">신고인</th><th width="10%">피신고인</th><th width="10%">게시판</th>' + 
+		'<th width="30%">신고 내용</th><th width="20%">신고일</th><th width="10%">처리여부</th><th width="10%">처리</th></tr>';
           
           if(reportList.length !== 0) {
             //report 리스트 셋팅
@@ -529,17 +544,27 @@
           var messageList = result.messageList;
           var pageDTO = result.pageDTO;
           //메세지 리스트가 존재할때
-		var str = '<tr><th><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th><th>보낸사람</th>' + 
-					'<th>쪽지제목</th><th>전송일</th><th>답장</th><th>삭제</th></tr>';
+		var str = '<tr><th width="5%"><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th><th width="10%">보낸사람</th>' + 
+					'<th width="15%">쪽지제목</th><th width="30%">쪽지내용</th><th width="10%">전송일</th><th width="10%">읽음여부</th><th width="10%">답장</th><th width="10%">삭제</th></tr>';
           
           if(messageList.length !== 0) {
             //메세지 리스트 셋팅
             for(var i = 0; i < messageList.length; i++) {
+              //읽음여부 셋팅
+              var isRead = '';
+              if(messageList[i].messageIsRead) {
+                isRead = '<td style="color: blue">읽음</td>';
+              }else {
+                isRead = '<td style="color: red">읽지않음</td>';
+              }
+              
               str += '<tr class="table-tr w3-hover-amber"><td><input type="checkbox"/></td>';
               str += '<td>' + messageList[i].senderId + '</td>';
               str += '<td><a href="${pageContext.request.contextPath}/message/' + messageList[i].messageNum + '">'
               				+ messageList[i].messageTitle + '</a></td>';
+              str += '<td>' + messageList[i].messageContents + '</td>';
               str += '<td>' + messageList[i].messageDate + '</td>';
+              str += isRead;
               str += '<td><input type="button" value="답장" id="replyMessage">' +
               			'<input type="hidden" name="senderId" value="' + messageList[i].senderId + '"></td>';
               str += '<td><input type="hidden" value="' + messageList.messageNum + '">' + 
