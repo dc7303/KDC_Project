@@ -1,5 +1,4 @@
-
-  ;(function (root, factory) {
+;(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define([], factory);
@@ -35,6 +34,7 @@
       this.minBoxWidth = opts.minBoxWidth || 250;
       this.columns = [];
       this.container = document.querySelector(containerSelector);
+
       this.boxes = this.container ?
           Array.prototype.slice.call(this.container.querySelectorAll(boxSelector)) : [];
 

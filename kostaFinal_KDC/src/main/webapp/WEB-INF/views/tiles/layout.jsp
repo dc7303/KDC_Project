@@ -19,7 +19,7 @@
   
   section {
     height: 100%;   
-    padding-left: 280px;
+    padding-left: 450px;
     margin-top: 50px;
   }
   
