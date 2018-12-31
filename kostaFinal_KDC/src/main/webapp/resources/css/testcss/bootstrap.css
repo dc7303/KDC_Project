@@ -4428,9 +4428,11 @@ tbody.collapse.in {
 	cursor: not-allowed;
 }
 
+
+/* 1231 nav-수정 */
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-	background-color: #f9f9f9;
-	border-color: #7dc855;
+	background-color: #ffb03a;
+	
 }
 
 .nav .nav-divider {
