@@ -147,8 +147,7 @@ CREATE TABLE CALENDAR(
     CALENDAR_COLOR VARCHAR2(10 CHAR) NOT NULL
 );
 
-
-commit;
+commit
 
 ----------시퀀스
 --테이블명_SEQ

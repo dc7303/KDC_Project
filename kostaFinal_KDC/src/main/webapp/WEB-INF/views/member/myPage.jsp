@@ -10,6 +10,9 @@
 </head>
 <body>
 <center>
+
+
+
   <sec:authorize access="isAuthenticated()">
     <sec:authentication var="member" property="principal"/>
     
@@ -25,8 +28,7 @@
        <table>
       <tr>
       <td>ID</td> 
-      <td><input type="text" name="memberId" value="${member.memberId }" readonly="readonly"/></td> <br/>
-      <td><span class="ajax">비밀번호입력</span><br/></td>     
+      <td><input type="text" name="memberId" value="${member.memberId }" readonly="readonly"/></td> <br/>   
       </tr>
       
       <tr>
@@ -91,17 +93,7 @@
      <br/>
      <hr>
     
-    <div class="memberdelete">
-    
-    <h2>회원탈퇴</h2>
-     <p class="underline"></p>
-    <form action="${pageContext.request.contextPath }/member/memberDelete" method="post">
-      <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-      ID  <input type="text" name="memberId" value="${member.memberId }" readonly="readonly"/><br/>
-      <input type="button" value="탈퇴하기" class="mypage-button" />
-    </form>
-    
-    </div>
+
 
     
     
