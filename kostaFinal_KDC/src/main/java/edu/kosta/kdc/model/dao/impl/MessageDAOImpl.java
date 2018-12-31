@@ -2,6 +2,7 @@ package edu.kosta.kdc.model.dao.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,15 @@ public class MessageDAOImpl implements MessageDAO {
 
     @Autowired
     private SqlSession session;
+    
+    /**
+     * RowBounds를 이용한 header메세지 갯수 제한
+     * */
+    private RowBounds RowBounds(int i, int j) {
+        
+        return new RowBounds(i, j);
+        
+    }
 
     /**
      * 전체 메세지 리스트
@@ -25,6 +35,17 @@ public class MessageDAOImpl implements MessageDAO {
 
         return list;
 
+    }
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    @Override
+    public List<MessageDTO> unReadMessageList(String id) {
+        
+        List<MessageDTO> list = session.selectList("messageMapper.unReadMessageList", id, RowBounds(0, 3));
+        
+        return list;
     }
 
     /**

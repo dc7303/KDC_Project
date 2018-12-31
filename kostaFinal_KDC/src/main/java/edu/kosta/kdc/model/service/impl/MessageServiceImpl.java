@@ -21,10 +21,32 @@ public class MessageServiceImpl implements MessageService {
      * 전체 메세지 리스트
      * */
     @Override
-    public List<MessageDTO> messageAll(String id) {
+    public List<MessageDTO> messageAll(String id) throws edu.kosta.kdc.exception.KdcException{
 
-        return messageDAO.messageAll(id);
+        List<MessageDTO> list = messageDAO.messageAll(id);
+        
+        return list;
 
+    }
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    @Override
+    public List<MessageDTO> unReadMessageList(String id) throws KdcException {
+        
+        if(! id.equals("")) {
+            
+            List<MessageDTO> list = messageDAO.unReadMessageList(id);
+            
+            return list;
+            
+        }else {
+            
+            throw new KdcException("ID가 확인되지 않습니다.");
+        
+        }
+        
     }
 
     /**

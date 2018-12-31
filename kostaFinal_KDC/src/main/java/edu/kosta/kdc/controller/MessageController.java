@@ -2,7 +2,6 @@ package edu.kosta.kdc.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,19 +32,33 @@ public class MessageController {
      * */
     @RequestMapping("/messageList")
     @Transactional
-    public ModelAndView messageAll(HttpSession session, HttpServletRequest request) {
+    @ResponseBody
+    public ModelAndView messageAll() {
         
         MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         String id = member.getMemberId();
-        
+
         //접속된 ID로 메세지 리스트를 가져옴
         List<MessageDTO> list = messageService.messageAll(id);
         
-        //읽지 않은 메세지 count하는 메소드 호출
-        messageUnReadCount(session, member.getMemberId());
+        /*//읽지 않은 메세지 count하는 메소드 호출
+        messageUnReadCount(session, member.getMemberId());*/
         
         return new ModelAndView("message/messageList", "messageList", list);
+        
+    }
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    @RequestMapping("/unReadMessageList")
+    @ResponseBody
+    public List<MessageDTO> unReadMessageList(@RequestParam(value="id")String id){
+
+        List<MessageDTO> list = messageService.unReadMessageList(id);
+        
+        return list;
         
     }
     
@@ -76,8 +90,6 @@ public class MessageController {
     @RequestMapping("/delete")
     public String messageDelete(HttpSession session, int messageNum) {
         
-        System.out.println(messageNum);
-        
         MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         String id = member.getMemberId();
@@ -107,9 +119,16 @@ public class MessageController {
      * 메세지 상세보기(메세지 확인 유무 포함)
      * */
     @RequestMapping("{messageNum}")
-    public ModelAndView selectByMesssage(@PathVariable int messageNum) {
+    public ModelAndView selectByMesssage(@PathVariable int messageNum, HttpSession session) {
+        
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        String id = member.getMemberId();
         
         MessageDTO messageDTO = messageService.selectByMesssage(messageNum);
+        
+        //읽지 않은 메세지 count하는 메소드 호출
+        messageUnReadCount(session, member.getMemberId());
 
         return new ModelAndView("message/messageDetail", "messageDTO", messageDTO);
         
@@ -147,12 +166,23 @@ public class MessageController {
      * 읽지 않은 메세지 카운트
      * */
     @RequestMapping("/count")
-    public void messageUnReadCount(HttpSession session,  String id) {
+    @ResponseBody
+    public int messageUnReadCount(HttpSession session,  @RequestParam(value="id")String id) {
 
         int unReadCount = messageService.messageUnReadCount(id);
         
+        List<MessageDTO> list =  messageService.messageAll(id);
+        
+        
+        
+        //세션에 안읽은 메세지 갯수를 저장
         session.setAttribute("unReadCount", unReadCount);
+        session.setAttribute("messageList", list);
+        
+        return unReadCount;
         
     }
+    
+    
 
 }

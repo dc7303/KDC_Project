@@ -12,6 +12,11 @@ public interface MessageService {
      * 전체 메세지 리스트
      * */
     List<MessageDTO> messageAll(String id);
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    List<MessageDTO> unReadMessageList(String id);
 
     /**
      * 메세지 전송
