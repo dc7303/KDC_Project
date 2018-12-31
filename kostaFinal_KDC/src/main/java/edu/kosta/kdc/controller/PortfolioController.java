@@ -30,6 +30,7 @@ import edu.kosta.kdc.model.service.PortfolioService;
 @RequestMapping("/portfolio")
 public class PortfolioController {
 
+    //¼­ºñ½º °´Ã¼
     @Autowired
     private PortfolioService service;
 
