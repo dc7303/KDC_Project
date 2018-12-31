@@ -7,8 +7,10 @@
 
   </head>
 <body>
-  <footer>
- 
-  </footer>
+  <hr color="black">
+  
+  <div class="copyright" align="center">
+  <img src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc.png" style="height: 40px; width: 80px;" align="bottom">
+  <span style="font-size: 15px;">Copyright ⓒ 2018 - 2019 KDC. All rights reserved</span></div>
 </body>
 </html>
