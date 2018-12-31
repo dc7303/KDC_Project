@@ -59,7 +59,7 @@ public class ReportServiceImpl implements ReportService {
      * */
     @Override
     @Transactional
-    public List<ReportDTO> deleteReport(int reportNum, String boardName) {
+    public int deleteReport(int reportNum) {
         
         int result = 0;
         
@@ -69,7 +69,23 @@ public class ReportServiceImpl implements ReportService {
             throw new KdcException("삭제 실패");
         }
         
-        return reportDAO.reportSelectByBoardName(boardName);
+        return result;
+    }
+
+    /**
+     * 관리자 - 신고내용 자세히 보기
+     */
+    @Override
+    public ReportDTO selectByReportPk(int reportPk) {
+        
+        ReportDTO reportDTO = null;
+        
+        reportDTO = reportDAO.selectByReportPk(reportPk);
+        if(reportDTO == null) {
+            throw new KdcException("조회하시려는 신고 번호가 잘못되었습니다.");
+        }
+        
+        return reportDTO;
     }
 
 }

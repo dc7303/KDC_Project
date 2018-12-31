@@ -12,6 +12,7 @@ public class ClassRoomInfoDTO {
     private String classRoomInfoEndDate;        //클래스 종강일
     private String classRoomInfoTeacherId;      //클래스 강사 아이디
     private String classRoomInfoChatFile;       //채팅 파일 명
+    private String classRoomCreateDate;          //클래스 생성 날짜
     private boolean classRommInfoIsDelete;      //삭제여부
     
     private MultipartFile file; //<input type="file" name="file"
@@ -23,7 +24,8 @@ public class ClassRoomInfoDTO {
 
     public ClassRoomInfoDTO(String classRoomCode, String classRoomInfoName, String classRoomInfoStartDate,
             String classRoomInfoEndDate, String classRoomInfoTeacherId, String classRoomInfoChatFile,
-            boolean classRommInfoIsDelete, MultipartFile file, List<ClassRoomDTO> classRoomList) {
+            String classRoomCreateDate, boolean classRommInfoIsDelete, MultipartFile file,
+            List<ClassRoomDTO> classRoomList) {
         super();
         this.classRoomCode = classRoomCode;
         this.classRoomInfoName = classRoomInfoName;
@@ -31,11 +33,12 @@ public class ClassRoomInfoDTO {
         this.classRoomInfoEndDate = classRoomInfoEndDate;
         this.classRoomInfoTeacherId = classRoomInfoTeacherId;
         this.classRoomInfoChatFile = classRoomInfoChatFile;
+        this.classRoomCreateDate = classRoomCreateDate;
         this.classRommInfoIsDelete = classRommInfoIsDelete;
         this.file = file;
         this.classRoomList = classRoomList;
     }
-    
+
     public String getClassRoomCode() {
         return classRoomCode;
     }
@@ -84,6 +87,14 @@ public class ClassRoomInfoDTO {
         this.classRoomInfoChatFile = classRoomInfoChatFile;
     }
 
+    public String getClassRoomCreateDate() {
+        return classRoomCreateDate;
+    }
+
+    public void setClassRoomCreateDate(String classRoomCreateDate) {
+        this.classRoomCreateDate = classRoomCreateDate;
+    }
+
     public boolean isClassRommInfoIsDelete() {
         return classRommInfoIsDelete;
     }
@@ -99,7 +110,7 @@ public class ClassRoomInfoDTO {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-
+    
     public List<ClassRoomDTO> getClassRoomList() {
         return classRoomList;
     }

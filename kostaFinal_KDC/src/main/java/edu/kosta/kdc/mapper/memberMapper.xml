@@ -40,18 +40,11 @@
     </update>
     
     <!-- 회원탈퇴 -->
-    <update id="updateByIsWithDrawal" parameterType="string">
+    <update id="updateByIsWithDrawal" parameterType="map">
         update member
-        set member_IsWithDrawal = 'TRUE'
-        where member_id = #{_parameter}
+        set member_IsWithDrawal = #{isWithDrawal}
+        where member_id = #{memberId}
     </update>
-    
-    <!-- 관리자 : 모든회원 출력 -->
-    <select id="memberSelectAll" resultMap="memberDTO">
-        select *
-        from member
-        where MEMBER_ISWITHDRAWAL='FALSE'
-    </select>
     
     <!-- 총 유저 수 -->
     <select id="memberTotalCount" resultType="java.lang.Integer">
@@ -85,6 +78,58 @@
     <!-- 비밀번호 찾기에서 이메일 맞는지 확인 -->
     <select id="memberByEmailCheck" parameterType="String" resultMap="memberDTO">
         select * from member where member_email = #{_parameter}
+    </select>
+    
+    <!-- 키워드 검색 레코드 수량 -->
+    <select id="memberSelectByKeywordQuantity" parameterType="map" resultType="java.lang.Integer">
+        select nvl(count(*), 0) as totalCount from member
+        <where>
+            <choose>
+                <when test="keyword == 'memberId'">
+                    member_id like '%' || #{word} || '%'
+                </when>
+                <when test="keyword == 'memberName'">
+                    member_name like '%' || #{word} || '%'
+                </when>
+                <when test="keyword == 'memberNickName'">
+                    member_nickname like '%' || #{word} || '%'
+                </when>
+                <when test="keyword == 'memberEmail'">
+                    member_email like '%' || #{word} || '%'
+                </when>
+            </choose>
+        </where>
+    </select>
+    
+    <!-- 키워드 검색 -->
+    <select id="memberPagingSelectByKeyword" parameterType="map" resultMap="memberDTO">
+        select x.rnum, x.* from (
+        select rownum as rnum, a.* from (
+        select * from member
+        <where>
+            <choose>
+                <when test="keyword == 'memberId'">
+                    member_id like '%' || #{word} || '%' order by member_join_date) a 
+                    where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+                    where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+                </when>
+                <when test="keyword == 'memberName'">
+                    member_name like '%' || #{word} || '%' order by member_join_date) a 
+                    where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+                    where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+                </when>
+                <when test="keyword == 'memberNickName'">
+                    member_nickname like '%' || #{word} || '%' order by member_join_date) a 
+                    where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+                    where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+                </when>
+                <when test="keyword == 'memberEmail'">
+                    member_email like '%' || #{word} || '%' order by member_join_date) a 
+                    where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+                    where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+                </when>
+            </choose>
+        </where>
     </select>
     
 </mapper>

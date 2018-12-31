@@ -36,6 +36,14 @@ public interface ReportService {
      * @param int, String
      * @return int
      * */
-    List<ReportDTO> deleteReport(int reportNum, String boardName);
+    int deleteReport(int reportNum);
+    
+    /**
+     * 신고 내용 자세히 보기
+     * 
+     * @param reportPk
+     * @return ReportDTO
+     */
+    ReportDTO selectByReportPk(int reportPk);
 
 }

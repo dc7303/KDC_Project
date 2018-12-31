@@ -9,20 +9,21 @@
       <result column="CLASSROOM_INFO_END_DATE" property="classRoomInfoEndDate"/>
       <result column="CLASSROOM_INFO_TEACHER_ID" property="classRoomInfoTeacherId"/>
       <result column="CLASSROOM_INFO_CHAT_FILE" property="classRoomInfoChatFile"/>
+      <result column="CLASSROOM_INFO_DATE" property="classRoomInfoDate"/>
       <result column="CLASSROOM_INFO_ISDELETE" property="classRommInfoIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     </resultMap>
     
     <!-- 클래스룸 생성 -->
     <insert id="createClassRoom" parameterType="classRoomInfoDTO">
         insert into CLASSROOM_INFO
-        values (sys_guid(),#{classRoomInfoName},#{classRoomInfoStartDate},#{classRoomInfoEndDate},#{classRoomInfoTeacherId},#{classRoomInfoChatFile}||sys_guid()||'.txt','FALSE')
+        values (sys_guid(),#{classRoomInfoName},#{classRoomInfoStartDate},#{classRoomInfoEndDate},#{classRoomInfoTeacherId},#{classRoomInfoChatFile}||sys_guid()||'.txt', SYSDATE, 'FALSE')
     </insert>
     
     <!-- 클래스룸 생성 후 채팅파일 만들기 위해 파일명(경로+파일명 으로 되어있음.) 가져오기 -->
     <select id="selectChatFileName" parameterType="classRoomInfoDTO" resultType="string">
         select CLASSROOM_INFO_CHAT_FILE
-        from (SELECT * FROM CLASSROOM_INFO WHERE CLASSROOM_INFO_TEACHER_ID = #{classRoomInfoTeacherId})
-        where CLASSROOM_INFO_ISDELETE='FALSE' and ROWNUM=1
+        from (SELECT * FROM CLASSROOM_INFO WHERE CLASSROOM_INFO_TEACHER_ID = #{classRoomInfoTeacherId} AND CLASSROOM_INFO_ISDELETE='FALSE' ORDER BY CLASSROOM_INFO_DATE DESC)
+        where ROWNUM=1
     </select>
     
     <!-- 클래스룸 코드가 맞는지 확인(ajax) -->

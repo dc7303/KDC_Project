@@ -87,9 +87,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 멤버 정보 수정
+     * 멤버 정보 수정 + 클래스 코드를 입력 했을 시에 DB에 클래스 코드 저장. 트랜잭션으로 처리.
      */
     @Override
+    @Transactional
     public int updateByMemberInfo(MemberDTO memberDTO) {
         
         //인코딩 패스워드 셋팅
@@ -105,14 +106,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 회원정보 삭제
+     * 회원정보 삭제 또는 복구
      */
     @Override 
-    public int updateByIsWithDrawal(String memberId) throws KdcException {
+    public int updateByIsWithDrawal(String memberId, boolean isWithDrawal) throws KdcException {
 
         int result = 0;
         
-        result = memberDAO.updateByIsWithDrawal(memberId);
+        result = memberDAO.updateByIsWithDrawal(memberId, isWithDrawal);
         if(result == 0) throw new KdcException("탈퇴 실패입니다.");
         
         return result;
@@ -164,6 +165,9 @@ public class MemberServiceImpl implements MemberService {
         return result;
     }
 
+    /**
+     * 멤버 이메일 체크
+     */
     @Override
     public boolean memberByEmailCheck(String emailCheck) {
         boolean result = false;
@@ -174,7 +178,29 @@ public class MemberServiceImpl implements MemberService {
         
         return result;
     }
-
     
+    /**
+     * 멤버 범위내 수량 가져오기
+     */
+    @Override
+    public int memberSelectByKewordQuntity(String keyword, String word) {
+        
+        return memberDAO.memberSelectByKewordQuntity(keyword, word);
+    }
+
+    /**
+     * 멤버 키워드 검색
+     */
+    @Override
+    public List<MemberDTO> memberSelectByKeyword(String keyword, String word, int firstColumnRange,
+            int lastColumnRange) {
+
+        List<MemberDTO> list = memberDAO.memberSelectByKeyword(keyword, word, firstColumnRange, lastColumnRange);
+        if(list == null) {
+            throw new KdcException("존재하지 않습니다.");
+        }
+        
+        return list;
+    }
     
 }

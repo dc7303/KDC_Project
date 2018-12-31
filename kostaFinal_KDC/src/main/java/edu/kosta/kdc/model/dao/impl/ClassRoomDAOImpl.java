@@ -22,4 +22,13 @@ public class ClassRoomDAOImpl implements ClassRoomDAO {
         return sqlSession.selectOne("classRoomMapper.selectCurrentCode", memberId);
     }
 
+    /**
+     * member가 클래스 코드 입력하면 DB에 해당 유저와 코드를 입력시켜주는 메소드
+     * */
+    @Override
+    public int insertMemberIntoClass(String memberClassCode) {
+        
+        return 0;
+    }
+
 }

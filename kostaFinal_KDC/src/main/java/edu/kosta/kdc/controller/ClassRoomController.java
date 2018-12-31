@@ -58,14 +58,14 @@ public class ClassRoomController {
         //DB에서 랜덤하게 파일 명을 생성하므로, 스케줄러를 이용하기 위해 경로를 DTO안에 chatFile에 set시킨다.
         classRoomInfoDTO.setClassRoomInfoChatFile(path);
         
-        String fileName = classRoomService.createClassRoom(classRoomInfoDTO);
+        String fileName = classRoomService.createClassRoom(classRoomInfoDTO).substring(16);
         
         System.out.println("fileName : " + fileName);
         //채팅방 파일 생성
         File file = new File(path, fileName);
         file.createNewFile();
         
-        return "classRoom/classList";
+        return "/";
     }
     
     /**

@@ -12,5 +12,9 @@ public interface ClassRoomDAO {
      */
     ClassRoomDTO currentClassSelectByMemberId(String memberId);
     
+    /**
+     * member가 클래스 코드 입력하면 DB에 해당 유저와 코드를 입력시켜주는 메소드
+     * */
+    int insertMemberIntoClass(String memberClassCode);
     
 }

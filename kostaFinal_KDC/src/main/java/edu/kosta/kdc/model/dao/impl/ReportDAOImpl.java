@@ -57,4 +57,13 @@ public class ReportDAOImpl implements ReportDAO {
         return sqlSession.update("reportMapper.deleteReport", reportNum);
     }
 
+    /**
+     * 신고내용 자세히 보기
+     */
+    @Override
+    public ReportDTO selectByReportPk(int reportPk) {
+        
+        return sqlSession.selectOne("reportMapper.selectByReportPk", reportPk);
+    }
+
 }
