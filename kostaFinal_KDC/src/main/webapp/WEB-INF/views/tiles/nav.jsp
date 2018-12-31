@@ -25,9 +25,13 @@
         
         
        <script type="text/javascript">
-        $(document).on('click', '#logout-Btn', function() {
-          $('#logoutForm').submit();
-        });
+      
+       $(function(){
+         $('.logout-Btn').on('click',function(){
+           $('#logoutForm').submit();
+         });
+       });
+       
       </script>
       
  

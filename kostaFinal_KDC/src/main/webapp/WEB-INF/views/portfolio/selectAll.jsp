@@ -28,16 +28,6 @@
   padding: 5px 8px;
 }
 .wf-column { float: left; }
-
-@media screen and (min-width: 768px) {
-.wf-container { width: 750px; }
-}
-@media screen and (min-width: 992px) {
-.wf-container { width: 970px; }
-}
-@media screen and (min-width: 1200px) {
-.wf-container { width: 1170px; }
-}
 </style>
 
 
@@ -47,7 +37,7 @@ const jq = jQuery.noConflict();
   jq(function(){
     
     //포트폴리오 상세보기 이벤트
-    jq('.portfolio').on('click',function(){
+    jq('.wf-box').on('click',function(){
       var memberId = jq(this).find('.hidden-memberId').val();
       location.href='${pageContext.request.contextPath}/portfolio/selectAllDetail/'+memberId;
     });
@@ -71,10 +61,6 @@ const jq = jQuery.noConflict();
     <input type="submit" value="검색"/>
   </form>
     
-    
-    
-  <div class="tiles">
-    
   <c:choose>
     <c:when test="${empty portfolioList}">
       <h3>현재 게시중인 포트폴리오가 없습니다.</h3>
@@ -82,35 +68,18 @@ const jq = jQuery.noConflict();
     <c:otherwise>
     <div class="wf-container">
       <c:forEach items="${portfolioList}" var="portfolio">
-        
           <div class="wf-box"><img src="${pageContext.request.contextPath}/resources/testimg/photos/${portfolio.portFolioMainImage}">
             <div class="content">
               <h3>${portfolio.portFolioMainTitle}</h3>
-              <p>content</p>
+              <p>${portfolio.portFolioMemberNickName }</p>
+              <input type="hidden" value="${portfolio.portFolioMemberId}" class="hidden-memberId">
             </div>
           </div>
-        
-        <!-- 
-        <div class="portfolio">
-          <c:choose>
-            <c:when test="${empty portfolio.portFolioMainImage}">
-              <h5>등록된 대표이미지가 없습니다.</h5>
-            </c:when>
-            <c:otherwise>
-              <img class="selelctall-img"
-                src="${pageContext.request.contextPath}/resources/testimg/photos/${portfolio.portFolioMainImage}">
-            </c:otherwise>
-            
-          </c:choose>
-           <h4 class="selectall-title">${portfolio.portFolioMainTitle}</h4>
-          <input type="hidden" value="${portfolio.portFolioMemberId}" class="hidden-memberId">
-        </div>
-      -->
       </c:forEach>
       </div>
     </c:otherwise>
   </c:choose>
-   </div>
+  
    
   <!-- pinterest-grid layout js-->
 <script src="${pageContext.request.contextPath}/resources/lib/pinterest-grid/responsive_waterfall.js" ></script>
