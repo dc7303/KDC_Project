@@ -98,12 +98,12 @@
     }
     
     /* dialog table cursor set */
-    .report-dialog-table th td {
+    .dialog-table th td {
       cursor: context-menu;
     }
     
     /* report-dialog th 설정 */
-    .report-dialog-th {
+    .dialog-th {
       width: 20%;
     }
     
@@ -593,7 +593,7 @@
                 isRead = '<td style="color: red">읽지않음</td>';
               }
               
-              str += '<tr class="table-tr w3-hover-amber"><td><input type="checkbox"/></td>';
+              str += '<tr class="message-tr w3-hover-amber"><td><input type="hidden" value="' + messageList[i].messageNum + '"/><input type="checkbox"/></td>';
               str += '<td>' + messageList[i].senderId + '</td>';
               str += '<td><a href="${pageContext.request.contextPath}/message/' + messageList[i].messageNum + '">'
               				+ messageList[i].messageTitle + '</a></td>';
@@ -766,29 +766,7 @@
       	}
       });
       
-      
-      /**
-       * dialog 설정
-       */
-       jq( "#dialog" ).dialog({
-         autoOpen: false,
-         modal: true,
-         width: 1032,
-         height: 600,
-         show: {
-           effect: "blind",
-           duration: 500
-         },
-         hide: {
-           effect: "explode",
-           duration: 500
-         },
-         buttons: {
-           Ok: function() {
-             $( this ).dialog( "close" );
-           }
-         }
-       });
+
 
       /**
        * 신고 내용 보기
@@ -823,7 +801,7 @@
             jq('.reply-date').text(replyDTO.replyBoardDate);
             //viewer셋팅
             editor.setValue(replyDTO.replyBoardContents);
-            jq("#dialog").dialog("open", {position: [ x, y ]});
+            jq("#report-dialog").dialog("open", {position: [ x, y ]});
           },
           error: function(err) {
             console.log('err : ' + err);
@@ -832,6 +810,99 @@
       });
 
       
+      
+    /**
+     * 쪽지 내용 보기
+     */
+    jq(document).on('click', '.message-tr', function(event) {
+      //마우스 좌표(다이알로그 오픈 위치 설정)
+      var x = event.clientX; 
+      var y = event.clientY;
+      
+      var messageNum = jq(this).children().eq(0).children().eq(0).val();
+      var readStatus = jq(this).children().eq(5);
+      
+      jq.ajax({
+        url:'${pageContext.request.contextPath}/message/messageSelectByMessageNum',
+        type:"get" ,			
+        dataType:"json" ,		
+        data: {
+		  messageNum: messageNum,
+        },
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+        },
+        success: function(result) {
+          var replyDTO = result.replyBoardDTO;
+          
+          console.log(result);
+          jq('.message-sender').text(result.senderId);
+          jq('.message-title').text(result.messageTitle);
+          jq('.message-date').text(result.messageDate);
+          jq('.message-contents').text(result.messageContents);
+
+          jq("#message-dialog").dialog("open", {position: [ x, y ]});
+          
+          readStatus.text('읽음');
+          readStatus.css('color', 'blue');
+        },
+        error: function(err) {
+          console.log('err : ' + err);
+        }
+      });
+      
+    });
+    
+    
+    
+    /**
+     * dialog 설정
+     */
+     jq( "#report-dialog" ).dialog({
+       autoOpen: false,
+       modal: true,
+       width: 1032,
+       height: 600,
+       show: {
+         effect: "blind",
+         duration: 500
+       },
+       hide: {
+         effect: "explode",
+         duration: 500
+       },
+       buttons: {
+         Ok: function() {
+           jq( this ).dialog( "close" );
+         }
+       }
+     });
+    
+    
+    
+     /**
+      * dialog 설정
+      */
+      jq( "#message-dialog" ).dialog({
+        autoOpen: false,
+        modal: true,
+        width: 700,
+        height: 500,
+        show: {
+          effect: "blind",
+          duration: 500
+        },
+        hide: {
+          effect: "explode",
+          duration: 500
+        },
+        buttons: {
+          Ok: function() {
+            jq( this ).dialog( "close" );
+          }
+        }
+      });
+
       //tui-editor Viewer
       var editor = tui.Editor.factory({
         el: document.querySelector('#viewer-section'),
@@ -1139,35 +1210,57 @@
     </div>
 
     <!-- jquery-ui dialog -->
-    <div id="dialog" title="Basic dialog">
+    <div id="report-dialog" title="Basic dialog">
       <table class="report-dialog-table w3-bordered">
         <tr>
-          <th class="report-dialog-th">신고인</th>
+          <th class="dialog-th">신고인</th>
           <td><span class="report-reporter"></span></td>
         </tr>
         <tr>
-          <th class="report-dialog-th" height="300px">신고내용</th>
+          <th class="dialog-th" height="300px">신고내용</th>
           <td><span class="reprot-purpose"></sapn></td>
         </tr>
         <tr>
-          <th class="report-dialog-th">신고일</th>
+          <th class="dialog-th">신고일</th>
           <td><span class="reprot-date"></span></td>
         </tr>
         <tr>
-          <th class="report-dialog-th">피신고인</th>
+          <th class="dialog-th">피신고인</th>
           <td><span class="reply-writer"></span></td>
         </tr>
         <tr>
-          <th class="report-dialog-th">게시글제목</th>
+          <th class="dialog-th">게시글제목</th>
           <td><span class="reply-title"></span></td>
         </tr>
         <tr>
-          <th class="report-dialog-th" height="300px">내용</th>
+          <th class="dialog-th" height="300px">내용</th>
           <td><div id="viewer-section"  class="reply-contents"></div></td>
         </tr>
         <tr>
-          <th class="report-dialog-th">작성일</th>
+          <th class="dialog-th">작성일</th>
           <td><span class="reply-date"></span></td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- message dialog -->
+    <div id="message-dialog" title="Basic dialog">
+            <table class="message-dialog-table w3-bordered">
+        <tr>
+          <th class="dialog-th">보낸사람</th>
+          <td><span class="message-sender"></span></td>
+        </tr>
+        <tr>
+          <th class="dialog-th">쪽지제목</th>
+          <td><span class="message-title"></sapn></td>
+        </tr>
+        <tr>
+          <th class="dialog-th">전송일</th>
+          <td><span class="message-date"></sapn></td>
+        </tr>
+        <tr>
+          <th class="dialog-th" height="300px">내용</th>
+          <td><span class="message-contents"></span></td>
         </tr>
       </table>
     </div>

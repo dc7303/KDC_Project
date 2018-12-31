@@ -95,12 +95,11 @@ public class MessageController {
     /**
      * 메세지 상세보기(메세지 확인 유무 포함)
      * */
-    @RequestMapping("{messageNum}")
-    public ModelAndView selectByMesssage(@PathVariable int messageNum) {
+    @RequestMapping(value = "/messageSelectByMessageNum", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public MessageDTO selectByMesssage(int messageNum) {
         
-        MessageDTO messageDTO = messageService.selectByMesssage(messageNum);
-
-        return new ModelAndView("message/messageDetail", "messageDTO", messageDTO);
+        return messageService.selectByMesssage(messageNum);
         
     }
     
