@@ -5,7 +5,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio-tiles.css" />
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio-tiless.css" />
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+
+
+ 
 
 <title>Insert title here</title>
 
@@ -43,10 +47,58 @@ const jq = jQuery.noConflict();
     });
   });
 </script>
+<style>
+.wf-container { margin: 0 auto; }
+.wf-container:before,
+.wf-container:after {
+  content: '';
+  display: table;
+}
+.wf-container:after { clear: both; }
+.wf-box { margin: 10px; }
+.wf-box img {
+  display: block;
+  width: 100%;
+}
+.wf-box .content {
+  border: 1px solid #ccc;
+  border-top-width: 0;
+  padding: 5px 8px;
+}
+.wf-column { float: left; }
+
+@media screen and (min-width: 768px) {
+.wf-container { width: 750px; }
+}
+@media screen and (min-width: 992px) {
+.wf-container { width: 970px; }
+}
+@media screen and (min-width: 1200px) {
+.wf-container { width: 1170px; }
+}
+
+.portfolio-title{
+  text-align:center;
+}
+
+
+input.tech-board-search{
+  width: 500px;  !importent
+}
+
+input.search-button{
+  float:left;  
+}
+
+
+</style>
+
 </head>
 <body>
-  select All
+  
+  <h1 class="portfolio-title"> P O R T F O L I O </h1>
   <!-- 검색창 -->
+ 
   <form action="${pageContext.request.contextPath}/portfolio/portfolioListSearch">
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
     <select name="keyfield" id="department">
@@ -58,8 +110,11 @@ const jq = jQuery.noConflict();
       <option value="hashTag">해시태그</option>
     </select>
     <input class="tech-board-search" type="text" name="keyword"/>
-    <input type="submit" value="검색"/>
+    <input class="search-button" type="submit" value="검색"/>
   </form>
+ 
+    
+  <div class="tiles">
     
   <c:choose>
     <c:when test="${empty portfolioList}">
@@ -68,6 +123,7 @@ const jq = jQuery.noConflict();
     <c:otherwise>
     <div class="wf-container">
       <c:forEach items="${portfolioList}" var="portfolio">
+
           <div class="wf-box"><img src="${pageContext.request.contextPath}/resources/testimg/photos/${portfolio.portFolioMainImage}">
             <div class="content">
               <h3>${portfolio.portFolioMainTitle}</h3>
@@ -88,10 +144,12 @@ const jq = jQuery.noConflict();
 var waterfall = new Waterfall({
   containerSelector: '.wf-container',
   boxSelector: '.wf-box',
+<<<<<<< HEAD
   minBoxWidth: 250
 });
 
 </script>
 </body>
+
 
 </html>

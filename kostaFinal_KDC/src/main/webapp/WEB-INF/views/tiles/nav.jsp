@@ -34,8 +34,13 @@
        
       </script>
       
- 
-      
+     <style>
+     
+      .img-responsive{
+        margin: 20px 0 20px 5px;
+       
+      }
+
       </style>
        
     </head>
@@ -53,7 +58,9 @@
             <div class="app-layout-drawer-scroll">
             <!-- Drawer logo -->
               <div id="logo" class="">
-                <a href="${pageContext.request.contextPath }/"><img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc.png" title="AppUI" alt="AppUI" /></a>
+                <a href="${pageContext.request.contextPath }/">
+                
+                <img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc-02.png" title="AppUI" alt="AppUI" /></a>
               </div>
   
                     <!-- Drawer navigation -->
@@ -65,7 +72,7 @@
       
                    <sec:authorize access="isAnonymous()">
                   <li class="nav-item active">
-<a href="${pageContext.request.contextPath }/member/signInForm"><i class="ion-ios-speedometer-outline" id=""></i> 로그인</a>
+              <a href="${pageContext.request.contextPath }/member/signInForm"><i class="ion-ios-speedometer-outline" id=""></i> 로그인</a>
                   </li>
          </sec:authorize>
    
@@ -95,13 +102,15 @@
           
               
                         
-                        <sec:authorize access="hasRole('ROLE_STUDENT')">
+                    <%--     <sec:authorize access="hasRole('ROLE_STUDENT')"> --%>
                         
                               <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오</a></li>
                         
                       
-                        </sec:authorize>
-                        
+                    <%--     </sec:authorize>
+                 
+                   
+                         --%>
                           <sec:authorize access="hasRole('ROLE_TEACHER')" >
                           ${teacher}
                           

@@ -14,11 +14,12 @@ Author: rustheme
 	bottom: 0;
 	z-index: 5;
 	display: block;
-	width: 240px;
+	width: 260px;
 	background-color: #fff;
 	border-right: 1px solid #eeeeee;
 	font-weight: 500;
-	background-color: #fff;
+	color: white;
+	background-color: #03293c;
 	visibility: hidden;
 	-webkit-transform: translateX(-240px);
 	        transform: translateX(-240px);
@@ -81,7 +82,7 @@ Author: rustheme
 
 .drawer-main {
 	margin-top: 24px;
-	font-size: 15px;
+	font-size: 18px;
 	-webkit-transform: translateZ(0);
 	        transform: translateZ(0);
 }
@@ -95,7 +96,7 @@ Author: rustheme
 }
 
 .nav-drawer > li > a {
-	border-left: 3px solid transparent;
+	border-left: 5px solid transparent;
 	padding-top: 14px;
 	padding-bottom: 13px;
 }
@@ -129,7 +130,7 @@ Author: rustheme
 	padding-top: 0;
 }
 
-/* Drawer nav-item with subnav */
+/* Drawer with subnav */
 .nav-item-has-subnav > a:after {
 	position: absolute;
 	top: 50%;
@@ -142,7 +143,7 @@ Author: rustheme
 }
 
 .nav-item-has-subnav.open > a:after {
-	content: '\f462';
+/* 	content: '\f462'; */
 }
 
 /* Drawer subnav */
@@ -1585,7 +1586,7 @@ a.card:not(.bg-inverse):hover {
 
 .img-avatar-thumb {
 	margin: 4px;
-	box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.38);
+	box-shadow: 0 0 0 4px rgba(255, 255, 255, );
 }
 
 /* Image Box */

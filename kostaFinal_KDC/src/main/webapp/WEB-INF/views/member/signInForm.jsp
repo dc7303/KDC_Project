@@ -6,36 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/logincss.css" />    
 <title></title>
-    h1 b {
-      color: #333;
-    }
-
-    div {
-      margin: 20px;
-    }
-      
-    .id .pw .button{
-      margin: 10px;
-    }
-
-    .id input{
-      height: 35px; 
-      width: 220px;
-    }
-    
-    .pw input{
-      height: 35px; 
-      width: 220px;
-    }
-
-    .button input{
-      height:40px;
-      width: 220px;
-      background-color: #00280d;
-      color: white;
-    }
-
-    </style>
+   
     <script>
     const jq = jQuery.noConflict();
     jq(function() {
@@ -61,9 +32,9 @@
           <div class="signin-button">
             <input type="submit" value="SignIn">
           </div>
-          <div class="button">
+         <!--  <div class="button">
             <input type="button" value="비밀번호찾기">
-          </div>
+          </div> -->
         </form>
         
      
