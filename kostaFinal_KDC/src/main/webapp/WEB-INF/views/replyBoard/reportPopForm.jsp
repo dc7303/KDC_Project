@@ -24,7 +24,6 @@ const jq = jQuery.noConflict();
   
     jq(function() {
       jq("input[value=신고하기]").click(function() {
-        alert(1);
     	    var reportContents = jq("[name=reportContents]:checked").val();
     	    var otherWords = jq("#otherText").val();
     	    jq.ajax({

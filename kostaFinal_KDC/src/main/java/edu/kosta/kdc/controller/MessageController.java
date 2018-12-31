@@ -25,28 +25,7 @@ import edu.kosta.kdc.util.KdcException;
 public class MessageController {
 
     @Autowired
-    private MessageService messageService;
-    
-    /**
-     * 전체 메세지 리스트
-     * */
-    @RequestMapping("/messageList")
-    @Transactional
-    public ModelAndView messageAll(HttpSession session, HttpServletRequest request) {
-        
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        String id = member.getMemberId();
-        
-        //접속된 ID로 메세지 리스트를 가져옴
-        List<MessageDTO> list = messageService.messageAll(id);
-        
-        //읽지 않은 메세지 count하는 메소드 호출
-        messageUnReadCount(session, member.getMemberId());
-        
-        return new ModelAndView("message/messageList", "messageList", list);
-        
-    }
+    private MessageService messageService; 
     
     /**
      * 메세지 전송(=메세지 답장)
@@ -72,7 +51,7 @@ public class MessageController {
     /**
      * 메시지 전송 (관리자 Ver) - Ajax로 연동 
      * */
-    @RequestMapping("/adminMessageInsert")
+    @RequestMapping(value = "/adminMessageInsert", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public void adminMessageInsert(MessageDTO messageDTO) throws KdcException {
         
@@ -108,13 +87,9 @@ public class MessageController {
     @RequestMapping("/messageSelectDelete")
     @ResponseBody
     public void messageSelectDelete(@RequestParam(value = "deleteNumList[]")List<Integer> deleteNumList){
-        
-        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        String id = member.getMemberId();
 
         messageService.messageSelectDelete(deleteNumList);
-
+        
     }
     
     /**
@@ -154,18 +129,6 @@ public class MessageController {
         }else {
             return checkId;
         }
-        
-    }
-    
-    /**
-     * 읽지 않은 메세지 카운트
-     * */
-    @RequestMapping("/count")
-    public void messageUnReadCount(HttpSession session,  String id) {
-
-        int unReadCount = messageService.messageUnReadCount(id);
-        
-        session.setAttribute("unReadCount", unReadCount);
         
     }
 

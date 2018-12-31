@@ -47,7 +47,7 @@ public interface MemberService {
      * @return
      */
 
-    int updateByIsWithDrawal(String memberId);
+    int updateByIsWithDrawal(String memberI, boolean isWithDrawal);
     
     /**
      * 관리자 페이지에서 유저 조회 시 모든 유저 가져오는 메소드
@@ -55,7 +55,40 @@ public interface MemberService {
      * @param
      * @return
      * */
-    List<MemberDTO> memberSelectAll();
+    List<MemberDTO> memberSelectAll(int firstColumnRange, int lastColumnRange);
 
-  
+    /**
+     * 멤버 전체 수 가져오기
+     * 
+     * @return
+     */
+    int memberTotalCount();
+
+    /**
+     * 임시비밀번호 db에 update해주기
+     * */
+    int updatePwdByEmail(String uuid, String email);
+
+    /**
+     * 비밀번호 찾기에서 이메일 맞는지 확인
+     * */
+    boolean memberByEmailCheck(String emailCheck);
+
+    /**
+     * 키워드 검색 범위 내 수량 가져오기
+     * @return
+     */
+    int memberSelectByKewordQuntity(String keyword, String word);
+
+    /**
+     * 멤버 키워드로 검색 (페이징 처리)
+     * 
+     * @param keyword
+     * @param word
+     * @param firstColumnRange
+     * @param lastColumnRange
+     * @return
+     */
+    List<MemberDTO> memberSelectByKeyword(String keyword, String word, int firstColumnRange, int lastColumnRange);
+    
 }

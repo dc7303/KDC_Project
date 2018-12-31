@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dao.ClassRoomInfoDAO;
@@ -31,7 +32,8 @@ public class ClassRoomServiceImpl implements ClassRoomService {
      * 강사 - 클래스 룸 생성
      * */
     @Override
-    public int createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) {
+    @Transactional
+    public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) {
         
         int result = 0;
 
@@ -39,8 +41,9 @@ public class ClassRoomServiceImpl implements ClassRoomService {
         if(result == 0) {
             throw new KdcException("클래스룸 생성 실패");
         }
-        
-        return result;
+
+        //클래스룸 생성이 성공했을 때, 채팅 파일 생성을 위한 파일명(경로+파일명 으로 되어있음.) 을 가져와야 한다.
+        return classRoomInfoDAO.selectChatFileName(classRoomInfoDTO);
         
     }
 

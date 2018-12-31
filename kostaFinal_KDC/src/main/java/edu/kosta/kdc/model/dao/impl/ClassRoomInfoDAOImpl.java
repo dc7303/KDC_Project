@@ -67,5 +67,13 @@ public class ClassRoomInfoDAOImpl implements ClassRoomInfoDAO {
         }
     }
 
+    /**
+     * 클래스룸 생성이 성공했을 때 채팅 파일 생성을 위한 파일명을 가져오는 메소드
+     * */
+    @Override
+    public String selectChatFileName(ClassRoomInfoDTO classRoomInfoDTO) {
+        
+        return sqlSession.selectOne("classRoomInfoMapper.selectChatFileName", classRoomInfoDTO);
+    }
 
 }

@@ -243,6 +243,7 @@ jq(function() {
           // 닉네임 중복검사
         } else if ($('.ajax').eq(3).text() === '이미 사용중인 닉네임입니다.') {
           alert('이미 사용중인 닉네임입니다.')
+          return;
 
           // 생일검사
         } else if (jq('input[name=memberBirth]').val() === '') {

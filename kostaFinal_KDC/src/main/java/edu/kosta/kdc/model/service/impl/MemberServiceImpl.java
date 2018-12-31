@@ -105,14 +105,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 회원정보 삭제
+     * 회원정보 삭제 또는 복구
      */
     @Override 
-    public int updateByIsWithDrawal(String memberId) throws KdcException {
+    public int updateByIsWithDrawal(String memberId, boolean isWithDrawal) throws KdcException {
 
         int result = 0;
         
-        result = memberDAO.updateByIsWithDrawal(memberId);
+        result = memberDAO.updateByIsWithDrawal(memberId, isWithDrawal);
         if(result == 0) throw new KdcException("탈퇴 실패입니다.");
         
         return result;
@@ -122,9 +122,9 @@ public class MemberServiceImpl implements MemberService {
      * 모든 회원 정보 가져오기
      * */
     @Override
-    public List<MemberDTO> memberSelectAll() {
+    public List<MemberDTO> memberSelectAll(int firstColumnRange, int lastColumnRange) {
 
-        List<MemberDTO> list = memberDAO.memberSelectAll();
+        List<MemberDTO> list = memberDAO.memberSelectAll(firstColumnRange, lastColumnRange);
         if(list == null) {
             throw new KdcException("회원이 존재하지 않습니다.");
         }
@@ -133,6 +133,73 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    /**
+     * 멤버 전체 수 가져오기
+     * 
+     * @return
+     */
+    @Override
+    public int memberTotalCount() {
+        
+        int result = 0;
+        
+        result = memberDAO.memberTotalCount();
+        if(result == 0) {
+            throw new KdcException("회원이 존재하지 않습니다.");
+        }
+        
+        return result;
+    }
     
+    /**
+     * 임시비밀번호 db에 update해주기
+     * */
+    @Override
+    public int updatePwdByEmail(String uuid, String email) {
+      //인코딩 패스워드 셋팅
+        String encodePwd = passwordEncoder.encode(uuid);
+        System.out.println("인코딩된 Pwd : "+encodePwd);
+        int result = memberDAO.updatePwdByEmail(encodePwd, email);
+        System.out.println("결과 : "+ result);
+        return result;
+    }
+
+    /**
+     * 멤버 이메일 체크
+     */
+    @Override
+    public boolean memberByEmailCheck(String emailCheck) {
+        boolean result = false;
+        MemberDTO memberDTO = memberDAO.memberByEmailCheck(emailCheck);
+        
+        //검색 결과 DTO 존재할 경우 True 반환
+        if(memberDTO != null) result = true;
+        
+        return result;
+    }
+    
+    /**
+     * 멤버 범위내 수량 가져오기
+     */
+    @Override
+    public int memberSelectByKewordQuntity(String keyword, String word) {
+        
+        return memberDAO.memberSelectByKewordQuntity(keyword, word);
+    }
+
+    /**
+     * 멤버 키워드 검색
+     */
+    @Override
+    public List<MemberDTO> memberSelectByKeyword(String keyword, String word, int firstColumnRange,
+            int lastColumnRange) {
+
+        List<MemberDTO> list = memberDAO.memberSelectByKeyword(keyword, word, firstColumnRange, lastColumnRange);
+        if(list == null) {
+            throw new KdcException("존재하지 않습니다.");
+        }
+        
+        return list;
+    }
     
 }

@@ -3,6 +3,8 @@ package edu.kosta.kdc.controller;
 import java.io.File;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,12 +50,20 @@ public class ClassRoomController {
      * 강사 - 클래스 룸 생성 + 각 채팅방 파일 생성 (파일이름 : 클래스 코드.txt)
      * */
     @RequestMapping("/insertClassRoom")
-    public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) throws Exception{
+    public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO,HttpSession session) throws Exception{
 
-        File file = new File("C:\\Edu\\final_workspace\\kostaFinal_KDC\\src\\main\\webapp\\resources\\chatFile", classRoomInfoDTO.getClassRoomInfoChatFile());
-        file.createNewFile();
+        //채팅방 파일을 만들 경로를 알아온다.
+        String path = "C:\\Edu\\chatFile\\";
         
-        classRoomService.createClassRoom(classRoomInfoDTO);
+        //DB에서 랜덤하게 파일 명을 생성하므로, 스케줄러를 이용하기 위해 경로를 DTO안에 chatFile에 set시킨다.
+        classRoomInfoDTO.setClassRoomInfoChatFile(path);
+        
+        String fileName = classRoomService.createClassRoom(classRoomInfoDTO);
+        
+        System.out.println("fileName : " + fileName);
+        //채팅방 파일 생성
+        File file = new File(path, fileName);
+        file.createNewFile();
         
         return "classRoom/classList";
     }

@@ -12,6 +12,8 @@
         <result column="MEMBER_EMAIL" property="memberEmail"/>
         <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
         <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+        <result column="RNUM" property="rnumOne"/>
+        <result column="RNUM_1" property="rnumTwo"/>
     </resultMap>
     
     <!-- 회원가입 -->
@@ -38,16 +40,96 @@
     </update>
     
     <!-- 회원탈퇴 -->
-    <update id="updateByIsWithDrawal" parameterType="string">
+    <update id="updateByIsWithDrawal" parameterType="map">
         update member
-        set member_IsWithDrawal = 'TRUE'
-        where member_id = #{_parameter}
+        set member_IsWithDrawal = #{isWithDrawal}
+        where member_id = #{memberId}
     </update>
     
-    <!-- 관리자 : 모든회원 출력 -->
-    <select id="memberSelectAll" resultMap="memberDTO">
-        select *
-        from member
-        where MEMBER_ISWITHDRAWAL='FALSE'
+    <!-- 총 유저 수 -->
+    <select id="memberTotalCount" resultType="java.lang.Integer">
+        select nvl(count(*), 0) as totalCount from member
     </select>
+    
+    <!-- 
+        페이징 처리시 레코드 값가져오기
+        서브쿼리를 한번만 사용해서 rownum값을 비교하면,
+        만약 데이터가 10000개일 때 10000개의 모두 번호를 다 할당하고
+        논리에 맞는 데이터를 가져오게 된다.
+        하지만 서브쿼리에 서브쿼리 where절을 추가할 시 첫번째 서브쿼리의 조건만큼
+        번호를 할 당한 후 다음 조건의 번호만큼 조회를 하기 때문에 성능면에서 우수하다.
+        그래서 복잡한 쿼리문을 사용할 수 밖에 없었습니다.    
+     -->
+    <select id="memberPagingSelect" parameterType="map" resultMap="memberDTO">
+        select x.rnum, x.* from (
+        select rownum as rnum, a.* from (
+        select * from member order by member_join_date) a 
+        where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+        where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+    </select>
+    
+    <!-- 임시비밀번호 update해주기 -->
+    <update id="updatePwdByEmail" parameterType="java.util.Map">
+        update member
+        set member_pw = #{memberPwd}
+        where member_email = #{memberEmail}
+    </update>
+    
+    <!-- 비밀번호 찾기에서 이메일 맞는지 확인 -->
+    <select id="memberByEmailCheck" parameterType="String" resultMap="memberDTO">
+        select * from member where member_email = #{_parameter}
+    </select>
+    
+    <!-- 키워드 검색 레코드 수량 -->
+    <select id="memberSelectByKeywordQuantity" parameterType="map" resultType="java.lang.Integer">
+        select nvl(count(*), 0) as totalCount from member
+        <where>
+            <choose>
+                <when test="keyword == 'memberId'">
+                    member_id like '%' || #{word} || '%'
+                </when>
+                <when test="keyword == 'memberName'">
+                    member_name like '%' || #{word} || '%'
+                </when>
+                <when test="keyword == 'memberNickName'">
+                    member_nickname like '%' || #{word} || '%'
+                </when>
+                <when test="keyword == 'memberEmail'">
+                    member_email like '%' || #{word} || '%'
+                </when>
+            </choose>
+        </where>
+    </select>
+    
+    <!-- 키워드 검색 -->
+    <select id="memberPagingSelectByKeyword" parameterType="map" resultMap="memberDTO">
+        select x.rnum, x.* from (
+        select rownum as rnum, a.* from (
+        select * from member
+        <where>
+            <choose>
+                <when test="keyword == 'memberId'">
+                    member_id like '%' || #{word} || '%' order by member_join_date) a 
+                    where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+                    where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+                </when>
+                <when test="keyword == 'memberName'">
+                    member_name like '%' || #{word} || '%' order by member_join_date) a 
+                    where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+                    where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+                </when>
+                <when test="keyword == 'memberNickName'">
+                    member_nickname like '%' || #{word} || '%' order by member_join_date) a 
+                    where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+                    where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+                </when>
+                <when test="keyword == 'memberEmail'">
+                    member_email like '%' || #{word} || '%' order by member_join_date) a 
+                    where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
+                    where x.rnum <![CDATA[ >= ]]> #{firstColumn}
+                </when>
+            </choose>
+        </where>
+    </select>
+    
 </mapper>

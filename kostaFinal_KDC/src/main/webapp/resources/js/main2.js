@@ -26,6 +26,18 @@ $(function() {
  });
   
   
+  var existed = $('input[name=mentionInput]').val().trim();
+  
+  
+  if(existed!=''){
+    
+      $('#mentionButton').append('<button type="button" name="tag" value="' + existed + '">' + existed + '</button>');
+      $('input[name=mentionInput]').attr('type', 'hidden');
+      $('input[name=mentionNickName]').val(existed);
+    
+  }
+  
+  
   /**
    * 태그 입력시 이벤트 발생
    */

@@ -9,9 +9,15 @@ import edu.kosta.kdc.model.dto.MessageDTO;
 public interface MessageDAO {
 
     /**
+     * 조회할 메세지 리스트 수 가져오기
+     * @return
+     */
+    int messageSelectQuntity();
+    
+    /**
      * 전체 메세지 리스트
      * */
-    List<MessageDTO> messageAll(String id);
+    List<MessageDTO> messageAll(String id, int firstColumnRange, int lastColumnRange);
 
     /**
      * 메세지 전송

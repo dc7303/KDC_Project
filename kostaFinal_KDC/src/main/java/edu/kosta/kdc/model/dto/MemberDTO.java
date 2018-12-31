@@ -12,6 +12,9 @@ public class MemberDTO {
     private boolean memberIsWithdrawal;  //탈퇴여부
     private String memberDate;        //유저 가입일
     
+    private int rnumOne;            //페이징 처리시 ROWNUM 잉여데이터
+    private int rnumTwo;            //페이징 처리시 ROWNUM 잉여데이터
+    
     public MemberDTO() {}    
 
     public MemberDTO(String memberId, String memberPwd, String memberName, String memberNickName, String memberBirth,
@@ -26,6 +29,25 @@ public class MemberDTO {
         this.memberEmail = memberEmail;
         this.memberIsWithdrawal = memberIsWithdrawal;
         this.memberDate = memberDate;
+    }
+    
+    
+
+    public MemberDTO(String memberId, String memberPwd, String memberName, String memberNickName, String memberBirth,
+            String memberPhone, String memberEmail, boolean memberIsWithdrawal, String memberDate, int rnumOne,
+            int rnumTwo) {
+        super();
+        this.memberId = memberId;
+        this.memberPwd = memberPwd;
+        this.memberName = memberName;
+        this.memberNickName = memberNickName;
+        this.memberBirth = memberBirth;
+        this.memberPhone = memberPhone;
+        this.memberEmail = memberEmail;
+        this.memberIsWithdrawal = memberIsWithdrawal;
+        this.memberDate = memberDate;
+        this.rnumOne = rnumOne;
+        this.rnumTwo = rnumTwo;
     }
 
     public String getMemberId() {
@@ -98,6 +120,22 @@ public class MemberDTO {
 
     public void setMemberDate(String memberDate) {
         this.memberDate = memberDate;
+    }
+
+    public int getRnumOne() {
+        return rnumOne;
+    }
+
+    public void setRnumOne(int rnumOne) {
+        this.rnumOne = rnumOne;
+    }
+
+    public int getRnumTwo() {
+        return rnumTwo;
+    }
+
+    public void setRnumTwo(int rnumTwo) {
+        this.rnumTwo = rnumTwo;
     }
 
     
