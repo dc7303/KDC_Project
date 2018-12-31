@@ -12,7 +12,7 @@ public class ClassRoomInfoDTO {
     private String classRoomInfoEndDate;        //클래스 종강일
     private String classRoomInfoTeacherId;      //클래스 강사 아이디
     private String classRoomInfoChatFile;       //채팅 파일 명
-    private String classRoomCreateDate;          //클래스 생성 날짜
+    private String classRoomInfoDate;          //클래스 생성 날짜
     private boolean classRommInfoIsDelete;      //삭제여부
     
     private MultipartFile file; //<input type="file" name="file"
@@ -21,10 +21,9 @@ public class ClassRoomInfoDTO {
     private List<ClassRoomDTO> classRoomList;
     
     public ClassRoomInfoDTO() {}
-
     public ClassRoomInfoDTO(String classRoomCode, String classRoomInfoName, String classRoomInfoStartDate,
             String classRoomInfoEndDate, String classRoomInfoTeacherId, String classRoomInfoChatFile,
-            String classRoomCreateDate, boolean classRommInfoIsDelete, MultipartFile file,
+            String classRoomInfoDate, boolean classRommInfoIsDelete, MultipartFile file,
             List<ClassRoomDTO> classRoomList) {
         super();
         this.classRoomCode = classRoomCode;
@@ -33,11 +32,13 @@ public class ClassRoomInfoDTO {
         this.classRoomInfoEndDate = classRoomInfoEndDate;
         this.classRoomInfoTeacherId = classRoomInfoTeacherId;
         this.classRoomInfoChatFile = classRoomInfoChatFile;
-        this.classRoomCreateDate = classRoomCreateDate;
+        this.classRoomInfoDate = classRoomInfoDate;
         this.classRommInfoIsDelete = classRommInfoIsDelete;
         this.file = file;
         this.classRoomList = classRoomList;
     }
+
+
 
     public String getClassRoomCode() {
         return classRoomCode;
@@ -87,14 +88,12 @@ public class ClassRoomInfoDTO {
         this.classRoomInfoChatFile = classRoomInfoChatFile;
     }
 
-    public String getClassRoomCreateDate() {
-        return classRoomCreateDate;
+    public String getClassRoomInfoDate() {
+        return classRoomInfoDate;
     }
-
-    public void setClassRoomCreateDate(String classRoomCreateDate) {
-        this.classRoomCreateDate = classRoomCreateDate;
+    public void setClassRoomInfoDate(String classRoomInfoDate) {
+        this.classRoomInfoDate = classRoomInfoDate;
     }
-
     public boolean isClassRommInfoIsDelete() {
         return classRommInfoIsDelete;
     }
@@ -118,15 +117,15 @@ public class ClassRoomInfoDTO {
     public void setClassRoomList(List<ClassRoomDTO> classRoomList) {
         this.classRoomList = classRoomList;
     }
-
+    
     @Override
     public String toString() {
         return "ClassRoomInfoDTO [classRoomCode=" + classRoomCode + ", classRoomInfoName=" + classRoomInfoName
                 + ", classRoomInfoStartDate=" + classRoomInfoStartDate + ", classRoomInfoEndDate="
                 + classRoomInfoEndDate + ", classRoomInfoTeacherId=" + classRoomInfoTeacherId
-                + ", classRoomInfoChatFile=" + classRoomInfoChatFile + ", classRommInfoIsDelete="
-                + classRommInfoIsDelete + "]";
+                + ", classRoomInfoChatFile=" + classRoomInfoChatFile + ", classRoomInfoDate=" + classRoomInfoDate
+                + ", classRommInfoIsDelete=" + classRommInfoIsDelete + "]";
     }
-    
+
     
 }

@@ -37,6 +37,12 @@ public class MemberController {
      */
     @RequestMapping("/myPage")
     public void memberMyPage() {}
+
+    /**
+     * 회원정보수정으로이동
+     * */
+    @RequestMapping("/myPageupdate")
+    public void myPageupdate() {}
     
     /**
      * 회원가입 아이디 체크

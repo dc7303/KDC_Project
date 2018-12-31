@@ -18,7 +18,7 @@ public class WrittenBoardListDAOImpl implements WrittenBoardListDAO {
     @Override
     public List<ReplyBoardDTO> writtenBoardList(String id) {
         
-        List<ReplyBoardDTO> list = session.selectList("replyBoardMapper.WrittenBoardList", id);
+        List<ReplyBoardDTO> list = session.selectList("replyBoardMapper.writtenBoardList", id);
         
         return list;
     }

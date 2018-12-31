@@ -5,10 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.ReplyBoardDTO;
 import edu.kosta.kdc.model.service.WrittenBoardListService;
 
@@ -23,9 +25,11 @@ public class WrittenBoardListController {
      * 전체 게시글 리스트
      * */
     @RequestMapping("/boardList")
-    public ModelAndView allBoardList(HttpSession session) {
+    public ModelAndView allBoardList() {
         
-        String id = (String)session.getAttribute("userId");
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        String id = member.getMemberId();
 
         List<ReplyBoardDTO> list = writtenBoardListService.writtenBoardList(id);
         

@@ -7,6 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+
+ 
+
+
   nav {
     float: left;
     height: 100%;
@@ -14,8 +18,9 @@
   }
   
   section {
-    height: 100%;
+    height: 100%;   
     padding-left: 280px;
+    margin-top: 50px;
   }
   
 
@@ -30,16 +35,23 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
 </head>
 <body>
+<%-- 
+<header>
+    <tiles:insertAttribute name="header"/>
+  </header> --%>
+
+
   <nav>
     <tiles:insertAttribute name="nav"/>
   </nav>
+
   
   <section>
     <tiles:insertAttribute name="content"/>
   </section>
   
-  <footer>
+<%--   <footer>
     <tiles:insertAttribute name="footer"/>
-  </footer>
+  </footer> --%>
 </body>
 </html>

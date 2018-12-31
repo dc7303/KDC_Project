@@ -1,0 +1,130 @@
+*{margin: 0; auto;}
+
+
+/* portfolio ÀüÃ¼ */
+
+input{
+  width: 700px;
+  background-color: #999;
+  color: white;
+}
+
+fildset{
+  border: 1px solid gray;
+  
+  
+}
+
+/* mypage */
+
+.head-portfolio{
+  margin-bottom: 50px;
+  text-align: center;
+  color: skyblue;
+  font-size: 70px;  
+}
+
+.detailhead-portfolio{
+  margin: 50px 0 50px 0;
+  text-align: center;
+  color: skyblue;
+  font-size: 50px;  
+}
+
+.title-portfolio{
+  margin-bottom: 30px;
+  width: 700px;
+  height: 50px;
+  border: 1px solid pink;  
+}
+
+.label-portfolio{
+  font-size: 25px;
+  border-bottom: 2px solid tomato;
+  margin: 20px;
+}
+
+.add-title-portfolio{
+  background-color: #fff;
+  color: gray;
+  margin-bottom: 30px;
+  width: 700px;
+  height: 50px;
+
+  
+}
+
+div#portfolio-info{
+  background-color: pink;
+}
+
+div#portfolio-detail{
+   background-color: skyblue;
+}
+
+
+input.imgbtn-portfolio{
+  
+
+  width: 800px;
+  height: 30px;
+  color: white;
+  border: 1px solid pink;
+}
+
+
+input.update-portfolio{
+  width: 200px;
+  height: 50px;
+  background-color: gray;
+  color: white;
+ 
+  
+}
+
+.check-portfolio{
+  width: 70px;
+  height: 70px;
+  border: 1px solid pink;
+}
+
+
+.send-portfolio{
+  width: 500px;
+  height: 100px;
+  color: white;
+  background-color: gray;
+}
+    
+
+
+
+hr.hr-border{
+  border: 1px solid lightgray;
+  width: 700px;
+}
+
+a.add-portfolio{
+ 
+  background-color: #7dc855;
+  color: white;
+  font-size: 25px;
+  padding: 15px;
+  
+}
+
+
+/* detailform */
+
+#editSection{
+  width: 800px;
+  
+}
+
+
+
+
+
+
+
+

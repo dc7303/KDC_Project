@@ -18,13 +18,6 @@ public interface ClassRoomInfoDAO {
     int createClassRoom(ClassRoomInfoDTO classRoomInfoDTO);
 
     /**
-     * 관리자 - 클래스 코드 중복 체크(ajax)
-     * @param String
-     * @return String
-     * */
-    String codeCheck(String classRoomCode);
-
-    /**
      * 관리자 - 강사 아이디 체크(ajax)
      * 
      * @param String
@@ -38,6 +31,11 @@ public interface ClassRoomInfoDAO {
      * @param classRoomInfoDTO 
      * */
     String selectChatFileName(ClassRoomInfoDTO classRoomInfoDTO);
+
+    /**
+     * 클래스룸 코드가 있는지 체크하는 메소드
+     * */
+    int codeCheck(String classRoomCode);
 
 
 }

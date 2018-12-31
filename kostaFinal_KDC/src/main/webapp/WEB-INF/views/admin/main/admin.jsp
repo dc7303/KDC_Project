@@ -97,15 +97,41 @@
       padding-left: 32%;
     }
     
+    /* dialog table cursor set */
+    .report-dialog-table th td {
+      cursor: context-menu;
+    }
+    
+    /* report-dialog th 설정 */
+    .report-dialog-th {
+      width: 20%;
+    }
+    
     
     /*
     <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
     */
   </style>
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.css">
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
+        <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+   
   <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/highlight.pack.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/squire-rte/build/squire-raw.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-Editor.min.js"></script>
+
+
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
+  
   <script type="text/javascript">
     $(function() {
       var jq = jQuery.noConflict(true);
@@ -747,6 +773,8 @@
        jq( "#dialog" ).dialog({
          autoOpen: false,
          modal: true,
+         width: 1032,
+         height: 600,
          show: {
            effect: "blind",
            duration: 500
@@ -755,6 +783,11 @@
            effect: "explode",
            duration: 500
          },
+         buttons: {
+           Ok: function() {
+             $( this ).dialog( "close" );
+           }
+         }
        });
 
       /**
@@ -766,7 +799,6 @@
         var y = event.clientY;
         //pk가져오기
         var reportPk = jq(this).children().eq(6).children().eq(0).val();
-        console.log(reportPk);
         
         jq.ajax({
           url:'${pageContext.request.contextPath}/report/reportRead',
@@ -779,14 +811,33 @@
             xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
           },
           success: function(result) {
-            jq('.dialog-subject').text(result.reportReporterId);
-            jq('.dialog-content').text(result.reportPurpose);
+            var replyDTO = result.replyBoardDTO;
+            
+            console.log(result);
+            jq('.report-reporter').text(result.reportReporterId);
+            jq('.reprot-purpose').text(result.reportPurpose);
+            jq('.reprot-date').text(result.reportDate);
+            jq('.reply-writer').text(replyDTO.replyBoardWriterId);
+            jq('.reply-title').text(replyDTO.replyBoardTitle);
+            //jq('.reply-contents').text(replyDTO.replyBoardContents);
+            jq('.reply-date').text(replyDTO.replyBoardDate);
+            //viewer셋팅
+            editor.setValue(replyDTO.replyBoardContents);
             jq("#dialog").dialog("open", {position: [ x, y ]});
           },
           error: function(err) {
             console.log('err : ' + err);
           }
       	});
+      });
+
+      
+      //tui-editor Viewer
+      var editor = tui.Editor.factory({
+        el: document.querySelector('#viewer-section'),
+        viewer: true,
+        height: '300px',
+        
       });
     });
     </script>
@@ -1089,14 +1140,45 @@
 
     <!-- jquery-ui dialog -->
     <div id="dialog" title="Basic dialog">
-      <div class="dialog-subject"></div>
-      <div class="dialog-content"></div>
+      <table class="report-dialog-table w3-bordered">
+        <tr>
+          <th class="report-dialog-th">신고인</th>
+          <td><span class="report-reporter"></span></td>
+        </tr>
+        <tr>
+          <th class="report-dialog-th" height="300px">신고내용</th>
+          <td><span class="reprot-purpose"></sapn></td>
+        </tr>
+        <tr>
+          <th class="report-dialog-th">신고일</th>
+          <td><span class="reprot-date"></span></td>
+        </tr>
+        <tr>
+          <th class="report-dialog-th">피신고인</th>
+          <td><span class="reply-writer"></span></td>
+        </tr>
+        <tr>
+          <th class="report-dialog-th">게시글제목</th>
+          <td><span class="reply-title"></span></td>
+        </tr>
+        <tr>
+          <th class="report-dialog-th" height="300px">내용</th>
+          <td><div id="viewer-section"  class="reply-contents"></div></td>
+        </tr>
+        <tr>
+          <th class="report-dialog-th">작성일</th>
+          <td><span class="reply-date"></span></td>
+        </tr>
+      </table>
     </div>
 
     <input type="hidden" name="contextPath" value="${pageContext.request.contextPath }"/>
-    <input typp="hidden" name="csrfName" value="${_csrf.headerName }"/>
+    <input type="hidden" name="csrfName" value="${_csrf.headerName }"/>
     <input type="hidden" name="csrfToken" value="${_csrf.token }"/>
+    
+
     <script>
+    
       // Script to open and close sidebar
       function w3_open() {
         document.getElementById('mySidebar').style.display = 'block';
