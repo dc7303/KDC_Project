@@ -9,6 +9,11 @@ import edu.kosta.kdc.util.KdcException;
 public interface MessageService {
     
     /**
+     * 전체 메세지 리스트(no Paging)
+     * */
+    List<MessageDTO> messageLIstAllNoPaging();
+    
+    /**
      * 조회할 메세지 리스트 수 가져오기
      * @return
      */

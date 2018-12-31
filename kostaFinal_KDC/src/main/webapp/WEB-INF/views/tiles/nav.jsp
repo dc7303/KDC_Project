@@ -119,7 +119,7 @@
                       </sec:authorize>
                       
                       <li><a href="${pageContext.request.contextPath}/board/boardList">내가 쓴 글</a></li>
-                      <li><a href="${pageContext.request.contextPath}/message/messageList" name="messageList">받은쪽지함</a></li>
+                      <li><a href="${pageContext.request.contextPath}/message/messageListNoPaging" name="messageListNoPaging">받은쪽지함</a></li>
                       
                         
                     </ul>

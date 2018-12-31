@@ -32,6 +32,19 @@ public class MessageController {
     @Autowired 
     private PageHandler pageHandler;
     
+    /**
+     * 전체 메세지 리스트(no Paging)
+     * */
+    @RequestMapping("/messageListNoPaging")
+    @Transactional
+    public ModelAndView messageLIstAllNoPaging(HttpSession session) {
+        
+        List<MessageDTO> list = messageService.messageLIstAllNoPaging();
+        
+        messageUnReadCount(session);
+        
+        return new ModelAndView("message/messageList", "messageList", list);
+    }
     
     /**
      * 전체 메세지 리스트
@@ -185,15 +198,14 @@ public class MessageController {
     /**
      * 읽지 않은 메세지 카운트
      * */
-/*    @RequestMapping("/count")
+    @RequestMapping("/count")
     @ResponseBody
-    public int messageUnReadCount(HttpSession session,  @RequestParam(value="id")String id) {
+    @Transactional
+    public int messageUnReadCount(HttpSession session) {
 
-        int unReadCount = messageService.messageUnReadCount(id);
+        int unReadCount = messageService.messageUnReadCount();
         
-        List<MessageDTO> list =  messageService.messageAll(id);
-        
-        
+        List<MessageDTO> list = messageService.messageLIstAllNoPaging();
         
         //세션에 안읽은 메세지 갯수를 저장
         session.setAttribute("unReadCount", unReadCount);
@@ -202,7 +214,5 @@ public class MessageController {
         return unReadCount;
         
     }
-   
-  */  
 
 }
