@@ -593,14 +593,13 @@
               
               str += '<tr class="message-tr w3-hover-amber"><td><input type="hidden" value="' + messageList[i].messageNum + '"/><input type="checkbox"/></td>';
               str += '<td>' + messageList[i].senderId + '</td>';
-              str += '<td><a href="${pageContext.request.contextPath}/message/' + messageList[i].messageNum + '">'
-              				+ messageList[i].messageTitle + '</a></td>';
+              str += '<td>' + messageList[i].messageTitle + '</td>';
               str += '<td>' + messageList[i].messageContents + '</td>';
               str += '<td>' + messageList[i].messageDate + '</td>';
               str += isRead;
               str += '<td><input type="button" value="답장" class="reply-message-btn">' +
               			'<input type="hidden" name="senderId" value="' + messageList[i].senderId + '"></td>';
-              str += '<td><input type="hidden" value="' + messageList.messageNum + '">' + 
+              str += '<td><input type="hidden" value="' + messageList[i].messageNum + '"/>' + 
               		'<input type="button" value="삭제" class="delete-message"/></td></tr>';
             }
           }else {
@@ -878,6 +877,40 @@
 
      });
     
+    
+    /**
+     * 메세지 삭제 이벤트 처리
+     */
+    jq(document).on('click', '.delete-message', function(event) {
+      //이벤트 버블링 제거
+      if(event.stopPropagation) event.stopPropagation();
+      else event.cancelBubble = true;
+      
+      var messageNum = jq(this).parent().children().eq(0).val();
+      console.log(messageNum);
+      /*
+      jq.ajax({
+        url:'${pageContext.request.contextPath}/message/delete',
+        type:"get" ,			
+        dataType:"text" ,		
+        data: {
+          senderId: receverId,
+		     messageTitle: replyTitle,
+		     messageContents: replyContents,
+        },
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+        },
+        success: function(result) {
+          jq( '#message-reply-dialog' ).dialog( "close" );
+          alert(result);
+        },
+        error: function(err) {
+          alert('전송실패입니다. 관리자에게 문의하세요.');
+        }
+      });
+      */
+    });
     
     /**
      * 신고 자세히 보기 dialog 설정
