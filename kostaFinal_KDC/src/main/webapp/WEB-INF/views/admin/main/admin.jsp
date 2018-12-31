@@ -738,9 +738,13 @@
       /**
        * 신고 해결하기 
        */
-      jq(document).on('click', '.deleteReport', function() {
+      jq(document).on('click', '.deleteReport', function(event) {
         var reportPk = jq(this).parent().children().eq(0).val();	//hidden report pk값
         var removeColumn = jq(this).parent().parent();		//해당 컬럼 삭제하기 위한 변수
+        
+        //이벤트 버블링 제거
+    	if(event.stopPropagation) event.stopPropagation(); //MOZILLA
+    	else event.cancelBubble = true; 					//IE
         
         var confirm = window.confirm('해결처리하시겠습니까?');
         
@@ -775,6 +779,7 @@
         //마우스 좌표(다이알로그 오픈 위치 설정)
         var x = event.clientX; 
         var y = event.clientY;
+        
         //pk가져오기
         var reportPk = jq(this).children().eq(6).children().eq(0).val();
         
@@ -791,7 +796,6 @@
           success: function(result) {
             var replyDTO = result.replyBoardDTO;
             
-            console.log(result);
             jq('.report-reporter').text(result.reportReporterId);
             jq('.reprot-purpose').text(result.reportPurpose);
             jq('.reprot-date').text(result.reportDate);
