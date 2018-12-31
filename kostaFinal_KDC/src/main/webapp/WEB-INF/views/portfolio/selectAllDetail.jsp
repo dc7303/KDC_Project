@@ -29,7 +29,6 @@
   for(var i=0;i<detailLength;i++){
     var descSelector = '#detail-description-'+i;
     var viewSelector = '#viewer-section-'+i;
-    console.log(descSelector+'||'+viewSelector);
     var contents = jq(descSelector).val();
     var editor = tui.Editor.factory({
       el : document.querySelector(viewSelector),

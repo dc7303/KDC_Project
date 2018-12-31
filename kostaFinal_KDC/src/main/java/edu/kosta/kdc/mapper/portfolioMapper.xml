@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="portfolioMapper">
-
     <!-- 포트폴리오(상세, 해쉬태그) resultMap -->
     <resultMap type="portfolioDTO" id="selectMap">
         <id column="portfolio_user_id" property="portFolioMemberId" />
+        <result column="MEMBER_NAME" property="portFolioMemberName" />
+        <result column="MEMBER_NICKNAME" property="portFolioMemberNickName"/>
+        <result column="MEMBER_EMAIL" property="portFolioMemberEmail"/>
+        <result column="MEMBER_PHONENUMBER" property="portFolioMemberPhoneNumber"/>
         <result column="portfolio_main_image"
             property="portFolioMainImage" />
         <result column="portfolio_main_title"

@@ -18,12 +18,18 @@ public class PortfolioDTO {
     //포트폴리오 상세와 join한 DTO들
     private List<PortfolioDetailDTO> portFolioDetailList;
     
+    //포트폴리오에 매핑된 유저
+    private String portFolioMemberName;
+    private String portFolioMemberNickName;
+    private String portFolioMemberEmail;
+    private String portFolioMemberPhoneNumber;
     
     public PortfolioDTO() {}
 
     public PortfolioDTO(String portFolioMemberId, String portFolioMainImage, String portFolioMainTitle,
             Boolean portFolioVisibility, Boolean portFolioIsDelete, MultipartFile mainImageFile,
-            List<PortfolioDetailDTO> portFolioDetailList) {
+            List<PortfolioDetailDTO> portFolioDetailList, String portFolioMemberName, String portFolioMemberNickName,
+            String portFolioMemberEmail, String portFolioMemberPhoneNumber) {
         super();
         this.portFolioMemberId = portFolioMemberId;
         this.portFolioMainImage = portFolioMainImage;
@@ -32,6 +38,10 @@ public class PortfolioDTO {
         this.portFolioIsDelete = portFolioIsDelete;
         MainImageFile = mainImageFile;
         this.portFolioDetailList = portFolioDetailList;
+        this.portFolioMemberName = portFolioMemberName;
+        this.portFolioMemberNickName = portFolioMemberNickName;
+        this.portFolioMemberEmail = portFolioMemberEmail;
+        this.portFolioMemberPhoneNumber = portFolioMemberPhoneNumber;
     }
 
     public String getPortFolioMemberId() {
@@ -82,26 +92,46 @@ public class PortfolioDTO {
         MainImageFile = mainImageFile;
     }
 
-    public List<PortfolioDetailDTO> getportFolioDetailList() {
+    public List<PortfolioDetailDTO> getPortFolioDetailList() {
         return portFolioDetailList;
     }
 
-    public void setportFolioDetailList(List<PortfolioDetailDTO> portFolioDetailList) {
+    public void setPortFolioDetailList(List<PortfolioDetailDTO> portFolioDetailList) {
         this.portFolioDetailList = portFolioDetailList;
     }
 
-    @Override
-    public String toString() {
-        return "PortfolioDTO [portFolioMemberId=" + portFolioMemberId + ", portFolioMainImage=" + portFolioMainImage
-                + ", portFolioMainTitle=" + portFolioMainTitle + ", portFolioVisibility=" + portFolioVisibility
-                + ", portFolioIsDelete=" + portFolioIsDelete + ", MainImageFile=" + MainImageFile
-                +" ]";
+    public String getPortFolioMemberName() {
+        return portFolioMemberName;
+    }
+
+    public void setPortFolioMemberName(String portFolioMemberName) {
+        this.portFolioMemberName = portFolioMemberName;
+    }
+
+    public String getPortFolioMemberNickName() {
+        return portFolioMemberNickName;
+    }
+
+    public void setPortFolioMemberNickName(String portFolioMemberNickName) {
+        this.portFolioMemberNickName = portFolioMemberNickName;
+    }
+
+    public String getPortFolioMemberEmail() {
+        return portFolioMemberEmail;
+    }
+
+    public void setPortFolioMemberEmail(String portFolioMemberEmail) {
+        this.portFolioMemberEmail = portFolioMemberEmail;
+    }
+
+    public String getPortFolioMemberPhoneNumber() {
+        return portFolioMemberPhoneNumber;
+    }
+
+    public void setPortFolioMemberPhoneNumber(String portFolioMemberPhoneNumber) {
+        this.portFolioMemberPhoneNumber = portFolioMemberPhoneNumber;
     }
 
     
-    
-
-    
-        
     
 }

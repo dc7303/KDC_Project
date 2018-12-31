@@ -60,5 +60,6 @@ public class PortfolioDetailDAOImpl implements PortfolioDetailDAO {
         return sqlSession.selectOne("portfolioDetailMapper.selectDetailByPk", detailPk);
     }
 
+    
 
 }
