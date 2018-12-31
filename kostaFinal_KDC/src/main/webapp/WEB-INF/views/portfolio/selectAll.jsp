@@ -5,7 +5,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio-tiles.css" />
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio-tiless.css" />
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+
+
+ 
 
 <title>Insert title here</title>
 <script type="text/javascript">
@@ -19,10 +23,58 @@
     });
   });
 </script>
+<style>
+.wf-container { margin: 0 auto; }
+.wf-container:before,
+.wf-container:after {
+  content: '';
+  display: table;
+}
+.wf-container:after { clear: both; }
+.wf-box { margin: 10px; }
+.wf-box img {
+  display: block;
+  width: 100%;
+}
+.wf-box .content {
+  border: 1px solid #ccc;
+  border-top-width: 0;
+  padding: 5px 8px;
+}
+.wf-column { float: left; }
+
+@media screen and (min-width: 768px) {
+.wf-container { width: 750px; }
+}
+@media screen and (min-width: 992px) {
+.wf-container { width: 970px; }
+}
+@media screen and (min-width: 1200px) {
+.wf-container { width: 1170px; }
+}
+
+.portfolio-title{
+  text-align:center;
+}
+
+
+input.tech-board-search{
+  width: 500px;  !importent
+}
+
+input.search-button{
+  float:left;  
+}
+
+
+</style>
+
 </head>
 <body>
-  select All
+  
+  <h1 class="portfolio-title"> P O R T F O L I O </h1>
   <!-- 검색창 -->
+ 
   <form action="${pageContext.request.contextPath}/portfolio/portfolioListSearch">
     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
     <select name="keyfield" id="department">
@@ -34,9 +86,9 @@
       <option value="hashTag">해시태그</option>
     </select>
     <input class="tech-board-search" type="text" name="keyword"/>
-    <input type="submit" value="검색"/>
+    <input class="search-button" type="submit" value="검색"/>
   </form>
-    
+ 
     
     
   <div class="tiles">
@@ -46,8 +98,12 @@
       <h3>현재 게시중인 포트폴리오가 없습니다.</h3>
     </c:when>
     <c:otherwise>
+    <div class="wf-container">
       <c:forEach items="${portfolioList}" var="portfolio">
-        <div class="portfolio">
+      
+      <!--  
+        <div class="portfolio" id="columns">
+         <figure>
          
          <%--  <h4>${portfolio.portFolioMainTitle}</h4> --%>
           <c:choose>
@@ -60,74 +116,49 @@
             </c:otherwise>
             
           </c:choose>
-           <h4 class="selectall-title">${portfolio.portFolioMainTitle}</h4>
+           <figcaption class="selectall-title">${portfolio.portFolioMainTitle}</figcaption>
           <input type="hidden" value="${portfolio.portFolioMemberId}" class="hidden-memberId">
+        </figure>
         </div>
       
+      -->
+      
+      
+      
+        
+          <div class="wf-box"><img src="${pageContext.request.contextPath}/resources/testimg/photos/${portfolio.portFolioMainImage}">
+            <div class="content">
+              <h3>${portfolio.portFolioMainTitle}</h3>
+              <p>content</p>
+            </div>
+          </div>
+    
+      
+      
+      
+      
       </c:forEach>
+        </div>
+      
     </c:otherwise>
   </c:choose>
    </div>
+   
+   <!-- pinterest-grid layout js-->
+<script src="${pageContext.request.contextPath}/resources/lib/pinterest-grid/responsive_waterfall.js" ></script>
+  <script>
+
+var waterfall = new Waterfall({
+  containerSelector: '.wf-container',
+  boxSelector: '.wf-box',
+  minBoxWidth: 265
+});
+   
+ </script>  
+   
   
 </body>
 
-<script type="text/javascript">
-var $tiles = $('#tiles'),
-$handler = $('li', $tiles),
-$main = $('#main'),
-$window = $(window),
-$document = $(document),
-options = {
-  autoResize: true, // This will auto-update the layout when the browser window is resized.
-  container: $tiles, // Optional, used for some extra CSS styling
-  offset: 10, // Optional, the distance between grid items
-  outerOffset: 20, // Optional the distance from grid to parent
-  itemWidth: 210 // Optional, the width of a grid item
-};
-
-/**
-* Reinitializes the wookmark handler after all images have loaded
-*/
-function applyLayout() {
-$tiles.imagesLoaded(function() {
-// Destroy the old handler
-if ($handler.wookmarkInstance) {
-  $handler.wookmarkInstance.clear();
-}
-
-// Create a new layout handler.
-$handler = $('li', $tiles);
-  
-$handler.wookmark(options);
-});
-}
-
-/**
-* When scrolled all the way to the bottom, add more tiles
-*/
-function onScroll() {
-// Check if we're within 100 pixels of the bottom edge of the broser window.
-var winHeight = window.innerHeight ? window.innerHeight : $window.height(), // iphone fix
-  closeToBottom = ($window.scrollTop() + winHeight > $document.height() - 100);
-
-if (closeToBottom) {
-// Get the first then items from the grid, clone them, and add them to the bottom of the grid
-var $items = $('li', $tiles),
-    $firstTen = $items.slice(0, 10);
-$tiles.append($firstTen.clone());
-
-applyLayout();
-}
-};
-
-// Call the layout function for the first time
-applyLayout();
-
-// Capture scroll event.
-$window.bind('scroll.wookmark', onScroll);
-
-
-</script>
 
 
 
