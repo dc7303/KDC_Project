@@ -97,6 +97,11 @@
       padding-left: 32%;
     }
     
+    /* dialog table cursor set */
+    .report-dialog-table th td {
+      cursor: context-menu;
+    }
+    
     /* report-dialog th 설정 */
     .report-dialog-th {
       width: 20%;
@@ -768,8 +773,8 @@
        jq( "#dialog" ).dialog({
          autoOpen: false,
          modal: true,
-         width: 700,
-         height: 700,
+         width: 1032,
+         height: 600,
          show: {
            effect: "blind",
            duration: 500
@@ -778,6 +783,11 @@
            effect: "explode",
            duration: 500
          },
+         buttons: {
+           Ok: function() {
+             $( this ).dialog( "close" );
+           }
+         }
        });
 
       /**
@@ -811,7 +821,8 @@
             jq('.reply-title').text(replyDTO.replyBoardTitle);
             //jq('.reply-contents').text(replyDTO.replyBoardContents);
             jq('.reply-date').text(replyDTO.replyBoardDate);
-            editor.initialValue = '1121212';
+            //viewer셋팅
+            editor.setValue(replyDTO.replyBoardContents);
             jq("#dialog").dialog("open", {position: [ x, y ]});
           },
           error: function(err) {
@@ -1129,13 +1140,13 @@
 
     <!-- jquery-ui dialog -->
     <div id="dialog" title="Basic dialog">
-      <table class="message-table w3-table w3-centered">
+      <table class="report-dialog-table w3-bordered">
         <tr>
           <th class="report-dialog-th">신고인</th>
           <td><span class="report-reporter"></span></td>
         </tr>
         <tr>
-          <th class="report-dialog-th">신고내용</th>
+          <th class="report-dialog-th" height="300px">신고내용</th>
           <td><span class="reprot-purpose"></sapn></td>
         </tr>
         <tr>
@@ -1162,7 +1173,7 @@
     </div>
 
     <input type="hidden" name="contextPath" value="${pageContext.request.contextPath }"/>
-    <input typp="hidden" name="csrfName" value="${_csrf.headerName }"/>
+    <input type="hidden" name="csrfName" value="${_csrf.headerName }"/>
     <input type="hidden" name="csrfToken" value="${_csrf.token }"/>
     
 
