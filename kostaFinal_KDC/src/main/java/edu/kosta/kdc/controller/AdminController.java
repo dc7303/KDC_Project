@@ -245,8 +245,11 @@ public class AdminController {
      * */
     @RequestMapping(value = "/sendMessage", produces = "text/plain; charset=UTF-8")
     @ResponseBody
-    public void SendMessage(MessageDTO messageDTO) {
+    public String SendMessage(MessageDTO messageDTO) {
+        
         messageService.messageInsert(messageDTO);
+        
+        return "메세지가 전송되었습니다.";
     }
     
     /**

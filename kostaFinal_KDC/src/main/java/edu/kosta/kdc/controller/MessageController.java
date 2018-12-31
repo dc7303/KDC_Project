@@ -102,7 +102,7 @@ public class MessageController {
      * */
     @RequestMapping(value = "/adminMessageInsert", produces = "text/plain; charset=UTF-8")
     @ResponseBody
-    public void adminMessageInsert(MessageDTO messageDTO) throws KdcException {
+    public String adminMessageInsert(MessageDTO messageDTO) throws KdcException {
         
         //controller에서 현재 로그인된 사용자의 정보를 가져오는 코드
         MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -111,6 +111,8 @@ public class MessageController {
         messageDTO.setReceiverId(member.getMemberId());
         
         messageService.messageInsert(messageDTO);
+    
+        return "메세지가 정상적으로 전송되었습니다.";
     }
 
     
@@ -172,7 +174,7 @@ public class MessageController {
 
         String checkId = messageService.messageCheckById(senderId);
         
-        if(checkId==null) {
+        if(checkId == null) {
             return "0";
         }else {
             return checkId;

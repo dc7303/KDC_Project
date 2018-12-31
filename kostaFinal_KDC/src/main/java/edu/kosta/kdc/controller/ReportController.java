@@ -15,6 +15,12 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
     
+    /**
+     * 신고 자세히보기
+     * 
+     * @param reportPk
+     * @return
+     */
     @RequestMapping(value = "/reportRead", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public ReportDTO reportRead(int reportPk) {

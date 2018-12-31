@@ -49,7 +49,6 @@
       color: white;
     }
     td {
-      text-align: center;
       font-size: 13px;
       padding: none;
       white-space:nowrap;
@@ -106,7 +105,6 @@
     .dialog-th {
       width: 20%;
     }
-    
     
     /*
     <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
@@ -600,10 +598,10 @@
               str += '<td>' + messageList[i].messageContents + '</td>';
               str += '<td>' + messageList[i].messageDate + '</td>';
               str += isRead;
-              str += '<td><input type="button" value="답장" id="replyMessage">' +
+              str += '<td><input type="button" value="답장" class="reply-message-btn">' +
               			'<input type="hidden" name="senderId" value="' + messageList[i].senderId + '"></td>';
               str += '<td><input type="hidden" value="' + messageList.messageNum + '">' + 
-              		'<input type="button" value="삭제" id="deleteMessage"/></td></tr>';
+              		'<input type="button" value="삭제" class="delete-message"/></td></tr>';
             }
           }else {
             str += '<td class="empty-list" colspan="8">쪽지가 없습니다.</td>';
@@ -856,16 +854,38 @@
       });
       
     });
+
     
+    /**
+     * 메세지 답장보내기 폼( dialog open )
+     * 답장 보내기 이벤트는 dialog 설정에 button안에 설정되어 있음.
+     */ 
+     jq(document).on('click', '.reply-message-btn', function(event) {
+       //마우스 좌표(다이알로그 오픈 위치 설정)
+       var x = event.clientX; 
+       var y = event.clientY;
+       
+       //이벤트 버블링 제거
+       if(event.stopPropagation) event.stopPropagation(); //MOZILLA
+       else event.cancelBubble = true; 					//IE
+       
+       //받는이 아이디
+       var receverId = jq(this).parent().children().eq(1).val();
+       
+       jq('.recever-id').val(receverId);
+       
+       jq("#message-reply-dialog").dialog("open", {position: [ x, y ]});
+
+     });
     
     
     /**
-     * dialog 설정
+     * 신고 자세히 보기 dialog 설정
      */
      jq( "#report-dialog" ).dialog({
        autoOpen: false,
        modal: true,
-       width: 1032,
+       width: 800,
        height: 600,
        show: {
          effect: "blind",
@@ -885,12 +905,12 @@
     
     
      /**
-      * dialog 설정
+      * 메세지 자세히 보기 dialog 설정
       */
       jq( "#message-dialog" ).dialog({
         autoOpen: false,
         modal: true,
-        width: 700,
+        width: 500,
         height: 500,
         show: {
           effect: "blind",
@@ -906,6 +926,59 @@
           }
         }
       });
+     
+      /**
+       * dialog 설정
+       */
+       jq( "#message-reply-dialog" ).dialog({
+         autoOpen: false,
+         modal: true,
+         width: 500,
+         height: 500,
+         show: {
+           effect: "blind",
+           duration: 500
+         },
+         hide: {
+           effect: "explode",
+           duration: 500
+         },
+         buttons: {
+           /**
+            * 답장 보내기 event
+            */
+           보내기: function() {
+             var receverId = jq('.recever-id').val();//받는 사람
+             var replyTitle = jq('.message-reply-title').val();//답장 제목
+             var replyContents = jq('.message-reply-contents').val();//내용
+             
+             jq.ajax({
+               url:'${pageContext.request.contextPath}/message/adminMessageInsert',
+               type:"get" ,			
+               dataType:"text" ,		
+               data: {
+                 senderId: receverId,
+       		     messageTitle: replyTitle,
+       		     messageContents: replyContents,
+               },
+               beforeSend: function(xhr) {
+                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+               },
+               success: function(result) {
+                 jq( '#message-reply-dialog' ).dialog( "close" );
+                 alert(result);
+               },
+               error: function(err) {
+                 alert('전송실패입니다. 관리자에게 문의하세요.');
+               }
+             });
+           },
+           //취소버튼
+           취소: function() {
+             jq( this ).dialog( "close" );
+           }
+         }
+       });
 
       //tui-editor Viewer
       var editor = tui.Editor.factory({
@@ -1221,7 +1294,7 @@
           <td><span class="report-reporter"></span></td>
         </tr>
         <tr>
-          <th class="dialog-th" height="300px">신고내용</th>
+          <th class="dialog-th" height="200px">신고내용</th>
           <td><span class="reprot-purpose"></sapn></td>
         </tr>
         <tr>
@@ -1249,7 +1322,7 @@
     
     <!-- message dialog -->
     <div id="message-dialog" title="Basic dialog">
-            <table class="message-dialog-table w3-bordered">
+      <table class="message-dialog-table w3-bordered">
         <tr>
           <th class="dialog-th">보낸사람</th>
           <td><span class="message-sender"></span></td>
@@ -1268,6 +1341,25 @@
         </tr>
       </table>
     </div>
+    
+    <!-- message reply form -->
+    <div id="message-reply-dialog" title="Basic dialog">
+      <table class="message-reply-table w3-bordered">
+        <tr>
+          <th class="dialog-th">받는 사람</th>
+          <td><input type="text" width="100%" class="recever-id"/></td>
+        </tr>
+        <tr>
+          <th class="dialog-th">쪽지제목</th>
+          <td style="width:300px;"><input type="text" style="width:100%" class="message-reply-title"></input></td>
+        </tr>
+        <tr>
+          <th class="dialog-th" height="300px">내용</th>
+          <td style="width:100%; height:300px;"><textarea style="width:100%; height:100%;" class="message-reply-contents"></textarea></td>
+        </tr>
+      </table>
+    </div>
+    
 
     <input type="hidden" name="contextPath" value="${pageContext.request.contextPath }"/>
     <input type="hidden" name="csrfName" value="${_csrf.headerName }"/>
