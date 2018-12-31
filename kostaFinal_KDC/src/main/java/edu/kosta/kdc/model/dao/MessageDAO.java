@@ -18,6 +18,11 @@ public interface MessageDAO {
      * 전체 메세지 리스트
      * */
     List<MessageDTO> messageAll(String id, int firstColumnRange, int lastColumnRange);
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    List<MessageDTO> unReadMessageList(String id);
 
     /**
      * 메세지 전송

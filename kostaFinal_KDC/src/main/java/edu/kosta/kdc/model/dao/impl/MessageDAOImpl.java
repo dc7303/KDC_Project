@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,15 @@ public class MessageDAOImpl implements MessageDAO {
 
     @Autowired
     private SqlSession session;
+    
+    /**
+     * RowBounds를 이용한 header메세지 갯수 제한
+     * */
+    private RowBounds RowBounds(int i, int j) {
+        
+        return new RowBounds(i, j);
+        
+    }
 
     /**
      * 조회할 메세지 리스트 수 가져오기
@@ -43,6 +53,17 @@ public class MessageDAOImpl implements MessageDAO {
 
         return list;
 
+    }
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    @Override
+    public List<MessageDTO> unReadMessageList(String id) {
+        
+        List<MessageDTO> list = session.selectList("messageMapper.unReadMessageList", id, RowBounds(0, 3));
+        
+        return list;
     }
 
     /**

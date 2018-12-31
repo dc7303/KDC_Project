@@ -1,15 +1,15 @@
 package edu.kosta.kdc.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,15 +17,64 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.MessageDTO;
+import edu.kosta.kdc.model.dto.PageDTO;
 import edu.kosta.kdc.model.service.MessageService;
 import edu.kosta.kdc.util.KdcException;
+import edu.kosta.kdc.util.interfaces.PageHandler;
 
 @Controller
 @RequestMapping("/message")
 public class MessageController {
 
     @Autowired
-    private MessageService messageService; 
+    private MessageService messageService;
+    
+    @Autowired 
+    private PageHandler pageHandler;
+    
+    
+    /**
+     * 전체 메세지 리스트
+     * */
+    @RequestMapping("/messageList")
+    @Transactional
+    @ResponseBody
+    public ModelAndView messageAll() {
+        
+        int setPage = 1;       //현재 페이지
+        int setTotalCount = messageService.messageUnReadCount();     //컬럼 수
+        
+        //view로 보낼 json map
+        Map<String, Object> map = new HashMap<>();
+        
+        //페이지 정보 셋팅 및 DTO 리턴 받기
+        PageDTO pageDTO = pageHandler.pageInfoSet(setPage, 10, 10, setTotalCount);
+        
+        //데이터 조회할 ROWNUM 범위 를 select 인수로 전달.
+        int firstColumnRange = pageDTO.getFirstColumnRange();
+        int lastColumnRange = pageDTO.getLastColumnRange();
+        
+        //쪽지 가져오기
+        List<MessageDTO> messageList = messageService.messageAll(firstColumnRange, lastColumnRange);
+        
+        map.put("pageDTO", pageDTO);
+        map.put("messageList", messageList);
+        
+        return new ModelAndView();
+    }
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    @RequestMapping("/unReadMessageList")
+    @ResponseBody
+    public List<MessageDTO> unReadMessageList(@RequestParam(value="id")String id){
+
+        List<MessageDTO> list = messageService.unReadMessageList(id);
+        
+        return list;
+        
+    }
     
     /**
      * 메세지 전송(=메세지 답장)
@@ -100,7 +149,7 @@ public class MessageController {
     public MessageDTO selectByMesssage(int messageNum) {
         
         return messageService.selectByMesssage(messageNum);
-        
+
     }
     
     /**
@@ -130,5 +179,28 @@ public class MessageController {
         }
         
     }
+   
+    /**
+     * 읽지 않은 메세지 카운트
+     * */
+/*    @RequestMapping("/count")
+    @ResponseBody
+    public int messageUnReadCount(HttpSession session,  @RequestParam(value="id")String id) {
+
+        int unReadCount = messageService.messageUnReadCount(id);
+        
+        List<MessageDTO> list =  messageService.messageAll(id);
+        
+        
+        
+        //세션에 안읽은 메세지 갯수를 저장
+        session.setAttribute("unReadCount", unReadCount);
+        session.setAttribute("messageList", list);
+        
+        return unReadCount;
+        
+    }
+   
+  */  
 
 }

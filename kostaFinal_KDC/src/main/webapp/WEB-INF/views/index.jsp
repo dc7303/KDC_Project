@@ -8,6 +8,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <title>Insert title here</title>
+<script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+const jq = jQuery.noConflict();
+
+//마이페이지 접속시, 로그인 유무 체크
+jq(function(){
+  jq(document).on('click','#myPageValid',function(){
+
+    if(jq('input[name=memberIdCheck]').val() === ''){
+      alert("로그인 해주세요.");
+      return false;
+    }
+  })
+})
+</script>
 
 </head>
 <body>
@@ -49,6 +64,8 @@
     </form>
   </sec:authorize>
   <h1>Index입니다</h1>
+  <input type="hidden" value="${member.memberId }" name="memberIdCheck">
+  <form action="#" id="myPageValid">
 <a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오 마이페이지</a>
 <a href="${pageContext.request.contextPath}/message/messageList" name="messageList">전체메세지 출력</a> <br>
 <a href="${pageContext.request.contextPath}/board/boardList">전체게시물 출력</a> <br> <br> --%>
@@ -61,6 +78,7 @@
 
 <%-- <a href="${pageContext.request.contextPath }/calendar/calendarForm">강사 - 풀 카렌다</a><br>  
 <br/>
+<<<<<<< HEAD
   <a href="${pageContext.request.contextPath }/admin/selectMember">관리자 페이지로</a> --%>
   </center>
   
@@ -150,7 +168,5 @@
     </table>
   </div>
 </div>
-  <a href="${pageContext.request.contextPath }/admin/selectMember">관리자 페이지로</a><br/>
-<a href="${pageContext.request.contextPath }/chatting">채팅하기</a>
 </body>
 </html>

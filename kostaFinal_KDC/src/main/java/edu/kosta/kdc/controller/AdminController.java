@@ -43,7 +43,8 @@ public class AdminController {
     @Autowired
     private AdminService adminServcie;
     
-    @Autowired PageHandler pageHandler;
+    @Autowired 
+    private PageHandler pageHandler;
     
     /**
      * 관리자 로그인
