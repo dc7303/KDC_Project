@@ -53,4 +53,11 @@
         from CLASSROOM right join CLASSROOM_INFO on CLASSROOM.CLASSROOM_CODE = CLASSROOM_INFO.CLASSROOM_CODE
         where CLASSROOM_INFO.CLASSROOM_CODE = (select CLASSROOM_CODE from classroom where CLASSROOM_USER_ID = #{_parameter} and CLASSROOM_ISCURRENT='TRUE') and classroom.CLASSROOM_USER_ID = #{_parameter}
     </select>
+    
+    <!-- 가장 최근에 생성된 클래스 코드 가져오는 메소드 -->
+    <select id="selectClassCode" parameterType="string" resultType="string">
+        select CLASSROOM_CODE
+        from (select * from CLASSROOM_INFO where CLASSROOM_INFO_TEACHER_ID = #{_parameter} order by CLASSROOM_INFO_DATE desc)
+        where ROWNUM = 1
+    </select>
 </mapper>

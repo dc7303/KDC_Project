@@ -126,4 +126,13 @@ public class ClassRoomServiceImpl implements ClassRoomService {
         return classRoomDAO.selectCurrentClassRoom(memberId);
     }
 
+    /**
+     * 가장 최근에 생성된 클래스 코드 가져오는 메소드
+     * */
+    @Override
+    public String selectClassCode(String memberId) {
+        
+        return classRoomInfoDAO.selectClassCode(memberId);
+    }
+
 }

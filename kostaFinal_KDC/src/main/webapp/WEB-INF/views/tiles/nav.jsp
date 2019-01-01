@@ -29,7 +29,7 @@
         $(document).on('click', '.logout-Btn', function() {
           $('#logoutForm').submit();
         });
-      </script>
+      
       
        $(function(){
          $('.logout-Btn').on('click',function(){
@@ -118,7 +118,7 @@
                       
                       <li><a href="${pageContext.request.contextPath}/board/boardList">내가 쓴 글</a></li>
                       <li><a href="${pageContext.request.contextPath}/message/messageListNoPaging" name="messageListNoPaging">받은쪽지함</a></li>
-                      
+                      <li><a href="${pageContext.request.contextPath}/classRoom/myClassRoom">나의 클래스룸</a></li>
                         
                     </ul>
                   </li>
@@ -157,7 +157,7 @@
                       </li>
         
                       <li>
-                        <a href="#">채팅방</a>
+                        <a href="${pageContext.request.contextPath}/chatting">채팅방</a>
                       </li>
       
                     </ul>

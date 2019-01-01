@@ -72,13 +72,13 @@ public class ClassRoomController {
         
         //로그인 되어있는 아이디 가져오는 변수
         MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
+
         //불린 값 넣어주기 위해서 만든 변수
         boolean result = false;
         
         //클래스룸 dto 만듦
         ClassRoomDTO classRoomDTO = new ClassRoomDTO(member.getMemberId(), myClassRoomCode, result);
-
+        
         String message = classRoomService.insertMyClassRoom(classRoomDTO);
         return message;
     }
@@ -125,7 +125,12 @@ public class ClassRoomController {
      * 강사 - 클래스 룸 생성 페이지 이동
      * */
     @RequestMapping("/classRoomInsertForm")
-    public void createClassRoomInfo() {}
+    public void createClassRoomInfo(HttpServletRequest request) {
+        
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        request.setAttribute("memberId", member.getMemberId());
+        
+    }
     
     /**
      * 강사 - 클래스 룸 생성 + 각 채팅방 파일 생성 (파일이름 : 클래스 코드.txt)
@@ -133,20 +138,33 @@ public class ClassRoomController {
     @RequestMapping("/insertClassRoom")
     public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) throws Exception{
 
+        //내 아이디 가져올 수 있도록
+        MemberDTO memberDTO = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
         //채팅방 파일을 만들 경로를 알아온다.
         String path = "C:\\Edu\\chatFile\\";
-        
+
         //DB에서 랜덤하게 파일 명을 생성하므로, 스케줄러를 이용하기 위해 경로를 DTO안에 chatFile에 set시킨다.
         classRoomInfoDTO.setClassRoomInfoChatFile(path);
         
         String fileName = classRoomService.createClassRoom(classRoomInfoDTO).substring(16);
         
-        System.out.println("fileName : " + fileName);
         //채팅방 파일 생성
         File file = new File(path, fileName);
         file.createNewFile();
         
-        return "redirect:/";
+        //가장 최근에 생성된 클래스 코드 가져오는 메소드
+        String myClassRoomCode = classRoomService.selectClassCode(memberDTO.getMemberId());
+        
+        //불린 값 넣어주기 위해서 만든 변수
+        boolean result = false;
+        
+        //클래스룸 dto 만듦
+        ClassRoomDTO classRoomDTO = new ClassRoomDTO(memberDTO.getMemberId(), myClassRoomCode, result);
+        
+        String message = classRoomService.insertMyClassRoom(classRoomDTO);
+        
+        return "redirect:/classRoom/myClassRoom";
     }
     
     /**

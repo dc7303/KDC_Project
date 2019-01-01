@@ -42,4 +42,9 @@ public interface ClassRoomService {
      * */
     List<ClassRoomInfoDTO> selectCurrentClassRoom(String memberId);
 
+    /**
+     * 가장 최근에 생성된 클래스 코드 가져오는 메소드
+     * */
+    String selectClassCode(String memberId);
+
 }

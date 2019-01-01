@@ -68,6 +68,7 @@ CREATE TABLE NOTICE_BOARD(
     NOTICE_BOARD_ATTACHMENT VARCHAR2(50 CHAR),
     NOTICE_BOARD_ISDELETE VARCHAR2(5 CHAR) NOT NULL CHECK(NOTICE_BOARD_ISDELETE IN('TRUE','FALSE'))
 );
+select * from classroom
 
 --댓글있는 게시판 테이블 생성
 CREATE TABLE REPLY_BOARD(
@@ -155,6 +156,8 @@ CREATE TABLE VISIT (
 );
 
 commit
+
+select * from visit
 
 ----------시퀀스
 --테이블명_SEQ

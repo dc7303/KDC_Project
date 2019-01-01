@@ -15,8 +15,9 @@
 
     <select id="visitNumListSelect" resultMap="visitMap">
         select *
-        from visit
-        where to_char(visit_date, 'YYYYMMDD') <![CDATA[<=]]> to_char(SYSDATE, 'YYYYMMDD') and <![CDATA[ROWNUM <= 5]]>
+        from (select * from visit order by visit_date desc)
+        where rownum <![CDATA[<=]]> 5
+        order by visit_pk asc
     </select>
 
 </mapper>
