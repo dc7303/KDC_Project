@@ -134,7 +134,7 @@
                     <a href="${pageContext.request.contextPath}/reply/lib?classification=lib&pageNo=1"> Tech 공유 게시판</a>
                   </li>
                   
-                  <sec:authorize access="isAuthenticated()">
+                  <sec:authorize access="hasAnyRole('ROLE_STUDENT','ROLE_TEACHER')">
                   <li class="nav-item nav-item-has-subnav">
                     <a href="#"><i class="ion-social-javascript-outline"></i> 반별 게시판</a>
                     <ul class="nav nav-subnav">
