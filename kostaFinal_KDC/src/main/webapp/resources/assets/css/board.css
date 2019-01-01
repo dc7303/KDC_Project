@@ -27,7 +27,7 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   text-align: center;
-  font-family:"나눔스퀘어라이트", "NanumSquareL", "ngeot", "돋움", "DotumChe", "Dotum";}
+  font-family:"�굹�닎�뒪�섏뼱�씪�씠�듃", "NanumSquareL", "ngeot", "�룍��", "DotumChe", "Dotum";}
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -41,7 +41,7 @@ html{
 
 body {
 	line-height: 1;
-	width:85%;
+	width:100%;
 
 
 }
@@ -848,7 +848,7 @@ input, select, textarea {
 									display: -moz-flex;
 									display: -webkit-flex;
 									display: -ms-flex;
-									display: flex;
+									display: contents;
 									-moz-flex-direction: row-reverse;
 									-webkit-flex-direction: row-reverse;
 									-ms-flex-direction: row-reverse;

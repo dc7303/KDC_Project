@@ -11,8 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 
-   
-    
     <script type="text/javascript">
     const jq = jQuery.noConflict();
     </script>
@@ -41,6 +39,9 @@
 
 .paging-hover:hover {
   color: blue;
+}
+.table-list-hover:hover{
+  color : dodgerblue;
 }
   </style>
   </head>
@@ -94,7 +95,7 @@
     <c:otherwise>
     <c:forEach items="${requestScope.list}" var="replyBoardDTO" varStatus="state">          
           
-          <tr>
+          <tr class="table-list-hover">
             <td colspan="2">
             <input type="hidden" value="${replyBoardDTO.replyBoardDate}"  name="newBoardCheck${state.count}">
             
@@ -164,7 +165,7 @@
         <c:forEach var="i" begin="1" end="${endPage+1}" step="1">
           <c:if test = "${empty requestScope.department}">
             <c:if test="${requestScope.pageNo eq i}">
-              <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}" style="color: red" class="paging-hover">${i}</a>
+              <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}" style="color: orange" class="paging-hover">${i}</a>
             </c:if>
             <c:if test="${requestScope.pageNo ne i}">
               <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}" class="paging-hover">${i}</a>
@@ -176,7 +177,7 @@
 
     <c:if test="${requestScope.pageNo eq 1}">
       <c:if test = "${empty requestScope.department}">
-        <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=1&classification=${requestScope.classification}" style="color: red" class="paging-hover">1</a>
+        <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=1&classification=${requestScope.classification}" style="color: orange" class="paging-hover">1</a>
       </c:if>
       <c:forEach var="i" begin="2" end="${endPage+1}" step="1">
         <c:if test = "${empty requestScope.department}">
@@ -192,7 +193,7 @@
         <c:forEach var="i" begin="1" end="${endPage+1}" step="1">
           <c:if test = "${not empty requestScope.department }">
             <c:if test="${requestScope.pageNo eq i}">
-              <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" style="color: red" class="paging-hover">${i}</a>
+              <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" style="color: orange" class="paging-hover">${i}</a>
             </c:if>
             <c:if test="${requestScope.pageNo ne i}">
               <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" class="paging-hover">${i}</a>
@@ -204,7 +205,7 @@
     
     <c:if test="${requestScope.pageNo eq 1}">
       <c:if test = "${not empty requestScope.department }">
-        <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=1&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" style="color: red" class="paging-hover">1</a>
+        <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=1&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" style="color: orange" class="paging-hover">1</a>
       </c:if>
       <c:forEach var="i" begin="2" end="${endPage+1}" step="1">
         <c:if test = "${not empty requestScope.department }">

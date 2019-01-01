@@ -161,7 +161,7 @@
     events = [];
 
     $.ajax({
-      url: '/kdc/calendar/calendarSelectByClassCode',
+      url: '${pageContext.request.contextPath}/calendar/calendarSelectByClassCode',
       type: 'post',
       dataType: 'json',
       beforeSend: function(xhr) {
