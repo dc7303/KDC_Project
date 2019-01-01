@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio.css" />
 <title>Insert title here</title>
 <script type="text/javascript">
   const jq = jQuery.noConflict();
@@ -82,6 +83,15 @@
   }
   .text-box > div{
     margin: 10px;
+  }
+  .no-img{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+  .no-img h3{
+    margin:0px;
+    padding-top: 15%;
   }
 </style>
 </head>
