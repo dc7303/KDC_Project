@@ -56,6 +56,16 @@
       text-overflow:ellipsis;
       cursor: pointer;
     }
+    
+    /* dialog td 내부 설정 */
+    .report-dialog-table tr td, .message-dialog-table tr td {
+      cursor: context-menu;
+      overflow: auto;
+      text-overflow: clip;
+      table-layout: normal;
+    }
+    
+    
     .empty-list {
       text-align: center;
     }
@@ -886,30 +896,31 @@
       if(event.stopPropagation) event.stopPropagation();
       else event.cancelBubble = true;
       
+      //삭제한 메세지 컬럼 삭제를 위함 selector
+      var deleteDom = jq(this).parent().parent();
+      
       var messageNum = jq(this).parent().children().eq(0).val();
       console.log(messageNum);
-      /*
+      
       jq.ajax({
-        url:'${pageContext.request.contextPath}/message/delete',
+        url:'${pageContext.request.contextPath}/message/messageDeleteByAdmin',
         type:"get" ,			
-        dataType:"text" ,		
+        dataType:"text",		
         data: {
-          senderId: receverId,
-		     messageTitle: replyTitle,
-		     messageContents: replyContents,
+          messageNum: messageNum,
         },
         beforeSend: function(xhr) {
           xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
         },
         success: function(result) {
-          jq( '#message-reply-dialog' ).dialog( "close" );
           alert(result);
+          deleteDom.remove();
         },
         error: function(err) {
           alert('전송실패입니다. 관리자에게 문의하세요.');
         }
       });
-      */
+      
     });
     
     /**
@@ -943,7 +954,7 @@
       jq( "#message-dialog" ).dialog({
         autoOpen: false,
         modal: true,
-        width: 500,
+        width: 600,
         height: 500,
         show: {
           effect: "blind",
@@ -1355,7 +1366,7 @@
     
     <!-- message dialog -->
     <div id="message-dialog" title="Basic dialog">
-      <table class="message-dialog-table w3-bordered">
+      <table class="message-dialog-table w3-bordered" width="300px">
         <tr>
           <th class="dialog-th">보낸사람</th>
           <td><span class="message-sender"></span></td>

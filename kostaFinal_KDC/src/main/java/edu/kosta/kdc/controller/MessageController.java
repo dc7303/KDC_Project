@@ -215,4 +215,12 @@ public class MessageController {
         
     }
 
+    @RequestMapping(value = "/messageDeleteByAdmin", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
+    public String messageDeleteByAdmin(int messageNum) {
+        
+        messageService.messageDelete(messageNum);
+        
+        return "삭제되었습니다.";
+    }
 }
