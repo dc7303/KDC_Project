@@ -4431,7 +4431,9 @@ tbody.collapse.in {
 
 /* 1231 nav-수정 */
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-	background-color: #ffb03a;
+  /* 1월 1일 홍성현 수정 */
+  /* background-color: #ffb03a; */
+	background-color: #eee;
 	
 }
 

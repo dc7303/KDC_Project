@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.MessageDTO;
@@ -107,7 +108,7 @@ public class MessageController {
         messageService.messageInsert(messageDTO);
         
         /*접속된ID로 전체 메세지 리스트를 출력하기 위한 return*/ 
-        return "redirect:/message/messageList?id="+id;
+        return "redirect:/message/messageListNoPaging?id="+id;
         
     }
     /**
@@ -139,7 +140,7 @@ public class MessageController {
         
         messageService.messageDelete(messageNum);
         
-        return "redirect:/message/messageList?id="+id;
+        return "redirect:/message/messageListNoPaging?id="+id;
         
     }
     
@@ -155,13 +156,26 @@ public class MessageController {
     }
     
     /**
-     * 메세지 상세보기(메세지 확인 유무 포함)
+     * 메세지 상세보기(메세지 확인 유무 포함) - admin
      * */
     @RequestMapping(value = "/messageSelectByMessageNum", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public MessageDTO selectByMesssage(int messageNum) {
         
         return messageService.selectByMesssage(messageNum);
+
+    }
+    
+    /**
+     * 메세지 상세보기(메세지 확인 유무 포함) - user
+     * */
+    @RequestMapping(value = "/messageSelectByMessageNum")
+    @ResponseBody
+    public ModelAndView selectByMessageDetail(int messageNum) {
+        
+        MessageDTO messageDTO = messageService.selectByMesssage(messageNum);
+        
+        return new ModelAndView("message/messageDetail", "messageDTO", messageDTO);
 
     }
     

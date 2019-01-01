@@ -23,18 +23,8 @@
 <!-- Custom Fonts -->
 <link href="${pageContext.request.contextPath }/resources/lib/test/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-
-
 <!-- MetisMenu CSS -->
     <link href="${pageContext.request.contextPath }/resources/lib/test/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-    
-
-
-
-
-
-
-
 
 </head>
 
@@ -61,29 +51,28 @@
         <!-- 로그인 상태 -->
         <!-- /.dropdown -->
         <li class="dropdown" id="loginState" style="display: inline-block;">
-          <a class="dropdown-toggle" id="messageDropToggle" data-toggle="dropdown" href="#"> 
+          <a class="dropdown-toggle" id="messageDropToggle" data-toggle="dropdown" href="#" style="color: #ffb03a; font-size: 30px;">
             <i class="fa fa-envelope fa-fw"></i>
-            <span class="badge badge-danger" id="header-unReadMessage"></span>
+            <sup><span class="badge badge-danger" id="header-unReadMessage" style="background-color: red;"></span></sup>
           </a>
           <ul class="dropdown-menu dropdown-messages">
 
 
-            <!-- 메세지함 -->
+            <!-- 쪽지함 -->
             <div class="cart-info">
-              <small> &nbsp; &nbsp; <span style="font-weight: bold; color: red;" id="header-unReadMessageDetail"></span>의 새로운 메세지가 있습니다.
+              <small> &nbsp; &nbsp; <span style="font-weight: bold; color: red;" id="header-unReadMessageDetail"></span>의 새로운 쪽지가 있습니다.
               </small> <br>
               <li class="divider"></li>
 
-              <!-- 안읽은 메세지 리스트 -->
-              <table class="table table-hover" id="unReadMessageList" align="center">
-
-              </table>
+              <!-- ajax로 안읽은 쪽지 리스트 불러오기 -->
+              <table class="table table-hover" id="unReadMessageList" align="center" style="margin-bottom: 5px;"> </table>
+              
               <div style="display: flex; justify-content: center;">
 
                 <div class="cart-btn">
 
                   <a style="" class="text-center" href="${pageContext.request.contextPath}/message/messageListNoPaging" class="btn btn-success"> 
-                    <strong> 더 많은 메세지 </strong>
+                    <strong> 더 많은 쪽지 </strong>
                     <i class="fa fa-angle-right"></i>
                   </a>
                 </div>
@@ -92,10 +81,10 @@
           </ul> <!-- /.dropdown-alerts -->
         </li> <!-- /.dropdown -->
         
-        <li class="dropdown" id="myInfoState" style="display: inline-block; height: 50px;">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+        <li class="dropdown" id="myInfoState" style="display: inline-block; height: 65px;">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #ffb03a; font-size: 30px;"> 
             <i class="fa fa-user fa-fw"></i> 
-            <i class="fa fa-caret-down"></i>
+            <i class="fa fa-caret-down" ></i>
           </a>
           <ul class="dropdown-menu dropdown-user">
             <li style="margin-bottom: 10px;">&nbsp;
@@ -147,7 +136,7 @@
 
 
   <script type="text/javascript">
-      //로그인시, 읽지 않은 메세지 표시
+      //로그인시, 읽지 않은 쪽지 표시
       window.onload = function() {
 
         var id = $('input[name=memberIdCheck]').val();
@@ -175,7 +164,7 @@
               }
             });
 
-        //header에 안읽은 메세지 읽어옴
+        //header에 안읽은 쪽지 읽어옴
         $
             .ajax({
               url : '${pageContext.request.contextPath}/message/unReadMessageList',
@@ -196,7 +185,7 @@
                           data,
                           function(index, item) {
                             str += '<li style="padding-left: 10px; padding-right: 10px; line-height: 50%;">';
-                            str += ' <a href="${pageContext.request.contextPath}/message/'+item.messageNum+'">';
+                            str += ' <a href="${pageContext.request.contextPath}/message/messageSelectByMessageNum?messageNum='+item.messageNum+'">';
                             str += '     <div  style="padding-bottom: 20px;">';
                             str += '         <strong>' + item.senderId + '</strong>';
                             str += '         <span class="pull-right text-muted">';
@@ -226,13 +215,8 @@
 <script src="${pageContext.request.contextPath }/resources/lib/test/vendor/bootstrap/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath }/resources/lib/test/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-
-
 <!-- Metis Menu Plugin JavaScript -->
     <script src="${pageContext.request.contextPath }/resources/lib/test/vendor/metisMenu/metisMenu.min.js"></script>
-
-
-
 
 <!-- Custom Theme JavaScript -->
 <%-- <script src="${pageContext.request.contextPath }/resources/lib/test/dist/js/sb-admin-2.js"></script> --%>

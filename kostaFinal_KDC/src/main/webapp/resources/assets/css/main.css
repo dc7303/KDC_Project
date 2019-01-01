@@ -26,7 +26,7 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   text-align: center;
-  font-family:"占쎄돌占쎈땸占쎈뮞占쎌꼷堉깍옙�뵬占쎌뵠占쎈뱜", "NanumSquareL", "ngeot", "占쎈즻占쏙옙", "DotumChe", "Dotum";}
+  font-family:"�뜝�럡�룎�뜝�럥�빖�뜝�럥裕욃뜝�럩瑗룟젆源띿삕占쎈뎄�뜝�럩逾졾뜝�럥諭�", "NanumSquareL", "ngeot", "�뜝�럥利삣뜝�룞�삕", "DotumChe", "Dotum";}
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -557,15 +557,14 @@ input, select, textarea {
 					input[type="checkbox"],
 					input[type="radio"] {
 						-moz-appearance: none;
-						-webkit-appearance: none;
+						-webkit-appearance: checkbox;
 						-ms-appearance: none;
 						appearance: none;
 						display: block;
 						float: left;
 						margin-right: -2rem;
-						opacity: 0;
 						width: 1rem;
-						z-index: -1;
+				
 					}
 
 						input[type="checkbox"] + label,
@@ -864,7 +863,7 @@ input, select, textarea {
 									-webkit-flex-direction: row-reverse;
 									-ms-flex-direction: row-reverse;
 									flex-direction: row-reverse;
-									min-height: 100vh;
+									min-height: auto;
 								}
 
 							/* Main */
