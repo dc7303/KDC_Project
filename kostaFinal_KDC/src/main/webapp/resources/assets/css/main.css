@@ -26,7 +26,7 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   text-align: center;
-  font-family:"占쎄돌占쎈땸占쎈뮞占쎌꼷堉깍옙�뵬占쎌뵠占쎈뱜", "NanumSquareL", "ngeot", "占쎈즻占쏙옙", "DotumChe", "Dotum";}
+  font-family:"�뜝�럡�룎�뜝�럥�빖�뜝�럥裕욃뜝�럩瑗룟젆源띿삕占쎈뎄�뜝�럩逾졾뜝�럥諭�", "NanumSquareL", "ngeot", "�뜝�럥利삣뜝�룞�삕", "DotumChe", "Dotum";}
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -40,7 +40,7 @@ html{
 
 body {
 	
-	width:85%;
+	width:100%;
 
 
 }
@@ -87,6 +87,23 @@ input, select, textarea {
 	-ms-appearance: none;
 	appearance: none;
 }
+
+
+
+/* notice-board */
+
+h2.notice-title{ 
+    text-align: center;
+    margin: 30px 0 40px 0;
+}
+
+/* p.underline-board{
+    align: center;
+    width: 40px;
+    border: solid 2px #666;
+} */
+
+
 
 /* Basic */
 
@@ -169,9 +186,21 @@ input, select, textarea {
 		}
 
 		table td {
+	
 			padding: 0.75rem 0.75rem;
 			text-align: center;
 		}
+		
+		#editSection{
+		    text-align: left;
+		}
+		
+		
+		
+		tr.titel-color{
+		  background-color: #f9f9f8;
+		} 
+		
 
 		table th {
 			font-size: 0.9rem;
@@ -180,6 +209,7 @@ input, select, textarea {
 			text-align: center;
 
 		}
+		
 
 		table thead {
 			border-bottom: solid 2px;
@@ -219,21 +249,50 @@ input, select, textarea {
 			table-layout: fixed;
 		}
 
-	table tbody tr {
-		border-color: rgba(0, 0, 0, 0.2);
-	}
+  table tbody tr {
+      border-color: rgba(0, 0, 0, 0.2);
+   }
+  
+  /* 게시글 읽기 내용 부분 */
+  td.tech-content{
+    height: 500px;
+  }
+  
+  
+  
+  
+  
 
-		table tbody tr:nth-child(2n + 1) {
-			background-color: rgba(0, 0, 0, 0.05);
+   /*  게시판 테이블 타이틀 부분 (첫번째줄)  */
+   
+   
+   table th {
+			font-size: 1rem;
+			font-weight: 400;
+			padding:  1.5rem 0.75rem 1.5rem 0.75rem;
+			text-align: center;
+
+		}
+   
+   
+   table th {
+      /* color: white; */
+      background-color: #f9f9f8;
+      height: 
+   }
+
+  
+        /* 게시판 두번째줄 색 */
+/* 		table tbody tr:nth-child(2n + 1) {
+			background-color: #fffcf7;
 		}
 
 		table tbody tr.alt {
 			background-color: rgba(0, 0, 0, 0.05) !important;
-		}
+		} */
 
-	table th {
-		color: #000000;
-	}
+    /* 게시판 타이틀(첫번째줄) */
+
 
 	table thead {
 		border-bottom-color: rgba(0, 0, 0, 0.2);
@@ -557,15 +616,14 @@ input, select, textarea {
 					input[type="checkbox"],
 					input[type="radio"] {
 						-moz-appearance: none;
-						-webkit-appearance: none;
+						-webkit-appearance: checkbox;
 						-ms-appearance: none;
 						appearance: none;
 						display: block;
 						float: left;
 						margin-right: -2rem;
-						opacity: 0;
 						width: 1rem;
-						z-index: -1;
+				
 					}
 
 						input[type="checkbox"] + label,
@@ -864,7 +922,7 @@ input, select, textarea {
 									-webkit-flex-direction: row-reverse;
 									-ms-flex-direction: row-reverse;
 									flex-direction: row-reverse;
-									min-height: 100vh;
+									min-height: auto;
 								}
 
 							/* Main */

@@ -178,6 +178,10 @@ public class MessageServiceImpl implements MessageService {
         
         MemberDTO memberDTO = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        if(memberDTO.getMemberId() == null) {
+            throw new KdcException("id가 존재하지 않습니다.");
+        }
+        
         int count = messageDAO.messageUnReadCount(memberDTO.getMemberId());
         
         return count;

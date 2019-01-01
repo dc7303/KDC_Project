@@ -144,7 +144,6 @@ input.search-button{
 var waterfall = new Waterfall({
   containerSelector: '.wf-container',
   boxSelector: '.wf-box',
-<<<<<<< HEAD
   minBoxWidth: 250
 });
 

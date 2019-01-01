@@ -11,8 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 
-    
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css"/>
+   
     
     <script type="text/javascript">
     const jq = jQuery.noConflict();
@@ -43,26 +42,44 @@
   </head>
 
   <body>
+  
+  <!-- 게시판 타이틀 -->
+  <c:choose>
+    <c:when test="${requestScope.classification eq 'tech'}">
+    <h2 class="notice-title">Tech Q&A</h2>
+    <p class="underline-board"></p>
+    </c:when>
+    <c:when test="${requestScope.classification eq 'lib'}">
+    <h2 class="notice-title">Tech 공유 게시판</h2>
+    <p class="underline-board"></p>
+    </c:when> 
+    <c:when test="${requestScope.classification eq 'study'}">
+    <h2 class="notice-title">스터디모집</h2>
+    <p class="underline-board"></p>
+    </c:when> 
+  </c:choose>
 
 
-    <h2>${requestScope.classification}</h2>
-    <br/><br/>
+    
+   
     <sec:authorize access="isAuthenticated()">
         <div class="write-button">
           <a href="write?classification=${requestScope.classification}" class="button">글쓰기</a>
-        </div> <br/><br/>
+        </div> 
     </sec:authorize>
-    
+    <br/><br/>
     <div class="table-wrapper">
       <table>
         <thead>
           <tr>
-            <th colspan="2">글제목</th>
+          
+         
+            <th colspan="2" style="width:400px;">글제목</th>
             <th>글쓴이</th>
-            <th><a href="${pageContext.request.contextPath}/reply/dateOrderby?sort=reply_board_write_date&classification=${requestScope.classification}">등록날짜</a></th>
-            <th><a href="${pageContext.request.contextPath}/reply/likeOrderby?sort=likeNum&classification=${requestScope.classification}">좋아요</a></th>
-            <th><a href="${pageContext.request.contextPath}/reply/replyOrderby?sort=replyNum&classification=${requestScope.classification}">댓글수</a></th>
-            <th><a href="${pageContext.request.contextPath}/reply/viewOrderby?sort=REPLY_BOARD_VIEWS&classification=${requestScope.classification}">조회수</a></th>            
+            <th><a class="board-list-font" href="${pageContext.request.contextPath}/reply/dateOrderby?sort=reply_board_write_date&classification=${requestScope.classification}">등록날짜</a></th>
+            <th><a class="board-list-font" href="${pageContext.request.contextPath}/reply/likeOrderby?sort=likeNum&classification=${requestScope.classification}">좋아요</a></th>
+            <th><a class="board-list-font" href="${pageContext.request.contextPath}/reply/replyOrderby?sort=replyNum&classification=${requestScope.classification}">댓글수</a></th>
+            <th><a class="board-list-font" href="${pageContext.request.contextPath}/reply/viewOrderby?sort=REPLY_BOARD_VIEWS&classification=${requestScope.classification}">조회수</a></th>            
           </tr>
         </thead>
         <tbody>

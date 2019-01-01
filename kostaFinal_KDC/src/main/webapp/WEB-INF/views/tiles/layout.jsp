@@ -8,7 +8,9 @@
 <title>Insert title here</title>
 <style type="text/css">
 
- 
+ header {
+  height: 80px;
+ }
 
 
   nav {
@@ -19,7 +21,8 @@
   
   section {
     height: 100%;   
-    padding-left: 450px;
+    margin-left:260px;
+    padding: 0 50px;
     margin-top: 50px;
   }
   
@@ -35,10 +38,10 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<%-- 
-<header>
+
+  <header>
     <tiles:insertAttribute name="header"/>
-  </header> --%>
+  </header>
 
 
   <nav>
