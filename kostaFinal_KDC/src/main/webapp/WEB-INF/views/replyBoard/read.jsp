@@ -216,16 +216,16 @@ jq(function() {
         <td>
           <c:choose>
             <c:when test="${replyBoardDTO.updown.isUp==true}">
-            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up_black.png" style="cursor: pointer;" id="thumbs_up" onclick="window.location.reload()"></div><br/>
             <div><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down.png"></div>
             </c:when>
             <c:when test="${replyBoardDTO.updown.isUp==false}">
             <div><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up.png"></div><br/>
-            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
+            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down_black.png" style="cursor: pointer;" id="thumbs_down" onclick="window.location.reload()"></div>
             </c:when>      
             <c:otherwise>
-            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
-            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
+            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up.png" style="cursor: pointer;" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down.png" style="cursor: pointer;" id="thumbs_down" onclick="window.location.reload()"></div>     
             </c:otherwise>
           </c:choose>
         </td>

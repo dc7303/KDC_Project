@@ -157,7 +157,7 @@
       </table>
     </div>
 
-  <fmt:parseNumber var="endPage" integerOnly="true" value="${(listSize-1)/5}"/>
+  <fmt:parseNumber var="endPage" integerOnly="true" value="${(listSize-1)/10}"/>
   <div style="text-align: center">
     <c:if test="${requestScope.pageNo ne 1}">
       <c:if test="${empty requestScope.department }">
