@@ -134,11 +134,11 @@
                   <li class="nav-item nav-drawer-header">MENU</li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath }/notice/list?classification=generalNotice"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
+                    <a href="${pageContext.request.contextPath }/notice/list?classification=generalNotice&pageNum=1"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath }/notice/list?classification=findJobNotice"><i class="ion-ios-compose-outline"></i> 취업게시판</a>
+                    <a href="${pageContext.request.contextPath }/notice/list?classification=findJobNotice&pageNum=1"><i class="ion-ios-compose-outline"></i> 취업게시판</a>
                   </li>
       
                   <li class="nav-item ">
@@ -154,7 +154,7 @@
                     <ul class="nav nav-subnav">
        
                       <li>
-                        <a href="${pageContext.request.contextPath }/notice/list?classification=classNotice">반별 공지사항</a>
+                        <a href="${pageContext.request.contextPath }/notice/list?classification=classNotice&pageNum=1">반별 공지사항</a>
                       </li>
         
                       <li>

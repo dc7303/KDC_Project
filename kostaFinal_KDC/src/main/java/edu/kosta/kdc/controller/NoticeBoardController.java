@@ -2,6 +2,7 @@ package edu.kosta.kdc.controller;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,12 +32,17 @@ public class NoticeBoardController {
      * 穿端 伊事
      */
     @RequestMapping("/list")
-    public String Board(Model model, String classification) {
+    public String Board(Model model, String classification, int pageNum) {
         
-        List<NoticeBoardDTO> list = noticeBoardService.selectAll(classification);
-        model.addAttribute("list", list);
+        System.out.println("ぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜ");
+        Map<String, Object> map = noticeBoardService.selectAll(classification, pageNum);
+        System.out.println("ぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜ");
+        
+        model.addAttribute("resultMap", map);
         model.addAttribute("classification", classification);
+        System.out.println("ぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜ");
         
+
         return "notice/noticeList";
     }
 
@@ -44,11 +50,14 @@ public class NoticeBoardController {
      * 繕闇 伊事
      */
     @RequestMapping("/listserch")
-    public String SerchList(String department, String boardSearch, String classification, Model model) {
+    public String SerchList(String department, String boardSearch, String noticeBoardSearch,
+            String classification, Model model, int pageNum) {
 
-        List<NoticeBoardDTO> list = noticeBoardService.SelectSerch(department, boardSearch, classification);
-        model.addAttribute("list", list);
+        Map<String, Object> map = noticeBoardService.selectNoticePaging(department, boardSearch, classification, pageNum);
+        
+        model.addAttribute("resultMap", map);
         model.addAttribute("classification",classification);
+        
         return "notice/noticeList";
     }
 

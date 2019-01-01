@@ -85,11 +85,11 @@
     </c:when>
     
     <c:otherwise>
-    <c:forEach items="${requestScope.list}" var="NoticeBoardDTO" varStatus="state">          
+    <c:forEach items="${requestScope.resultMap}" var="resultMap" varStatus="state">          
           
           <tr>
             <td colspan="2">
-            <input type="hidden" value="${NoticeBoardDTO.noticeBoardDate}"  name="newBoardCheck${state.count}">
+            <input type="hidden" value="${resultMap.noticeList.noticeBoardDate}"  name="newBoardCheck${state.count}">
             <script type="text/javascript">
               jq(function(){
                 
@@ -105,24 +105,24 @@
             </script>
             <span name="span${state.count}"></span>
 
-                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_ADMIN'}">
+                <c:if test="${resultMap.noticeList.authName eq 'ROLE_ADMIN'}">
                 <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: red; font-weight: bold">
-                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                       ${resultMap.noticeList.noticeBoardTitle}</a>
                 </c:if>
                 
-                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_MEMBER'}">
+                <c:if test="${resultMap.noticeList.authName eq 'ROLE_MEMBER'}">
                 <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: #7dc855">
-                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                       ${resultMap.noticeList.noticeBoardTitle}</a>
                 </c:if>
                 
-                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_TEACHER'}">
+                <c:if test="${resultMap.noticeList.authName eq 'ROLE_TEACHER'}">
                 <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: orange; font-weight: bold">
-                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                       ${resultMap.noticeList.noticeBoardTitle}</a>
                 </c:if>
                 
-                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_COMPANY'}">
+                <c:if test="${resultMap.noticeList.authName eq 'ROLE_COMPANY'}">
                 <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: blue">
-                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                       ${resultMap.noticeList.noticeBoardTitle}</a>
                 </c:if>
             
             </td>

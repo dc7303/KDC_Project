@@ -114,5 +114,57 @@
         WHERE notice_board_classification = 'generalNotice' and <![CDATA[ ROWNUM <= 5]]> and notice_board_isdelete='FALSE'
         ORDER BY NOTICE_BOARD_PK DESC
     </select>
+    
+    <!-- 조건 검색 페이징 개수 -->
+    <select id="searchPagingCount" parameterType="map" resultType="java.lang.Integer">
+        select nvl(count(*), 0) as count 
+        FROM NOTICE_BOARD A, MEMBER B
+        WHERE A.NOTICE_BOARD_WRITER_ID = B.MEMBER_ID
+        AND A.NOTICE_BOARD_CLASSIFICATION= #{classification}
+        AND A.NOTICE_BOARD_ISDELETE='FALSE'
+        <if test="department.equals('title')">
+            AND UPPER(A.NOTICE_BOARD_TITLE)  like  '%' || UPPER(#{noticeBoardSearch}) || '%'
+        </if>
+        <if test="department.equals('content')">
+            AND UPPER(A.NOTICE_BOARD_CONTENTS) like '%' || UPPER(#{noticeBoardSearch}) || '%'
+        </if>
+      
+    </select>
+    
+    <!--전체 페이징 처리  -->
+    <select id="noticeBoardSelectAllForPaging" parameterType ="map" resultMap="noticeBoardDTO">
+       SELECT X.RNUM, X.* FROM(
+       SELECT ROWNUM AS RNUM, A.* FROM ( 
+       SELECT A.*,(SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+       FROM NOTICE_BOARD A, MEMBER B
+       WHERE A.NOTICE_BOARD_ISDELETE= 'FALSE'
+       AND A.NOTICE_BOARD_CLASSIFICATION = #{classification}
+       AND A.NOTICE_BOARD_WRITER_ID = B.MEMBER_ID
+       <if test="classRoomCode != null">
+           AND A.NOTICE_BOARD_CLASSROOM_CODE = #{classRoomCode}
+       </if>
+           )A WHERE ROWNUM <![CDATA[ <= ]]>#{lastColumn}) X 
+           WHERE X.RNUM <![CDATA[ >= ]]>#{firstColumn} 
+    </select>
+    
+    <!-- 조건 검색 페이징 처리 -->
+    <select id="noticeBoardSelectPaging" parameterType="map" resultMap="noticeBoardDTO">
+        SELECT X.RNUM, X.* FROM(
+        SELECT ROWNUM AS RNUM, A.* FROM ( 
+        SELECT A.*, (SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+        FROM NOTICE_BOARD A, MEMBER B
+        WHERE A.NOTICE_BOARD_WRITER_ID = B.MEMBER_ID
+        AND A.NOTICE_BOARD_CLASSIFICATION= #{classification}
+        AND A.NOTICE_BOARD_ISDELETE='FALSE'
+        <if test="department.equals('title')">
+            AND UPPER(A.NOTICE_BOARD_TITLE)  like  '%' || UPPER(#{noticeBoardSearch}) || '%'
+        </if>
+        <if test="department.equals('content')">
+            AND UPPER(A.NOTICE_BOARD_CONTENTS) like '%' || UPPER(#{noticeBoardSearch}) || '%'
+        </if>
+        )A WHERE ROWNUM <![CDATA[ <= ]]>#{lastColumn}) X 
+        WHERE X.RNUM <![CDATA[ >= ]]>#{firstColumn} 
+      
+    </select>
 
 </mapper>
