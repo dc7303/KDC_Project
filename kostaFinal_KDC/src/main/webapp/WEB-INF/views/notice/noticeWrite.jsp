@@ -7,10 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
+<%--     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" /> --%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
     
-    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
+
 
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
@@ -24,6 +25,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/tui-editor-css/editor.css">
 <script language=javascript>
 function checkValid() {
     var f = window.document.writeForm;
@@ -111,8 +113,8 @@ jq(function(){
     </tr>
 
     <tr>
-      <td>
-        <p align="right"><b><span style="font-size:9pt;">*첨부파일</span></b></p>
+      <td colspan="8">
+        <p align="left"><b><span style="font-size:9pt;">*첨부파일</span></b></p>
         <b><span style="font-size:9pt;">
         <input type="file" name="file" maxlength="60" size="40"></span></b>
       </td>

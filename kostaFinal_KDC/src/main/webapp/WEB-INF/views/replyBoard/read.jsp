@@ -8,7 +8,7 @@
     <title></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
     
     <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
@@ -164,7 +164,7 @@ jq(function() {
 </head>
 
 <body>
-<span style="text-align: center"><h1>${requestScope.classification}게시판 입니다.</h1></span>
+
 <table>
        <thead>
           <tr class="titel-color">
