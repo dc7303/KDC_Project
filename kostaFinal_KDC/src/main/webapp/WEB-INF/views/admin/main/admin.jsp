@@ -830,7 +830,7 @@
       var y = event.clientY;
       
       var messageNum = jq(this).children().eq(0).children().eq(0).val();
-      var readStatus = jq(this).children().eq(5);
+      var readStatus = jq(this).children().eq(4);
       
       jq.ajax({
         url:'${pageContext.request.contextPath}/message/messageSelectByMessageNum',
