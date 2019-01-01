@@ -46,6 +46,7 @@ public class MessageController {
         return new ModelAndView("message/messageList", "messageList", list);
     }
     
+
     /**
      * 전체 메세지 리스트
      * */

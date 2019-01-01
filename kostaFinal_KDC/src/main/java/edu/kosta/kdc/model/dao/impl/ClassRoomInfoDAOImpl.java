@@ -39,20 +39,6 @@ public class ClassRoomInfoDAOImpl implements ClassRoomInfoDAO {
     }
 
     /**
-     * 강사 - 클래스 코드 중복 체크(ajax)
-     * */
-    @Override
-    public String codeCheck(String classRoomCode) {
-        
-        ClassRoomInfoDTO dto = sqlSession.selectOne("classRoomInfoMapper.codeCheck", classRoomCode);
-        if(dto == null) {
-            return "사용 가능합니다";
-        }else {
-            return "중복된 코드입니다";
-        }
-    }
-
-    /**
      * 강사 - 강사 아이디 체크(ajax)
      * */
     @Override
@@ -74,6 +60,21 @@ public class ClassRoomInfoDAOImpl implements ClassRoomInfoDAO {
     public String selectChatFileName(ClassRoomInfoDTO classRoomInfoDTO) {
         
         return sqlSession.selectOne("classRoomInfoMapper.selectChatFileName", classRoomInfoDTO);
+    }
+
+    /**
+     * 클래스룸 코드가 있는지 체크하는 메소드
+     * */
+    @Override
+    public int codeCheck(String classRoomCode) {
+        
+        ClassRoomInfoDTO classRoomInfoDTO = sqlSession.selectOne("classRoomInfoMapper.codeCheck", classRoomCode);
+        if(classRoomInfoDTO == null) {
+            return 0;
+        }else {
+            return 1;
+        }
+        
     }
 
 }
