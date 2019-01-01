@@ -38,6 +38,10 @@
     filter: invert(100%);
   }
 }
+
+.paging-hover:hover {
+  color: blue;
+}
   </style>
   </head>
 
@@ -152,7 +156,66 @@
       </table>
     </div>
 
-    <div class="field half">
+  <fmt:parseNumber var="endPage" integerOnly="true" value="${(listSize-1)/5}"/>
+  <div style="text-align: center">
+    <c:if test="${requestScope.pageNo ne 1}">
+      <c:if test="${empty requestScope.department }">
+        <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=1&classification=${requestScope.classification}" class="paging-hover">첫페이지로</a>
+        <c:forEach var="i" begin="1" end="${endPage+1}" step="1">
+          <c:if test = "${empty requestScope.department}">
+            <c:if test="${requestScope.pageNo eq i}">
+              <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}" style="color: red" class="paging-hover">${i}</a>
+            </c:if>
+            <c:if test="${requestScope.pageNo ne i}">
+              <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}" class="paging-hover">${i}</a>
+            </c:if>
+          </c:if>
+        </c:forEach>
+      </c:if>
+    </c:if>
+
+    <c:if test="${requestScope.pageNo eq 1}">
+      <c:if test = "${empty requestScope.department}">
+        <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=1&classification=${requestScope.classification}" style="color: red" class="paging-hover">1</a>
+      </c:if>
+      <c:forEach var="i" begin="2" end="${endPage+1}" step="1">
+        <c:if test = "${empty requestScope.department}">
+          <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}" class="paging-hover">${i}</a>
+        </c:if>
+      </c:forEach>
+    </c:if>
+
+
+    <c:if test="${requestScope.pageNo ne 1}">
+      <c:if test="${not empty requestScope.department }">
+        <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=1&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" class="paging-hover">첫페이지로</a>
+        <c:forEach var="i" begin="1" end="${endPage+1}" step="1">
+          <c:if test = "${not empty requestScope.department }">
+            <c:if test="${requestScope.pageNo eq i}">
+              <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" style="color: red" class="paging-hover">${i}</a>
+            </c:if>
+            <c:if test="${requestScope.pageNo ne i}">
+              <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" class="paging-hover">${i}</a>
+            </c:if>
+          </c:if>
+        </c:forEach>
+      </c:if>
+    </c:if>
+    
+    <c:if test="${requestScope.pageNo eq 1}">
+      <c:if test = "${not empty requestScope.department }">
+        <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=1&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" style="color: red" class="paging-hover">1</a>
+      </c:if>
+      <c:forEach var="i" begin="2" end="${endPage+1}" step="1">
+        <c:if test = "${not empty requestScope.department }">
+          <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}" class="paging-hover">${i}</a>
+        </c:if>
+      </c:forEach>
+    </c:if>
+  </div>
+  
+  <br><br>
+  <div class="field half" style="padding-left: 30%;">
       <form action="${pageContext.request.contextPath}/reply/replyBoardListSearch">
          <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
          <input type="hidden" name="classification" value="${requestScope.classification}"/>
@@ -169,22 +232,6 @@
           <input type="submit" value="검색"/>
       </form>
    </div>
-  
-  
-  <fmt:parseNumber var="endPage" integerOnly="true" value="${(listSize-1)/5}"/>
-    <div>    
-    <c:forEach var="i" begin="1" end="${endPage+1}" step="1">
-    
-    <c:if test = "${empty requestScope.department }">
-    <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}">${i}</a>
-    </c:if>
-    
-    <c:if test = "${not empty requestScope.department }">
-    <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}">${i}</a>
-    </c:if>
-
-    </c:forEach>
-    </div>
-  
+   
   </body>
 </html>

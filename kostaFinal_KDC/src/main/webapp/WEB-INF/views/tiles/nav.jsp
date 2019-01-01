@@ -156,7 +156,7 @@
                   </sec:authorize>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/study?classification=studypageNo=1">  스터디모집 </a>
+                    <a href="${pageContext.request.contextPath}/reply/study?classification=study&pageNo=1">  스터디모집 </a>
                   </li>
       
                   <li class="nav-item ">
