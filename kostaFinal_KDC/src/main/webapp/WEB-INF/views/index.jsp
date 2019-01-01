@@ -22,18 +22,39 @@ jq(function(){
   })
 })
 </script>
-<!-- <style>
+<style>
 
-div.index-img{
+/* div.index-img{
   width: 100%;
   height: 400px;
   background-color: pink;
-  margin-bottom: 30px;
+  margin-bottom:
 
+} */
+
+/* body { 
+
+  background:url('${pageContext.request.contextPath }/resources/testimg/photos/photo11.jpg') rgba(0,0,0,0.5); 
+
+
+  background-size: 100%;
+ 
+} */
+
+
+i{
+  margin: 0 5px 0 0;
+}
+
+h4{
+  float: left;
+  color: white;
+  background-color: #ffb03a;
+  padding: 5px;
 }
 
 
-</style> -->
+</style>
 
 </head>
 <body>
@@ -65,8 +86,12 @@ div.index-img{
 
     
       </sec:authorize>
+      
+      
+     
 
 <div>
+
 
 <%-- <a href="${pageContext.request.contextPath }/calendar/calendarForm">강사 - 풀 카렌다</a><br>  
 <br/>
@@ -85,7 +110,7 @@ div.index-img{
   </div> -->
   
   <div style="width:45%; float:left; margin-right:100px">
-    <h4 class="notice-header">공지사항</h4>
+    <h4 class="notice-header"><i class="ion-ios-calculator-outline"></i>공지사항</h4>
     <table border="1" width="80%">
       <colgroup>
         <col width="50%">
@@ -112,7 +137,7 @@ div.index-img{
   </div>
   
   <div style="width:45%; float:right">
-    <h4 class="Tech-header">Tech 공유게시판</h4>
+    <h4 class="Tech-header"><i class="ion-ios-list-outline"></i>Tech 공유게시판</h4>
     <table border="1" width="80%">
       <colgroup>
         <col width="50%">
@@ -140,7 +165,7 @@ div.index-img{
   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
   
   <div style="width:100%;">
-    <h4 class="QnA-header" style="margin-left:auto; margin-right:auto;">Tech Q&A</h4>
+    <h4 class="QnA-header" style="margin-left:auto; margin-right:auto;"><i class="ion-ios-list-outline"></i>Tech Q&A</h4>
     <table border="1" width="100%">
       <colgroup>
         <col width="50%">
