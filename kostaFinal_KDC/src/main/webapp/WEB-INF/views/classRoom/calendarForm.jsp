@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,9 +32,10 @@
 <script src='${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.min.js'></script>
 </head>
 <body>
-<h3>000기 스케줄</h3>
+<h3 class="notice-title">스케줄</h3>
 <div id="calendar"></div>
 
+<sec:authorize access="hasRole('ROLE_TEACHER')" >
 <div id="updateDialog" title="일정 수정">
   <form>
   <div class="form-group">
@@ -87,7 +89,7 @@
   <input type="button" class="btn btn-warning" value="취소"/>
 </form>
 </div>
-
+</sec:authorize>
 
 
 <script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/moment.min.js'></script>
@@ -161,7 +163,7 @@
     events = [];
 
     $.ajax({
-      url: '/kdc/calendar/calendarSelectByClassCode',
+      url: '${pageContext.request.contextPath}/calendar/calendarSelectByClassCode',
       type: 'post',
       dataType: 'json',
       beforeSend: function(xhr) {
@@ -237,7 +239,7 @@
   //등록버튼 클릭 이벤트
   $('#insertBtn').on('click', function() {
     $.ajax({
-      url: '/kdc/calendar/calendarInsert',
+      url: '${pageContext.request.contextPath }/calendar/calendarInsert',
       type: 'post',
       dataType: 'text',
       data: {
@@ -264,7 +266,7 @@
   //수정버튼 클릭 이벤트
   $('#updateBtn').on('click', function() {
     $.ajax({
-      url: '/kdc/calendar/calendarUpdateDate',
+      url: '${pageContext.request.contextPath }/calendar/calendarUpdateDate',
       type: 'post',
       dataType: 'text',
       data: {
@@ -294,7 +296,7 @@
     var confirmResult = confirm('정말 삭제하시겠습니까?');
     if (confirmResult) {
       $.ajax({
-        url: '/kdc/calendar/calendarDelete',
+        url: '${pageContext.request.contextPath }/calendar/calendarDelete',
         type: 'post',
         dataType: 'text',
         data: {
@@ -385,7 +387,7 @@
     } else {
       //calendar 없데이트로.
       $.ajax({
-        url: '/kdc/calendar/calendarUpdateDate',
+        url: '${pageContext.request.contextPath }/calendar/calendarUpdateDate',
         type: 'post',
         dataType: 'text',
         data: {
@@ -418,7 +420,7 @@
    */
   function setResizeEvent(event, delta, revertFunc, jsEvent, ui, view) {
     $.ajax({
-      url: '/kdc/calendar/calendarUpdateDate',
+      url: '${pageContext.request.contextPath }/calendar/calendarUpdateDate',
       type: 'post',
       dataType: 'text',
       data: {
