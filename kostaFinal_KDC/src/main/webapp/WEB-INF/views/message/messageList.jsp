@@ -29,13 +29,12 @@ jq(function(){
         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
       },
       success:function(result){
-        if(result=='0'){
+        if(result === null || result === ''){
           alert("삭제된 아이디 혹은 없는 아이디 입니다.");
           self.close();
         }else{
-          location.href='${pageContext.request.contextPath}/message/messageReplyPage?senderId='+senderId;
+          window.open("${pageContext.request.contextPath}/message/messageReplyPage?senderId=" + result, "pop", "left=500,top=200,width=700,height=600,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no");
         }
-        
       } , //성공했을때
       error:function(err){
         alert(err+" => 오류 발생")

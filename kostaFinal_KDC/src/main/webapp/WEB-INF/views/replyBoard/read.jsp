@@ -9,8 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
-    
-    <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main2.js"></script>
 <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
@@ -303,6 +302,7 @@ jq(function() {
   <c:when test="${replyBoardDTO.replyBoardReplyNo>0}">
       <tr>
         <td style="width: 80px">
+        <input type="hidden" value="${replyBoardDTO.replyBoardMention }"/>
         <a id="mentionNickName" href="#">${replyBoardDTO.mentionNickName}</a>
         </td>
         <td colspan="4">
@@ -479,5 +479,10 @@ jq(function() {
 <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
 <input type="hidden" name="csrfToken" value="${_csrf.token}"/>
 <input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>
-
+<script>
+            jq(document).on('click', "#mentionNickName", function() {
+              var senderId = jq(this).parent().children().eq(0).val();
+              window.open("${pageContext.request.contextPath}/message/messageReplyPage?senderId="+senderId, "pop", "left=500,top=200,width=700,height=600,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no");
+            });
+</script>
 </body>
