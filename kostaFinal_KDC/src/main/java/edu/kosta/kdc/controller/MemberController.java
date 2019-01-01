@@ -256,7 +256,7 @@ public class MemberController {
         }
         memberService.memberInsert(memberDTO, authCode);
 
-        return "/index";
+        return "redirect:/";
     }
     
     /**

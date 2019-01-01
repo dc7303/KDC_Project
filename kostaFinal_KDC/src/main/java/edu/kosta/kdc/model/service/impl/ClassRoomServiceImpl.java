@@ -1,14 +1,19 @@
 package edu.kosta.kdc.model.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kosta.kdc.exception.KdcException;
+import edu.kosta.kdc.model.dao.AuthorityDAO;
 import edu.kosta.kdc.model.dao.ClassRoomDAO;
 import edu.kosta.kdc.model.dao.ClassRoomInfoDAO;
+import edu.kosta.kdc.model.dto.AuthorityDTO;
 import edu.kosta.kdc.model.dto.ClassRoomDTO;
 import edu.kosta.kdc.model.dto.ClassRoomInfoDTO;
 import edu.kosta.kdc.model.service.ClassRoomService;
@@ -21,6 +26,9 @@ public class ClassRoomServiceImpl implements ClassRoomService {
     
     @Autowired
     private ClassRoomDAO classRoomDAO;
+    
+    @Autowired
+    private AuthorityDAO authorityDAO;
     
     @Override
     public List<ClassRoomInfoDTO> classList(String id) {
@@ -85,6 +93,17 @@ public class ClassRoomServiceImpl implements ClassRoomService {
         result = classRoomDAO.insertMyClassRoom(classRoomDTO);
         if(result == 0) {
             throw new KdcException("클래스 코드 등록 실패");
+        }
+        
+        List<AuthorityDTO> getMemberAuthorityDTO = authorityDAO.authoritySelectByMemberId(classRoomDTO.getMemberId());
+        
+        //만약 가져온 권한이 role_member라면 role_student로 바꾸어 준다.
+        if(getMemberAuthorityDTO.get(0).getAuthName().equals("ROLE_MEMBER")){
+            result = authorityDAO.authorityUpdate(getMemberAuthorityDTO.get(0).getMemberId());
+            if(result == 0) {
+                throw new KdcException("권한 수정 실패.");
+            }
+            return "등록되었습니다. 다시 로그인해주세요.";
         }
         
         //마이페이지에서 클래스 코드가 DB에 등록 되었음.

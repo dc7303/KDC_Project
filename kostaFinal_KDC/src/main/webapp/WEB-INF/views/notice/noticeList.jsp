@@ -48,22 +48,35 @@
     <c:when test="${requestScope.classification eq 'generalNotice'}">
     <h2 class="notice-title">공지사항</h2>
     <p class="underline-board"></p>
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+      <div class="write-button">
+        <a href="${pageContext.request.contextPath }/notice/writeForm?classification=${requestScope.classification}" class="button">글쓰기</a>
+      </div> <br/><br/>
+    </sec:authorize>
+    
     </c:when>
     <c:when test="${requestScope.classification eq 'findJobNotice'}">
     <h2 class="notice-title">Tech 취업 게시판</h2>
     <p class="underline-board"></p>
-    </c:when> 
-    <c:when test="${requestScope.classification eq 'classNotice'}">
-    <h2 class="notice-title">클래스 공지사항</h2>
-    <p class="underline-board"></p>
-    </c:when> 
-  </c:choose>
-    
     <sec:authorize access="isAuthenticated()">
       <div class="write-button">
         <a href="${pageContext.request.contextPath }/notice/writeForm?classification=${requestScope.classification}" class="button">글쓰기</a>
       </div> <br/><br/>
     </sec:authorize>
+    
+    </c:when> 
+    <c:when test="${requestScope.classification eq 'classNotice'}">
+    <h2 class="notice-title">클래스 공지사항</h2>
+    <p class="underline-board"></p>
+    <sec:authorize access="hasRole('ROLE_TEACHER')">
+      <div class="write-button">
+        <a href="${pageContext.request.contextPath }/notice/writeForm?classification=${requestScope.classification}" class="button">글쓰기</a>
+      </div> <br/><br/>
+    </sec:authorize>
+    </c:when> 
+  </c:choose>
+    
+    
     <div class="table-wrapper">
       <table>
         <thead>
