@@ -113,7 +113,7 @@ keyframes invert-new {
             
             </td>
             
-            <td>${NoticeBoardDTO.noticeBoardWriterId}</td>
+            <td>${NoticeBoardDTO.member.memberNickName}</td>
             <td>${NoticeBoardDTO.noticeBoardDate}</td>
             <td>${NoticeBoardDTO.noticeBoardViews}</td>
           </tr>

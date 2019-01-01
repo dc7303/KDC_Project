@@ -105,5 +105,10 @@ public interface ReplyBoardService {
      * */
     List<ReplyBoardDTO> selectFiveByTitle(String String);
 
+    /**
+     * 게시판 종류별 검색된 전체 게시물 수 가져오기
+     */
+    int boardQuantityByClassificationwithSearch(String department, String boardSearch, String classification);
+
     
 }

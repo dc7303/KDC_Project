@@ -14,12 +14,22 @@
     <result column="NOTICE_BOARD_ATTACHMENT" property="noticeBoardAttachment" />
     <result column="NOTICE_BOARD_ISDELETE" property="noticeBoardIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
     <result column="authName" property="authName"/>
-  
+    <association property="member" javaType="memberDTO">
+        <id column="MEMBER_ID" property="memberId"/>
+        <result column="MEMBER_PW" property="memberPwd"/>
+        <result column="MEMBER_NAME" property="memberName"/>
+        <result column="MEMBER_NICKNAME" property="memberNickName"/>
+        <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
+        <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
+        <result column="MEMBER_EMAIL" property="memberEmail"/>
+        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+    </association>
 </resultMap>
 
     <!-- 전체 검색 -->
 <select id="noticeBoardSelect" parameterType="map" resultMap="noticeBoardDTO">
-    SELECT A.*,(SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+    SELECT A.*, B.MEMBER_NICKNAME,(SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
     FROM NOTICE_BOARD A, MEMBER B
     WHERE A.NOTICE_BOARD_ISDELETE= 'FALSE'
     AND A.NOTICE_BOARD_CLASSIFICATION = #{classification}

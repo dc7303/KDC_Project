@@ -286,6 +286,22 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
         return list;
     }
 
+
+    /**
+     * 게시판 종류별 검색된 전체 게시물 수 가져오기
+     */
+   @Override
+   public int boardQuantityByClassificationwithSearch(String department, String boardSearch, String classification) {
+        
+      Map<String, Object> map = new HashMap<>();
+        
+        map.put("classification", classification);
+        map.put("department", department);
+        map.put("boardSearch", boardSearch);
+    
+      return replyBoardDAO.boardQuantityByClassificationwithSearch(map);
+   }
+
     /**
      * replyBoard 좋아요
      * */

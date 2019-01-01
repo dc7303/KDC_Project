@@ -48,7 +48,7 @@
     <br/><br/>
     <sec:authorize access="isAuthenticated()">
         <div class="write-button">
-          <a href="write?classification=${requestScope.classification}?pageNo=1" class="button">글쓰기</a>
+          <a href="write?classification=${requestScope.classification}" class="button">글쓰기</a>
         </div> <br/><br/>
     </sec:authorize>
     
@@ -116,6 +116,11 @@
                 <a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}" style="color: blue">
                        ${replyBoardDTO.replyBoardTitle}</a>
                 </c:if>
+                 <c:if test="${replyBoardDTO.authName eq 'ROLE_STUDENT'}">
+                <a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${replyBoardDTO.replyBoardPk}&classification=${requestScope.classification}" style="color: #7dc855">
+                       ${replyBoardDTO.replyBoardTitle}</a>
+                </c:if>
+                
             </td>
             
             <td>${replyBoardDTO.member.memberNickName}</td>
@@ -153,10 +158,18 @@
    </div>
   
   
-    <c:set var="endPage" value="${listSize/5}"></c:set>
-    <div>
+  <fmt:parseNumber var="endPage" integerOnly="true" value="${(listSize-1)/5}"/>
+    <div>    
     <c:forEach var="i" begin="1" end="${endPage+1}" step="1">
-      <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}">${i}</a> 
+    
+    <c:if test = "${empty requestScope.department }">
+    <a href="${pageContext.request.contextPath}/reply/orderBy?sort=${sort}&pageNo=${i}&classification=${requestScope.classification}">${i}</a>
+    </c:if>
+    
+    <c:if test = "${not empty requestScope.department }">
+    <a href="${pageContext.request.contextPath}/reply/replyBoardListSearch?&pageNo=${i}&classification=${requestScope.classification}&department=${requestScope.department}&boardSearch=${requestScope.boardSearch}">${i}</a>
+    </c:if>
+
     </c:forEach>
     </div>
   

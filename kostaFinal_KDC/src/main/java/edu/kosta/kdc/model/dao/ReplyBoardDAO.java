@@ -145,4 +145,9 @@ public interface ReplyBoardDAO {
      * */
     List<ReplyBoardDTO> selectFiveByTitle(String title);
 
+    /**
+     * 게시판 종류별 검색된 전체 게시물 수 가져오기
+     */
+    int boardQuantityByClassificationwithSearch(Map<String, Object> map);
+
 }

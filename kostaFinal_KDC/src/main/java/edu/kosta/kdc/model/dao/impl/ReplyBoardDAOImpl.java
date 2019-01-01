@@ -169,6 +169,14 @@ public class ReplyBoardDAOImpl implements ReplyBoardDAO {
 
         return session.selectList("replyBoardMapper.replyBoardListSearch", map);
     }
+    
+    /**
+     * 게시판 종류별 검색된 전체 게시물 수 가져오기
+     */
+   @Override
+   public int boardQuantityByClassificationwithSearch(Map<String, Object> map) {
+      return session.selectOne("replyBoardMapper.boardQuantityByClassificationwithSearch", map);
+   }
 
     /**
      * replyBoard좋아요 기능

@@ -78,7 +78,7 @@ public class ReplyBoardController {
         replyBoardDTO.setReplyBoardClassification(classification);
         replyBoardService.insertReply(replyBoardDTO, hashTagName);
         
-        return "redirect:tech?classification="+classification+"pageNo=1";
+        return "redirect:tech?classification="+classification+"&pageNo=1";
     }
     
     /**
@@ -205,15 +205,14 @@ public class ReplyBoardController {
      * */
     @RequestMapping("/replyBoardListSearch")
     public String replyBoardListSearch(int pageNo, String classification, String department, String boardSearch, Model model) {
-        System.out.println("pageNo :"+pageNo);
+
         model.addAttribute("classification",classification);
         
-        int listSize = replyBoardService.boardQuantityByClassification(classification);
+        int listSize = replyBoardService.boardQuantityByClassificationwithSearch(department, boardSearch, classification);
 
         List<ReplyBoardDTO> list = replyBoardService.replyBoardListSearch(department, boardSearch, classification, pageNo);
         model.addAttribute("list",list);
         model.addAttribute("listSize",listSize);
-        model.addAttribute("sort", "REPLY_BOARD_PK");
         model.addAttribute("department",department);
         model.addAttribute("boardSearch",boardSearch);
         return "replyBoard/replyBoardList";
