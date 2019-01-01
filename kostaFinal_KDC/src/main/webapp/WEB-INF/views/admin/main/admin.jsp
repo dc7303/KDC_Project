@@ -1031,6 +1031,16 @@
         height: '300px',
         
       });
+      
+      //생일 입력 datepicker
+      jq( function() {
+        jq( "#datepicker" ).datepicker({
+          dateFormat: 'yy.mm.dd',
+          changeMonth: true,
+          changeYear: true,
+          yearRange: '-100:+0',
+        });
+      });
     });
     </script>
   </head>
@@ -1239,7 +1249,8 @@
               class="w3-input w3-border"
               type="text"
               name="memberId" 
-              placeholder="영문, 숫자로만 6~12자리 입력" 
+              placeholder="영문, 숫자로만 6~12자리 입력"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 아이디를 입력하세요</smal>
@@ -1251,6 +1262,7 @@
               type="password"
               name="memberPwd"
               placeholder="숫자, 영문, 특수기호 포함 8자리 이상"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 비밀번호입력 </smal>
@@ -1261,6 +1273,7 @@
               class="w3-input w3-border"
               type="password"
               name="memberPwdConfirm"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 비밀번호 확인</smal>
@@ -1271,6 +1284,7 @@
               class="w3-input w3-border"
               type="text"
               name="memberName"
+              autocomplete="off"
               required
             />
           </div>
@@ -1281,6 +1295,7 @@
               type="text"
               name="memberNickName"
               placeholder="2~8자리 입력"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 닉네임 입력 </smal>
@@ -1291,7 +1306,9 @@
               class="w3-input w3-border"
               type="text"
               name="memberBirth"
+              id="datepicker"
               placeholder="  1900.01.00"
+              autocomplete="off"
               required
             />
           </div>
@@ -1302,6 +1319,7 @@
               type="text"
               name="memberPhone"
               placeholder="'-' 제외하고 입력"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 전화번호 체크 </smal>
@@ -1312,6 +1330,7 @@
               class="w3-input w3-border"
               type="text"
               name="memberEmail"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> Email 확인 </smal>
