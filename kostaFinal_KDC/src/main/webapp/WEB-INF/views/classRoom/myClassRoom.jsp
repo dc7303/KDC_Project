@@ -126,6 +126,12 @@
             <p>
             <font><b><span>클래스명</span></b></font></p> 
         </td>
+        <sec:authorize access="hasRole('ROLE_TEACHER')" >
+        <td>
+            <p>
+            <font><b><span>클래스 코드</span></b></font></p> 
+        </td>
+        </sec:authorize>
         <td>
             <p><font><b><span>클래스 시작일</span></b></font></p>
         </td>
@@ -149,6 +155,13 @@
                   <input type="hidden" value="${classRoomIsCurrentList.classRoomCode}" class="classRoomIsCurrentCode">
                   <p align="center"><span>${classRoomIsCurrentList.classRoomInfoName}</span></p>
               </td>
+              <sec:authorize access="hasRole('ROLE_TEACHER')">
+              <td>
+               <p><span style="font-size:9pt;">
+                 ${classRoomIsCurrentList.classRoomCode}
+               </span></p>
+              </td>
+              </sec:authorize>  
               <td>
                <p><span style="font-size:9pt;">
                  ${classRoomIsCurrentList.classRoomInfoStartDate}
@@ -178,6 +191,11 @@
         <td>
             <p><font><b><span>클래스명</span></b></font></p>
         </td>
+        <sec:authorize access="hasRole('ROLE_TEACHER')" >
+        <td>
+            <p><font><b><span>클래스 코드</span></b></font></p>
+        </td>
+        </sec:authorize>
         <td>
             <p><font><b><span>클래스 시작일</span></b></font></p>
         </td>
@@ -207,6 +225,13 @@
                  ${myClassRoomList.classRoomInfoName}
                </span></p>
               </td>
+              <sec:authorize access="hasRole('ROLE_TEACHER')" >
+              <td bgcolor="">
+               <p><span style="font-size:9pt;">
+                 ${myClassRoomList.classRoomCode}
+               </span></p>
+              </td>
+              </sec:authorize>
               <td bgcolor="">
                <p><span style="font-size:9pt;">
                  ${myClassRoomList.classRoomInfoStartDate}

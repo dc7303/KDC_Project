@@ -34,6 +34,11 @@
 <body>
 <h3 class="notice-title">스케줄</h3>
 <div id="calendar"></div>
+<sec:authorize access="hasRole('ROLE_TEACHER')">
+        <sec:authentication var="member" property="principal" />
+        <input type="hidden" name="teacherId" value="${member.memberId }"/>
+</sec:authorize>
+        
 
 <sec:authorize access="hasRole('ROLE_TEACHER')" >
 <div id="updateDialog" title="일정 수정">
@@ -101,6 +106,13 @@
   var events = []; //event 셋팅 시 물리데이터 담을 배열
   setEvents(); //캘린더 물리데이터 불러와 load하는 메소드
 
+  var editableFlag = false;
+  //강사, 학생 구분 플래그
+  if($('input[name=teacherId]').val()) {
+    editableFlag = true;
+  }
+  
+  
   /**
    * 캘린더 설정을 담은 함수
    * setEvents 내부 동작에서 events 배열에 셋팅 후
@@ -137,7 +149,7 @@
       //셀렉트 이벤트 가능 설정.
       selectable: true,
       //수정 가능 이벤트 설정
-      editable: true,
+      editable: editableFlag,
       //셀렉트 이벤트 발생시 메소드
       select: setSelectInsert,
       //이벤트 클릭시 사용하는 메소드
