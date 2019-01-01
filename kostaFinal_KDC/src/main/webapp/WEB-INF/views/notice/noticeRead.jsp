@@ -9,9 +9,9 @@
     <title></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
-    
-    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
+<%--     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" /> --%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
@@ -122,7 +122,7 @@ jq(function(){
     </tr>
 </table>
 
-<div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/notice/list">리스트로 돌아가기</a>&gt;</span></div>
+<%-- <div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/notice/noticeList">리스트로 돌아가기</a>&gt;</span></div> --%>
 <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
 <input type="hidden" name="csrfToken" value="${_csrf.token}"/>
 <input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>

@@ -9,8 +9,9 @@
     <title></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
-    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
+<%--     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" /> --%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+    
 
   </head>
 
@@ -26,7 +27,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
-
+  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/tui-editor-css/editor.css">
 <script>
 const jq = jQuery.noConflict();
 
@@ -119,7 +120,7 @@ jq(function(){
 </form>
 
 <hr>
-<div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?classification=${requestScope.classification}">리스트로 돌아가기</a>&gt;</span></div>
+
 <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
 <input type="hidden" name="csrfToken" value="${_csrf.token}"/>
 <input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>

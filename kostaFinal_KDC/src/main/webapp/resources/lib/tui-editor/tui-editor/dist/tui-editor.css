@@ -308,7 +308,7 @@
 .tui-editor-defaultUI .te-mode-switch-section {
     background-color: #f9f9f9;
     border-top: 1px solid #e5e5e5;
-    height: 20px;
+  /*   height: 20px; */
     font-size: 12px;
 }
 
@@ -318,7 +318,7 @@
 }
 
 .tui-editor-defaultUI .te-switch-button {
-    width: 92px;
+   /*  width: 92px; */
     height: inherit;
     background: #e5e5e5;
     outline: 0;
