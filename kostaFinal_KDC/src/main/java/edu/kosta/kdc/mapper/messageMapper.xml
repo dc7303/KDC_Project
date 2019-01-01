@@ -23,7 +23,7 @@
     <select id="selectAll" resultMap="messageSelectMap" parameterType="String">
         select <include refid="messageSelectSQL"/>
         from message
-        where MESSAGE_ISDELETE='FALSE' AND MESSAGE_RECEIVER_ID=#{receiverId} ORDER BY MESSAGE_DATE DESC
+        where MESSAGE_ISDELETE='FALSE' AND MESSAGE_RECEIVER_ID=#{receiverId} ORDER BY MESSAGE_ISREAD ASC, MESSAGE_DATE DESC 
     </select>
     
     <!-- 읽지않은 전체 메세지 리스트 -->

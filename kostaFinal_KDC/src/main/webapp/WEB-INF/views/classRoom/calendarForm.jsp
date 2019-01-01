@@ -22,7 +22,12 @@
     height: 50px;
   }
 </style>
+
+<%-- 
+ nav.jsp와 jquery.min.js파일이 충돌되어 동작하지 않도록 함
 <script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/jquery.min.js'></script>
+ --%>
+
 <script src='${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.min.js'></script>
 </head>
 <body>

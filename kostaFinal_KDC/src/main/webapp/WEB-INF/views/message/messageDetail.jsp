@@ -50,15 +50,14 @@ jq(function(){
 <body>
 
 <table align="center" border="0" cellpadding="5" cellspacing="2"
-  width="100%" bordercolordark="white" bordercolorlight="black">
-  <caption>쪽지 확인</caption>
+  width="800px" bordercolordark="white" bordercolorlight="black">
 
-    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1">
+    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1" style="margin: auto; width: 800px;">
 
       <tr>
-        <td width="1220" height="20" colspan="2" bgcolor="#00cc00">
+        <td width="1220" height="20" colspan="2" bgcolor="white">
           <p align="center">
-            <font color="white" size="3"><b> 쪽지 확인 </b></font>
+            <font color="#434343" size="3"><b> 쪽지 확인 </b></font>
           </p>
         </td>
       </tr>
@@ -109,7 +108,7 @@ jq(function(){
   <hr>
   <div align=right>
     <span style="font-size: 9pt;">&lt;<a
-      href="${pageContext.request.contextPath}/">마이페이지 홈</a>&gt;
+      href="${pageContext.request.contextPath}/">홈으로 이동</a>&gt;
     </span>
   </div>
   

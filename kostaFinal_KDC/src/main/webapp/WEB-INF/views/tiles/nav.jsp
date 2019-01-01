@@ -102,7 +102,7 @@
           
       
                        <li><a href="${pageContext.request.contextPath }/member/myPageupdate">회원정보수정</a></li>
-                       <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오</a></li>
+                       <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오 관리</a></li>
                         <li><a href="${pageContext.request.contextPath }/classRoom/classRoomInsertForm">클래스 생성</a></li>
               
                        
@@ -148,7 +148,8 @@
                   <li class="nav-item ">
                     <a href="${pageContext.request.contextPath}/reply/lib?classification=lib&pageNo=1"> Tech 공유 게시판</a>
                   </li>
-      
+                  
+                  <sec:authorize access="isAuthenticated()">
                   <li class="nav-item nav-item-has-subnav">
                     <a href="#"><i class="ion-social-javascript-outline"></i> 반별 게시판</a>
                     <ul class="nav nav-subnav">
@@ -167,6 +168,7 @@
       
                     </ul>
                   </li>
+                  </sec:authorize>
       
                   <li class="nav-item ">
                     <a href="${pageContext.request.contextPath}/reply/study?classification=studypageNo=1">  스터디모집 </a>
