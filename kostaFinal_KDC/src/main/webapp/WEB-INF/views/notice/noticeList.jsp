@@ -39,6 +39,10 @@
       filter: invert(100%);
     }
   }
+  
+  .paging-hover:hover {
+    color: orange;
+  }
 </style>
   <body>
   
@@ -106,22 +110,22 @@
             <span name="span${state.count}"></span>
 
                 <c:if test="${noticeDTO.authName eq 'ROLE_ADMIN'}">
-                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: red; font-weight: bold">
+                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${noticeDTO.noticeBoardPk}" style="color: red; font-weight: bold">
                        ${noticeDTO.noticeBoardTitle}</a>
                 </c:if>
                 
                 <c:if test="${noticeDTO.authName eq 'ROLE_MEMBER'}">
-                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: #7dc855">
+                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${noticeDTO.noticeBoardPk}" style="color: #7dc855">
                        ${noticeDTO.noticeBoardTitle}</a>
                 </c:if>
                 
                 <c:if test="${noticeDTO.authName eq 'ROLE_TEACHER'}">
-                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: orange; font-weight: bold">
+                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${noticeDTO.noticeBoardPk}" style="color: orange; font-weight: bold">
                        ${noticeDTO.noticeBoardTitle}</a>
                 </c:if>
                 
                 <c:if test="${noticeDTO.authName eq 'ROLE_COMPANY'}">
-                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: blue">
+                <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${noticeDTO.noticeBoardPk}" style="color: blue">
                        ${noticeDTO.noticeBoardTitle}</a>
                 </c:if>
             
@@ -137,19 +141,24 @@
       <td colspan="4">  
       <c:set var="pageDTO" value="${requestScope.resultMap.pageDTO }"></c:set>
       <c:if test="${pageDTO.firstMove }">
-        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=1">처음으로</a>
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=1" class="paging-hover">처음으로</a>
       </c:if>
       <c:if test="${pageDTO.backPage }">
-        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.page -1}">◀</a>
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.page -1}" class="paging-hover">◀</a>
       </c:if>
       <c:forEach begin="${pageDTD.startPage +1 }" end="${pageDTO.endPage }" var="i">
-        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${i}">${i }</a>
+        <c:if test="${i == pageDTO.page }">
+          <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${i}" class="paging-hover" style="color:red">${i }</a>
+        </c:if>
+        <c:if test="${i != pageDTO.page }">
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${i}" class="paging-hover">${i }</a>
+        </c:if>
       </c:forEach>
       <c:if test="${pageDTO.nextPage}">
-        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.page +1}">▶</a>
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.page +1}" class="paging-hover">▶</a>
       </c:if>
       <c:if test="${pageDTO.lastMove }">
-        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.lastMove}">마지막페이지</a>
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.lastMove}" class="paging-hover">마지막페이지</a>
       </c:if>
       </td>
     </tr>
@@ -166,6 +175,7 @@
     <form action="${pageContext.request.contextPath}/notice/listserch">
        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
        <input type="hidden" name="classification" value="${requestScope.classification}"/>
+       <input type="hidden" name="pageNum" value="1"/> 
         <select name="department" id="department">
           <option value="">- 분류 -</option>
           <option value="title">제목</option>
