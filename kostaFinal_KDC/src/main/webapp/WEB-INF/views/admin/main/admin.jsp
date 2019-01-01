@@ -587,7 +587,7 @@
           var messageList = result.messageList;
           var pageDTO = result.pageDTO;
           //메세지 리스트가 존재할때
-		var str = '<tr><th width="5%"><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th><th width="10%">보낸사람</th>' + 
+		var str = '<tr><th width="10%">보낸사람</th>' + 
 					'<th width="15%">쪽지제목</th><th width="30%">쪽지내용</th><th width="10%">전송일</th><th width="10%">읽음여부</th><th width="10%">답장</th><th width="10%">삭제</th></tr>';
           
           if(messageList.length !== 0) {
@@ -601,8 +601,7 @@
                 isRead = '<td style="color: red">읽지않음</td>';
               }
               
-              str += '<tr class="message-tr w3-hover-amber"><td><input type="hidden" value="' + messageList[i].messageNum + '"/><input type="checkbox"/></td>';
-              str += '<td>' + messageList[i].senderId + '</td>';
+              str += '<tr class="message-tr w3-hover-amber"><td><input type="hidden" value="' + messageList[i].messageNum + '"/>' + messageList[i].senderId + '</td>';
               str += '<td>' + messageList[i].messageTitle + '</td>';
               str += '<td>' + messageList[i].messageContents + '</td>';
               str += '<td>' + messageList[i].messageDate + '</td>';
@@ -1212,7 +1211,6 @@
           <h1 class="w3-xxxlarge w3-text-blue"><b>쪽지관리</b></h1>
             <table class="message-table w3-table w3-centered">
               <tr>
-                <th><input type="checkbox" name="checkBoxAll" id="checkBoxAll" ></th>
                 <th>보낸사람</th>
                 <th>쪽지제목</th>
                 <th>전송일</th>
