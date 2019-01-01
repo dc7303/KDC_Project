@@ -47,7 +47,6 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
         map.put("lastColumn", lastColumnRange);        
         
         List<ReplyBoardDTO> list = replyBoardDAO.selectAll(map);
-
         if(list == null) {
             throw new KdcException("게시글이 존재하지 않습니다.");
         }        
