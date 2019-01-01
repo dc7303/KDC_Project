@@ -10,9 +10,13 @@
       #chatting-room{
         margin-top: 30px;
         width: 80%;
-        height: 400px;
+        height: 750px;
         background: lavender;
         overflow: auto;
+        padding-top: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-bottom: 3px;
       }
       #chatting-input{
         width: 80%;
@@ -162,6 +166,7 @@
     </script>
   </head>
   <body>
+  <p/><h3 class="notice-title" align="center">Ã¤ÆÃ¹æ</h3><p/>
   <sec:authentication var="member" property="principal" />
    <input id="member-id" type="hidden" value="${member.memberNickName}">
     <div id="chatting-room">

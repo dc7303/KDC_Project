@@ -98,7 +98,7 @@ public class HomeController {
     /**
      * 스케줄러 - 오늘 접속한 방문자 수를 DB에 저장시키고, totalUserCount 에 누적시키고 todayUserCount 0으로 초기화 하는 스케줄러.
      * */
-    @Scheduled(cron="0 8 17 * * ?")
+    @Scheduled(cron="0 59 23 * * ?")
     public void doSchedule() {
         
         int result = adminService.userCountIntoDB(todayUserCount);
