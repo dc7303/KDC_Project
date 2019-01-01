@@ -1,6 +1,8 @@
 package edu.kosta.kdc.model.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +17,9 @@ import edu.kosta.kdc.model.dao.NoticeBoardDAO;
 import edu.kosta.kdc.model.dto.ClassRoomDTO;
 import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.NoticeBoardDTO;
+import edu.kosta.kdc.model.dto.PageDTO;
 import edu.kosta.kdc.model.service.NoticeBoardService;
+import edu.kosta.kdc.util.interfaces.PageHandler;
 
 @Service
 public class NoticeBoardServiceImpl implements NoticeBoardService {
@@ -26,11 +30,14 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     @Autowired
     private ClassRoomDAO classRoomDAO;
     
+    @Autowired
+    private PageHandler pageHandler;
+    
     /**
      *  전체검색
      */
     @Override
-    public List<NoticeBoardDTO> selectAll(String classification) {
+    public Map<String, Object> selectAll(String classification, int pageNum) {
         
         //반별 공지사항일 경우 사용될 클래스룸 코드
         String classRoomCode = null;
@@ -56,12 +63,37 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
             }
         }
         
-        List<NoticeBoardDTO> list = noticeBoardDAO.selectAll(classification, classRoomCode);
+        int totalCount = noticeBoardDAO.boardQuantityByClassification(classification);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNum, 10, 10, totalCount);
+        
+        int firstColumnPage = pageDTO.getFirstColumnRange();
+        int lastColumnPage = pageDTO.getLastColumnRange();
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        if(classRoomCode != null) {
+            map.put("classRoomCode", classRoomCode);
+        }
+        
+        map.put("classification", classification);
+        map.put("firstColumn", firstColumnPage);
+        map.put("lastColumn", lastColumnPage);
+        
+        List<NoticeBoardDTO> list = noticeBoardDAO.selectAllForPaging(map);
+        
         if(list == null) {
             throw new KdcException("게시글이 존재하지않습니다.");
         }
         
-        return list;
+        Map<String, Object> resultMap = new HashMap<>();
+        
+        resultMap.put("noticeList", list);
+        resultMap.put("pageDTO", pageDTO);
+        for(NoticeBoardDTO boardDTO : list) {
+            System.out.println(boardDTO.getMember().getMemberNickName());
+        }
+        
+        return resultMap;
     }
  
     /**
@@ -191,6 +223,50 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     public List<NoticeBoardDTO> selectFive() {
         
         return noticeBoardDAO.selectFive();
+    }
+
+    /**
+     * 페이징처리 조회
+     */
+    @Override
+    public int selectNoticePagingCount(String department, String noticeBoardSearch, String classification) {
+
+        return noticeBoardDAO.selectNoticePagingCount(department, noticeBoardSearch, classification);
+    }
+
+    /**
+     * 페이징 처리시 조회할 컬럼 counter
+     */
+    @Override
+    public Map<String, Object> selectNoticePaging(String department, String noticeBoardSearch, String classification, int pageNum) {
+        
+        //게시글 count
+        int totalCount = noticeBoardDAO.selectNoticePagingCount(department, noticeBoardSearch, classification);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNum, 10, 10, totalCount);
+        
+        int firstColumnPage = pageDTO.getFirstColumnRange();
+        int lastColumnPage = pageDTO.getLastColumnRange();
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("classification", classification);
+        map.put("firstColumn", firstColumnPage);
+        map.put("lastColumn", lastColumnPage);
+        map.put("department", department);
+        map.put("noticeBoardSearch", noticeBoardSearch);
+        
+        List<NoticeBoardDTO> list = noticeBoardDAO.selectNoticePaging(map);
+        if(list == null) {
+            throw new KdcException("게시글이 존재하지 않습니다.");
+        }
+        
+        Map<String, Object> resultMap = new HashMap<>();
+        
+        resultMap.put("noticeList", list);
+        resultMap.put("pageDTO", pageDTO);
+        
+        
+        return resultMap;
     }
     
  }
