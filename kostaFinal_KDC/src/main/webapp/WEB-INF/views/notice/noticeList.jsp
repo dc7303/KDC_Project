@@ -10,15 +10,30 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
-    
-    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css"/></noscript>
+
   </head>
 
   <body>
+  
+  
+      <!-- 게시판 타이틀 -->
+  <c:choose>
+    <c:when test="${requestScope.classification eq 'generalNotice'}">
+    <h2 class="notice-title">공지사항</h2>
+    <p class="underline-board"></p>
+    </c:when>
+    <c:when test="${requestScope.classification eq 'findJobNotice'}">
+    <h2 class="notice-title">Tech 취업 게시판</h2>
+    <p class="underline-board"></p>
+    </c:when> 
+    <c:when test="${requestScope.classification eq 'classNotice'}">
+    <h2 class="notice-title">클래스 공지사항</h2>
+    <p class="underline-board"></p>
+    </c:when> 
+  </c:choose>
+    
 
-
-    <h2>${requestScope.classification}</h2>
-    <br/><br/>
+    
 
     <div class="write-button">
       <a href="${pageContext.request.contextPath }/notice/writeForm?classification=${requestScope.classification}" class="button">글쓰기</a>
@@ -29,10 +44,10 @@
         <thead>
           <tr>
             <th>글번호</th>
-            <th>글제목</th>
+            <th style="width:600px;">글제목</th>
             <th>글쓴이</th>
-            <th><a href="#">등록날짜</a></th>
-            <th><a href="#">조회수</a></th>            
+            <th><a class="board-list-font" href="#">등록날짜</a></th>
+            <th><a class="board-list-font" href="#">조회수</a></th>            
           </tr>
         </thead>
         <tbody>

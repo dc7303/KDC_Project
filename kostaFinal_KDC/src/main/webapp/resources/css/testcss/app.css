@@ -33,6 +33,23 @@ Author: rustheme
 	transition-property: transform, visibility, -webkit-transform;
 }
 
+
+
+/* ÆùÆ®»ö ¹Ù²Þ */
+a {
+  
+  
+    color: gray;!importent;
+	background-color: transparent;
+}
+
+/* 
+a.board-list-font{
+    color: white;
+} */
+
+
+
 /* @media screen and (max-width: 991px) {
 	.app-layout-drawer {
 		-webkit-overflow-scrolling: touch;
@@ -109,6 +126,11 @@ Author: rustheme
 .nav-drawer > .active > a:hover, .nav-drawer > .active > a:focus, .nav-drawer > .active > a:active {
 	/* border-color: #7dc855; */
 }
+
+.nav-drawer > li > a:hover {
+    background-color: #ffd493;
+}
+
 
 /* Nav icon */
 .nav-drawer > li > a > i {
