@@ -88,21 +88,25 @@
     <result column="MEMBER_JOIN_DATE" property="memberDate"/>
 </resultMap>
 
-<!-- 게시판 별 전체 리스트 -->
-<select id="replyBoardSelectAll" parameterType="String" resultMap="replyBoardMap">
-    SELECT A.*
+
+<select id="replyBoardSelectAll" parameterType="Map" resultMap="replyBoardMap">
+    SELECT X.RNUM, X.* FROM(
+    SELECT ROWNUM AS RNUM, Z.* FROM (
+        SELECT A.*
     , B.MEMBER_NICKNAME
     , (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'TRUE')
     - (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'FALSE') likeNum
     , (SELECT COUNT(C.REPLY_BOARD_PK) FROM REPLY_BOARD C WHERE C.REPLY_BOARD_REPLY_NO = A.REPLY_BOARD_PK AND REPLY_BOARD_ISDELETE='FALSE') replyNum
-    , (SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+    ,(SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
     FROM REPLY_BOARD A, MEMBER B
-    WHERE A.REPLY_BOARD_CLASSIFICATION = #{_parameter}
+    WHERE A.REPLY_BOARD_CLASSIFICATION = #{classification}
     AND A.REPLY_BOARD_ISDELETE = 'FALSE'
     AND A.REPLY_BOARD_REPLY_NO IS NULL
     AND A.REPLY_BOARD_WRITER_ID = B.MEMBER_ID
     AND B.MEMBER_ISWITHDRAWAL='FALSE'
-    ORDER BY A.REPLY_BOARD_PK DESC
+    ORDER BY A.REPLY_BOARD_PK DESC) Z
+    WHERE ROWNUM <![CDATA[ <= ]]> #{lastColumn}) X
+    WHERE X.RNUM <![CDATA[ >= ]]> #{firstColumn}
 </select>
 
 <!-- ID별 작성된 게시판 전체 출력(마이페이지) -->
@@ -121,12 +125,14 @@
 </select>
 
 <select id="replyBoardSelectAllOrderBy" parameterType="map" resultMap="replyBoardMap">
+    SELECT X.RNUM, X.* FROM(
+    SELECT ROWNUM AS RNUM, Z.* FROM (
     SELECT A.*
     , B.MEMBER_NICKNAME
     , (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'TRUE')
     - (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'FALSE') likeNum
     , (SELECT COUNT(C.REPLY_BOARD_PK) FROM REPLY_BOARD C WHERE C.REPLY_BOARD_REPLY_NO = A.REPLY_BOARD_PK AND REPLY_BOARD_ISDELETE='FALSE') replyNum
-    , (SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+    ,(SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
     FROM REPLY_BOARD A, MEMBER B
     WHERE A.REPLY_BOARD_CLASSIFICATION = #{classification}
     AND A.REPLY_BOARD_ISDELETE = 'FALSE'
@@ -136,7 +142,9 @@
     ORDER BY
         <if test="sort!=null">
             ${sort} DESC
-        </if>
+        </if> )Z
+    WHERE ROWNUM <![CDATA[ <= ]]> #{lastColumn}) X
+    WHERE X.RNUM <![CDATA[ >= ]]> #{firstColumn}
 </select>
 
 <insert id="replyBoardInsert" parameterType="replyBoardDTO">
@@ -230,12 +238,44 @@ UPDATE REPLY_BOARD SET REPLY_BOARD_TITLE = #{replyBoardTitle}, REPLY_BOARD_CONTE
 </update>
 
 <select id="replyBoardListSearch" parameterType="map" resultMap="replyBoardMap">
+    SELECT X.RNUM, X.* FROM(
+    SELECT ROWNUM AS RNUM, Z.* FROM (
     SELECT A.*
     , B.MEMBER_NICKNAME
     , (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'TRUE')
     - (SELECT COUNT(UPDOWN_ISUP) FROM UPDOWN WHERE UPDOWN_REPLY_BOARD_PK = A.REPLY_BOARD_PK AND UPDOWN_ISUP = 'FALSE') likeNum
     , (SELECT COUNT(C.REPLY_BOARD_PK) FROM REPLY_BOARD C WHERE C.REPLY_BOARD_REPLY_NO = A.REPLY_BOARD_PK AND REPLY_BOARD_ISDELETE='FALSE') replyNum
     , (SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+    FROM REPLY_BOARD A, MEMBER B
+    WHERE A.REPLY_BOARD_CLASSIFICATION = #{classification}
+    AND A.REPLY_BOARD_ISDELETE = 'FALSE'
+    AND A.REPLY_BOARD_REPLY_NO IS NULL
+    AND A.REPLY_BOARD_WRITER_ID = B.MEMBER_ID
+    AND B.MEMBER_ISWITHDRAWAL = 'FALSE'
+    <if test="department.equals('C.HASHTAG')">
+    AND EXISTS (SELECT 'T'
+                FROM HASHTAG C 
+                WHERE UPPER(C.HASHTAG_NAME) LIKE '%' || UPPER(#{boardSearch}) || '%'
+                AND A.REPLY_BOARD_PK = C.HASHTAG_REPLY_BOARD_PK
+                AND C.HASHTAG_ISDELETE='FALSE')
+    </if>
+    <if test="department.equals('A.REPLY_BOARD_TITLE')">
+    AND UPPER(A.REPLY_BOARD_TITLE) LIKE '%' || UPPER(#{boardSearch}) || '%'
+    </if>
+    <if test="department.equals('A.REPLY_BOARD_CONTENTS')">
+    AND UPPER(A.REPLY_BOARD_CONTENTS) LIKE '%' || UPPER(#{boardSearch}) || '%'
+    </if>
+    <if test="department.equals('B.MEMBER_NICKNAME')">
+    AND UPPER(B.MEMBER_NICKNAME) LIKE '%' || UPPER(#{boardSearch}) || '%'
+    </if>
+    ORDER BY A.REPLY_BOARD_PK DESC)Z
+    WHERE ROWNUM <![CDATA[ <= ]]> #{lastColumn}) X
+    WHERE X.RNUM <![CDATA[ >= ]]> #{firstColumn}
+</select>
+
+<!-- classification을 기준으로 컬럼 수 가져오기 -->
+<select id="boardQuantityByClassificationwithSearch" parameterType="Map" resultType="java.lang.Integer">
+    SELECT NVL(COUNT(*), 0) AS COUNT
     FROM REPLY_BOARD A, MEMBER B
     WHERE A.REPLY_BOARD_CLASSIFICATION = #{classification}
     AND A.REPLY_BOARD_ISDELETE = 'FALSE'

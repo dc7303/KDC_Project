@@ -616,15 +616,14 @@ h2.notice-title{
 					input[type="checkbox"],
 					input[type="radio"] {
 						-moz-appearance: none;
-						-webkit-appearance: none;
+						-webkit-appearance: checkbox;
 						-ms-appearance: none;
 						appearance: none;
 						display: block;
 						float: left;
 						margin-right: -2rem;
-						opacity: 0;
 						width: 1rem;
-						z-index: -1;
+				
 					}
 
 						input[type="checkbox"] + label,
@@ -923,7 +922,7 @@ h2.notice-title{
 									-webkit-flex-direction: row-reverse;
 									-ms-flex-direction: row-reverse;
 									flex-direction: row-reverse;
-									min-height: 100vh;
+									min-height: auto;
 								}
 
 							/* Main */

@@ -32,10 +32,6 @@
           <div class="signin-button">
             <input type="submit" value="SignIn">
           </div>
-         <!--  <div class="button">
-            <input type="button" value="비밀번호찾기">
-          </div> -->
-        </form>
         
      
 
