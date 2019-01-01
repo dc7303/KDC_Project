@@ -7,7 +7,7 @@
          <class>com.navercorp.lucy.security.xss.servletfilter.defender.XssPreventerDefender
          </class>
       </defender>
-
+      
       <!-- XssSaxFilter 등록 -->
       <defender>
          <name>xssSaxFilterDefender</name>
