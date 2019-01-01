@@ -133,7 +133,7 @@
     <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/highlight.pack.js"></script>
     <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/squire-rte/build/squire-raw.js"></script>
     <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-Editor.min.js"></script>
-
+  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/memberInfoForm/signup-regex-check.js"></script>
 
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
@@ -1181,7 +1181,8 @@
                   <th>처리</th>
               </tr>
           </table>
-            <div class="report-search">
+          <!-- 
+          <div class="report-search">
             <select name="reportSearchKeyword">
               <option value="none">키워드선택</option>
               <option value="memberId">유저ID</option>
@@ -1192,6 +1193,7 @@
             <input type="text" name="reportSearchInput"/>
             <input type="button" id="reportSearchBtn" value="검색"/>
           </div>
+           -->
         </div>
       
 
@@ -1208,23 +1210,29 @@
                 <th>삭제</th>
               </tr>
             </table>
+            <!-- 
             <div class="message-search">
-            <select name="messageSearchKeyword">
-              <option value="none">키워드선택</option>
-              <option value="memberId">유저ID</option>
-              <option value="memberName">유저이름</option>
-              <option value="memberNickName">유저닉네임</option>
-              <option value="memberEmail">유저이메일</option>
-            </select>
-            <input type="text" name="messageSearchInput"/>
-            <input type="button" id="messageSearchBtn" value="검색"/>
-          </div>
+              <select name="messageSearchKeyword">
+                <option value="none">키워드선택</option>
+                <option value="memberId">유저ID</option>
+                <option value="memberName">유저이름</option>
+                <option value="memberNickName">유저닉네임</option>
+                <option value="memberEmail">유저이메일</option>
+              </select>
+              <input type="text" name="messageSearchInput"/>
+              <input type="button" id="messageSearchBtn" value="검색"/>
+            </div>
+             -->
         </div>
 
-      <!-- 강사생성 -->
+      <!-- 
+        강사생성
+        강사 코드는 controller에서 부여함
+      -->
       <div class="w3-container" id="contact" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-blue"><b>강사생성</b></h1>
-        <form action="/action_page.php" target="_blank">
+        <form action="${pageContext.request.contextPath }/member/memberInsertTeacher" method="post">
+          <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
           <div class="w3-section">
             <label>ID</label>
             <input
@@ -1307,16 +1315,6 @@
               required
             />
             <smal class="ajax"> Email 확인 </smal>
-          </div>
-          <div class="w3-section">
-            <label>인증번호</label>
-            <input
-              class="w3-input w3-border"
-              type="text"
-              name="authCode"
-              placeholder=" 인증번호를 입력하세요"
-              required
-            />
           </div>
           <button
             type="submit"

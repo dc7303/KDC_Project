@@ -260,6 +260,23 @@ public class MemberController {
     }
     
     /**
+     * 강사 생성
+     * 
+     * @return
+     */
+    @RequestMapping("/memberInsertTeacher")
+    public String memberInsertTeacher(MemberDTO memberDTO, String authCode) {
+        
+        //강사 코드
+        authCode = "ROLE_TEACHER";
+        
+        memberService.memberInsert(memberDTO, authCode);
+
+        return "redirect:/adminPage";
+    }
+    
+    
+    /**
      * 회원정보 수정
      * 
      * @param memberDTO
