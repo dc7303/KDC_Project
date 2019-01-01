@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,15 +33,12 @@ public class NoticeBoardController {
      * 穿端 伊事
      */
     @RequestMapping("/list")
-    public String Board(Model model, String classification, int pageNum) {
+    public String Board(Model model, String classification, @RequestParam(name = "pageNum") int pageNum) {
         
-        System.out.println("ぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜ");
         Map<String, Object> map = noticeBoardService.selectAll(classification, pageNum);
-        System.out.println("ぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜ");
         
         model.addAttribute("resultMap", map);
         model.addAttribute("classification", classification);
-        System.out.println("ぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜぜ");
         
 
         return "notice/noticeList";
@@ -88,7 +86,7 @@ public class NoticeBoardController {
         }
         noticeBoardService.noticeInsert(noticeBoard, classification);
         
-        return "redirect:list?classification=" + classification;
+        return "redirect:list?classification=" + classification + "&pageNum=1";
     }
 
     /**

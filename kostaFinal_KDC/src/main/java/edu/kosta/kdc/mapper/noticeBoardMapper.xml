@@ -143,8 +143,8 @@
        <if test="classRoomCode != null">
            AND A.NOTICE_BOARD_CLASSROOM_CODE = #{classRoomCode}
        </if>
-           )A WHERE ROWNUM <![CDATA[ <= ]]>#{lastColumn}) X 
-           WHERE X.RNUM <![CDATA[ >= ]]>#{firstColumn} 
+           )A WHERE ROWNUM <![CDATA[ <= ]]> #{lastColumn}) X 
+           WHERE X.RNUM <![CDATA[ >= ]]> #{firstColumn} 
     </select>
     
     <!-- 조건 검색 페이징 처리 -->

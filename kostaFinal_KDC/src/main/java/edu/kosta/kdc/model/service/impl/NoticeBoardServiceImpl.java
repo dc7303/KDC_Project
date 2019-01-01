@@ -76,8 +76,8 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         }
         
         map.put("classification", classification);
-        map.put("firstColumnPage", firstColumnPage);
-        map.put("lastColumnPage", lastColumnPage);
+        map.put("firstColumn", firstColumnPage);
+        map.put("lastColumn", lastColumnPage);
         
         List<NoticeBoardDTO> list = noticeBoardDAO.selectAllForPaging(map);
         
@@ -247,8 +247,8 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         Map<String, Object> map = new HashMap<>();
         
         map.put("classification", classification);
-        map.put("firstColumnPage", firstColumnPage);
-        map.put("lastColumnPage", lastColumnPage);
+        map.put("firstColumn", firstColumnPage);
+        map.put("lastColumn", lastColumnPage);
         map.put("department", department);
         map.put("noticeBoardSearch", noticeBoardSearch);
         
