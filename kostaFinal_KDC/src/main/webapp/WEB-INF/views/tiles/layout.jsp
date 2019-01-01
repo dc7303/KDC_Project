@@ -9,9 +9,9 @@
 
 <style type="text/css">
 
- header {
-  height: 80px;
- }
+/*  header {
+  height: 60px;
+ } */
 
 
   nav {

@@ -1,11 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>나의 클래스룸</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+<style type="text/css">
+  input[type="radio"].selectRadio {
+    -webkit-appearance: radio;
+    -ms-appearance: none;
+    appearance: none;
+    display: block;
+    float: none; 
+    margin-right: 0px;
+    opacity: 1;
+    width: 1rem;
+    /* z-index: -1; */
+  }
+  
+  #myClassRoomCode{
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border-radius: 4px;
+    border: none;
+    border: solid 1px;
+    color: inherit;
+    display: inline;
+    outline: 0;
+    padding: 0 0.825rem;
+    text-decoration: none;
+    width: 29%;
+    margin-right: 10px;
+  }
+  
+    
+  
+</style>
 <script type="text/javascript">
 	const jq = jQuery.noConflict();
 	
@@ -56,34 +92,43 @@
 </head>
 <body>
 <br>
-<h3>나의 클래스룸</h3>
-<br>
-<form>
-클래스 코드 입력 : <input type="text" name="myClassRoomCode" id="myClassRoomCode" value="">
-<input type="button" id="insertMyClassRoom" value="전송">
-</form>
+<sec:authorize access="isAuthenticated()">  
+  <h3 class="notice-title">나의 클래스룸</h3>
+  <br>
+  <form class="classCodeInsertForm">
+  클래스 코드 입력 : <input type="text" name="myClassRoomCode" id="myClassRoomCode" value="">
+  <input type="button" id="insertMyClassRoom" value="전송">
+  </form>
+</sec:authorize>
+
+<sec:authorize access="hasRole('ROLE_TEACHER')">
+  <script type="text/javascript">
+  	$('.classCodeInsertForm').hide();
+  </script>
+</sec:authorize>
+
 <br/>
-<h4>기본 클래스룸</h4>
+<h4>수강중인 클래스</h4>
 <table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
 
 
    <tr>
-        <th>
+        <td>
             <p>
             <font><b><span>클래스명</span></b></font></p> 
-        </th>
-        <th>
+        </td>
+        <td>
             <p><font><b><span>클래스 시작일</span></b></font></p>
-        </th>
-        <th>
+        </td>
+        <td>
             <p><font><b><span>클래스 종료일</span></b></font></p>
-        </th>
+        </td>
     </tr>
 
     <c:choose>
     <c:when test="${empty requestScope.classRoomIsCurrentList}">
     <tr>
-        <td colspan="4">
+        <td colspan="3">
             <p align="center"><b><span>기본으로 정해진 클래스가 없습니다.</span></b></p>
         </td>
     </tr>
@@ -91,16 +136,16 @@
     <c:otherwise>
    <c:forEach items="${requestScope.classRoomIsCurrentList}" var="classRoomIsCurrentList">
           <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'">
-              <td bgcolor="">
+              <td>
                   <input type="hidden" value="${classRoomIsCurrentList.classRoomCode}" class="classRoomIsCurrentCode">
-                  <p align="center">${classRoomIsCurrentList.classRoomInfoName}</span></p>
+                  <p align="center"><span>${classRoomIsCurrentList.classRoomInfoName}</span></p>
               </td>
-              <td bgcolor="">
+              <td>
                <p><span style="font-size:9pt;">
                  ${classRoomIsCurrentList.classRoomInfoStartDate}
                </span></p>
               </td>
-              <td bgcolor="">
+              <td>
                   <p align="center"><span style="font-size:9pt;">
                   ${classRoomIsCurrentList.classRoomInfoEndDate}</span></p>
               </td>
@@ -112,7 +157,7 @@
 
 <br/>
 
-<h4>내가 수강한 클래스</h4>
+<h4>수강 한 클래스</h4>
 <table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
 
 

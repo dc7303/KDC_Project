@@ -152,7 +152,7 @@ jq(function(){
         <tr>
           <td colspan="6">
             <p align="center">
-              <b><span style="font-size: 9pt;">받은 쪽지가 없습니다.</span></b>
+              <b><span style="font-size: 13pt;">받은 쪽지가 없습니다.</span></b>
             </p>
           </td>
         </tr>
@@ -164,14 +164,14 @@ jq(function(){
             onmouseout="this.style.background='white'" id="messageTitles"> <!-- id="messageTitles" -->
             <td bgcolor="">
               <p align="center">
-                <span style="font-size: 9pt;">
+                <span style="font-size: 13pt;">
                   <input type="checkbox" name="checkNum"  value="${message.messageNum}"  id="${message.messageNum}">
                 </span>
               </p>
             </td>
             <td bgcolor="">
               <p align="center">
-                <span style="font-size: 9pt;">
+                <span style="font-size: 13pt;">
                   ${message.senderId}</span>
               </p>
             </td>
@@ -182,10 +182,10 @@ jq(function(){
                     <!-- 읽은 쪽지, 읽지않은 쪽지 구분 -->
                     <c:choose>
                       <c:when test="${message.messageIsRead == 'FALSE'}">
-                        <span style="font-size:13pt; font-weight:900;">${message.messageTitle}</span>
+                        <span style="font-size:15pt; font-weight:900;">${message.messageTitle}</span>
                       </c:when>
                       <c:otherwise>
-                        <span style="font-size:9pt;">${message.messageTitle}</span>
+                        <span style="font-size:13pt;">${message.messageTitle}</span>
                       </c:otherwise>
                     </c:choose>
                 </a>
@@ -193,13 +193,13 @@ jq(function(){
             </td>
             <td bgcolor="">
               <p align="center">
-                <span style="font-size: 9pt;">
+                <span style="font-size: 13pt;">
                   ${message.messageDate}</span>
               </p>
             </td>
             <td bgcolor="">
               <p align="center">
-                <span style="font-size: 9pt;"> 
+                <span style="font-size: 15pt;"> 
                 <!-- 답장 클릭시, ajax로 ID유뮤체크 후 답장 페이지로 이동  -->
                 <input type="button" value="답장" id="messageReplyPage">
                 <input type="hidden" name="senderId" value="${message.senderId}">
@@ -208,7 +208,7 @@ jq(function(){
             </td>
             <td bgcolor="">
               <p align="center">
-                <span style="font-size: 9pt;"> 
+                <span style="font-size: 15pt;"> 
                 <input type="hidden" value="${message.messageNum}">
                 <input  type="button" value="삭제" id="deleteMessage" ></span>
               </p>
@@ -220,8 +220,8 @@ jq(function(){
   </table>
   <input type="button" value="선택삭제" name="deleteNumList"/>
   <div align=right>
-    <span style="font-size: 9pt;">&lt;<a
-      href="${pageContext.request.contextPath}/">마이페이지 홈</a>&gt;
+    <span style="font-size: 13pt;">&lt;<a
+      href="${pageContext.request.contextPath}/">홈으로 이동</a>&gt;
     </span>
   </div>
 

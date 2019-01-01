@@ -31,6 +31,7 @@ jq(function(){
       jq(messageContents).focus();
       return false;
     }else{
+      alert("쪽지가 전송되었습니다.");
       return true;
     }
   })
@@ -40,13 +41,12 @@ jq(function(){
 </head>
 <body>
 
-<table align="center" border="0" cellpadding="5" cellspacing="2"
-  width="100%" bordercolordark="white" bordercolorlight="black">
+<table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
   <center><h2> 쪽지 답장 </h2></center>
 
   <form name="writeForm" id="write" method="post" action="${pageContext.request.contextPath}/message/insert" >
 
-    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1">
+    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1" style="margin: auto; width: 800px;">
 
       <tr>
         <td width="1220" height="20" colspan="2" >
@@ -100,7 +100,7 @@ jq(function(){
   <hr>
   <div align=right>
     <span style="font-size: 9pt;">&lt;<a
-      href="${pageContext.request.contextPath}/">마이페이지 홈</a>&gt;
+      href="${pageContext.request.contextPath}/">홈으로 이동</a>&gt;
     </span>
   </div>
   

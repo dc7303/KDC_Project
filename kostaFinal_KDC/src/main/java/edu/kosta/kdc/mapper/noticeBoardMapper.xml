@@ -109,10 +109,9 @@
 
     <!-- 공지사항 최신 글 5개 가져오기 -->
     <select id="selectFiveNotice" resultMap="noticeBoardDTO">
-        select * 
-        from NOTICE_BOARD 
-        WHERE notice_board_classification = 'generalNotice' and <![CDATA[ ROWNUM <= 5]]> and notice_board_isdelete='FALSE'
-        ORDER BY NOTICE_BOARD_PK DESC
+        select *
+        from (select * from NOTICE_BOARD where notice_board_classification = 'generalNotice' and notice_board_isdelete='FALSE' ORDER BY NOTICE_BOARD_PK DESC)
+        where <![CDATA[ROWNUM <= 5]]>
     </select>
 
 </mapper>
