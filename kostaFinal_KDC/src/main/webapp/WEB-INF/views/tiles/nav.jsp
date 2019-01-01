@@ -34,7 +34,13 @@
       </script>
       
      <style>
-     
+     .nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+      background-color:  #ffb03a !important;
+     }
+     .nav > li > a:hover, .nav > li > a:focus {
+        text-decoration: none;
+        background-color: #03293c !important;
+     }
       .img-responsive{
         margin: 20px 0 20px 5px;
        

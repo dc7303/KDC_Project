@@ -43,55 +43,55 @@
   
 </style>
 <script type="text/javascript">
-	const jq = jQuery.noConflict();
-	
-	jq(document).on('click', '#insertMyClassRoom', function(){
-	  var myClassRoomCode = jq('#myClassRoomCode').val();
-	  jq.ajax({
-	    url:'${pageContext.request.contextPath}/classRoom/insertMyClassRoom' ,			// 서버 요청 주소
-	    type:"post" ,			// 전송 방식. get or post
-	    dataType:"text" ,		// 서버가 보내오는 데이터타입(text,html,xml,json)
-	    data:"myClassRoomCode=" + myClassRoomCode ,	// parameter
-	    beforeSend: function(xhr) {
-	      xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-	    },
-	    success:function(result){		// 성공 했을 시 함수
-	      	alert(result);
-	    	if(result == '등록되었습니다. 다시 로그인해주세요.'){
-	    	  console.log('asd');
-	    	  jq('#logoutForm').submit();
-	    	}else {
-	    	  window.location.reload(true);
-	    	}
-	    } ,
-	    error: function(err){		// 실패 했을 시 함수
-	    	alert(err+" => 오류 발생")
-	    }
-	  })
-	})
-	
-	jq(document).on('change', '.selectRadio', function(){
-	  if(this.checked){
-	    var classRoomCode = jq(this).val();
-	  }
-	  jq.ajax({
-	    url:'${pageContext.request.contextPath}/classRoom/defaultClassSet' ,			// 서버 요청 주소
-	    type:"post" ,			// 전송 방식. get or post
-	    dataType:"text" ,		// 서버가 보내오는 데이터타입(text,html,xml,json)
-	    data:"classRoomCode=" + classRoomCode ,	// parameter
-	    beforeSend: function(xhr) {
-	      xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-	    },
-	    success:function(result){		// 성공 했을 시 함수
-	      	alert("기본 클래스로 지정되었습니다.")
-	      	window.location.reload(true);
-	    } ,
-	    error: function(err){		// 실패 했을 시 함수
-	    	alert(err+" => 오류 발생")
-	    }
-	  })
-	})	
-	
+   const jq = jQuery.noConflict();
+   
+   jq(document).on('click', '#insertMyClassRoom', function(){
+     var myClassRoomCode = jq('#myClassRoomCode').val();
+     jq.ajax({
+       url:'${pageContext.request.contextPath}/classRoom/insertMyClassRoom' ,         // 서버 요청 주소
+       type:"post" ,         // 전송 방식. get or post
+       dataType:"text" ,      // 서버가 보내오는 데이터타입(text,html,xml,json)
+       data:"myClassRoomCode=" + myClassRoomCode ,   // parameter
+       beforeSend: function(xhr) {
+         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+       },
+       success:function(result){      // 성공 했을 시 함수
+            alert(result);
+          if(result == '등록되었습니다. 다시 로그인해주세요.'){
+            console.log('asd');
+            jq('#logoutForm').submit();
+          }else {
+            window.location.reload(true);
+          }
+       } ,
+       error: function(err){      // 실패 했을 시 함수
+          alert(err+" => 오류 발생")
+       }
+     })
+   })
+   
+   jq(document).on('change', '.selectRadio', function(){
+     if(this.checked){
+       var classRoomCode = jq(this).val();
+     }
+     jq.ajax({
+       url:'${pageContext.request.contextPath}/classRoom/defaultClassSet' ,         // 서버 요청 주소
+       type:"post" ,         // 전송 방식. get or post
+       dataType:"text" ,      // 서버가 보내오는 데이터타입(text,html,xml,json)
+       data:"classRoomCode=" + classRoomCode ,   // parameter
+       beforeSend: function(xhr) {
+         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+       },
+       success:function(result){      // 성공 했을 시 함수
+            alert("기본 클래스로 지정되었습니다.")
+            window.location.reload(true);
+       } ,
+       error: function(err){      // 실패 했을 시 함수
+          alert(err+" => 오류 발생")
+       }
+     })
+   })   
+   
 </script>
 
 </head>
@@ -112,7 +112,7 @@
 
 <sec:authorize access="hasRole('ROLE_TEACHER')">
   <script type="text/javascript">
-  	$('.classCodeInsertForm').hide();
+     $('.classCodeInsertForm').hide();
   </script>
 </sec:authorize>
 
@@ -126,6 +126,12 @@
             <p>
             <font><b><span>클래스명</span></b></font></p> 
         </td>
+        <sec:authorize access="hasRole('ROLE_TEACHER')" >
+        <td>
+            <p>
+            <font><b><span>클래스 코드</span></b></font></p> 
+        </td>
+        </sec:authorize>
         <td>
             <p><font><b><span>클래스 시작일</span></b></font></p>
         </td>
@@ -149,6 +155,13 @@
                   <input type="hidden" value="${classRoomIsCurrentList.classRoomCode}" class="classRoomIsCurrentCode">
                   <p align="center"><span>${classRoomIsCurrentList.classRoomInfoName}</span></p>
               </td>
+              <sec:authorize access="hasRole('ROLE_TEACHER')">
+              <td>
+               <p><span style="font-size:9pt;">
+                 ${classRoomIsCurrentList.classRoomCode}
+               </span></p>
+              </td>
+              </sec:authorize>
               <td>
                <p><span style="font-size:9pt;">
                  ${classRoomIsCurrentList.classRoomInfoStartDate}
@@ -178,6 +191,11 @@
         <td>
             <p><font><b><span>클래스명</span></b></font></p>
         </td>
+        <sec:authorize access="hasRole('ROLE_TEACHER')" >
+        <td>
+            <p><font><b><span>클래스 코드</span></b></font></p>
+        </td>
+        </sec:authorize>
         <td>
             <p><font><b><span>클래스 시작일</span></b></font></p>
         </td>
@@ -207,6 +225,13 @@
                  ${myClassRoomList.classRoomInfoName}
                </span></p>
               </td>
+              <sec:authorize access="hasRole('ROLE_TEACHER')" >
+              <td bgcolor="">
+               <p><span style="font-size:9pt;">
+                 ${myClassRoomList.classRoomCode}
+               </span></p>
+              </td>
+              </sec:authorize>
               <td bgcolor="">
                <p><span style="font-size:9pt;">
                  ${myClassRoomList.classRoomInfoStartDate}

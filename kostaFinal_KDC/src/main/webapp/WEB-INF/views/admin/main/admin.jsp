@@ -1106,7 +1106,7 @@
           class="w3-bar-item w3-button w3-hover-white"
           >강사생성</a
         >
-        <a href="${pageContext.request.contextPath }/notice/list?classification=generalNotice" class="w3-bar-item w3-button w3-hover-white">공지사항</a>
+        <a href="${pageContext.request.contextPath }/notice/list?classification=generalNotice&pageNum=1" class="w3-bar-item w3-button w3-hover-white">공지사항</a>
       </div>
     </nav>
 
