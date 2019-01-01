@@ -78,18 +78,18 @@
  
     <c:choose>
     
-    <c:when test="${empty requestScope.list}"> 
+    <c:when test="${empty requestScope.resultMap.noticeList}"> 
           <tr>
             <td colspan="7">게시글이 없습니다.</td>
           </tr>          
     </c:when>
     
     <c:otherwise>
-    <c:forEach items="${requestScope.list}" var="NoticeBoardDTO" varStatus="state">          
+    <c:forEach items="${requestScope.resultMap.noticeList}" var="noticeDTO" varStatus="state">          
           
           <tr>
             <td colspan="2">
-            <input type="hidden" value="${NoticeBoardDTO.noticeBoardDate}"  name="newBoardCheck${state.count}">
+            <input type="hidden" value="${noticeDTO.noticeBoardDate}"  name="newBoardCheck${state.count}">
             <script type="text/javascript">
               jq(function(){
                 
@@ -105,34 +105,54 @@
             </script>
             <span name="span${state.count}"></span>
 
-                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_ADMIN'}">
+                <c:if test="${noticeDTO.authName eq 'ROLE_ADMIN'}">
                 <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: red; font-weight: bold">
-                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                       ${noticeDTO.noticeBoardTitle}</a>
                 </c:if>
                 
-                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_MEMBER'}">
+                <c:if test="${noticeDTO.authName eq 'ROLE_MEMBER'}">
                 <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: #7dc855">
-                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                       ${noticeDTO.noticeBoardTitle}</a>
                 </c:if>
                 
-                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_TEACHER'}">
+                <c:if test="${noticeDTO.authName eq 'ROLE_TEACHER'}">
                 <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: orange; font-weight: bold">
-                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                       ${noticeDTO.noticeBoardTitle}</a>
                 </c:if>
                 
-                <c:if test="${NoticeBoardDTO.authName eq 'ROLE_COMPANY'}">
+                <c:if test="${noticeDTO.authName eq 'ROLE_COMPANY'}">
                 <a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${NoticeBoardDTO.noticeBoardPk}" style="color: blue">
-                       ${NoticeBoardDTO.noticeBoardTitle}</a>
+                       ${noticeDTO.noticeBoardTitle}</a>
                 </c:if>
             
             </td>
             
-            <td>${NoticeBoardDTO.member.memberNickName}</td>
-            <td>${NoticeBoardDTO.noticeBoardDate}</td>
-            <td>${NoticeBoardDTO.noticeBoardViews}</td>
+            <td>${noticeDTO.member.memberNickName}</td>
+            <td>${noticeDTO.noticeBoardDate}</td>
+            <td>${noticeDTO.noticeBoardViews}</td>
           </tr>
-          
     </c:forEach>
+    
+    <tr>
+      <td colspan="4">  
+      <c:set var="pageDTO" value="${requestScope.resultMap.pageDTO }"></c:set>
+      <c:if test="${pageDTO.firstMove }">
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=1">처음으로</a>
+      </c:if>
+      <c:if test="${pageDTO.backPage }">
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.page -1}">◀</a>
+      </c:if>
+      <c:forEach begin="${pageDTD.startPage +1 }" end="${pageDTO.endPage }" var="i">
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${i}">${i }</a>
+      </c:forEach>
+      <c:if test="${pageDTO.nextPage}">
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.page +1}">▶</a>
+      </c:if>
+      <c:if test="${pageDTO.lastMove }">
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.lastMove}">마지막페이지</a>
+      </c:if>
+      </td>
+    </tr>
     </c:otherwise>
     
     </c:choose>
