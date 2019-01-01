@@ -4,25 +4,23 @@ public class ClassRoomDTO {
     
     private String memberId;             //유저 아이디. MemberDTO의 memberId를 FK하고 있다.
     private String classRoomCode;        //클래스 코드
-    private boolean classRoomIsCurrent;           //현재 디폴트로 설정된 값 클래스룸 코드
+    private boolean classRoomIsCurrent;  //현재 디폴트로 설정된 값 클래스룸 코드
     
     public ClassRoomDTO() {}
 
-
-
     public ClassRoomDTO(String memberId, String classRoomCode, boolean classRoomIsCurrent) {
         super();
-        memberId = memberId;
+        this.memberId = memberId;
         this.classRoomCode = classRoomCode;
         this.classRoomIsCurrent = classRoomIsCurrent;
     }
 
-    public String getmemberId() {
+    public String getMemberId() {
         return memberId;
     }
 
-    public void setmemberId(String memberId) {
-        memberId = memberId;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public String getClassRoomCode() {
@@ -33,12 +31,14 @@ public class ClassRoomDTO {
         this.classRoomCode = classRoomCode;
     }
 
-    public boolean classRoomIsCurrent() {
+    public boolean isClassRoomIsCurrent() {
         return classRoomIsCurrent;
     }
 
-    public void setCurrent(boolean classRoomIsCurrent) {
+    public void setClassRoomIsCurrent(boolean classRoomIsCurrent) {
         this.classRoomIsCurrent = classRoomIsCurrent;
     }
-    
+
+
+
 }

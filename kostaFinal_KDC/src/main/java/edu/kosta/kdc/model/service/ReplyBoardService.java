@@ -9,13 +9,18 @@ public interface ReplyBoardService {
     /**
      * selectAll(전체 정렬)
      * */
-    List<ReplyBoardDTO> selectAll(String title);
+    List<ReplyBoardDTO> selectAll(String title, int pageNo);
 
     /**
      * 정렬하여 select
      * */
-    List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort);
+    List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort, int pageNo);
 
+    /**
+     * 게시판 종류별 전체 게시물 수 가져오기
+     */
+    int boardQuantityByClassification(String classification);
+    
     /**
      * 레코드 삽입(게시글)
      */
@@ -57,7 +62,7 @@ public interface ReplyBoardService {
     /**
      * replyBoard게시판에서 조건별 검색하기
      * */
-    List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch,String classification);
+    List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch,String classification, int pageNo);
 
     /**
      * replyBoard 좋아요
@@ -99,4 +104,11 @@ public interface ReplyBoardService {
      * @param String 
      * */
     List<ReplyBoardDTO> selectFiveByTitle(String String);
+
+    /**
+     * 게시판 종류별 검색된 전체 게시물 수 가져오기
+     */
+    int boardQuantityByClassificationwithSearch(String department, String boardSearch, String classification);
+
+    
 }

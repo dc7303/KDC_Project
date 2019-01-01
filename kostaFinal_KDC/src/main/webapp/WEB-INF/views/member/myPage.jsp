@@ -58,13 +58,33 @@
       <td><input type="text" name="memberNickName" value="${member.memberNickName }" /></td> 
        </tr>
       
-           
+      
        <tr>
       <td>생일</td>
-      <td><input type="text" name="memberBirth" value="${member.memberBirth }"/></td>     
+      <td>
+      
+        <input type="hidden" name="birthday" value="${member.memberBirth }"/>
+        <input type="text" name="memberBirth" value=""/></td>  
+        
+        <!-- memberBirth에 시:분:초 까지 나오므로 그것을 없애고 생일에 년-월-일만 나오도록 함. -->
+        <script type="text/javascript">
+        $('input[name=birthday]').val();
+        
+        var d = new Date($('input[name=birthday]').val())
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+        var a =  [year, month, day].join('-');
+        
+        $('input[name=memberBirth]').val(a);
+        </script>
       
       <td><span class="ajax">유저 생일 입력</span><br/></td> 
-       </tr>
+      </tr> 
        
        
       <tr>
@@ -84,7 +104,7 @@
            
       </table>
      
-      <input type="button" value="수정하기" class="mypage-button"/>
+      <input type="submit" value="수정하기" class="mypage-button"/>
     </form>
     
        </div>

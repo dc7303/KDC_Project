@@ -1,15 +1,12 @@
 package edu.kosta.kdc.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -245,8 +242,11 @@ public class AdminController {
      * */
     @RequestMapping(value = "/sendMessage", produces = "text/plain; charset=UTF-8")
     @ResponseBody
-    public void SendMessage(MessageDTO messageDTO) {
+    public String SendMessage(MessageDTO messageDTO) {
+        
         messageService.messageInsert(messageDTO);
+        
+        return "메세지가 전송되었습니다.";
     }
     
     /**

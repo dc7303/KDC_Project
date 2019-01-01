@@ -32,18 +32,16 @@
           <div class="signin-button">
             <input type="submit" value="SignIn">
           </div>
-         <!--  <div class="button">
-            <input type="button" value="비밀번호찾기">
-          </div> -->
-        </form>
         
      
 
-       <div> 아직 회원이지 않으신가요? &nbsp;
+       <div class="singin-form"> 
             <a href="${pageContext.request.contextPath }/member/signUpForm"> 회원가입 </a>
        </div>
        
-       <div> 비밀번호를 찾고 싶으시다면? &nbsp;
+       <span class="singin-form-line"></span>
+       
+       <div class="singin-form">
             <a href="#"> 비밀번호 찾기 </a>
        </div>
     

@@ -87,9 +87,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 멤버 정보 수정
+     * 멤버 정보 수정 + 클래스 코드를 입력 했을 시에 DB에 클래스 코드 저장. 트랜잭션으로 처리.
      */
     @Override
+    @Transactional
     public int updateByMemberInfo(MemberDTO memberDTO) {
         
         //인코딩 패스워드 셋팅

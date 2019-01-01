@@ -9,9 +9,9 @@
     <title></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
-    
-    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
+<%--     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" /> --%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
@@ -102,27 +102,29 @@ jq(function(){
     </tr>
 
     <tr>
-      <td class="tech-content" colspan="10">
+      <td class="tech-content" colspan="10" style="text-align: left;" valign="top">
         <div id = "viewer-section"></div>
         <input id ="detail-description" type="hidden" value="${NoticeBoardDTO.noticeBoardContents}">
       </td>
     </tr>
 
-    <tr>
-      <td colspan="10" align="center" valign="middle">
-      <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
-      <form name="requestForm" method=post  id="requestForm">
-        <input type="hidden" name="noticeBoardPk" value="${NoticeBoardDTO.noticeBoardPk}"/>
-        <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-        <input type=hidden name="classification" value="${requestScope.classification}">
-        <input type=button value="수정하기" />
-        <input type=button value="삭제하기" />
-      </form>
-      </td>
-    </tr>
+   <c:if test="${NoticeBoardDTO.noticeBoardWriterId eq requestScope.memberId }">
+      <tr>
+        <td colspan="10" align="center" valign="middle">
+        <!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
+        <form name="requestForm" method=post  id="requestForm">
+          <input type="hidden" name="noticeBoardPk" value="${NoticeBoardDTO.noticeBoardPk}"/>
+          <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+          <input type=hidden name="classification" value="${requestScope.classification}">
+          <input type=button value="수정하기" />
+          <input type=button value="삭제하기" />
+        </form>
+        </td>
+      </tr>
+    </c:if>
 </table>
 
-<div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/notice/list">리스트로 돌아가기</a>&gt;</span></div>
+<%-- <div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/notice/noticeList">리스트로 돌아가기</a>&gt;</span></div> --%>
 <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
 <input type="hidden" name="csrfToken" value="${_csrf.token}"/>
 <input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>

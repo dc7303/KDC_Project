@@ -12,4 +12,26 @@
     <select id="selectCurrentCode" resultMap="classRoomDTO">
         SELECT * FROM CLASSROOM WHERE CLASSROOM_USER_ID = #{_parameter} AND CLASSROOM_ISCURRENT = 'TRUE'
     </select>
+    
+    <!-- 마이페이지 - member가 클래스 코드 입력하면 DB에 해당 유저와 코드를 입력시켜주는 메소드 -->
+    <insert id="insertMyClassRoom" parameterType="classRoomDTO">
+        insert into classRoom
+        values (#{memberId},#{classRoomCode},'FALSE')
+    </insert>
+    
+    <select id="selectMyClassRoomCodeByClassRoomDTO" parameterType="classRoomDTO" resultMap="classRoomDTO">
+        select *
+        from classRoom
+        where CLASSROOM_USER_ID=#{memberId} and CLASSROOM_CODE=#{classRoomCode}
+    </select>
+    
+    <update id="defaultClassSet" parameterType="classRoomDTO">
+        update classroom set CLASSROOM_ISCURRENT='TRUE'
+        where CLASSROOM_USER_ID=#{memberId} and CLASSROOM_CODE=#{classRoomCode}
+    </update>
+    
+    <update id="updateOtherCurrentClass" parameterType="classRoomDTO">
+        update classroom set CLASSROOM_ISCURRENT='FALSE'
+        where CLASSROOM_USER_ID=#{memberId}
+    </update>
 </mapper>

@@ -18,6 +18,23 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     private MessageDAO messageDAO;
+    
+    
+    /**
+     * 전체 메세지 리스트(no Paging)
+     * */
+    @Override
+    public List<MessageDTO> messageLIstAllNoPaging() {
+        
+        List<MessageDTO> list = messageDAO.messageLIstAllNoPaging();
+       
+        if(list == null) {
+            throw new KdcException("쪽지가 존재하지 않습니다.");
+        }
+        
+        return list;
+        
+    }
 
     /**
      * 조회할 메세지 리스트 수 가져오기
@@ -161,6 +178,10 @@ public class MessageServiceImpl implements MessageService {
         
         MemberDTO memberDTO = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        if(memberDTO.getMemberId() == null) {
+            throw new KdcException("id가 존재하지 않습니다.");
+        }
+        
         int count = messageDAO.messageUnReadCount(memberDTO.getMemberId());
         
         return count;

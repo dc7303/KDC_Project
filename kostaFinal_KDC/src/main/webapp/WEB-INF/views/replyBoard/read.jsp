@@ -8,7 +8,7 @@
     <title></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
     
     <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
@@ -164,7 +164,7 @@ jq(function() {
 </head>
 
 <body>
-<span style="text-align: center"><h1>${requestScope.classification}게시판 입니다.</h1></span>
+
 <table>
        <thead>
           <tr class="titel-color">
@@ -203,16 +203,16 @@ jq(function() {
         <td>
           <c:choose>
             <c:when test="${replyBoardDTO.updown.isUp==true}">
-            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
-            <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png"></div>
+            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+            <div><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down.png"></div>
             </c:when>
             <c:when test="${replyBoardDTO.updown.isUp==false}">
-            <div><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png"></div><br/>
-            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
+            <div><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up.png"></div><br/>
+            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
             </c:when>      
             <c:otherwise>
-            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
-            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
+            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
             </c:otherwise>
           </c:choose>
         </td>
@@ -340,16 +340,16 @@ jq(function() {
           <td style="width: 100px">
           <c:choose>
           <c:when test="${replyBoardDTO.updown.isUp==true}">
-            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up_black.png" name="replyBlack${state.count}" id="reply_thumbs_up_black" onclick="window.location.reload()"><br/>
-            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png">
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/reply_thumbs_up_black.png" name="replyBlack${state.count}" id="reply_thumbs_up_black" onclick="window.location.reload()"><br/>
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/reply_thumbs_down.png">
           </c:when>
           <c:when test="${replyBoardDTO.updown.isUp==false}">
-            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png"><br/>
-            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down_black.png" name="replyBlack${state.count}"id="reply_thumbs_down_black" onclick="window.location.reload()">
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/reply_thumbs_up.png"><br/>
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/reply_thumbs_down_black.png" name="replyBlack${state.count}"id="reply_thumbs_down_black" onclick="window.location.reload()">
           </c:when>      
           <c:otherwise>
-            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_up.png" name="replyLike${state.count}" id="reply_thumbs_up" onclick="window.location.reload()"><br/>
-            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/reply_thumbs_down.png" name="replyDisLike${state.count}"id="reply_thumbs_down" onclick="window.location.reload()">
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/reply_thumbs_up.png" name="replyLike${state.count}" id="reply_thumbs_up" onclick="window.location.reload()"><br/>
+            <input type="image" src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/reply_thumbs_down.png" name="replyDisLike${state.count}"id="reply_thumbs_down" onclick="window.location.reload()">
           </c:otherwise>
           </c:choose>
           </td>

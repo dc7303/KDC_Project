@@ -8,17 +8,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
-    
- <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css"/></noscript>
+
 <script type="text/javascript">
 
 const jq = jQuery.noConflict();
 
-//답장시, 메세지 보낸사람(senderId) 유효성 체크
+//답장시, 쪽지 보낸사람(senderId) 유효성 체크
 jq(function(){
-  jq(document).on('click','#replyMessage',function(){
+  jq(document).on('click','#messageReplyPage',function(){
     
     var senderId = jq(this).parent().children().eq(1).val();
     
@@ -45,7 +43,7 @@ jq(function(){
     });
   });
   
-  //메세지 선택 삭제
+  //쪽지 선택 삭제
   jq('input[name=deleteNumList]').on('click', function() {
     var deleteNumList = [];
     
@@ -89,7 +87,7 @@ jq(function(){
   });
   
   
-  //메세지 삭제 여부 확인
+  //쪽지 삭제 여부 확인
   jq(document).on('click','#deleteMessage', function() {
     
     var messageNum = jq(this).parent().children().eq(0).val();
@@ -100,7 +98,7 @@ jq(function(){
       return;
     }
   });
-});
+});//end 
 
 </script>
 
@@ -179,9 +177,9 @@ jq(function(){
             </td>
             <td bgcolor="">
               <p>
-                <a href="${pageContext.request.contextPath}/message/${message.messageNum}">
+                <a href="${pageContext.request.contextPath}/message/messageSelectByMessageNum?messageNum=${message.messageNum}">
                     <!-- path variable RESTful -->
-                    <!-- 읽은 메세지, 읽지않은 메세지 구분 -->
+                    <!-- 읽은 쪽지, 읽지않은 쪽지 구분 -->
                     <c:choose>
                       <c:when test="${message.messageIsRead == 'FALSE'}">
                         <span style="font-size:13pt; font-weight:900;">${message.messageTitle}</span>
@@ -203,7 +201,7 @@ jq(function(){
               <p align="center">
                 <span style="font-size: 9pt;"> 
                 <!-- 답장 클릭시, ajax로 ID유뮤체크 후 답장 페이지로 이동  -->
-                <input type="button" value="답장" id="replyMessage">
+                <input type="button" value="답장" id="messageReplyPage">
                 <input type="hidden" name="senderId" value="${message.senderId}">
                 </span>
               </p>
@@ -221,7 +219,6 @@ jq(function(){
     </c:choose>
   </table>
   <input type="button" value="선택삭제" name="deleteNumList"/>
-  <hr>
   <div align=right>
     <span style="font-size: 9pt;">&lt;<a
       href="${pageContext.request.contextPath}/">마이페이지 홈</a>&gt;
