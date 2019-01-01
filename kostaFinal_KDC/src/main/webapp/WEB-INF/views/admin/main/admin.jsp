@@ -121,10 +121,10 @@
     */
   </style>
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
-        <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
    
-  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
     <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
@@ -165,7 +165,13 @@
             //addRows할 배열 변수
             var dataArr =[];
             for(let key in result) {
-              dataArr.push([key, result[key]]);
+              var parseKey = '';
+              if(key === 'tech') parseKey = '테크Q&A';
+              else if(key === 'findJob') parseKey = '채용게시판';
+              else if(key === 'study') parseKey = '스터디게시판';
+              else if(key === 'lib') parseKey = '기술공유게시판';
+              
+              dataArr.push([parseKey, result[key]]);
             }
             //물리 데이터 담기
             data.addRows(dataArr);
@@ -1038,6 +1044,8 @@
           changeMonth: true,
           changeYear: true,
           yearRange: '-100:+0',
+          monthNamesShort: [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" ],
+          dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ]
         });
       });
     });

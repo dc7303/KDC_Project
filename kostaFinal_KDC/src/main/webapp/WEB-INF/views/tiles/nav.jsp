@@ -30,7 +30,7 @@
           $('#logoutForm').submit();
         });
       </script>
-      
+      <script type="text/javascript">
        $(function(){
          $('.logout-Btn').on('click',function(){
            $('#logoutForm').submit();

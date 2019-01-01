@@ -3,6 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/logincss.css" />    
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.css">
+<style>
+  /* css 충돌로 picker month-selector와 year-selector font 컬러 없어지는 이슈해결 */
+  .ui-datepicker-month, .ui-datepicker-year {
+    color: black;
+  }
+</style>
 <title></title>
 
 <head>
@@ -56,7 +63,7 @@
 
   				<tr>
   					<td>생일</td>
-  					<td><input type="text" name="memberBirth" placeholder="  1900.01.00"/></td>
+  					<td class="datepicker-lib"><input type="text" id="datepicker" autocomplete="off" name="memberBirth" placeholder="  1900.01.00"/></td>
   				</tr>
 
   				<tr>
@@ -94,11 +101,27 @@
   <input type="hidden" name="contextPath" value="${pageContext.request.contextPath }"/>
   <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
   <input type="hidden" name="csrfToken" value="${_csrf.token }"/>
+  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.min.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/memberInfoForm/signup-regex-check.js"></script>
   <script type="text/javascript">
-    if('${requestScope.authTeacher}' != null){
-      jq('input[name=authCode]').val('${requestScope.authTeacher}');
-    }
+    
+    jq(function() {
+      if('${requestScope.authTeacher}' != null){
+        jq('input[name=authCode]').val('${requestScope.authTeacher}');
+      }
+      
+      //생일 입력 datepicker
+      jq( function() {
+        jq( "#datepicker" ).datepicker({
+          dateFormat: 'yy.mm.dd',
+          changeMonth: true,
+          changeYear: true,
+          yearRange: '-100:+0',
+          monthNamesShort: [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" ],
+          dayNamesMin: [ "일", "월", "화", "수", "목", "금", "토" ]
+        });
+      });
+    });
   </script>
   </body>
 </html>
