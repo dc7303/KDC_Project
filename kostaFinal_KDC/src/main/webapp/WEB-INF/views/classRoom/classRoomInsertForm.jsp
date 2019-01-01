@@ -5,8 +5,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.css">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+ 
+ <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+ <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	const jq = jQuery.noConflict();
 
@@ -28,7 +31,22 @@
 	      }
 	    })
 	  })
-	})
+	  
+      //datepicker option
+      jq( function() {
+        jq( ".datepicker" ).datepicker({
+          dateFormat: 'yy-mm-dd',
+        });
+      });
+	  
+	  jq(document).on('click','#submit',function(){
+	    if(jq('#classRoomInfoName').val() === ''){
+	      alert("클래스 이름을 입력해주세요.");
+	      jq('#classRoomInfoName').focus();
+	      return false;
+	    }
+	  })
+	});
 </script>
 
 <style>
@@ -45,24 +63,24 @@ body{
 <table border="1">
   <tr>
    <th>클래스 이름</th>
-   <td><input type="text" name="classRoomInfoName" ></td>
+   <td><input type="text" autocomplete="off" name="classRoomInfoName" id="classRoomInfoName"></td>
  </tr>
   <tr>
    <th>클래스 개강일</th>
-   <td><input type="text" name="classRoomInfoStartDate" ></td>
+   <td><input type="text" class="datepicker" autocomplete="off" name="classRoomInfoStartDate" ></td>
  </tr>
   <tr>
    <th>클래스 종강일</th>
-   <td><input type="text" name="classRoomInfoEndDate" ></td>
+   <td><input type="text" class="datepicker" autocomplete="off" name="classRoomInfoEndDate" ></td>
  </tr>
  <tr>
    <th>클래스 강사 아이디</th>
-   <td><input type="text" name="classRoomInfoTeacherId" id="classRoomInfoTeacherId" value=""><span id="aJaxResult2" ></span></td>
+   <td><input type="text" name="classRoomInfoTeacherId" id="classRoomInfoTeacherId" autocomplete="off" value="${requestScope.memberId }"><span id="aJaxResult2" ></span></td>
  </tr>
  <tr>
    <th colspan="2">
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-     <input type="submit" value="등록하기">
+     <input type="submit" value="등록하기" id="submit">
      <input type="reset" value="취소하기">
    </th>
  </tr>

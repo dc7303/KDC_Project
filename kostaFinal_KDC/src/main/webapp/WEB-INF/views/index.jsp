@@ -83,13 +83,7 @@ h4{
   %>
   <sec:authorize access="isAuthenticated()">
 	<sec:authentication var="member" property="principal" />
-
-    
       </sec:authorize>
-      
-      
-     
-
 <div>
 
 
@@ -125,7 +119,7 @@ h4{
         <c:otherwise>
           <c:forEach items="${requestScope.generalNoticeListFive }" var="generalNoticeListFive">
             <tr>
-              <th><a href="#">${generalNoticeListFive.noticeBoardTitle }</a></th>
+              <th><a href="${pageContext.request.contextPath}/notice/read?noticeBoardPk=${generalNoticeListFive.noticeBoardPk}">${generalNoticeListFive.noticeBoardTitle }</a></th>
               <th>${generalNoticeListFive.noticeBoardWriterId }</th>
               <th>${generalNoticeListFive.noticeBoardDate }</th>
               <th>${generalNoticeListFive.noticeBoardViews }</th>
@@ -152,7 +146,7 @@ h4{
         <c:otherwise>
           <c:forEach items="${requestScope.techListFive }" var="techListFive">
             <tr>
-              <th><a href="#">${techListFive.replyBoardTitle }</a></th>
+              <th><a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${techListFive.replyBoardPk}&&classification=tech">${techListFive.replyBoardTitle }</a></th>
               <th>${techListFive.replyBoardWriterId }</th>
               <th>${techListFive.replyBoardDate }</th>
               <th>${techListFive.replyBoardViews }</th>
@@ -180,7 +174,7 @@ h4{
         <c:otherwise>
           <c:forEach items="${requestScope.libListFive }" var="libListFive">
             <tr>
-              <th><a href="#">${libListFive.replyBoardTitle }</a></th>
+              <th><a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${libListFive.replyBoardPk}&&classification=lib">${libListFive.replyBoardTitle }</a></th>
               <th>${libListFive.replyBoardWriterId }</th>
               <th>${libListFive.replyBoardDate }</th>
               <th>${libListFive.replyBoardViews }</th>
