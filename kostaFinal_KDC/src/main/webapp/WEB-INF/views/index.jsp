@@ -24,23 +24,9 @@ jq(function(){
 </script>
 <style>
 
-/* div.index-img{
-  width: 100%;
-  height: 400px;
-  background-color: pink;
-  margin-bottom:
-
-} */
-
-/* body { 
-
-  background:url('${pageContext.request.contextPath }/resources/testimg/photos/photo11.jpg') rgba(0,0,0,0.5); 
-
-
-  background-size: 100%;
- 
-} */
-
+div{
+  display: inline-block;
+}
 
 i{
   margin: 0 5px 0 0;
@@ -92,24 +78,7 @@ h4{
 
 <div>
 
-
-<%-- <a href="${pageContext.request.contextPath }/calendar/calendarForm">강사 - 풀 카렌다</a><br>  
-<br/>
-  <a href="${pageContext.request.contextPath }/admin/selectMember">관리자 페이지로</a> --%>
-  </center>
-  
-  
-<!-- 
-  <div class="index-img">
-  
-   <img href="index-01.jpg">
-   <img href="index-02.jpg">
-   <img href="index-03.jpg">
-   <img href="index-04.jpg">
-
-  </div> -->
-  
-  <div style="width:45%; float:left; margin-right:100px">
+  <div style="width:45%; float:left;">
     <h4 class="notice-header"><i class="ion-ios-calculator-outline"></i>공지사항</h4>
     <table border="1" width="80%">
       <colgroup>
@@ -162,10 +131,9 @@ h4{
       </c:choose>
     </table>
   </div>
-  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-  
-  <div style="width:100%;">
-    <h4 class="QnA-header" style="margin-left:auto; margin-right:auto;"><i class="ion-ios-list-outline"></i>Tech Q&A</h4>
+ 
+  <div style="width:100%; margin-top:20px;">
+    <h4 class="QnA-header"><i class="ion-ios-list-outline"></i>Tech Q&A</h4>
     <table border="1" width="100%">
       <colgroup>
         <col width="50%">

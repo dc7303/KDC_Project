@@ -9,10 +9,7 @@
 
 <style type="text/css">
 
- header {
-  height: 80px;
- }
-
+ 
 
   nav {
     float: left;
