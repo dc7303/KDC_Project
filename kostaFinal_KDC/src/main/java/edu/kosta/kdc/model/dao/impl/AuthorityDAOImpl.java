@@ -33,4 +33,13 @@ public class AuthorityDAOImpl implements AuthorityDAO {
         return sqlSession.insert("authMapper.insert", authorityDTO);
     }
 
+    /**
+     * 가져온 권한이 role_member라면 role_student로 바꾸어 준다.
+     * */
+    @Override
+    public int authorityUpdate(String memberId) {
+       
+        return sqlSession.update("authMapper.authorityUpdate", memberId);
+    }
+
 }

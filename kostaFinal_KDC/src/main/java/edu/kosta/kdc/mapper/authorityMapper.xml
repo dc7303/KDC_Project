@@ -15,4 +15,9 @@
         select * from authority where authority_id = #{_parameter}
     </select>
     
+    <update id="authorityUpdate" parameterType="string">
+        update authority
+        set authority_role = 'ROLE_STUDENT'
+        where authority_id = #{_parameter}
+    </update>
 </mapper>

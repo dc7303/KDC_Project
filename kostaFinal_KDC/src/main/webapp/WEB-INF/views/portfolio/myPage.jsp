@@ -68,7 +68,7 @@
   .text-box h2{
     margin: 0px;
     font-weight: bold;
-    font-size: 60px;
+    font-size: 50px;
     padding: 20px;
   }
   .label-text{
@@ -78,10 +78,10 @@
     width: 100%;
     display: inline-block;
     margin-left: 50px;
-    font-size: 35px;
+    font-size: 20px;
   }
   .text-box h3{
-    font-size: 55px;
+    font-size: 35px;
     width: fit-content;
     padding: 10px;
     border-bottom: gainsboro solid 4px;
@@ -91,7 +91,7 @@
   }
   .label-detail{
     display: block;
-    font-size: 30px;
+    font-size: 20px;
     opacity: 0.4;
   }
  
@@ -120,7 +120,7 @@
     margin: 10px;
   }
   .detail-title{
-    font-size:50px;
+    font-size:40px;
   }
       
 </style>
@@ -246,7 +246,9 @@
                  <span>${hashTag.hashTagName}</span>
                </c:forEach>
              </div>
-             <input type="button" value="수정하기" class="update-detail common-button" id="detail-${detail.portFolioDetailPk}"/>
+             <div class="update-btn">
+               <input type="button" value="수정하기" class="update-detail common-button" id="detail-${detail.portFolioDetailPk}"/>
+             </div>
            </div>
          
          </div> 
@@ -256,7 +258,9 @@
      </c:choose>
      
      <br>
-     <a class="add-portfolio button" href="${pageContext.request.contextPath }/portfolio/detailForm">상세내용 추가</a>
+     <div class="update-btn">
+      <a class="add-portfolio button" href="${pageContext.request.contextPath }/portfolio/detailForm">상세내용 추가</a>
+     </div>
     </c:otherwise>
   </c:choose>
  </center> 

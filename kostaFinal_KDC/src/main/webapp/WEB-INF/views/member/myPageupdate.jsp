@@ -6,7 +6,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/logincss.css" />   
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.css">
 <title>Insert title here</title>
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.min.js"></script>
+<script type="text/javascript">
+const jq = jQuery.noConflict();
+
+
+  //datepicker option
+  jq( function() {
+    jq( ".datepicker" ).datepicker({
+      dateFormat: 'yy-mm-dd',
+    });
+  });
+
+</script>
 </head>
 <body>
 <center>
@@ -67,7 +81,7 @@
       <td>
       
         <input type="hidden" name="birthday" value="${member.memberBirth }"/>
-        <input type="text" name="memberBirth" value=""/></td>  
+        <input type="text" name="memberBirth" class="datepicker" value=""/></td>  
         
         <!-- memberBirth에 시:분:초 까지 나오므로 그것을 없애고 생일에 년-월-일만 나오도록 함. -->
         <script type="text/javascript">
@@ -107,7 +121,7 @@
            
       </table>
      
-      <input type="button" value="수정하기" class="mypage-button"/>
+      <input type="submit" value="수정하기" class="mypage-button"/>
     </form>
     
        </div>

@@ -57,7 +57,12 @@
 	    },
 	    success:function(result){		// 성공 했을 시 함수
 	      	alert(result);
-	      	window.location.reload(true);
+	    	if(result == '등록되었습니다. 다시 로그인해주세요.'){
+	    	  console.log('asd');
+	    	  jq('#logoutForm').submit();
+	    	}else {
+	    	  window.location.reload(true);
+	    	}
 	    } ,
 	    error: function(err){		// 실패 했을 시 함수
 	    	alert(err+" => 오류 발생")
@@ -91,6 +96,10 @@
 
 </head>
 <body>
+<!-- 로그아웃 시키기 위한 폼 -->
+<form id="logoutForm" action="${pageContext.request.contextPath}/member/logout"  method="post">
+  <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+</form>
 <br>
 <sec:authorize access="isAuthenticated()">  
   <h3 class="notice-title">나의 클래스룸</h3>
