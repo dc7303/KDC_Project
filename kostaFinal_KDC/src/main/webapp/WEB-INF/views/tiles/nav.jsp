@@ -98,6 +98,7 @@
       
                        <li><a href="${pageContext.request.contextPath }/member/myPageupdate">회원정보수정</a></li>
                        <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오</a></li>
+                        <li><a href="${pageContext.request.contextPath }/classRoom/classRoomInsertForm">클래스 생성</a></li>
               
                        
                        <%--  <sec:authorize access="hasRole('ROLE_STUDENT')"> 
