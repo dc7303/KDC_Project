@@ -134,7 +134,7 @@
     <select id="noticeBoardSelectAllForPaging" parameterType ="map" resultMap="noticeBoardDTO">
        SELECT X.RNUM, X.* FROM(
        SELECT ROWNUM AS RNUM, A.* FROM ( 
-       SELECT A.*,(SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+       SELECT A.*, B.*,(SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
        FROM NOTICE_BOARD A, MEMBER B
        WHERE A.NOTICE_BOARD_ISDELETE= 'FALSE'
        AND A.NOTICE_BOARD_CLASSIFICATION = #{classification}
@@ -150,7 +150,7 @@
     <select id="noticeBoardSelectPaging" parameterType="map" resultMap="noticeBoardDTO">
         SELECT X.RNUM, X.* FROM(
         SELECT ROWNUM AS RNUM, A.* FROM ( 
-        SELECT A.*, (SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+        SELECT A.*, B.*, (SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
         FROM NOTICE_BOARD A, MEMBER B
         WHERE A.NOTICE_BOARD_WRITER_ID = B.MEMBER_ID
         AND A.NOTICE_BOARD_CLASSIFICATION= #{classification}

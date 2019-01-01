@@ -89,6 +89,9 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         
         resultMap.put("noticeList", list);
         resultMap.put("pageDTO", pageDTO);
+        for(NoticeBoardDTO boardDTO : list) {
+            System.out.println(boardDTO.getMember().getMemberNickName());
+        }
         
         return resultMap;
     }

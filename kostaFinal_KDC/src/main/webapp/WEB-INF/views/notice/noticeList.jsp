@@ -43,6 +43,10 @@
   .paging-hover:hover {
     color: orange;
   }
+  
+  .table-list-hover:hover {
+    background-color: #337AB7;
+  }
 </style>
   <body>
   
@@ -72,10 +76,10 @@
       <table>
         <thead>
           <tr>
-            <th colspan="2">글제목</th>
-            <th>글쓴이</th>
-            <th><a class="board-list-font" href="#">등록날짜</a></th>
-            <th><a class="board-list-font" href="#">조회수</a></th>            
+            <th colspan="2" width="40%">글제목</th>
+            <th width="20%">글쓴이</th>
+            <th width="20%"><a class="board-list-font" href="#">등록날짜</a></th>
+            <th width="20%"><a class="board-list-font" href="#">조회수</a></th>            
           </tr>
         </thead>
         <tbody>
@@ -91,7 +95,7 @@
     <c:otherwise>
     <c:forEach items="${requestScope.resultMap.noticeList}" var="noticeDTO" varStatus="state">          
           
-          <tr>
+          <tr class="table-list-hover">
             <td colspan="2">
             <input type="hidden" value="${noticeDTO.noticeBoardDate}"  name="newBoardCheck${state.count}">
             <script type="text/javascript">
@@ -138,7 +142,7 @@
     </c:forEach>
     
     <tr>
-      <td colspan="4">  
+      <td colspan="5">  
       <c:set var="pageDTO" value="${requestScope.resultMap.pageDTO }"></c:set>
       <c:if test="${pageDTO.firstMove }">
         <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=1" class="paging-hover">처음으로</a>
