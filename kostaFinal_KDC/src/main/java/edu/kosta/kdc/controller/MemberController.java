@@ -287,7 +287,7 @@ public class MemberController {
         
         memberService.updateByMemberInfo(memberDTO);
         
-        return "/index";
+        return "redirect:/";
     }
     
     /**
