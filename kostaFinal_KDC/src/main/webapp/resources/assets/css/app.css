@@ -21,7 +21,7 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   text-align: center;
-  font-family:"�굹�닎�뒪�섏뼱�씪�씠�듃", "NanumSquareL", "ngeot", "�룍��", "DotumChe", "Dotum";}
+  font-family:"占쎄돌占쎈땸占쎈뮞占쎌꼷堉깍옙�뵬占쎌뵠占쎈뱜", "NanumSquareL", "ngeot", "占쎈즻占쏙옙", "DotumChe", "Dotum";}
 
 
 .app-ui-mask-disable-scroll {
@@ -2388,4 +2388,6 @@ a.card:not(.bg-inverse):hover {
 .slimScrollBar {
 	right: 0 !important;
 	border-radius: 3px !important;
+	background: white !important;
+    opacity: 0.8 !important;
 }

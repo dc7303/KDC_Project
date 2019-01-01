@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio-tiless.css" />
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 
 
@@ -21,10 +20,15 @@
   display: table;
 }
 .wf-container:after { clear: both; }
-.wf-box { margin: 10px; }
+.wf-box { 
+  margin: 10px; 
+  position: relative;
+}
 .wf-box img {
   display: block;
   width: 100%;
+  border-radius: 8px;
+  transition: 0.3s;
 }
 .wf-box .content {
   border: 1px solid #ccc;
@@ -32,8 +36,35 @@
   padding: 5px 8px;
 }
 .wf-column { float: left; }
-</style>
 
+.info-box{
+  position: absolute;
+  bottom: 0px;
+  visibility: hidden;
+  padding: 5px 20px;
+}
+.info-box h3{
+  padding:5px 15px;
+} 
+.info-box p{
+  padding:0px 5px;
+}
+form {
+    display: flex !important;
+    padding: 0px 120px !important;
+    margin: 0 0 2rem 0 !important;
+}
+
+select#department {
+    float: left;
+    flex: 15% !important;
+}
+
+input.search-button {
+    flex: 1 !important;
+}
+
+</style>
 
 <script type="text/javascript">
 const jq = jQuery.noConflict(); 
@@ -45,37 +76,19 @@ const jq = jQuery.noConflict();
       var memberId = jq(this).find('.hidden-memberId').val();
       location.href='${pageContext.request.contextPath}/portfolio/selectAllDetail/'+memberId;
     });
+    
+ 
+    //hover 이벤트(정보노출)
+    jq('.wf-box').hover(function(){
+      jq(this).css('cursor','pointer');
+      jq(this).find('img').css('opacity','0.5');
+    },function(){
+      jq(this).find('img').css('opacity','1');
+    });
+    
   });
 </script>
 <style>
-.wf-container { margin: 0 auto; }
-.wf-container:before,
-.wf-container:after {
-  content: '';
-  display: table;
-}
-.wf-container:after { clear: both; }
-.wf-box { margin: 10px; }
-.wf-box img {
-  display: block;
-  width: 100%;
-}
-.wf-box .content {
-  border: 1px solid #ccc;
-  border-top-width: 0;
-  padding: 5px 8px;
-}
-.wf-column { float: left; }
-
-@media screen and (min-width: 768px) {
-.wf-container { width: 750px; }
-}
-@media screen and (min-width: 992px) {
-.wf-container { width: 970px; }
-}
-@media screen and (min-width: 1200px) {
-.wf-container { width: 1170px; }
-}
 
 .portfolio-title{
   text-align:center;
@@ -96,7 +109,7 @@ input.search-button{
 </head>
 <body>
   
-  <h1 class="portfolio-title"> P O R T F O L I O </h1>
+  <h1 class="notice-title"> P O R T F O L I O </h1>
   <!-- 검색창 -->
  
   <form action="${pageContext.request.contextPath}/portfolio/portfolioListSearch">
@@ -112,9 +125,6 @@ input.search-button{
     <input class="tech-board-search" type="text" name="keyword"/>
     <input class="search-button" type="submit" value="검색"/>
   </form>
- 
-    
-  <div class="tiles">
     
   <c:choose>
     <c:when test="${empty portfolioList}">
@@ -124,12 +134,12 @@ input.search-button{
     <div class="wf-container">
       <c:forEach items="${portfolioList}" var="portfolio">
 
-          <div class="wf-box"><img src="${pageContext.request.contextPath}/resources/testimg/photos/${portfolio.portFolioMainImage}">
-            <div class="content">
-              <h3>${portfolio.portFolioMainTitle}</h3>
-              <p>${portfolio.portFolioMemberNickName }</p>
+          <div class="wf-box">
+          <div class="img-box">
+            <img src="${pageContext.request.contextPath}/resources/testimg/photos/${portfolio.portFolioMainImage}">
+          </div>
+            
               <input type="hidden" value="${portfolio.portFolioMemberId}" class="hidden-memberId">
-            </div>
           </div>
       </c:forEach>
       </div>
@@ -144,7 +154,6 @@ input.search-button{
 var waterfall = new Waterfall({
   containerSelector: '.wf-container',
   boxSelector: '.wf-box',
-<<<<<<< HEAD
   minBoxWidth: 250
 });
 

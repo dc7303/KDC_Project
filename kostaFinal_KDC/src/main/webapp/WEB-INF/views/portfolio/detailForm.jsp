@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio.css" />
 <title>Insert title here</title>
 <!-- 해쉬태그 js -->
@@ -99,7 +100,7 @@ jq(function(){
 <body>
 <center>
 <sec:authentication var="member" property="principal" />
-  <h3 class="detailhead-portfolio">${member.memberId}님의 상세 포트폴리오 작성 폼 입니다</h3></p></br>
+  <h2 class="notice-title">상세 포트폴리오 작성</h2>
 <form action="${pageContext.request.contextPath }/portfolio/insertDetail?${_csrf.parameterName}=${_csrf.token}"
    method="post" enctype="multipart/form-data" id="editor-form">
    
