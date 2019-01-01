@@ -1,6 +1,7 @@
 package edu.kosta.kdc.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import edu.kosta.kdc.model.dto.HashTagDTO;
 import edu.kosta.kdc.model.dto.MemberDTO;
@@ -11,12 +12,12 @@ public interface ReplyBoardDAO {
     /**
      * selectAll(전체 정렬)
      * */
-    List<ReplyBoardDTO> selectAll(String title);
+    List<ReplyBoardDTO> selectAll(Map<String, Object> map);
 
     /**
      * 정렬하여 select
      * */
-    List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort);
+    List<ReplyBoardDTO> replyBoardSelectAllOrderBy(Map<String, Object> map);
     
     /**
      * 레코드 삽입
@@ -88,7 +89,7 @@ public interface ReplyBoardDAO {
     /**
      * replyBoard게시판에서 조건별 검색
      * */
-    List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch, String classification);
+    List<ReplyBoardDTO> replyBoardListSearch(Map<String, Object> map);
 
     /**
      * replyBoard좋아요 기능
@@ -143,5 +144,10 @@ public interface ReplyBoardDAO {
      * @param String 
      * */
     List<ReplyBoardDTO> selectFiveByTitle(String title);
+
+    /**
+     * 게시판 종류별 검색된 전체 게시물 수 가져오기
+     */
+    int boardQuantityByClassificationwithSearch(Map<String, Object> map);
 
 }

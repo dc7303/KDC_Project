@@ -15,7 +15,7 @@ public class ReplyBoardDTO {
     private int likeNum;                           //좋아요수
     private int replyNum;                          //댓글수
     private String mentionNickName;                //인물태그 닉네임
-    private String authName;                       //로그인 한사람의 권한
+    private String authName;                       //게시글쓴 사람의 권한
     
     //1:1인경우
     private MemberDTO member;
