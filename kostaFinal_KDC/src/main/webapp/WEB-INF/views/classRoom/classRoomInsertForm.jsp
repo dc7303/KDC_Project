@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.css">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
  
- <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+
  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	const jq = jQuery.noConflict();

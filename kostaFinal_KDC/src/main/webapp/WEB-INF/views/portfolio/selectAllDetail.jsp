@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
@@ -42,10 +42,13 @@
 </script>
 <style>
   .nickname-card{
-    width: 300px;
+    min-width:300px;
+    max-width: 600px;
+    width: 30%;
     background-color: #03293c;
     position: relative;
     height: 140px;
+    
   }
   .card-logo{
     color: #ffb03a;
@@ -61,7 +64,7 @@
   .card-nickname{
     position: absolute;
     bottom: 5px;
-    right: 5px;
+    right: 10px;
     color: white;
     font-size: 50px;
   }
@@ -80,6 +83,7 @@
   .detail-box{
     border: gray solid 2px;
     margin: 10px;
+    max-height: fit-content;
   }
   .text-box > div{
     margin: 10px;
@@ -93,6 +97,19 @@
     margin:0px;
     padding-top: 15%;
   }
+  .send-btn{
+    text-align:right;
+  }
+  .tag-box{
+    border-bottom: #ffb03a solid 5px;
+  }
+  .detail-box h3{
+    font-weight: bold;
+    margin: 20px;
+  }
+  .tag-box span{
+    margin-left: 10px;
+  }
 </style>
 </head>
 <body>
@@ -104,6 +121,9 @@
   <div class="card-nickname">
     <span>${portfolio.portFolioMemberNickName}</span>
   </div>
+</div>
+<div class="send-btn">
+  <a class="add-portfolio button" href="${pageContext.request.contextPath }/message/messageReplyPage?senderId=${portfolio.portFolioMemberId}">쪽지보내기</a>
 </div>
 
 <c:choose>
@@ -130,10 +150,10 @@
            <div class="text-box detail-box">
              <div>
                <span>프로젝트명</span>
-               <span>${detail.portfolioDetailProjectName}</span>
+               <h3>${detail.portfolioDetailProjectName}</h3>
              </div>
-             <div>
-               <span>해쉬태그</span>
+             <div class="tag-box">
+               <p>해쉬태그</p>
                <c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag">
                  <span>${hashTag.hashTagName}</span>
                </c:forEach>

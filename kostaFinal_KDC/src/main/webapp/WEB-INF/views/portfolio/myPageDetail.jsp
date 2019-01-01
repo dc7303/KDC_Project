@@ -7,7 +7,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-<script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
@@ -19,6 +18,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio.css" />
 
 <script>
@@ -47,6 +47,7 @@
     });
   });
 </script>
+
 </head>
 
 <body>
@@ -54,10 +55,11 @@
 
 
 
-
-  <h3 class="head-portfolio">${detail.portFolioDetailMemberId}포트폴리오 상세페이지</h3>
-  
-  <a href='${pageContext.request.contextPath}/portfolio/myPage'>목록으로</a> <br> 
+  <div id="detail-wrapper">
+  <h3 class="notice-title">포트폴리오 상세페이지</h3>
+  <div class="go-list">
+    <a href='${pageContext.request.contextPath}/portfolio/myPage'>목록으로</a> <br> 
+  </div>
   
   
   
@@ -94,7 +96,7 @@
   </h2>
   </br>
   
-  
+  </div>
   <input class="update-portfolio" type="button" value="수정하기">
   <input class="update-portfolio" type="button" value="삭제하기">
   <br/><br/><br/>

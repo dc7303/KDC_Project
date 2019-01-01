@@ -24,10 +24,8 @@ $(function() {
         $('#span').append('<button type="button" name="tag" value="' + inputValue + '">' + inputValue + '</button>');
         arr.push(inputValue);
         
-        console.log(arr);
         
       });
-      console.log(arr);
       
     }
     
