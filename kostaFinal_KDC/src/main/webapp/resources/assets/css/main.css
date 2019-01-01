@@ -26,7 +26,7 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
   text-align: center;
-  font-family:"�뜝�럡�룎�뜝�럥�빖�뜝�럥裕욃뜝�럩瑗룟젆源띿삕占쎈뎄�뜝�럩逾졾뜝�럥諭�", "NanumSquareL", "ngeot", "�뜝�럥利삣뜝�룞�삕", "DotumChe", "Dotum";}
+  font-family:"占쎈쐻占쎈윞占쎈즼占쎈쐻占쎈윥占쎈퉾占쎈쐻占쎈윥獒뺤쉩�쐻占쎈윪�몭猷잛젂繹먮씮�굲�뜝�럥�럡占쎈쐻占쎈윪�얠±�쐻占쎈윥獄�占�", "NanumSquareL", "ngeot", "占쎈쐻占쎈윥筌앹궍�쐻占쎈짗占쎌굲", "DotumChe", "Dotum";}
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -253,7 +253,7 @@ h2.notice-title{
       border-color: rgba(0, 0, 0, 0.2);
    }
   
-  /* 게시글 읽기 내용 부분 */
+  /* 寃뚯떆湲� �씫湲� �궡�슜 遺�遺� */
   td.tech-content{
     height: 500px;
   }
@@ -263,7 +263,7 @@ h2.notice-title{
   
   
 
-   /*  게시판 테이블 타이틀 부분 (첫번째줄)  */
+   /*  寃뚯떆�뙋 �뀒�씠釉� ���씠�� 遺�遺� (泥ル쾲吏몄쨪)  */
    
    
    table th {
@@ -282,7 +282,7 @@ h2.notice-title{
    }
 
   
-        /* 게시판 두번째줄 색 */
+        /* 寃뚯떆�뙋 �몢踰덉㎏以� �깋 */
 /* 		table tbody tr:nth-child(2n + 1) {
 			background-color: #fffcf7;
 		}
@@ -291,7 +291,7 @@ h2.notice-title{
 			background-color: rgba(0, 0, 0, 0.05) !important;
 		} */
 
-    /* 게시판 타이틀(첫번째줄) */
+    /* 寃뚯떆�뙋 ���씠��(泥ル쾲吏몄쨪) */
 
 
 	table thead {
@@ -622,8 +622,8 @@ h2.notice-title{
 						display: block;
 						float: left;
 						margin-right: -2rem;
+						opacity: 1;
 						width: 1rem;
-				
 					}
 
 						input[type="checkbox"] + label,

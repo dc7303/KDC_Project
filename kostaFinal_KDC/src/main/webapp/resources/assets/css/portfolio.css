@@ -11,18 +11,25 @@ input{
 
 fildset{
   border: 1px solid gray;
-  
-  
+}
+
+body{
+  width:100% !important;
+}
+section{
+  margin-left:260px !important;
+  padding:0px 100px !important;
+}
+
+form{
+  width: 50%;
+}
+
+img{
+  width:100%;
 }
 
 /* mypage */
-
-.head-portfolio{
-  margin-bottom: 50px;
-  text-align: center;
-  color: skyblue;
-  font-size: 70px;  
-}
 
 .detailhead-portfolio{
   margin: 50px 0 50px 0;
@@ -54,8 +61,10 @@ fildset{
   
 }
 
-div#portfolio-info{
-  background-color: pink;
+#portfolio-info{
+  background-color: unset;
+  display:flex;
+  margin-top: 40px;
 }
 
 div#portfolio-detail{
@@ -64,12 +73,7 @@ div#portfolio-detail{
 
 
 input.imgbtn-portfolio{
-  
-
-  width: 800px;
-  height: 30px;
-  color: white;
-  border: 1px solid pink;
+  width:100%;
 }
 
 
@@ -82,11 +86,14 @@ input.update-portfolio{
   
 }
 
-.check-portfolio{
-  width: 70px;
-  height: 70px;
-  border: 1px solid pink;
-}
+/* .check-visible > input[type="checkBox"] */
+.check-visible > input[type="checkBox"]{
+    vertical-align: top;
+    margin: 0;
+    width: 70px;
+    height: 70px;
+    float: none;
+  }
 
 
 .send-portfolio{
@@ -106,23 +113,30 @@ hr.hr-border{
 
 a.add-portfolio{
  
-  background-color: #7dc855;
-  color: white;
-  font-size: 25px;
-  padding: 15px;
+  height: 40px;
+    width: 200px;
+    background-color: white;
+    color: black;
   
 }
 
-
+ .common-button{
+    height: 40px;
+    width: 200px;
+    background-color: #03293c;
+    color: white;
+  }
+ 
 /* detailform */
 
 #editSection{
   width: 800px;
-  
+  text-align: left;
 }
 
-
-
+section{
+  
+}
 
 
 
