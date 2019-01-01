@@ -64,7 +64,7 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         }
         
         int totalCount = noticeBoardDAO.boardQuantityByClassification(classification);
-        PageDTO pageDTO = pageHandler.pageInfoSet(pageNum, 10, 10, totalCount);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNum, 10, 5, totalCount);
         
         int firstColumnPage = pageDTO.getFirstColumnRange();
         int lastColumnPage = pageDTO.getLastColumnRange();
@@ -242,7 +242,7 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
         
         //°Ô½Ã±Û count
         int totalCount = noticeBoardDAO.selectNoticePagingCount(department, noticeBoardSearch, classification);
-        PageDTO pageDTO = pageHandler.pageInfoSet(pageNum, 10, 10, totalCount);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNum, 10, 5, totalCount);
         
         int firstColumnPage = pageDTO.getFirstColumnRange();
         int lastColumnPage = pageDTO.getLastColumnRange();

@@ -158,7 +158,7 @@
       <td colspan="5">  
       <c:set var="pageDTO" value="${requestScope.resultMap.pageDTO }"></c:set>
       <c:if test="${pageDTO.firstMove }">
-        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=1" class="paging-hover">처음으로</a>
+        <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=1" class="paging-hover">첫페이지로</a>
       </c:if>
       <c:if test="${pageDTO.backPage }">
         <a href="${pageContext.request.contextPath }/notice/list?classification=${requestScope.classification }&pageNum=${pageDTO.page -1}" class="paging-hover">◀</a>
