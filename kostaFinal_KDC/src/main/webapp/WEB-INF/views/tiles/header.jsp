@@ -23,33 +23,23 @@
 <!-- Custom Fonts -->
 <link href="${pageContext.request.contextPath }/resources/lib/test/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-<!-- jQuery -->
-<script src="${pageContext.request.contextPath }/resources/lib/test/vendor/jquery/jquery.min.js"></script>
 
-<!-- Custom Theme JavaScript -->
-<script src="${pageContext.request.contextPath }/resources/lib/test/dist/js/sb-admin-2.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="${pageContext.request.contextPath }/resources/lib/test/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath }/resources/lib/test/vendor/bootstrap/js/bootstrap.js"></script>
+<!-- MetisMenu CSS -->
+    <link href="${pageContext.request.contextPath }/resources/lib/test/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    
+
+
+
+
+
+
+
 
 </head>
 
 <body>
   <div id="wrapper">
-
-    <!-- Navigation -->
-
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span> 
-        <span class="icon-bar"></span> 
-        <span class="icon-bar"></span> 
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html"></a>
-    </div>
-    <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
 
@@ -57,7 +47,7 @@
       <!-- /.dropdown -->
       <sec:authorize access="isAnonymous()">
         <li class="dropdown" id="logoutState">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="${pageContext.request.contextPath }/member/signInForm">
+          <a id="loginToggle" href="${pageContext.request.contextPath }/member/signInForm">
             <i class="fa fa-sign-in fa-fw"></i> Login </a></li>
         <!-- /.dropdown -->
       </sec:authorize>
@@ -70,7 +60,7 @@
 
         <!-- 로그인 상태 -->
         <!-- /.dropdown -->
-        <li class="dropdown" id="loginState">
+        <li class="dropdown" id="loginState" style="display: inline-block;">
           <a class="dropdown-toggle" id="messageDropToggle" data-toggle="dropdown" href="#"> 
             <i class="fa fa-envelope fa-fw"></i>
             <span class="badge badge-danger" id="header-unReadMessage"></span>
@@ -92,17 +82,17 @@
 
                 <div class="cart-btn">
 
-                  <a style="" class="text-center" href="${pageContext.request.contextPath}/message/messageList" class="btn btn-success"> 
+                  <a style="" class="text-center" href="${pageContext.request.contextPath}/message/messageListNoPaging" class="btn btn-success"> 
                     <strong> 더 많은 메세지 </strong>
                     <i class="fa fa-angle-right"></i>
                   </a>
                 </div>
               </div>
             </div>
-          </ul> <!-- /.dropdown-alerts --></li>
-
-        <!-- /.dropdown -->
-        <li class="dropdown">
+          </ul> <!-- /.dropdown-alerts -->
+        </li> <!-- /.dropdown -->
+        
+        <li class="dropdown" id="myInfoState" style="display: inline-block; height: 50px;">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
             <i class="fa fa-user fa-fw"></i> 
             <i class="fa fa-caret-down"></i>
@@ -205,15 +195,15 @@
                       .each(
                           data,
                           function(index, item) {
-                            str += '<li>';
+                            str += '<li style="padding-left: 10px; padding-right: 10px; line-height: 50%;">';
                             str += ' <a href="${pageContext.request.contextPath}/message/'+item.messageNum+'">';
-                            str += '     <div>';
+                            str += '     <div  style="padding-bottom: 20px;">';
                             str += '         <strong>' + item.senderId + '</strong>';
                             str += '         <span class="pull-right text-muted">';
                             str += '             <em>' + item.messageDate + '</em>';
                             str += '         </span>';
                             str += '     </div>';
-                            str += '     <div>' + item.messageTitle + '</div>';
+                            str += '     <div style="font-weight: bold; line-height: 100%; font-size: larger;">' + item.messageTitle + '</div>';
                             str += ' </a>';
                             str += '</li>';
                             str += '<li class="divider"></li>';
@@ -227,5 +217,26 @@
             });
       }
     </script>
+    
+    
+    <!-- jQuery -->
+<script src="${pageContext.request.contextPath }/resources/lib/test/vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="${pageContext.request.contextPath }/resources/lib/test/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath }/resources/lib/test/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+<!-- Metis Menu Plugin JavaScript -->
+    <script src="${pageContext.request.contextPath }/resources/lib/test/vendor/metisMenu/metisMenu.min.js"></script>
+
+
+
+
+<!-- Custom Theme JavaScript -->
+<%-- <script src="${pageContext.request.contextPath }/resources/lib/test/dist/js/sb-admin-2.js"></script> --%>
+    
+    
 </body>
 </html>
