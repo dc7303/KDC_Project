@@ -37,8 +37,25 @@ public class ClassRoomController {
         //내가 수강한 전체 클래스룸 리스트 가져오기
         List<ClassRoomInfoDTO> myClassRoomList = classRoomService.classList(member.getMemberId());
         
+        //시 분 초 짜르는 메소드
+        if(!myClassRoomList.isEmpty()) {
+            for(ClassRoomInfoDTO dto:myClassRoomList) {
+                dto.setClassRoomInfoStartDate(dto.getClassRoomInfoStartDate().substring(0, 10));
+                dto.setClassRoomInfoEndDate(dto.getClassRoomInfoEndDate().substring(0, 10));
+            }
+        }
+        
+        
         //classRoomIsCurrent = 'TRUE' 인 클래스룸DTO 가져오기
         List<ClassRoomInfoDTO> classRoomIsCurrentList = classRoomService.selectCurrentClassRoom(member.getMemberId());
+        
+        //시 분 초 짜르는 메소드
+        if(!classRoomIsCurrentList.isEmpty()) {
+            for(ClassRoomInfoDTO dto:classRoomIsCurrentList) {
+                dto.setClassRoomInfoStartDate(dto.getClassRoomInfoStartDate().substring(0, 10));
+                dto.setClassRoomInfoEndDate(dto.getClassRoomInfoEndDate().substring(0, 10));
+            }
+        }
         
         request.setAttribute("classRoomIsCurrentList", classRoomIsCurrentList);
         

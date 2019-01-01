@@ -92,6 +92,7 @@
    <c:forEach items="${requestScope.classRoomIsCurrentList}" var="classRoomIsCurrentList">
           <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'">
               <td bgcolor="">
+                  <input type="hidden" value="${classRoomIsCurrentList.classRoomCode}" class="classRoomIsCurrentCode">
                   <p align="center">${classRoomIsCurrentList.classRoomInfoName}</span></p>
               </td>
               <td bgcolor="">
@@ -140,11 +141,11 @@
     </tr>
     </c:when>
     <c:otherwise>
-   <c:forEach items="${requestScope.myClassRoomList}" var="myClassRoomList">
+   <c:forEach items="${requestScope.myClassRoomList}" var="myClassRoomList" varStatus="state">
           <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'">
               <td bgcolor="">
-                  <input type="hidden" value="${myClassRoomList.classRoomCode}">
-                  <p align="center"><span style="font-size:9pt;"><input type="radio" name="classCode" class="selectRadio" value="${myClassRoomList.classRoomCode }">
+                  <input type="hidden" value="${myClassRoomList.classRoomCode}" class="myClassRoomListCode">
+                  <p align="center"><span style="font-size:9pt;"><input type="radio" name="classCode" id="classCode${state.index }" class="selectRadio" value="${myClassRoomList.classRoomCode}">
                   </span></p>
               </td>
               <td bgcolor="">
@@ -163,6 +164,17 @@
                </span></p>
               </td>
           </tr>
+          
+          <!-- 기본 클래스로 지정되어 있는 곳에 checked 해주는 기능 -->
+          <script type="text/javascript">
+            var classRoomIsCurrentCode = $('.classRoomIsCurrentCode').val();
+            var classCode =  $('#classCode'+${state.index}).val();
+            
+            if(classRoomIsCurrentCode == classCode){
+              $("#classCode"+${state.index}).prop("checked", true)
+            }
+          </script>
+          
     </c:forEach>
   </c:otherwise>
     </c:choose>
