@@ -3,11 +3,16 @@
 }
 
 
+
+
+
+
 /* signinform */
 
 
     body{
 	/* display: flex; */
+	
 	
     }
 
@@ -39,16 +44,29 @@
       margin: 20px;
       height:60px;
       width: 420px;
-      background-color: #00280d;
+      background-color: #03293c;
       color: white;
     }
     
     
     .ajax{
-    width: 300px;
-    color: gray;
-     font-size: 13px;
+      width: 330px;
+      color: tomato;
+      font-size: 13px;
     
+    }
+    
+    
+    div.singin-form{
+      display: inline-block;
+    }
+   span.singin-form-line{
+      display: inline-block;
+      width: 1px;
+      height: 13px;
+      text-indent: -999em;
+      background: #e4e4e5;
+      margin: 0 6px;
     }
     
     
@@ -70,12 +88,12 @@
     }
     
      table {
-      margin-left: 10px;
+      margin: 40px 0 20px 0;
   	  width: 800px;
      }
 
      td, th {
-      padding: 7px;
+      padding: 12px;
    	  font-size: 17px;
      }
      tr td input { height: 40px; width: 400px}
@@ -84,7 +102,7 @@
         padding: 20px;
   		height: 60px;
   		width: 450px;
-  		background-color: #00280d;
+  		background-color: #03293c;
   		color: white;
   		}
 
@@ -97,10 +115,10 @@
      /* mapage */
      
       .mypage-button {
-        margin-top: 20px;
+        margin: 30px 0 50px 0;
   		height: 40px;
   		width: 200px;
-  		background-color: gray;
+  		background-color: #03293c;
   		color: white;
   		}
   		
@@ -118,25 +136,22 @@
          text-align: center;
         
          }
-  	
-  	 /*   .memberupdate{
-  	     background-color: white;
-  	     text-align: center;
-  	     float:left;
-  	     border: solid 1px lightgray;
-  	     padding: 20px;
-  	     width: 880px;
-  	     height: 630px;
-  	    }
-  	    
+      /* mypageupdate */
+
+
   	    .memberdelete{
-  	    background-color: white;
-  	     text-align: center;
-  	     float:left;
-  	      height: 630px;
-  	      width: 300px;
+  	    margin-top: 100px;
+ 	    margin-bottom: 100px;
+  	    }
+  	    
+  	    .memberdelete-form{
+  	    margin-top: 40px;
   	    
   	    }
-  		 */
+  	    
+  	    .memberdelete-font{
+  	    font-size: 11px;
+  	    }
+
      
      

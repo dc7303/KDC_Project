@@ -38,7 +38,7 @@ public interface NoticeBoardDAO {
     /**
      *  조건검색
      */
-    List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch);
+    List<NoticeBoardDTO> SelechSerch(String department, String noticeBoardSearch, String classification);
 
     /**
      * classification 기준으로 컬럼 수량 가져오기.

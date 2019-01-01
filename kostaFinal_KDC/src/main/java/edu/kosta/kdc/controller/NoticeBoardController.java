@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.NoticeBoardDTO;
 import edu.kosta.kdc.model.service.NoticeBoardService;
 
@@ -42,11 +44,11 @@ public class NoticeBoardController {
      * 조건 검색
      */
     @RequestMapping("/listserch")
-    public String SerchList(String department, String noticeBoardSearch, Model model) {
+    public String SerchList(String department, String boardSearch, String classification, Model model) {
 
-        List<NoticeBoardDTO> list = noticeBoardService.SelectSerch(department, noticeBoardSearch);
+        List<NoticeBoardDTO> list = noticeBoardService.SelectSerch(department, boardSearch, classification);
         model.addAttribute("list", list);
-        
+        model.addAttribute("classification",classification);
         return "notice/noticeList";
     }
 
@@ -85,10 +87,17 @@ public class NoticeBoardController {
      */
     @RequestMapping("/read")
     public String noticeRead(int noticeBoardPk, Model model, HttpServletRequest request) throws Exception {
-
+        
+        MemberDTO member = null;
+        try {
+            member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch(ClassCastException e) {
+            member = new MemberDTO();
+            member.setMemberId("a");
+        }
         NoticeBoardDTO noticeBoard = noticeBoardService.selectByNoticeBoardTitle(noticeBoardPk, true);
         model.addAttribute("NoticeBoardDTO", noticeBoard);
-
+        model.addAttribute("memberId", member.getMemberId());
         return "notice/noticeRead";
     }
 

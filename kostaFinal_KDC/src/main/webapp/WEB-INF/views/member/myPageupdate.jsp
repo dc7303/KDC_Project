@@ -51,13 +51,14 @@
       <td>이름</td>  
       <td><input type="text" name="memberName" value="${member.memberName }" readonly="readonly"/></td>      
        
-      <td><span class="ajax">유저이름 입력</span><br/></td> 
+
       </tr>
       
       
       <tr>
       <td>닉네임</td> 
       <td><input type="text" name="memberNickName" value="${member.memberNickName }" /></td> 
+            <td><span class="ajax">닉네임 입력</span><br/></td> 
        </tr>
       
            
@@ -111,19 +112,18 @@
     
        </div>
       <hr>
-     <br/>
-     <br/>
+
    
      
       <div class="memberdelete">
     
     <h2>회원탈퇴</h2>
-    <br/>
      <p class="underline"></p>
-    <form action="${pageContext.request.contextPath }/member/memberDelete" method="post">
+    <form class="memberdelete-form" action="${pageContext.request.contextPath }/member/memberDelete" method="post">
       <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
       ID  <input type="text" name="memberId" value="${member.memberId }" readonly="readonly"/><br/>
       <input type="button" value="탈퇴하기" class="mypage-button" />
+      <p class="memberdelete-font">*회원탈퇴시 회원님의 정보가 삭제됩니다 </p>
     </form>
     
     </div>

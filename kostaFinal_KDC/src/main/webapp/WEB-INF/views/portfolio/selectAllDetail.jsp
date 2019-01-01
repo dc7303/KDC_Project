@@ -18,12 +18,11 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio-view.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <title>Insert title here</title>
 <script type="text/javascript">
   const jq = jQuery.noConflict();
   jq(function(){
- 
   //viewer 세팅
   var detailLength = jq('#detailList-length').val();
   for(var i=0;i<detailLength;i++){
@@ -40,27 +39,62 @@
     
   });
 </script>
+<style>
+  .nickname-card{
+    width: 300px;
+    background-color: #03293c;
+    position: relative;
+    height: 140px;
+  }
+  .card-logo{
+    color: #ffb03a;
+    top: 5px;
+    font-size: 25px;
+    position: absolute;
+    padding: 0px 10px;
+    text-align: center;
+  }
+  .comment{
+    color: #eeeeee;
+  }
+  .card-nickname{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: white;
+    font-size: 50px;
+  }
+  .portfolio-detail{
+    display: flex;
+  }
+  .image-box{
+    flex: 1;
+  }
+  .image-box img{
+    width:100%;
+  }
+  .text-box{
+    flex: 1;
+  }
+  .detail-box{
+    border: gray solid 2px;
+    margin: 10px;
+  }
+  .text-box > div{
+    margin: 10px;
+  }
+</style>
 </head>
 <body>
-<h2 class="selectalldetail-title">PORTFOLIO</h2>
+<h2 class="notice-title">PORTFOLIO</h2>
 <p class="underline"></p>
 
-<%-- <div id="portfolio-info">
-            아이디: ${portfolio.portFolioMemberId}</p>
-            제목: ${portfolio.portFolioMainTitle} </p>
-            대표이미지 :
-      <c:choose>      
-         <c:when test="${not empty portfolio.portFolioMainImage}">
-           <img src="${pageContext.request.contextPath}/resources/testimg/photos/${portfolio.portFolioMainImage}">
-         </c:when>
-         <c:otherwise>
-                    이미지가 없습니다.
-         </c:otherwise>
-      </c:choose>
-      </br>
-      
-     </div>
-      --%>
+<div class="nickname-card">
+  <div class="card-logo"><span class="comment">//</span>KDC</div>
+  <div class="card-nickname">
+    <span>${portfolio.portFolioMemberNickName}</span>
+  </div>
+</div>
 
 <c:choose>
        <c:when test="${empty portfolio.portFolioDetailList}">
@@ -70,57 +104,38 @@
          </br>
          </br>
          <c:forEach items="${portfolio.portFolioDetailList}" var="detail" varStatus="status">
-        <div>
-        
-     <table>
-      <tbody>
-        <tr class="view-title-name">   
-           <td class="title-01">프로젝트명 </td>
-          <td class="title-01"> ${detail.portfolioDetailProjectName}</p></td>
-        
-          <td class="title-01">아이디</td>     
-          <td class="title-01">${portfolio.portFolioMemberId}</p></td>  
-           
+         <div class="portfolio-detail">
+           <div class="image-box detail-box">
+             <c:choose>
+               <c:when test="${empty detail.portfolioDeltailProjectImage}">
+               <div class="no-img">
+                 <h5>사진이 없습니다.</h5>
+               </div>
+               </c:when>
+               <c:otherwise>
+               <img src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></td>
+               </c:otherwise>
+             </c:choose>
+           </div>
+           <div class="text-box detail-box">
+             <div>
+               <span>프로젝트명</span>
+               <span>${detail.portfolioDetailProjectName}</span>
+             </div>
+             <div>
+               <span>해쉬태그</span>
+               <c:forEach items="${detail.portfolioDetailHashTagList}" var="hashTag">
+                 <span>${hashTag.hashTagName}</span>
+               </c:forEach>
+             </div>
+             <div>
+               <div id="viewer-section-${status.index}"></div>
+               <input id="detail-description-${status.index}" type="hidden" value="${detail.portfolioDetailDescription}">
+             </div>
+           </div>
          
-        </tr>  
-          
-          
-        <tr class="view-hashtag">          
-           <td colspan="4"> <!-- 해쉬태그 -->  
-          <c:forEach items="${detail.portfolioDetailHashTagList}"
-            var="hashTag">
-              ${hashTag.hashTagName}
-            </c:forEach>
-             </td>
-          </p>
-          </br>
-          
-          
-          
-          <c:choose>
-            <c:when test="${empty detail.portfolioDeltailProjectImage}">
-              <h5>사진이 없습니다.</h5>
-            </c:when>
-            <c:otherwise>
-         <tr class="view-content">
-          <td colspan="2">     
-               <img
-                src="${pageContext.request.contextPath}/resources/testimg/photos/${detail.portfolioDeltailProjectImage}"></td>
-            </c:otherwise>
-          </c:choose>
-          </br>
-            <td colspan="2">
-          <h5></h5>
-          <div id="viewer-section-${status.index}"></div>
-          
-          
-          <input id="detail-description-${status.index}" type="hidden"
-            value="${detail.portfolioDetailDescription}">
-            </td>
-        </tr>
-     </tbody>
-    </table>
-        </div>
+         </div> 
+         
         <hr color="red">
          </c:forEach>
        </c:otherwise>

@@ -11,12 +11,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <title>Insert title here</title>
-<script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 
 const jq = jQuery.noConflict();
 
-//답장시,  메세지 제목 or 내용 입력 유효성체크
+//답장시,  쪽지 제목 or 내용 입력 유효성체크
 jq(function(){
 
   const messageTitle = 'input[name=messageTitle]';
@@ -32,6 +31,7 @@ jq(function(){
       jq(messageContents).focus();
       return false;
     }else{
+      alert("쪽지가 전송되었습니다.");
       return true;
     }
   })
@@ -41,18 +41,17 @@ jq(function(){
 </head>
 <body>
 
-<table align="center" border="0" cellpadding="5" cellspacing="2"
-  width="100%" bordercolordark="white" bordercolorlight="black">
-  <caption>메세지 답장</caption>
+<table align="center" border="0" cellpadding="5" cellspacing="2" width="100%" bordercolordark="white" bordercolorlight="black">
+  <center><h2> 쪽지 답장 </h2></center>
 
   <form name="writeForm" id="write" method="post" action="${pageContext.request.contextPath}/message/insert" >
 
-    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1">
+    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1" style="margin: auto; width: 800px;">
 
       <tr>
-        <td width="1220" height="20" colspan="2" bgcolor="#00cc00">
+        <td width="1220" height="20" colspan="2" >
           <p align="center">
-            <font color="white" size="3"><b> 메세지 작성 </b></font>
+            <font color="black" size="3"><b> 쪽지 작성 </b></font>
           </p>
         </td>
       </tr>
@@ -91,7 +90,7 @@ jq(function(){
         <td width="450" height="20" colspan="2" align="center"><b><span style="font-size: 9pt;"> 
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <input type="submit" value="전송" id="sendReplyMessage">
-        <input type="button" value="취소" id="cancelWriteMessage" onclick="location.href='${pageContext.request.contextPath}/message/messageList'">
+        <input type="button" value="취소" id="cancelWriteMessage" onclick="location.href= '${pageContext.request.contextPath}/message/messageListNoPaging'">
          </span></b></td>
       </tr>
     </table>
@@ -101,7 +100,7 @@ jq(function(){
   <hr>
   <div align=right>
     <span style="font-size: 9pt;">&lt;<a
-      href="${pageContext.request.contextPath}/">마이페이지 홈</a>&gt;
+      href="${pageContext.request.contextPath}/">홈으로 이동</a>&gt;
     </span>
   </div>
   

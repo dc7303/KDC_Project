@@ -25,17 +25,11 @@
         
         
        <script type="text/javascript">
-
-        $(document).on('click', '.logout-Btn', function() {
-          $('#logoutForm').submit();
-        });
-      
-      
-       $(function(){
-         $('.logout-Btn').on('click',function(){
-           $('#logoutForm').submit();
+         $(function(){
+           $('.logout-Btn').on('click',function(){
+             $('#logoutForm').submit();
+           });
          });
-       });
        
       </script>
       
@@ -50,7 +44,7 @@
        
     </head>
 
-    <body class="app-ui layout-has-drawer layout-has-fixed-header">
+  <body class="app-ui layout-has-drawer layout-has-fixed-header">
     
     
       <div class="app-layout-canvas">
@@ -63,9 +57,7 @@
             <div class="app-layout-drawer-scroll">
             <!-- Drawer logo -->
               <div id="logo" class="">
-                <a href="${pageContext.request.contextPath }/">
-                
-                <img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc-02.png" title="AppUI" alt="AppUI" /></a>
+                <a href="${pageContext.request.contextPath }/"><img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc-02.png" title="AppUI" alt="AppUI" /></a>
               </div>
   
                     <!-- Drawer navigation -->
@@ -73,11 +65,11 @@
   
                 <ul class="nav nav-drawer">
     
-                  <li class="nav-item nav-drawer-header">로그인영역</li>
+                 <!--  <li class="nav-item nav-drawer-header">로그인영역</li> -->
       
                    <sec:authorize access="isAnonymous()">
                   <li class="nav-item active">
-              <a href="${pageContext.request.contextPath }/member/signInForm"><i class="ion-ios-speedometer-outline" id=""></i> 로그인</a>
+<a href="${pageContext.request.contextPath }/member/signInForm"><i class="ion-ios-speedometer-outline" id=""></i> 로그인</a>
                   </li>
          </sec:authorize>
    
@@ -108,7 +100,6 @@
                               <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오</a></li>
 
                         </sec:authorize>
-                        
                         <sec:authorize access="hasRole('ROLE_TEACHER')" >
                           ${teacher}
                           
@@ -118,15 +109,14 @@
                       
                       <li><a href="${pageContext.request.contextPath}/board/boardList">내가 쓴 글</a></li>
                       <li><a href="${pageContext.request.contextPath}/message/messageListNoPaging" name="messageListNoPaging">받은쪽지함</a></li>
-                      <li><a href="${pageContext.request.contextPath}/classRoom/myClassRoom">나의 클래스룸</a></li>
-                        
+                      <li><a href="${pageContext.request.contextPath}/classRoom/myClassRoom" name="myClassRoom">나의 클래스</a></li>   
                     </ul>
                   </li>
           </sec:authorize>
                   
       
       
-                  <li class="nav-item nav-drawer-header">메뉴영역</li>
+                  <li class="nav-item nav-drawer-header">MENU</li>
       
                   <li class="nav-item ">
                     <a href="${pageContext.request.contextPath }/notice/list?classification=generalNotice"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
@@ -137,13 +127,14 @@
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/tech?classification=tech"><i class="ion-ios-list-outline"></i> Tech Q&A</a>
+                    <a href="${pageContext.request.contextPath}/reply/tech?classification=tech&pageNo=1"> Tech Q&A </a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/lib?classification=lib"><i class="ion-ios-list-outline"></i> Tech 공유 게시판</a>
+                    <a href="${pageContext.request.contextPath}/reply/lib?classification=lib&pageNo=1"> Tech 공유 게시판</a>
                   </li>
-      
+                  
+                  <sec:authorize access="isAuthenticated()">
                   <li class="nav-item nav-item-has-subnav">
                     <a href="#"><i class="ion-social-javascript-outline"></i> 반별 게시판</a>
                     <ul class="nav nav-subnav">
@@ -162,9 +153,10 @@
       
                     </ul>
                   </li>
+                  </sec:authorize>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/study?classification=study"><i class="ion-ios-list-outline"></i> 스터디모집</a>
+                    <a href="${pageContext.request.contextPath}/reply/study?classification=study&pageNo=1">  스터디모집 </a>
                   </li>
       
                   <li class="nav-item ">
@@ -177,6 +169,7 @@
             <!-- End drawer scroll area -->
           </aside>
                 <!-- End drawer -->
+
 
         <!-- AppUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock and App.js -->
         <script src="${pageContext.request.contextPath }/resources/js/testjs/core/jquery.min.js"></script>

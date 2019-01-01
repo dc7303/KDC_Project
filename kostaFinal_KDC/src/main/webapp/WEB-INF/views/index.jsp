@@ -8,7 +8,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <title>Insert title here</title>
-
 <script type="text/javascript">
 const jq = jQuery.noConflict();
 
@@ -23,6 +22,39 @@ jq(function(){
   })
 })
 </script>
+<style>
+
+/* div.index-img{
+  width: 100%;
+  height: 400px;
+  background-color: pink;
+  margin-bottom:
+
+} */
+
+/* body { 
+
+  background:url('${pageContext.request.contextPath }/resources/testimg/photos/photo11.jpg') rgba(0,0,0,0.5); 
+
+
+  background-size: 100%;
+ 
+} */
+
+
+i{
+  margin: 0 5px 0 0;
+}
+
+h4{
+  float: left;
+  color: white;
+  background-color: #ffb03a;
+  padding: 5px;
+}
+
+
+</style>
 
 </head>
 <body>
@@ -51,27 +83,28 @@ jq(function(){
   %>
   <sec:authorize access="isAuthenticated()">
 	<sec:authentication var="member" property="principal" />
-    
-    <h2>
-      ${member.memberId } 어서오십쇼.
-    </h2>
-    
       </sec:authorize>
+<div>
 
 
-<a href="${pageContext.request.contextPath}/classRoom/classList?id=heejung">heejung클래스 전체 출력</a> <br>
-<a href="${pageContext.request.contextPath }/classRoom/classRoomInsertForm">강사 - 클래스룸 생성</a><br>
-
-
+<%-- <a href="${pageContext.request.contextPath }/calendar/calendarForm">강사 - 풀 카렌다</a><br>  
+<br/>
+  <a href="${pageContext.request.contextPath }/admin/selectMember">관리자 페이지로</a> --%>
   </center>
   
   
+<!-- 
+  <div class="index-img">
   
+   <img href="index-01.jpg">
+   <img href="index-02.jpg">
+   <img href="index-03.jpg">
+   <img href="index-04.jpg">
 
-<div>
+  </div> -->
   
-  <div style="width:40%; float:left; margin-right:100px">
-    <h4 class="notice-header">공지사항 게시판</h4>
+  <div style="width:45%; float:left; margin-right:100px">
+    <h4 class="notice-header"><i class="ion-ios-calculator-outline"></i>공지사항</h4>
     <table border="1" width="80%">
       <colgroup>
         <col width="50%">
@@ -97,8 +130,8 @@ jq(function(){
     </table>
   </div>
   
-  <div style="width:40%; float:left">
-    <h4 class="Tech-header">Tech 게시판</h4>
+  <div style="width:45%; float:right">
+    <h4 class="Tech-header"><i class="ion-ios-list-outline"></i>Tech 공유게시판</h4>
     <table border="1" width="80%">
       <colgroup>
         <col width="50%">
@@ -124,9 +157,10 @@ jq(function(){
     </table>
   </div>
   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-  <div style="width:80%;">
-    <h4 class="QnA-header" style="margin-left:auto; margin-right:auto;">Q&A 게시판</h4>
-    <table border="1" width="80%">
+  
+  <div style="width:100%;">
+    <h4 class="QnA-header" style="margin-left:auto; margin-right:auto;"><i class="ion-ios-list-outline"></i>Tech Q&A</h4>
+    <table border="1" width="100%">
       <colgroup>
         <col width="50%">
         <col width="20%">
@@ -151,5 +185,6 @@ jq(function(){
     </table>
   </div>
 </div>
+</center>
 </body>
 </html>

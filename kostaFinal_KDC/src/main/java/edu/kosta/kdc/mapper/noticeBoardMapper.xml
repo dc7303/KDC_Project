@@ -13,35 +13,48 @@
     <result column="NOTICE_BOARD_VIEWS" property="noticeBoardViews"/>
     <result column="NOTICE_BOARD_ATTACHMENT" property="noticeBoardAttachment" />
     <result column="NOTICE_BOARD_ISDELETE" property="noticeBoardIsDelete" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
-  
+    <result column="authName" property="authName"/>
+    <association property="member" javaType="memberDTO">
+        <id column="MEMBER_ID" property="memberId"/>
+        <result column="MEMBER_PW" property="memberPwd"/>
+        <result column="MEMBER_NAME" property="memberName"/>
+        <result column="MEMBER_NICKNAME" property="memberNickName"/>
+        <result column="MEMBER_BIRTHDAY" property="memberBirth"/>
+        <result column="MEMBER_PHONENUMBER" property="memberPhone"/>
+        <result column="MEMBER_EMAIL" property="memberEmail"/>
+        <result column="MEMBER_ISWITHDRAWAL" property="memberIsWithdrawal" typeHandler="edu.kosta.kdc.util.YesNoBooleanTypeHandler"/>
+        <result column="MEMBER_JOIN_DATE" property="memberDate"/>
+    </association>
 </resultMap>
 
     <!-- 전체 검색 -->
 <select id="noticeBoardSelect" parameterType="map" resultMap="noticeBoardDTO">
-    SELECT *
-    FROM NOTICE_BOARD
-    WHERE NOTICE_BOARD_ISDELETE= 'FALSE'
-    AND NOTICE_BOARD_CLASSIFICATION = #{classification}
+    SELECT A.*, B.MEMBER_NICKNAME,(SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+    FROM NOTICE_BOARD A, MEMBER B
+    WHERE A.NOTICE_BOARD_ISDELETE= 'FALSE'
+    AND A.NOTICE_BOARD_CLASSIFICATION = #{classification}
+    AND A.NOTICE_BOARD_WRITER_ID = B.MEMBER_ID
     <if test="classRoomCode != null">
-    AND NOTICE_BOARD_CLASSROOM_CODE = #{classRoomCode}
+    AND A.NOTICE_BOARD_CLASSROOM_CODE = #{classRoomCode}
     </if>
+    ORDER BY A.NOTICE_BOARD_PK DESC
 </select>
 
     <!--  조건 검색 -->
 <select id="SearchTitleAndContents" parameterType="map" resultMap="noticeBoardDTO">
-        SELECT * FROM NOTICE_BOARD
-         WHERE
-         NOTICE_BOARD_ISDELETE='FALSE'
-         <if test="department.equals('title')">
-         AND UPPER(NOTICE_BOARD_TITLE)  like  '%' || UPPER(#{noticeBoardSearch}) || '%'
-         </if>
-         <if test="department.equals('contents')">
-         AND UPPER(NOTICE_BOARD_CONTENTS) like '%' ||  UPPER(#{noticeBoardSearch}) || '%'
-         </if>
-         
-  </select>
-
-
+    SELECT A.*
+    , (SELECT AUTHORITY_ROLE FROM AUTHORITY WHERE AUTHORITY_ID=B.MEMBER_ID) authName
+    FROM NOTICE_BOARD A, MEMBER B
+    WHERE A.NOTICE_BOARD_WRITER_ID = B.MEMBER_ID
+    AND A.NOTICE_BOARD_CLASSIFICATION= #{classification}
+    AND A.NOTICE_BOARD_ISDELETE='FALSE'
+    <if test="department.equals('title')">
+    AND UPPER(A.NOTICE_BOARD_TITLE)  like  '%' || UPPER(#{noticeBoardSearch}) || '%'
+    </if>
+    <if test="department.equals('content')">
+    AND UPPER(A.NOTICE_BOARD_CONTENTS) like '%' || UPPER(#{noticeBoardSearch}) || '%'
+    </if>
+</select>
 
     <!-- 레코드 삽입 -->
     <insert id="noticeBoardInsert" parameterType="NoticeBoardDTO">

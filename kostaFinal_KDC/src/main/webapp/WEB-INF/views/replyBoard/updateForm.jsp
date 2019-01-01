@@ -8,9 +8,8 @@
     <meta charset="utf-8">
     <title></title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" />
-    <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />   
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 
   </head>
 <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>

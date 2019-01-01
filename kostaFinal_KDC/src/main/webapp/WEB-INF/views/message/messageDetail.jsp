@@ -10,13 +10,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <script type="text/javascript">
 
 const jq = jQuery.noConflict();
 
-//답장시, 메세지 보낸사람(senderId) 유효성 체크
+//답장시, 쪽지 보낸사람(senderId) 유효성 체크
 jq(function(){
   jq(document).on('click','#replyMessage',function(){
     
@@ -51,15 +50,14 @@ jq(function(){
 <body>
 
 <table align="center" border="0" cellpadding="5" cellspacing="2"
-  width="100%" bordercolordark="white" bordercolorlight="black">
-  <caption>메세지 확인</caption>
+  width="800px" bordercolordark="white" bordercolorlight="black">
 
-    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1">
+    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1" style="margin: auto; width: 800px;">
 
       <tr>
-        <td width="1220" height="20" colspan="2" bgcolor="#00cc00">
+        <td width="1220" height="20" colspan="2" bgcolor="white">
           <p align="center">
-            <font color="white" size="3"><b> 메세지 확인 </b></font>
+            <font color="#434343" size="3"><b> 쪽지 확인 </b></font>
           </p>
         </td>
       </tr>
@@ -100,7 +98,7 @@ jq(function(){
         <input type="hidden" name="receiverId " value="${requestScope.messageDTO.receiverId }">
          </span>
          <span style="font-size: 9pt;"> 
-         <input type="button" value="뒤로" id="cancelWriteMessage" onclick="location.href='${pageContext.request.contextPath}/message/messageList'">
+         <input type="button" value="뒤로" id="cancelWriteMessage" onclick="location.href='${pageContext.request.contextPath}/message/messageListNoPaging'">
          </span>
          </b></td>
       </tr> 
@@ -110,7 +108,7 @@ jq(function(){
   <hr>
   <div align=right>
     <span style="font-size: 9pt;">&lt;<a
-      href="${pageContext.request.contextPath}/">마이페이지 홈</a>&gt;
+      href="${pageContext.request.contextPath}/">홈으로 이동</a>&gt;
     </span>
   </div>
   
