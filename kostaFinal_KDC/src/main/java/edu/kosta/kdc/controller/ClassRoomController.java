@@ -131,7 +131,7 @@ public class ClassRoomController {
      * 강사 - 클래스 룸 생성 + 각 채팅방 파일 생성 (파일이름 : 클래스 코드.txt)
      * */
     @RequestMapping("/insertClassRoom")
-    public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO,HttpSession session) throws Exception{
+    public String createClassRoom(ClassRoomInfoDTO classRoomInfoDTO) throws Exception{
 
         //채팅방 파일을 만들 경로를 알아온다.
         String path = "C:\\Edu\\chatFile\\";
@@ -146,7 +146,7 @@ public class ClassRoomController {
         File file = new File(path, fileName);
         file.createNewFile();
         
-        return "index";
+        return "redirect:/";
     }
     
     /**

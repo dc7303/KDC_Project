@@ -25,7 +25,7 @@
         
         
        <script type="text/javascript">
-        $(document).on('click', '#logout-Btn', function() {
+        $(document).on('click', '.logout-Btn', function() {
           $('#logoutForm').submit();
         });
       </script>
@@ -65,9 +65,9 @@
                   </li>
          </sec:authorize>
    
-                <sec:authorize access="isAuthenticated()">
+         <sec:authorize access="isAuthenticated()">
                <li class="nav-item active">
-                <form id="logoutForm" action="${pageContext.request.contextPath}/member/logout"  method="post">
+               <form id="logoutForm" action="${pageContext.request.contextPath}/member/logout"  method="post">
                <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
                </form>
                <a href="#"  class="logout-Btn"><i class="ion-ios-speedometer-outline"></i> 로그아웃</a>
@@ -80,7 +80,7 @@
                   </li>
          </sec:authorize>
       
-        
+          <sec:authorize access="isAuthenticated()">
                   <li class="nav-item nav-item-has-subnav" >
                     <a href="#"><i class="ion-ios-monitor-outline"></i> 마이페이지</a>
                     <!--  <a href="${pageContext.request.contextPath }/member/myPage"><i class="ion-ios-monitor-outline"></i> 마이페이지</a> -->
@@ -112,7 +112,7 @@
                         
                     </ul>
                   </li>
-
+          </sec:authorize>
                   
       
       

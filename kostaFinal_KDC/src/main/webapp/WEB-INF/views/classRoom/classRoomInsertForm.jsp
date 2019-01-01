@@ -43,10 +43,6 @@ body{
 <body>
 <form action="${pageContext.request.contextPath }/classRoom/insertClassRoom" method="post" >
 <table border="1">
- <tr>
-   <th>클래스 코드</th>
-   <td><input type="text" name="classRoomCode" id="classRoomCode" value=""><span id="aJaxResult" ></span></td>
- </tr>
   <tr>
    <th>클래스 이름</th>
    <td><input type="text" name="classRoomInfoName" ></td>
@@ -62,10 +58,6 @@ body{
  <tr>
    <th>클래스 강사 아이디</th>
    <td><input type="text" name="classRoomInfoTeacherId" id="classRoomInfoTeacherId" value=""><span id="aJaxResult2" ></span></td>
- </tr>
- <tr>
-   <th>클래스 채팅 파일 명</th>
-   <td><input type="text" name="classRoomInfoChatFile" ></td>
  </tr>
  <tr>
    <th colspan="2">
