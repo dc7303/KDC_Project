@@ -9,6 +9,11 @@ import edu.kosta.kdc.util.KdcException;
 public interface MessageService {
     
     /**
+     * 전체 메세지 리스트(no Paging)
+     * */
+    List<MessageDTO> messageLIstAllNoPaging();
+    
+    /**
      * 조회할 메세지 리스트 수 가져오기
      * @return
      */
@@ -18,6 +23,11 @@ public interface MessageService {
      * 전체 메세지 리스트
      * */
     List<MessageDTO> messageAll(int firstColumnRange, int lastColumnRange);
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    List<MessageDTO> unReadMessageList(String id);
 
     /**
      * 메세지 전송
@@ -48,6 +58,6 @@ public interface MessageService {
     /**
      * 읽지 않은 메세지 카운트
      * */
-    int messageUnReadCount(String id);
+    int messageUnReadCount();
 
 }

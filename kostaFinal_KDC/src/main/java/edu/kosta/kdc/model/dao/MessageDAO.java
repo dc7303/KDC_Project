@@ -9,6 +9,11 @@ import edu.kosta.kdc.model.dto.MessageDTO;
 public interface MessageDAO {
 
     /**
+     * 전체 메세지 리스트(no Paging)
+     * */
+    List<MessageDTO> messageLIstAllNoPaging();
+    
+    /**
      * 조회할 메세지 리스트 수 가져오기
      * @return
      */
@@ -18,6 +23,11 @@ public interface MessageDAO {
      * 전체 메세지 리스트
      * */
     List<MessageDTO> messageAll(String id, int firstColumnRange, int lastColumnRange);
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    List<MessageDTO> unReadMessageList(String id);
 
     /**
      * 메세지 전송

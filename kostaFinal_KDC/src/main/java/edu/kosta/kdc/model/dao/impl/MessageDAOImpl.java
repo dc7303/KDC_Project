@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import edu.kosta.kdc.model.dao.MessageDAO;
+import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.dto.MessageDTO;
 
 @Repository
@@ -16,6 +19,30 @@ public class MessageDAOImpl implements MessageDAO {
 
     @Autowired
     private SqlSession session;
+    
+    /**
+     * 전체 메세지 리스트(no Paging)
+     * */
+    @Override
+    public List<MessageDTO> messageLIstAllNoPaging() {
+        
+      //현재 로그인된 사용자의 정보를 가져오는 코드
+        MemberDTO member = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        String id = member.getMemberId();
+        
+        return session.selectList("messageMapper.selectAll", id);
+        
+    }
+    
+    /**
+     * RowBounds를 이용한 header메세지 갯수 제한
+     * */
+    private RowBounds RowBounds(int i, int j) {
+        
+        return new RowBounds(i, j);
+        
+    }
 
     /**
      * 조회할 메세지 리스트 수 가져오기
@@ -43,6 +70,17 @@ public class MessageDAOImpl implements MessageDAO {
 
         return list;
 
+    }
+    
+    /**
+     * 읽지않은 전체 메세지 리스트
+     * */
+    @Override
+    public List<MessageDTO> unReadMessageList(String id) {
+        
+        List<MessageDTO> list = session.selectList("messageMapper.unReadMessageList", id, RowBounds(0, 3));
+        
+        return list;
     }
 
     /**

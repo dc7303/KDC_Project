@@ -49,7 +49,6 @@
       color: white;
     }
     td {
-      text-align: center;
       font-size: 13px;
       padding: none;
       white-space:nowrap;
@@ -57,6 +56,16 @@
       text-overflow:ellipsis;
       cursor: pointer;
     }
+    
+    /* dialog td 내부 설정 */
+    .report-dialog-table tr td, .message-dialog-table tr td {
+      cursor: context-menu;
+      overflow: auto;
+      text-overflow: clip;
+      table-layout: normal;
+    }
+    
+    
     .empty-list {
       text-align: center;
     }
@@ -98,15 +107,14 @@
     }
     
     /* dialog table cursor set */
-    .report-dialog-table th td {
+    .dialog-table th td {
       cursor: context-menu;
     }
     
     /* report-dialog th 설정 */
-    .report-dialog-th {
+    .dialog-th {
       width: 20%;
     }
-    
     
     /*
     <tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'"
@@ -125,7 +133,7 @@
     <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/highlight.pack.js"></script>
     <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/squire-rte/build/squire-raw.js"></script>
     <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-Editor.min.js"></script>
-
+  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/memberInfoForm/signup-regex-check.js"></script>
 
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/highlightjs/styles/github.css">
@@ -579,7 +587,7 @@
           var messageList = result.messageList;
           var pageDTO = result.pageDTO;
           //메세지 리스트가 존재할때
-		var str = '<tr><th width="5%"><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th><th width="10%">보낸사람</th>' + 
+		var str = '<tr><th width="10%">보낸사람</th>' + 
 					'<th width="15%">쪽지제목</th><th width="30%">쪽지내용</th><th width="10%">전송일</th><th width="10%">읽음여부</th><th width="10%">답장</th><th width="10%">삭제</th></tr>';
           
           if(messageList.length !== 0) {
@@ -593,17 +601,15 @@
                 isRead = '<td style="color: red">읽지않음</td>';
               }
               
-              str += '<tr class="table-tr w3-hover-amber"><td><input type="checkbox"/></td>';
-              str += '<td>' + messageList[i].senderId + '</td>';
-              str += '<td><a href="${pageContext.request.contextPath}/message/' + messageList[i].messageNum + '">'
-              				+ messageList[i].messageTitle + '</a></td>';
+              str += '<tr class="message-tr w3-hover-amber"><td><input type="hidden" value="' + messageList[i].messageNum + '"/>' + messageList[i].senderId + '</td>';
+              str += '<td>' + messageList[i].messageTitle + '</td>';
               str += '<td>' + messageList[i].messageContents + '</td>';
               str += '<td>' + messageList[i].messageDate + '</td>';
               str += isRead;
-              str += '<td><input type="button" value="답장" id="replyMessage">' +
+              str += '<td><input type="button" value="답장" class="reply-message-btn">' +
               			'<input type="hidden" name="senderId" value="' + messageList[i].senderId + '"></td>';
-              str += '<td><input type="hidden" value="' + messageList.messageNum + '">' + 
-              		'<input type="button" value="삭제" id="deleteMessage"/></td></tr>';
+              str += '<td><input type="hidden" value="' + messageList[i].messageNum + '"/>' + 
+              		'<input type="button" value="삭제" class="delete-message"/></td></tr>';
             }
           }else {
             str += '<td class="empty-list" colspan="8">쪽지가 없습니다.</td>';
@@ -738,9 +744,13 @@
       /**
        * 신고 해결하기 
        */
-      jq(document).on('click', '.deleteReport', function() {
+      jq(document).on('click', '.deleteReport', function(event) {
         var reportPk = jq(this).parent().children().eq(0).val();	//hidden report pk값
         var removeColumn = jq(this).parent().parent();		//해당 컬럼 삭제하기 위한 변수
+        
+        //이벤트 버블링 제거
+    	if(event.stopPropagation) event.stopPropagation(); //MOZILLA
+    	else event.cancelBubble = true; 					//IE
         
         var confirm = window.confirm('해결처리하시겠습니까?');
         
@@ -766,29 +776,7 @@
       	}
       });
       
-      
-      /**
-       * dialog 설정
-       */
-       jq( "#dialog" ).dialog({
-         autoOpen: false,
-         modal: true,
-         width: 1032,
-         height: 600,
-         show: {
-           effect: "blind",
-           duration: 500
-         },
-         hide: {
-           effect: "explode",
-           duration: 500
-         },
-         buttons: {
-           Ok: function() {
-             $( this ).dialog( "close" );
-           }
-         }
-       });
+
 
       /**
        * 신고 내용 보기
@@ -797,6 +785,7 @@
         //마우스 좌표(다이알로그 오픈 위치 설정)
         var x = event.clientX; 
         var y = event.clientY;
+        
         //pk가져오기
         var reportPk = jq(this).children().eq(6).children().eq(0).val();
         
@@ -813,7 +802,6 @@
           success: function(result) {
             var replyDTO = result.replyBoardDTO;
             
-            console.log(result);
             jq('.report-reporter').text(result.reportReporterId);
             jq('.reprot-purpose').text(result.reportPurpose);
             jq('.reprot-date').text(result.reportDate);
@@ -823,7 +811,7 @@
             jq('.reply-date').text(replyDTO.replyBoardDate);
             //viewer셋팅
             editor.setValue(replyDTO.replyBoardContents);
-            jq("#dialog").dialog("open", {position: [ x, y ]});
+            jq("#report-dialog").dialog("open", {position: [ x, y ]});
           },
           error: function(err) {
             console.log('err : ' + err);
@@ -832,12 +820,225 @@
       });
 
       
+      
+    /**
+     * 쪽지 내용 보기
+     */
+    jq(document).on('click', '.message-tr', function(event) {
+      //마우스 좌표(다이알로그 오픈 위치 설정)
+      var x = event.clientX; 
+      var y = event.clientY;
+      
+      var messageNum = jq(this).children().eq(0).children().eq(0).val();
+      var readStatus = jq(this).children().eq(4);
+      
+      jq.ajax({
+        url:'${pageContext.request.contextPath}/message/messageSelectByMessageNum',
+        type:"get" ,			
+        dataType:"json" ,		
+        data: {
+		  messageNum: messageNum,
+        },
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+        },
+        success: function(result) {
+          var replyDTO = result.replyBoardDTO;
+          
+          console.log(result);
+          jq('.message-sender').text(result.senderId);
+          jq('.message-title').text(result.messageTitle);
+          jq('.message-date').text(result.messageDate);
+          jq('.message-contents').text(result.messageContents);
+
+          jq("#message-dialog").dialog("open", {position: [ x, y ]});
+          
+          readStatus.text('읽음');
+          readStatus.css('color', 'blue');
+        },
+        error: function(err) {
+          console.log('err : ' + err);
+        }
+      });
+      
+    });
+
+    
+    /**
+     * 메세지 답장보내기 폼( dialog open )
+     * 답장 보내기 이벤트는 dialog 설정에 button안에 설정되어 있음.
+     */ 
+     jq(document).on('click', '.reply-message-btn', function(event) {
+       //마우스 좌표(다이알로그 오픈 위치 설정)
+       var x = event.clientX; 
+       var y = event.clientY;
+       
+       //이벤트 버블링 제거
+       if(event.stopPropagation) event.stopPropagation(); //MOZILLA
+       else event.cancelBubble = true; 					//IE
+       
+       //받는이 아이디
+       var receverId = jq(this).parent().children().eq(1).val();
+       
+       jq('.recever-id').val(receverId);
+       
+       jq("#message-reply-dialog").dialog("open", {position: [ x, y ]});
+
+     });
+    
+    
+    /**
+     * 메세지 삭제 이벤트 처리
+     */
+    jq(document).on('click', '.delete-message', function(event) {
+      //이벤트 버블링 제거
+      if(event.stopPropagation) event.stopPropagation();
+      else event.cancelBubble = true;
+      
+      //삭제한 메세지 컬럼 삭제를 위함 selector
+      var deleteDom = jq(this).parent().parent();
+      
+      var messageNum = jq(this).parent().children().eq(0).val();
+      console.log(messageNum);
+      
+      jq.ajax({
+        url:'${pageContext.request.contextPath}/message/messageDeleteByAdmin',
+        type:"get" ,			
+        dataType:"text",		
+        data: {
+          messageNum: messageNum,
+        },
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+        },
+        success: function(result) {
+          alert(result);
+          deleteDom.remove();
+        },
+        error: function(err) {
+          alert('전송실패입니다. 관리자에게 문의하세요.');
+        }
+      });
+      
+    });
+    
+    /**
+     * 신고 자세히 보기 dialog 설정
+     */
+     jq( "#report-dialog" ).dialog({
+       autoOpen: false,
+       modal: true,
+       width: 800,
+       height: 600,
+       show: {
+         effect: "blind",
+         duration: 500
+       },
+       hide: {
+         effect: "explode",
+         duration: 500
+       },
+       buttons: {
+         Ok: function() {
+           jq( this ).dialog( "close" );
+         }
+       }
+     });
+    
+    
+    
+     /**
+      * 메세지 자세히 보기 dialog 설정
+      */
+      jq( "#message-dialog" ).dialog({
+        autoOpen: false,
+        modal: true,
+        width: 600,
+        height: 500,
+        show: {
+          effect: "blind",
+          duration: 500
+        },
+        hide: {
+          effect: "explode",
+          duration: 500
+        },
+        buttons: {
+          Ok: function() {
+            jq( this ).dialog( "close" );
+          }
+        }
+      });
+     
+      /**
+       * dialog 설정
+       */
+       jq( "#message-reply-dialog" ).dialog({
+         autoOpen: false,
+         modal: true,
+         width: 500,
+         height: 500,
+         show: {
+           effect: "blind",
+           duration: 500
+         },
+         hide: {
+           effect: "explode",
+           duration: 500
+         },
+         buttons: {
+           /**
+            * 답장 보내기 event
+            */
+           보내기: function() {
+             var receverId = jq('.recever-id').val();//받는 사람
+             var replyTitle = jq('.message-reply-title').val();//답장 제목
+             var replyContents = jq('.message-reply-contents').val();//내용
+             
+             jq.ajax({
+               url:'${pageContext.request.contextPath}/message/adminMessageInsert',
+               type:"get" ,			
+               dataType:"text" ,		
+               data: {
+                 senderId: receverId,
+       		     messageTitle: replyTitle,
+       		     messageContents: replyContents,
+               },
+               beforeSend: function(xhr) {
+                 xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+               },
+               success: function(result) {
+                 jq( '#message-reply-dialog' ).dialog( "close" );
+                 alert(result);
+               },
+               error: function(err) {
+                 alert('전송실패입니다. 관리자에게 문의하세요.');
+               }
+             });
+           },
+           //취소버튼
+           취소: function() {
+             jq( this ).dialog( "close" );
+           }
+         }
+       });
+
       //tui-editor Viewer
       var editor = tui.Editor.factory({
         el: document.querySelector('#viewer-section'),
         viewer: true,
         height: '300px',
         
+      });
+      
+      //생일 입력 datepicker
+      jq( function() {
+        jq( "#datepicker" ).datepicker({
+          dateFormat: 'yy.mm.dd',
+          changeMonth: true,
+          changeYear: true,
+          yearRange: '-100:+0',
+        });
       });
     });
     </script>
@@ -989,7 +1190,8 @@
                   <th>처리</th>
               </tr>
           </table>
-            <div class="report-search">
+          <!-- 
+          <div class="report-search">
             <select name="reportSearchKeyword">
               <option value="none">키워드선택</option>
               <option value="memberId">유저ID</option>
@@ -1000,6 +1202,7 @@
             <input type="text" name="reportSearchInput"/>
             <input type="button" id="reportSearchBtn" value="검색"/>
           </div>
+           -->
         </div>
       
 
@@ -1008,7 +1211,6 @@
           <h1 class="w3-xxxlarge w3-text-blue"><b>쪽지관리</b></h1>
             <table class="message-table w3-table w3-centered">
               <tr>
-                <th><input type="checkbox" name="checkBoxAll" id="checkBoxAll" ></th>
                 <th>보낸사람</th>
                 <th>쪽지제목</th>
                 <th>전송일</th>
@@ -1016,30 +1218,37 @@
                 <th>삭제</th>
               </tr>
             </table>
+            <!-- 
             <div class="message-search">
-            <select name="messageSearchKeyword">
-              <option value="none">키워드선택</option>
-              <option value="memberId">유저ID</option>
-              <option value="memberName">유저이름</option>
-              <option value="memberNickName">유저닉네임</option>
-              <option value="memberEmail">유저이메일</option>
-            </select>
-            <input type="text" name="messageSearchInput"/>
-            <input type="button" id="messageSearchBtn" value="검색"/>
-          </div>
+              <select name="messageSearchKeyword">
+                <option value="none">키워드선택</option>
+                <option value="memberId">유저ID</option>
+                <option value="memberName">유저이름</option>
+                <option value="memberNickName">유저닉네임</option>
+                <option value="memberEmail">유저이메일</option>
+              </select>
+              <input type="text" name="messageSearchInput"/>
+              <input type="button" id="messageSearchBtn" value="검색"/>
+            </div>
+             -->
         </div>
 
-      <!-- 강사생성 -->
+      <!-- 
+        강사생성
+        강사 코드는 controller에서 부여함
+      -->
       <div class="w3-container" id="contact" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-blue"><b>강사생성</b></h1>
-        <form action="/action_page.php" target="_blank">
+        <form action="${pageContext.request.contextPath }/member/memberInsertTeacher" method="post">
+          <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
           <div class="w3-section">
             <label>ID</label>
             <input
               class="w3-input w3-border"
               type="text"
               name="memberId" 
-              placeholder="영문, 숫자로만 6~12자리 입력" 
+              placeholder="영문, 숫자로만 6~12자리 입력"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 아이디를 입력하세요</smal>
@@ -1051,6 +1260,7 @@
               type="password"
               name="memberPwd"
               placeholder="숫자, 영문, 특수기호 포함 8자리 이상"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 비밀번호입력 </smal>
@@ -1061,6 +1271,7 @@
               class="w3-input w3-border"
               type="password"
               name="memberPwdConfirm"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 비밀번호 확인</smal>
@@ -1071,6 +1282,7 @@
               class="w3-input w3-border"
               type="text"
               name="memberName"
+              autocomplete="off"
               required
             />
           </div>
@@ -1081,6 +1293,7 @@
               type="text"
               name="memberNickName"
               placeholder="2~8자리 입력"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 닉네임 입력 </smal>
@@ -1091,7 +1304,9 @@
               class="w3-input w3-border"
               type="text"
               name="memberBirth"
+              id="datepicker"
               placeholder="  1900.01.00"
+              autocomplete="off"
               required
             />
           </div>
@@ -1102,6 +1317,7 @@
               type="text"
               name="memberPhone"
               placeholder="'-' 제외하고 입력"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> 전화번호 체크 </smal>
@@ -1112,19 +1328,10 @@
               class="w3-input w3-border"
               type="text"
               name="memberEmail"
+              autocomplete="off"
               required
             />
             <smal class="ajax"> Email 확인 </smal>
-          </div>
-          <div class="w3-section">
-            <label>인증번호</label>
-            <input
-              class="w3-input w3-border"
-              type="text"
-              name="authCode"
-              placeholder=" 인증번호를 입력하세요"
-              required
-            />
           </div>
           <button
             type="submit"
@@ -1139,38 +1346,79 @@
     </div>
 
     <!-- jquery-ui dialog -->
-    <div id="dialog" title="Basic dialog">
+    <div id="report-dialog" title="Basic dialog">
       <table class="report-dialog-table w3-bordered">
         <tr>
-          <th class="report-dialog-th">신고인</th>
+          <th class="dialog-th">신고인</th>
           <td><span class="report-reporter"></span></td>
         </tr>
         <tr>
-          <th class="report-dialog-th" height="300px">신고내용</th>
+          <th class="dialog-th" height="200px">신고내용</th>
           <td><span class="reprot-purpose"></sapn></td>
         </tr>
         <tr>
-          <th class="report-dialog-th">신고일</th>
+          <th class="dialog-th">신고일</th>
           <td><span class="reprot-date"></span></td>
         </tr>
         <tr>
-          <th class="report-dialog-th">피신고인</th>
+          <th class="dialog-th">피신고인</th>
           <td><span class="reply-writer"></span></td>
         </tr>
         <tr>
-          <th class="report-dialog-th">게시글제목</th>
+          <th class="dialog-th">게시글제목</th>
           <td><span class="reply-title"></span></td>
         </tr>
         <tr>
-          <th class="report-dialog-th" height="300px">내용</th>
+          <th class="dialog-th" height="300px">내용</th>
           <td><div id="viewer-section"  class="reply-contents"></div></td>
         </tr>
         <tr>
-          <th class="report-dialog-th">작성일</th>
+          <th class="dialog-th">작성일</th>
           <td><span class="reply-date"></span></td>
         </tr>
       </table>
     </div>
+    
+    <!-- message dialog -->
+    <div id="message-dialog" title="Basic dialog">
+      <table class="message-dialog-table w3-bordered" width="300px">
+        <tr>
+          <th class="dialog-th">보낸사람</th>
+          <td><span class="message-sender"></span></td>
+        </tr>
+        <tr>
+          <th class="dialog-th">쪽지제목</th>
+          <td><span class="message-title"></sapn></td>
+        </tr>
+        <tr>
+          <th class="dialog-th">전송일</th>
+          <td><span class="message-date"></sapn></td>
+        </tr>
+        <tr>
+          <th class="dialog-th" height="300px">내용</th>
+          <td><span class="message-contents"></span></td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- message reply form -->
+    <div id="message-reply-dialog" title="Basic dialog">
+      <table class="message-reply-table w3-bordered">
+        <tr>
+          <th class="dialog-th">받는 사람</th>
+          <td><input type="text" width="100%" class="recever-id"/></td>
+        </tr>
+        <tr>
+          <th class="dialog-th">쪽지제목</th>
+          <td style="width:300px;"><input type="text" style="width:100%" class="message-reply-title"></input></td>
+        </tr>
+        <tr>
+          <th class="dialog-th" height="300px">내용</th>
+          <td style="width:100%; height:300px;"><textarea style="width:100%; height:100%;" class="message-reply-contents"></textarea></td>
+        </tr>
+      </table>
+    </div>
+    
 
     <input type="hidden" name="contextPath" value="${pageContext.request.contextPath }"/>
     <input type="hidden" name="csrfName" value="${_csrf.headerName }"/>

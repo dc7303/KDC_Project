@@ -11,6 +11,33 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <title>Insert title here</title>
+<script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+
+const jq = jQuery.noConflict();
+
+//답장시,  메세지 제목 or 내용 입력 유효성체크
+jq(function(){
+
+  const messageTitle = 'input[name=messageTitle]';
+  const messageContents = 'textarea[name=messageContents]';
+  
+  jq(document).on('click','#sendReplyMessage',function(){
+    if(jq(messageTitle).val() === ''){
+      alert("제목을 입력해주세요.");
+      jq(messageTitle).focus();
+      return false;
+    }else if(jq(messageContents).val() === ''){
+      alert("내용을 입력해주세요.");
+      jq(messageContents).focus();
+      return false;
+    }else{
+      return true;
+    }
+  })
+})
+
+</script>
 </head>
 <body>
 
@@ -18,7 +45,7 @@
   width="100%" bordercolordark="white" bordercolorlight="black">
   <caption>메세지 답장</caption>
 
-  <form name="writeForm" id="write" method="post" action="${pageContext.request.contextPath}/message/insert">
+  <form name="writeForm" id="write" method="post" action="${pageContext.request.contextPath}/message/insert" >
 
     <table align="center" cellpadding="5" cellspacing="2" width="600" border="1">
 

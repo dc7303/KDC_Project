@@ -25,13 +25,27 @@
         
         
        <script type="text/javascript">
+
         $(document).on('click', '.logout-Btn', function() {
           $('#logoutForm').submit();
         });
       </script>
       
- 
+       $(function(){
+         $('.logout-Btn').on('click',function(){
+           $('#logoutForm').submit();
+         });
+       });
+       
+      </script>
       
+     <style>
+     
+      .img-responsive{
+        margin: 20px 0 20px 5px;
+       
+      }
+
       </style>
        
     </head>
@@ -49,7 +63,9 @@
             <div class="app-layout-drawer-scroll">
             <!-- Drawer logo -->
               <div id="logo" class="">
-                <a href="${pageContext.request.contextPath }/"><img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc.png" title="AppUI" alt="AppUI" /></a>
+                <a href="${pageContext.request.contextPath }/">
+                
+                <img class="img-responsive" src="${pageContext.request.contextPath }/resources/testimg/logo/logo-kdc-02.png" title="AppUI" alt="AppUI" /></a>
               </div>
   
                     <!-- Drawer navigation -->
@@ -61,7 +77,7 @@
       
                    <sec:authorize access="isAnonymous()">
                   <li class="nav-item active">
-<a href="${pageContext.request.contextPath }/member/signInForm"><i class="ion-ios-speedometer-outline" id=""></i> 로그인</a>
+              <a href="${pageContext.request.contextPath }/member/signInForm"><i class="ion-ios-speedometer-outline" id=""></i> 로그인</a>
                   </li>
          </sec:authorize>
    
@@ -87,14 +103,10 @@
                   <ul class="nav nav-subnav">
           
       
-                       <li><a href="${pageContext.request.contextPath }/member/myPageupdate">회원정보수정</a></li>
-          
-              
-                       
-                        <sec:authorize access="hasRole('ROLE_STUDENT')">
-                        
+                       <li><a href="${pageContext.request.contextPath }/member/myPageupdate">회원정보수정</a></li>         
+                        <sec:authorize access="hasRole('ROLE_STUDENT')">   
                               <li><a href="${pageContext.request.contextPath }/portfolio/myPage">포트폴리오</a></li>
-                      
+
                         </sec:authorize>
                         
                         <sec:authorize access="hasRole('ROLE_TEACHER')" >
@@ -105,8 +117,7 @@
                       </sec:authorize>
                       
                       <li><a href="${pageContext.request.contextPath}/board/boardList">내가 쓴 글</a></li>
-                      <li><a href="${pageContext.request.contextPath}/message/messageList" name="messageList">받은쪽지함</a></li>
-                      <li><a href="${pageContext.request.contextPath}/classRoom/myClassRoom" name="myClassRoom">나의 클래스</a></li>
+                      <li><a href="${pageContext.request.contextPath}/message/messageListNoPaging" name="messageListNoPaging">받은쪽지함</a></li>
                       
                         
                     </ul>

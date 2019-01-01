@@ -23,7 +23,14 @@
     <select id="selectAll" resultMap="messageSelectMap" parameterType="String">
         select <include refid="messageSelectSQL"/>
         from message
-        where MESSAGE_ISDELETE='FALSE' AND MESSAGE_RECEIVER_ID=#{receiverId}
+        where MESSAGE_ISDELETE='FALSE' AND MESSAGE_RECEIVER_ID=#{receiverId} ORDER BY MESSAGE_DATE DESC
+    </select>
+    
+    <!-- 읽지않은 전체 메세지 리스트 -->
+    <select id="unReadMessageList" resultMap="messageSelectMap" parameterType="String">
+        select <include refid="messageSelectSQL"/>
+        from message
+        where MESSAGE_ISDELETE='FALSE' AND MESSAGE_RECEIVER_ID=#{receiverId} AND MESSAGE_ISREAD='FALSE' ORDER BY MESSAGE_DATE DESC
     </select>
     
     <!-- 받은 ID로 메세지 답장 -->
@@ -78,7 +85,8 @@
         select x.rnum, x.* from (
         select rownum as rnum, a.* from (
         select * from message where message_isdelete = 'FALSE'
-        and message_receiver_id = #{receiverId}) a 
+        and message_receiver_id = #{receiverId}
+        order by message_isread) a 
         where rownum <![CDATA[ <= ]]> #{lastColumn} ) x 
         where x.rnum <![CDATA[ >= ]]> #{firstColumn}
     </select>
