@@ -25,7 +25,7 @@ const jq = jQuery.noConflict();
           },
           success : function(result) {
             jq(".ajax").text(result);
-            if ($(memberId).val() === '') {
+            if ($(input[name=email]).val() === '') {
               jq(".ajax").text("이메일을 입력하세요");
             }
           },
@@ -36,23 +36,27 @@ const jq = jQuery.noConflict();
     });
     
     jq("input[name=emailSend]").click(function() {
-       var email = jq("input[name=email]").val();
-  	    jq.ajax({
-  	      url : "${pageContext.request.contextPath}/member/emailSend",
-  	      type : "post",   
-  	      dataType : "text", 
-  	      beforeSend: function(xhr) {
-  	         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
-  	      },
-  	      data : "email="+email,
-  	      success : function(result){   //성공했을 때
-  	        alert("임시비밀번호 발급이 되었습니다.");
-  	        window.close();   
-  	      },
-  	      error : function(err){   //실패했을 때
-  	         alert("이메일을 다시 입력해주세요");
-  	      }
-      	});
+      var email = jq("input[name=email]").val();
+	  if(jq(".ajax").text()!="일치하는 이메일이 없습니다."){
+        jq.ajax({
+    	      url : "${pageContext.request.contextPath}/member/emailSend",
+    	      type : "post",   
+    	      dataType : "text", 
+    	      beforeSend: function(xhr) {
+    	         xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+    	      },
+    	      data : "email="+email,
+    	      success : function(result){   //성공했을 때
+    	        alert("임시비밀번호 발급이 되었습니다.");
+    	        window.close();   
+    	      },
+    	      error : function(err){   //실패했을 때
+    	         alert("이메일을 다시 입력해주세요");
+    	      }
+        	});
+	  }else{
+	    alert("이메일을 다시 입력해주세요");
+	  }
   	    if(jq(".ajax").text()=="이메일이 일치합니다."){
   	      	jq("#mail-table").css("display","none");
   	    	jq("#mail-loding-img").attr("src","${pageContext.request.contextPath}/resources/testimg/replyBoard/mailLoding.gif");

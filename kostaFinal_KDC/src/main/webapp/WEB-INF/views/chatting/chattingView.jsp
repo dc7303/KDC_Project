@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
@@ -13,6 +14,7 @@
         height: 750px;
         background: lavender;
         overflow: auto;
+        margin : auto;
         padding-top: 10px;
         padding-left: 5px;
         padding-right: 5px;
@@ -21,6 +23,7 @@
       #chatting-input{
         width: 80%;
         display: flex;
+        margin:auto;
       }
       #message{
         flex: 1;
@@ -46,11 +49,11 @@
         display: flow-root;
       }
       #send-btn{
-        background: #7dc855;
+        background: #ffb03a;
         border: none;
       }
       #send-btn:hover{
-        background: #7DFC85;
+        background: white;
       }
       /*상대가 보낸 메시지  */
       .other-block{

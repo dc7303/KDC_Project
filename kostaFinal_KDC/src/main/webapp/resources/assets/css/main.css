@@ -516,6 +516,8 @@ h2.notice-title{
 						@media screen and (max-width: 480px) {
 
 							form > .fields {
+							
+							
 								width: calc(100% + 3rem);
 								margin: -1.5rem 0 2rem -1.5rem;
 							}
@@ -992,5 +994,8 @@ h2.notice-title{
 									.actions {
 										text-align: center;
 									}
-									
+								
+								#viewer-section{
+								  text-align: left;
+								}
 									

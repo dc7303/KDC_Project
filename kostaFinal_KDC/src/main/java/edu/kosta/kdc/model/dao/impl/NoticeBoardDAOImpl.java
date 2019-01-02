@@ -113,4 +113,44 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
         
         return session.selectList("noticeBoardMapper.selectFiveNotice");
     }
+    
+    /**
+     * 페이징처리 조회
+     */
+    @Override
+    public int selectNoticePagingCount(String department, String noticeBoardSearch, String classification) {
+        
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("department", department);
+        map.put("noticeBoardSearch", noticeBoardSearch);
+        map.put("classification", classification);
+        
+        return session.selectOne("noticeBoardMapper.searchPagingCount", map);
+    }
+
+    /**
+     * 페이징 처리시 조회할 컬럼 counter
+     */
+    @Override
+    public List<NoticeBoardDTO> selectNoticePaging(Map<String, Object> map) {
+        
+        return session.selectList("noticeBoardMapper.noticeBoardSelectPaging", map);
+    }
+
+    /**
+     * 전체검색 페이징
+     */
+    @Override
+    public List<NoticeBoardDTO> selectAllForPaging(Map<String, Object> map) {
+        
+        System.out.println("DAO 접근");
+        List<NoticeBoardDTO> noticeList = session.selectList("noticeBoardMapper.noticeBoardSelectAllForPaging", map);
+        
+        for(NoticeBoardDTO dto : noticeList) {
+            System.out.println(dto.toString());
+        }
+        
+        return session.selectList("noticeBoardMapper.noticeBoardSelectAllForPaging", map);
+    }
  }

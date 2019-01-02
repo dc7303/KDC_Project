@@ -59,7 +59,7 @@ $(function() {
         
         var str="";
         $.each(result, function(index,item){
-          str+="<a href='#'>" + item + "</a><br>";
+          str+="<a href='#none'>" + item + "</a><br>";
         });
         
         $("#suggest").html(str);
@@ -74,6 +74,7 @@ $(function() {
     
     $("#suggest").on("click", "a", function(){
       $("input[name=hashTagInput]").val($(this).text());
+      $("input[name=hashTagInput]").focus();
       $("#suggest").hide();
     });
 

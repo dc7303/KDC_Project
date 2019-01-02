@@ -142,7 +142,7 @@ public class ClassRoomController {
         MemberDTO memberDTO = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         //채팅방 파일을 만들 경로를 알아온다.
-        String path = "C:\\Edu\\chatFile\\";
+        String path = "C:\\edu\\chatFile\\";
 
         //DB에서 랜덤하게 파일 명을 생성하므로, 스케줄러를 이용하기 위해 경로를 DTO안에 chatFile에 set시킨다.
         classRoomInfoDTO.setClassRoomInfoChatFile(path);
