@@ -76,7 +76,7 @@ public class NoticeBoardController {
     @RequestMapping("/insert")
     public String insert(NoticeBoardDTO noticeBoard, String classification) throws Exception {
         
-        if(noticeBoard.getFile() != null) {
+        if(!noticeBoard.getFile().isEmpty()) {
             MultipartFile file = noticeBoard.getFile();
             String attachment = file.getOriginalFilename();
     

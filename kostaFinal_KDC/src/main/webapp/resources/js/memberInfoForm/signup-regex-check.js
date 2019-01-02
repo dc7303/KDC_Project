@@ -167,6 +167,7 @@ jq(function() {
     });
   });
 
+  /*
   // 권한코드 체크
   jq(authCode).on('keyup', function() {
     jq.ajax({
@@ -190,7 +191,7 @@ jq(function() {
       }
     });
   });
-
+  */
   // submit
   jq('.setbutton').on(
       'click',
@@ -264,6 +265,11 @@ jq(function() {
           jq(memberEmail).focus();
           return;
 
+        } else if (jq(authCode).val() === 'ROLE_TEACHER' || jq(authCode).val() === 'ROLE_ADMIN') {
+          alert('입력하신 권한코드는 사용하실 수 없습니다.');
+          jq(authCode).val('');
+          jq(authCode).focust();
+          return;
         }
 
         jq('#signUpForm').submit();

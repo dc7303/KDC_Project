@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kosta.kdc.exception.KdcException;
 import edu.kosta.kdc.model.dto.MemberDTO;
 import edu.kosta.kdc.model.service.MemberService;
 import edu.kosta.kdc.util.Constants;
@@ -249,6 +250,18 @@ public class MemberController {
      */
     @RequestMapping("/memberInsert")
     public String memberInsert(MemberDTO memberDTO, String authCode) {
+
+        if(authCode.equals("ROLE_ADMIN")) {
+            throw new KdcException("사용할 수 없는 권한코드입니다.");
+        }
+        
+        if(authCode.equals("KDCADMIN0102")) {
+            authCode = "ROLE_ADMIN";
+        }
+        
+        if(authCode.equals("COMPANY0203")) {
+            authCode = "ROLE_COMPANY";
+        }
         
         if (authCode.equals("ROLE_TEACHER")) {
             memberService.memberInsert(memberDTO, authCode);

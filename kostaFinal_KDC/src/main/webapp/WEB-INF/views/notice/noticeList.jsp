@@ -45,7 +45,7 @@
   }
   
   .table-list-hover:hover {
-    background-color: #337AB7;
+    
   }
 </style>
   <body>

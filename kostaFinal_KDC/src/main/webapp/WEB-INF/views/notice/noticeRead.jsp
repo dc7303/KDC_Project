@@ -12,7 +12,7 @@
 <%--     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/board.css" /> --%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
 
-  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+ 
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
