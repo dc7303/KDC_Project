@@ -17,7 +17,7 @@ public interface MessageDAO {
      * 조회할 메세지 리스트 수 가져오기
      * @return
      */
-    int messageSelectQuntity();
+    int messageSelectQuntity(String memberId);
     
     /**
      * 전체 메세지 리스트

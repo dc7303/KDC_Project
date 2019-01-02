@@ -49,9 +49,9 @@ public class MessageDAOImpl implements MessageDAO {
      * @return
      */
     @Override
-    public int messageSelectQuntity() {
+    public int messageSelectQuntity(String memberId) {
 
-        return session.selectOne("messageMapper.messageTotalCount");
+        return session.selectOne("messageMapper.messageTotalCount", memberId);
     }
     
     /**

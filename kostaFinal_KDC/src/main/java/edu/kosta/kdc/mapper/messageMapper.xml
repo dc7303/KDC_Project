@@ -76,8 +76,8 @@
     </select>
     
     <!-- 총 쪽지 수 -->
-    <select id="messageTotalCount" resultType="java.lang.Integer">
-        select nvl(count(*), 0) as totalCount from message where MESSAGE_ISDELETE = 'FALSE'
+    <select id="messageTotalCount" parameterType="string" resultType="java.lang.Integer">
+        select nvl(count(*), 0) as totalCount from message where MESSAGE_ISDELETE = 'FALSE' and message_receiver_id = #{_parameter}
     </select>
         
     <!-- 페이징 select -->

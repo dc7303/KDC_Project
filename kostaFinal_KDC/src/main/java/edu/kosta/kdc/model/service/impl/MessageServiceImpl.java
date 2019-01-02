@@ -43,7 +43,9 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public int messageSelectQuntity() {
         
-        return messageDAO.messageSelectQuntity();
+        MemberDTO memberDTO = (MemberDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        return messageDAO.messageSelectQuntity(memberDTO.getMemberId());
     }
     
     /**

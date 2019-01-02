@@ -149,7 +149,9 @@ public class AdminController {
         
         //페이지 정보 셋팅 및 DTO 리턴 받기
         PageDTO pageDTO = pageHandler.pageInfoSet(setPage, 10, 10, setTotalCount);
-        
+        System.out.println(setTotalCount);
+        System.out.println(pageDTO.getStartPage());
+        System.out.println(pageDTO.getEndPage());
         //데이터 조회할 ROWNUM 범위 를 select 인수로 전달.
         int firstColumnRange = pageDTO.getFirstColumnRange();
         int lastColumnRange = pageDTO.getLastColumnRange();

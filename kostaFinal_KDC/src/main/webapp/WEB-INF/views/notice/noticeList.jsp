@@ -64,9 +64,9 @@
     
     </c:when>
     <c:when test="${requestScope.classification eq 'findJobNotice'}">
-    <h2 class="notice-title">Tech 취업 게시판</h2>
+    <h2 class="notice-title">채용 게시판</h2>
     <p class="underline-board"></p>
-    <sec:authorize access="isAuthenticated()">
+    <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_COMPANY')">
       <div class="write-button">
         <a href="${pageContext.request.contextPath }/notice/writeForm?classification=${requestScope.classification}" class="button">글쓰기</a>
       </div> <br/><br/>
