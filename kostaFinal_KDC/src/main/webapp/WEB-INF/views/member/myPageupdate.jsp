@@ -10,14 +10,28 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.min.js"></script>
 <script type="text/javascript">
-const jq = jQuery.noConflict();
+const j$ = jQuery.noConflict();
 
 
   //datepicker option
-  jq( function() {
-    jq( ".datepicker" ).datepicker({
+  j$( function() {
+    j$( ".datepicker" ).datepicker({
       dateFormat: 'yy-mm-dd',
     });
+    
+    j$('input[name=birthday]').val();
+    
+      var d = new Date($('input[name=birthday]').val())
+              month = '' + (d.getMonth() + 1),
+              day = '' + d.getDate(),
+              year = d.getFullYear();
+  
+          if (month.length < 2) month = '0' + month;
+          if (day.length < 2) day = '0' + day;
+  
+      var a =  [year, month, day].join('-');
+    
+      j$('input[name=memberBirth]').val(a);
   });
 
 </script>
@@ -71,7 +85,7 @@ const jq = jQuery.noConflict();
       
       <tr>
       <td>닉네임</td> 
-      <td><input type="text" name="memberNickName" value="${member.memberNickName }" /></td> 
+      <td><input type="text" name="memberNickName" value="${member.memberNickName }" readonly="readonly"/></td> 
             <td><span class="ajax">닉네임 입력</span><br/></td> 
        </tr>
       
@@ -83,22 +97,6 @@ const jq = jQuery.noConflict();
         <input type="hidden" name="birthday" value="${member.memberBirth }"/>
         <input type="text" name="memberBirth" class="datepicker" value=""/></td>  
         
-        <!-- memberBirth에 시:분:초 까지 나오므로 그것을 없애고 생일에 년-월-일만 나오도록 함. -->
-        <script type="text/javascript">
-        $('input[name=birthday]').val();
-        
-        var d = new Date($('input[name=birthday]').val())
-                month = '' + (d.getMonth() + 1),
-                day = '' + d.getDate(),
-                year = d.getFullYear();
-
-            if (month.length < 2) month = '0' + month;
-            if (day.length < 2) day = '0' + day;
-
-        var a =  [year, month, day].join('-');
-        
-        $('input[name=memberBirth]').val(a);
-        </script>
       
       <td><span class="ajax">유저 생일 입력</span><br/></td> 
       </tr> 

@@ -12,12 +12,17 @@
 <link href="${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.css" rel="stylesheet"/>
 <link href="${pageContext.request.contextPath}/resources/lib/evol-color-picker/evol-colorpicker.min.css" rel="stylesheet"/>
 <style ref="stylesheet">
+  #wrapper{
+    display: inline-block;
+  }
   #calendar {
-    padding-top: 50px;
-    padding-left: 100px;
+    margin : auto;
     width: 65%;
   }
-
+  .notice-title{
+    text-align: center;
+    margin: 30px 0 40px 0;
+  }
   /* header 설정 없을 시 비정상적으로 공백이 늘어나는 현상나타남 */
   .fc-header-toolbar {
     height: 50px;
@@ -459,6 +464,6 @@
 
 </script>
 
-	
+   
 </body>
 </html>

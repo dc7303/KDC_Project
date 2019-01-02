@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/portfolio.css" />
 
 
  
@@ -49,10 +50,11 @@
 .info-box p{
   padding:0px 5px;
 }
-form {
+section form {
     display: flex !important;
     padding: 0px 120px !important;
     margin: 0 0 2rem 0 !important;
+    width: 100%;
 }
 
 select#department {
@@ -63,6 +65,7 @@ select#department {
 input.search-button {
     flex: 1 !important;
 }
+
 
 </style>
 
@@ -109,7 +112,7 @@ input.search-button{
 </head>
 <body>
   
-  <h1 class="notice-title"> P O R T F O L I O </h1>
+  <h2 class="notice-title"> P O R T F O L I O </h2>
   <!-- 검색창 -->
  
   <form action="${pageContext.request.contextPath}/portfolio/portfolioListSearch">
