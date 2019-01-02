@@ -483,6 +483,7 @@ jq(function() {
             jq(document).on('click', "#mentionNickName", function() {
               var senderId = jq(this).parent().children().eq(0).val();
               window.open("${pageContext.request.contextPath}/message/messageReplyPage?senderId="+senderId, "pop", "left=500,top=200,width=700,height=600,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no");
+              
             });
 </script>
 </body>
