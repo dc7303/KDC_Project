@@ -9,7 +9,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> SeongHyeonHong
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
@@ -316,12 +320,17 @@ jq(function() {
   <c:when test="${replyBoardDTO.replyBoardReplyNo>0}">
       <tr>
         <td style="width: 80px">
+<<<<<<< HEAD
           <a id="mentionNickName${state.count}" style="cursor: pointer;">${replyBoardDTO.mentionNickName}</a>
         <script>
               jq("#mentionNickName${state.count}").click(function() {
                 window.open("${pageContext.request.contextPath }/message/messageReplyPage?senderId=${replyBoardDTO.replyBoardMention}", "pop", "left=500,top=200,width=900,height=700,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
               });
         </script>
+=======
+        <input type="hidden" value="${replyBoardDTO.replyBoardMention }"/>
+        <a id="mentionNickName" href="#">${replyBoardDTO.mentionNickName}</a>
+>>>>>>> SeongHyeonHong
         </td>
         <td colspan="4">
          <span id="replyBoardContents" style="float: left; padding-right:10px">${replyBoardDTO.replyBoardContents }</span>
@@ -497,5 +506,10 @@ jq(function() {
 <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
 <input type="hidden" name="csrfToken" value="${_csrf.token}"/>
 <input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>
-
+<script>
+            jq(document).on('click', "#mentionNickName", function() {
+              var senderId = jq(this).parent().children().eq(0).val();
+              window.open("${pageContext.request.contextPath}/message/messageReplyPage?senderId="+senderId, "pop", "left=500,top=200,width=700,height=600,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no");
+            });
+</script>
 </body>

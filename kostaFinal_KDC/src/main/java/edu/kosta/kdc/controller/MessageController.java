@@ -94,7 +94,8 @@ public class MessageController {
     /**
      * 메세지 전송(=메세지 답장)
      * */
-    @RequestMapping("/insert")
+    @RequestMapping(value = "/insert", produces = "text/plain; charset=UTF-8")
+    @ResponseBody
     public String messageInsert(MessageDTO messageDTO) throws KdcException {
         
         //controller에서 현재 로그인된 사용자의 정보를 가져오는 코드
@@ -102,14 +103,14 @@ public class MessageController {
         
         //접속된 ID를 직접 가져와서 출력하므로 임의로 주소값을 변경하더라도 다른 사용자의 메세지에 접근불가
         String id = member.getMemberId();
-
+        
         //접속된 member로부터 id가져오기
         messageDTO.setReceiverId(id);
 
         messageService.messageInsert(messageDTO);
         
         /*접속된ID로 전체 메세지 리스트를 출력하기 위한 return*/ 
-        return "redirect:/message/messageListNoPaging?id="+id;
+        return "성공했습니다.";
         
     }
     /**
@@ -188,7 +189,7 @@ public class MessageController {
     @RequestMapping("/messageReplyPage")
     public ModelAndView messageReplyPage(MessageDTO messageDTO) {
         
-        return new ModelAndView("message/replyMessage", "replyMessage", messageDTO);
+        return new ModelAndView("message/replyForm/replyMessage", "replyMessage", messageDTO);
         
     }
     
