@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,12 +12,17 @@
 <link href="${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.css" rel="stylesheet"/>
 <link href="${pageContext.request.contextPath}/resources/lib/evol-color-picker/evol-colorpicker.min.css" rel="stylesheet"/>
 <style ref="stylesheet">
+  #wrapper{
+    display: inline-block;
+  }
   #calendar {
-    padding-top: 50px;
-    padding-left: 100px;
+    margin : auto;
     width: 65%;
   }
-
+  .notice-title{
+    text-align: center;
+    margin: 30px 0 40px 0;
+  }
   /* header 설정 없을 시 비정상적으로 공백이 늘어나는 현상나타남 */
   .fc-header-toolbar {
     height: 50px;
@@ -31,9 +37,15 @@
 <script src='${pageContext.request.contextPath}/resources/lib/jquery-ui/jquery-ui.min.js'></script>
 </head>
 <body>
-<h3>000기 스케줄</h3>
+<h3 class="notice-title">스케줄</h3>
 <div id="calendar"></div>
+<sec:authorize access="hasRole('ROLE_TEACHER')">
+        <sec:authentication var="member" property="principal" />
+        <input type="hidden" name="teacherId" value="${member.memberId }"/>
+</sec:authorize>
+        
 
+<sec:authorize access="hasRole('ROLE_TEACHER')" >
 <div id="updateDialog" title="일정 수정">
   <form>
   <div class="form-group">
@@ -87,7 +99,7 @@
   <input type="button" class="btn btn-warning" value="취소"/>
 </form>
 </div>
-
+</sec:authorize>
 
 
 <script src='${pageContext.request.contextPath}/resources/lib/fullCalendar/lib/moment.min.js'></script>
@@ -99,6 +111,13 @@
   var events = []; //event 셋팅 시 물리데이터 담을 배열
   setEvents(); //캘린더 물리데이터 불러와 load하는 메소드
 
+  var editableFlag = false;
+  //강사, 학생 구분 플래그
+  if($('input[name=teacherId]').val()) {
+    editableFlag = true;
+  }
+  
+  
   /**
    * 캘린더 설정을 담은 함수
    * setEvents 내부 동작에서 events 배열에 셋팅 후
@@ -135,7 +154,7 @@
       //셀렉트 이벤트 가능 설정.
       selectable: true,
       //수정 가능 이벤트 설정
-      editable: true,
+      editable: editableFlag,
       //셀렉트 이벤트 발생시 메소드
       select: setSelectInsert,
       //이벤트 클릭시 사용하는 메소드
@@ -161,7 +180,7 @@
     events = [];
 
     $.ajax({
-      url: '/kdc/calendar/calendarSelectByClassCode',
+      url: '${pageContext.request.contextPath}/calendar/calendarSelectByClassCode',
       type: 'post',
       dataType: 'json',
       beforeSend: function(xhr) {
@@ -237,7 +256,7 @@
   //등록버튼 클릭 이벤트
   $('#insertBtn').on('click', function() {
     $.ajax({
-      url: '/kdc/calendar/calendarInsert',
+      url: '${pageContext.request.contextPath }/calendar/calendarInsert',
       type: 'post',
       dataType: 'text',
       data: {
@@ -264,7 +283,7 @@
   //수정버튼 클릭 이벤트
   $('#updateBtn').on('click', function() {
     $.ajax({
-      url: '/kdc/calendar/calendarUpdateDate',
+      url: '${pageContext.request.contextPath }/calendar/calendarUpdateDate',
       type: 'post',
       dataType: 'text',
       data: {
@@ -294,7 +313,7 @@
     var confirmResult = confirm('정말 삭제하시겠습니까?');
     if (confirmResult) {
       $.ajax({
-        url: '/kdc/calendar/calendarDelete',
+        url: '${pageContext.request.contextPath }/calendar/calendarDelete',
         type: 'post',
         dataType: 'text',
         data: {
@@ -385,7 +404,7 @@
     } else {
       //calendar 없데이트로.
       $.ajax({
-        url: '/kdc/calendar/calendarUpdateDate',
+        url: '${pageContext.request.contextPath }/calendar/calendarUpdateDate',
         type: 'post',
         dataType: 'text',
         data: {
@@ -418,7 +437,7 @@
    */
   function setResizeEvent(event, delta, revertFunc, jsEvent, ui, view) {
     $.ajax({
-      url: '/kdc/calendar/calendarUpdateDate',
+      url: '${pageContext.request.contextPath }/calendar/calendarUpdateDate',
       type: 'post',
       dataType: 'text',
       data: {
@@ -445,6 +464,6 @@
 
 </script>
 
-	
+   
 </body>
 </html>

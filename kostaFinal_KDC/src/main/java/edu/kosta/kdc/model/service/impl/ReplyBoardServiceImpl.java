@@ -35,7 +35,7 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     public List<ReplyBoardDTO> selectAll(String title, int pageNo) {
 
         int totalCount = replyBoardDAO.boardQuantityByClassification(title);
-        PageDTO pageDTO = pageHandler.pageInfoSet(pageNo, 5, 5, totalCount);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNo, 10, 5, totalCount);
         
         int firstColumnRange = pageDTO.getFirstColumnRange();
         int lastColumnRange = pageDTO.getLastColumnRange();
@@ -61,7 +61,7 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     public List<ReplyBoardDTO> replyBoardSelectAllOrderBy(String classification, String sort, int pageNo) {
 
         int totalCount = replyBoardDAO.boardQuantityByClassification(classification);
-        PageDTO pageDTO = pageHandler.pageInfoSet(pageNo, 5, 5, totalCount);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNo, 10, 5, totalCount);
         
         int firstColumnRange = pageDTO.getFirstColumnRange();
         int lastColumnRange = pageDTO.getLastColumnRange();
@@ -264,7 +264,7 @@ public class ReplyBoardServiceImpl implements ReplyBoardService {
     @Override
     public List<ReplyBoardDTO> replyBoardListSearch(String department, String boardSearch,String classification, int pageNo) {
         int totalCount = replyBoardDAO.boardQuantityByClassification(classification);
-        PageDTO pageDTO = pageHandler.pageInfoSet(pageNo, 5, 5, totalCount);
+        PageDTO pageDTO = pageHandler.pageInfoSet(pageNo, 10, 5, totalCount);
         
         int firstColumnRange = pageDTO.getFirstColumnRange();
         int lastColumnRange = pageDTO.getLastColumnRange();

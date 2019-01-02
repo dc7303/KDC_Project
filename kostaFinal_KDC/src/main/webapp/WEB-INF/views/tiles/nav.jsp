@@ -34,7 +34,13 @@
       </script>
       
      <style>
-     
+     .nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+      background-color:  #ffb03a !important;
+     }
+     .nav > li > a:hover, .nav > li > a:focus {
+        text-decoration: none;
+        background-color: #03293c !important;
+     }
       .img-responsive{
         margin: 20px 0 20px 5px;
        
@@ -119,11 +125,11 @@
                   <li class="nav-item nav-drawer-header">MENU</li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath }/notice/list?classification=generalNotice"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
+                    <a href="${pageContext.request.contextPath }/notice/list?classification=generalNotice&pageNum=1"><i class="ion-ios-calculator-outline"></i> 공지사항 </a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath }/notice/list?classification=findJobNotice"><i class="ion-ios-compose-outline"></i> 취업게시판</a>
+                    <a href="${pageContext.request.contextPath }/notice/list?classification=findJobNotice&pageNum=1"><i class="ion-ios-compose-outline"></i> 취업게시판</a>
                   </li>
       
                   <li class="nav-item ">
@@ -134,13 +140,13 @@
                     <a href="${pageContext.request.contextPath}/reply/lib?classification=lib&pageNo=1"><i class="ion-ios-list-outline"></i> Tech 공유 게시판</a>
                   </li>
                   
-                  <sec:authorize access="isAuthenticated()">
+                  <sec:authorize access="hasAnyRole('ROLE_STUDENT','ROLE_TEACHER')">
                   <li class="nav-item nav-item-has-subnav">
                     <a href="#"><i class="ion-social-javascript-outline"></i> 반별 게시판</a>
                     <ul class="nav nav-subnav">
        
                       <li>
-                        <a href="${pageContext.request.contextPath }/notice/list?classification=classNotice">반별 공지사항</a>
+                        <a href="${pageContext.request.contextPath }/notice/list?classification=classNotice&pageNum=1">반별 공지사항</a>
                       </li>
         
                       <li>

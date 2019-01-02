@@ -9,11 +9,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
-    
-    <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main2.js"></script>
-<script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
+
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
@@ -26,6 +24,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
 
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main2.js"></script>
 <style type="text/css">
 .replyUpdateImg{
   height: 50px;
@@ -164,7 +163,21 @@ jq(function() {
 </head>
 
 <body>
-
+<c:choose>
+    <c:when test="${requestScope.classification eq 'tech'}">
+    <h2 class="notice-title">Tech Q&A</h2>
+    <p class="underline-board"></p>
+    </c:when>
+    <c:when test="${requestScope.classification eq 'lib'}">
+    <h2 class="notice-title">Tech 공유 게시판</h2>
+    <p class="underline-board"></p>
+    </c:when> 
+    <c:when test="${requestScope.classification eq 'study'}">
+    <h2 class="notice-title">스터디모집</h2>
+    <p class="underline-board"></p>
+    </c:when> 
+  </c:choose>
+  
 <table>
        <thead>
           <tr class="titel-color">
@@ -203,16 +216,16 @@ jq(function() {
         <td>
           <c:choose>
             <c:when test="${replyBoardDTO.updown.isUp==true}">
-            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up_black.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up_black.png" style="cursor: pointer;" id="thumbs_up" onclick="window.location.reload()"></div><br/>
             <div><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down.png"></div>
             </c:when>
             <c:when test="${replyBoardDTO.updown.isUp==false}">
             <div><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up.png"></div><br/>
-            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down_black.png" id="thumbs_down" onclick="window.location.reload()"></div>
+            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down_black.png" style="cursor: pointer;" id="thumbs_down" onclick="window.location.reload()"></div>
             </c:when>      
             <c:otherwise>
-            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up.png" id="thumbs_up" onclick="window.location.reload()"></div><br/>
-            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down.png" id="thumbs_down" onclick="window.location.reload()"></div>     
+            <div class="replyBoardLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_up.png" style="cursor: pointer;" id="thumbs_up" onclick="window.location.reload()"></div><br/>
+            <div class="replyBoardDisLike"><img src="${pageContext.request.contextPath}/resources/assets/img/replyBoardLike/thumbs_down.png" style="cursor: pointer;" id="thumbs_down" onclick="window.location.reload()"></div>     
             </c:otherwise>
           </c:choose>
         </td>
@@ -231,7 +244,7 @@ jq(function() {
         <span><input type="button" value="신고"/></span>
         <script>
         		jq("input[value=신고]").click(function() {
-                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
+                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=400,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
             });
         </script>
         </td>
@@ -303,7 +316,17 @@ jq(function() {
   <c:when test="${replyBoardDTO.replyBoardReplyNo>0}">
       <tr>
         <td style="width: 80px">
+<<<<<<< HEAD
+          <a id="mentionNickName${state.count}" style="cursor: pointer;">${replyBoardDTO.mentionNickName}</a>
+        <script>
+              jq("#mentionNickName${state.count}").click(function() {
+                window.open("${pageContext.request.contextPath }/message/messageReplyPage?senderId=${replyBoardDTO.replyBoardMention}", "pop", "left=500,top=200,width=900,height=700,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
+              });
+        </script>
+=======
+        <input type="hidden" value="${replyBoardDTO.replyBoardMention }"/>
         <a id="mentionNickName" href="#">${replyBoardDTO.mentionNickName}</a>
+>>>>>>> SeongHyeonHong
         </td>
         <td colspan="4">
          <span id="replyBoardContents" style="float: left; padding-right:10px">${replyBoardDTO.replyBoardContents }</span>
@@ -431,7 +454,7 @@ jq(function() {
             </span>
             <script>
               jq("input[name=댓글신고${state.count}]").click(function() {
-                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
+                window.open("${pageContext.request.contextPath}/reply/reportPopForm?replyBoardPkReport=${replyBoardDTO.replyBoardPk}&memberId=${requestScope.memberId}", "pop", "left=500,top=200,width=600,height=400,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
               });
             </script>
           </td>
@@ -475,9 +498,14 @@ jq(function() {
     
 </table>
 
-<div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?classification=${requestScope.classification}">리스트로 돌아가기</a>&gt;</span></div>
+<div align=right><span style="font-size:9pt;">&lt;<a href="${pageContext.request.contextPath}/reply/tech?classification=${requestScope.classification}&pageNo=1">리스트로 돌아가기</a>&gt;</span></div>
 <input type="hidden" name="csrfName" value="${_csrf.headerName}"/>
 <input type="hidden" name="csrfToken" value="${_csrf.token}"/>
 <input type="hidden" name="contextPath" value="${pageContext.request.contextPath}"/>
-
+<script>
+            jq(document).on('click', "#mentionNickName", function() {
+              var senderId = jq(this).parent().children().eq(0).val();
+              window.open("${pageContext.request.contextPath}/message/messageReplyPage?senderId="+senderId, "pop", "left=500,top=200,width=700,height=600,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no");
+            });
+</script>
 </body>

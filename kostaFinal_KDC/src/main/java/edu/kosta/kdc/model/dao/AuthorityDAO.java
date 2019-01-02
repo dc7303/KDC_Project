@@ -21,4 +21,9 @@ public interface AuthorityDAO {
      * @return
      */
     int authorityInsert(AuthorityDTO authorityDTO);
+
+    /**
+     * 가져온 권한이 role_member라면 role_student로 바꾸어 준다.
+     * */
+    int authorityUpdate(String memberId);
 }

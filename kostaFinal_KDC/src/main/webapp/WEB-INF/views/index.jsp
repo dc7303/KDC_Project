@@ -101,33 +101,6 @@ h4{
   
   <div style="width:45%; float:right">
     <h4 class="Tech-header"><i class="ion-ios-list-outline"></i>Tech 공유게시판</h4>
-    <table border="1" width="80%">
-      <colgroup>
-        <col width="50%">
-        <col width="20%">
-        <col width="20%">
-        <col width="*">
-      </colgroup>
-      <c:choose>
-        <c:when test="${empty requestScope.techListFive }">
-          <th colspan="4">게시글이 존재하지 않습니다.</th>
-        </c:when>
-        <c:otherwise>
-          <c:forEach items="${requestScope.techListFive }" var="techListFive">
-            <tr>
-              <th><a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${techListFive.replyBoardPk}&&classification=tech">${techListFive.replyBoardTitle }</a></th>
-              <th>${techListFive.replyBoardWriterId }</th>
-              <th>${techListFive.replyBoardDate }</th>
-              <th>${techListFive.replyBoardViews }</th>
-            </tr>
-          </c:forEach>
-        </c:otherwise>
-      </c:choose>
-    </table>
-  </div>
- 
-  <div style="width:100%; margin-top:20px;">
-    <h4 class="QnA-header"><i class="ion-ios-list-outline"></i>Tech Q&A</h4>
     <table border="1" width="100%">
       <colgroup>
         <col width="50%">
@@ -146,6 +119,34 @@ h4{
               <th>${libListFive.replyBoardWriterId }</th>
               <th>${libListFive.replyBoardDate }</th>
               <th>${libListFive.replyBoardViews }</th>
+            </tr>
+          </c:forEach>
+        </c:otherwise>
+      </c:choose>
+    </table>
+  </div>
+
+  
+  <div style="width:100%;">
+    <h4 class="QnA-header"><i class="ion-ios-list-outline"></i>Tech Q&A</h4>
+    <table border="1" width="80%">
+    <colgroup>
+        <col width="50%">
+        <col width="20%">
+        <col width="20%">
+        <col width="*">
+      </colgroup>
+      <c:choose>
+        <c:when test="${empty requestScope.techListFive }">
+          <th colspan="4">게시글이 존재하지 않습니다.</th>
+        </c:when>
+        <c:otherwise>
+          <c:forEach items="${requestScope.techListFive }" var="techListFive">
+            <tr>
+              <th><a href="${pageContext.request.contextPath}/reply/read?replyBoardPk=${techListFive.replyBoardPk}&&classification=tech">${techListFive.replyBoardTitle }</a></th>
+              <th>${techListFive.replyBoardWriterId }</th>
+              <th>${techListFive.replyBoardDate }</th>
+              <th>${techListFive.replyBoardViews }</th>
             </tr>
           </c:forEach>
         </c:otherwise>

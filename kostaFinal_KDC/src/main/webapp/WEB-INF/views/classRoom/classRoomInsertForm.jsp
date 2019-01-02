@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.css">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
  
- <script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
+
  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/lib/jquery-ui-admin/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	const jq = jQuery.noConflict();
@@ -81,7 +81,7 @@ body{
    <th colspan="2">
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
      <input type="submit" value="등록하기" id="submit">
-     <input type="reset" value="취소하기">
+     <input type="reset" value="다시쓰기">
    </th>
  </tr>
 </table>

@@ -1,6 +1,7 @@
 package edu.kosta.kdc.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import edu.kosta.kdc.model.dto.NoticeBoardDTO;
 
@@ -55,5 +56,30 @@ public interface NoticeBoardDAO {
      * @return List<NoticeBoardDTO>
      * */
     List<NoticeBoardDTO> selectFive();
+    
+    /**
+     * 페이징 count 수량
+     * 
+     * @param department
+     * @param noticeBoardSearch
+     * @param classification
+     * @return
+     */
+    int selectNoticePagingCount(String department, String noticeBoardSearch, String classification);
 
+    /**
+     * notice 페이징 select
+     * 
+     * @param map
+     * @return
+     */
+    List<NoticeBoardDTO> selectNoticePaging(Map<String, Object> map);
+    
+    /**
+     * 전체검색 페이징 처리
+     * 
+     * @param map
+     * @return
+     */
+    public List<NoticeBoardDTO> selectAllForPaging(Map<String, Object> map);
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <HTML>
@@ -12,10 +13,6 @@
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
 
 
-
-<script src="${pageContext.request.contextPath}/resources/lib/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-  <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/jquery/dist/jquery.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/markdown-it/dist/markdown-it.js"></script>
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/to-mark/dist/to-mark.js"></script>
@@ -29,7 +26,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-editor/dist/tui-editor-contents.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/tui-editor-css/editor.css">
 
- 
+ <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 <script language=javascript>
 const jq = jQuery.noConflict();
 
@@ -69,7 +66,20 @@ jq(function(){
 
 </head>
 <body>
-
+<c:choose>
+    <c:when test="${requestScope.classification eq 'tech'}">
+    <h2 class="notice-title">Tech Q&A</h2>
+    <p class="underline-board"></p>
+    </c:when>
+    <c:when test="${requestScope.classification eq 'lib'}">
+    <h2 class="notice-title">Tech 공유 게시판</h2>
+    <p class="underline-board"></p>
+    </c:when> 
+    <c:when test="${requestScope.classification eq 'study'}">
+    <h2 class="notice-title">스터디모집</h2>
+    <p class="underline-board"></p>
+    </c:when> 
+</c:choose>
 
 <form name="writeForm" method="post"  id="editor-form" action="${pageContext.request.contextPath}/reply/insert?classification=${requestScope.classification}">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>

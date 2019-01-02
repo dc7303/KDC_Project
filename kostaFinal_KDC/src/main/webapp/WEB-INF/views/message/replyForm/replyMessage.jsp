@@ -10,7 +10,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+ <script src="${pageContext.request.contextPath }/resources/lib/jquery-3.3.1.min.js" ></script>
 <title>Insert title here</title>
+
 <script type="text/javascript">
 
 const jq = jQuery.noConflict();
@@ -20,6 +22,7 @@ jq(function(){
 
   const messageTitle = 'input[name=messageTitle]';
   const messageContents = 'textarea[name=messageContents]';
+  const senderId = 'input[name=senderId]';
   
   jq(document).on('click','#sendReplyMessage',function(){
     if(jq(messageTitle).val() === ''){
@@ -31,10 +34,32 @@ jq(function(){
       jq(messageContents).focus();
       return false;
     }else{
-      alert("쪽지가 전송되었습니다.");
-      return true;
+      console.log(jq('input[name=writeForm]'));
+      
+      jq.ajax({
+        url:"${pageContext.request.contextPath}/message/insert" , //서버요청주소
+        type:"post" , //전송방식(get or post)
+        dataType:"text", //서버가 보내주는 데이터타입(text,html,xml,json)
+        data: {
+          senderId: jq(senderId).val(),
+          messageTitle: jq(messageTitle).val(),
+          messageContents: jq(messageContents).val()
+        },//서버에게 보낼 parameter정보
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+        },
+        success:function(result){
+          alert(result);
+          window.close();
+        } , //성공했을때
+        error:function(err){
+          alert(err+" => 오류 발생");
+        }  //실패했을때
+      });
     }
   })
+  
+  
 })
 
 </script>
@@ -46,7 +71,7 @@ jq(function(){
 
   <form name="writeForm" id="write" method="post" action="${pageContext.request.contextPath}/message/insert" >
 
-    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1" style="margin: auto; width: 800px;">
+    <table align="center" cellpadding="5" cellspacing="2" width="600" border="1" style="margin: auto; width: 600px;">
 
       <tr>
         <td width="1220" height="20" colspan="2" >
@@ -89,8 +114,8 @@ jq(function(){
       <tr>
         <td width="450" height="20" colspan="2" align="center"><b><span style="font-size: 9pt;"> 
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        <input type="submit" value="전송" id="sendReplyMessage">
-        <input type="button" value="취소" id="cancelWriteMessage" onclick="location.href= '${pageContext.request.contextPath}/message/messageListNoPaging'">
+        <input type="button" value="전송" id="sendReplyMessage" >
+        <input type="button" value="취소" id="cancelWriteMessage" onclick="window.close()">
          </span></b></td>
       </tr>
     </table>
@@ -98,12 +123,6 @@ jq(function(){
   </form>
 </table>
   <hr>
-  <div align=right>
-    <span style="font-size: 9pt;">&lt;<a
-      href="${pageContext.request.contextPath}/">홈으로 이동</a>&gt;
-    </span>
-  </div>
-  
-  
   </body>
+  
   </html>

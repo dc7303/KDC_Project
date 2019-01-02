@@ -35,7 +35,7 @@
     <!-- 회원정보 수정 -->
     <update id="updateByMemberInfo" parameterType="memberDTO">
         update member 
-        set member_pw = #{memberPwd}, member_birthday = #{memberBirth}, member_phonenumber = #{memberPhone}, member_email = #{memberEmail} 
+        set member_pw = #{memberPwd}, member_birthday = #{memberBirth}, member_phonenumber = #{memberPhone}, member_email = #{memberEmail}, MEMBER_NICKNAME = #{memberNickName}
         where member_id = #{memberId}
     </update>
     

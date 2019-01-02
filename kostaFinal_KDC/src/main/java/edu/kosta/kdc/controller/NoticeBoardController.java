@@ -2,6 +2,7 @@ package edu.kosta.kdc.controller;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,12 +33,14 @@ public class NoticeBoardController {
      * 전체 검색
      */
     @RequestMapping("/list")
-    public String Board(Model model, String classification) {
+    public String Board(Model model, String classification, @RequestParam(name = "pageNum") int pageNum) {
         
-        List<NoticeBoardDTO> list = noticeBoardService.selectAll(classification);
-        model.addAttribute("list", list);
+        Map<String, Object> map = noticeBoardService.selectAll(classification, pageNum);
+        
+        model.addAttribute("resultMap", map);
         model.addAttribute("classification", classification);
         
+
         return "notice/noticeList";
     }
 
@@ -44,11 +48,14 @@ public class NoticeBoardController {
      * 조건 검색
      */
     @RequestMapping("/listserch")
-    public String SerchList(String department, String boardSearch, String classification, Model model) {
+    public String SerchList(String department, String boardSearch, String noticeBoardSearch,
+            String classification, Model model, int pageNum) {
 
-        List<NoticeBoardDTO> list = noticeBoardService.SelectSerch(department, boardSearch, classification);
-        model.addAttribute("list", list);
+        Map<String, Object> map = noticeBoardService.selectNoticePaging(department, boardSearch, classification, pageNum);
+        
+        model.addAttribute("resultMap", map);
         model.addAttribute("classification",classification);
+        
         return "notice/noticeList";
     }
 
@@ -79,7 +86,7 @@ public class NoticeBoardController {
         }
         noticeBoardService.noticeInsert(noticeBoard, classification);
         
-        return "redirect:list?classification=" + classification;
+        return "redirect:list?classification=" + classification + "&pageNum=1";
     }
 
     /**
