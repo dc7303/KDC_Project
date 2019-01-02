@@ -37,7 +37,7 @@ public class ReplyBoardController {
         model.addAttribute("list",list);
         model.addAttribute("listSize",listSize);
         model.addAttribute("sort", "REPLY_BOARD_PK");
-        
+        model.addAttribute("pageNo",pageNo);
         return "replyBoard/replyBoardList";
     }
 
@@ -54,6 +54,7 @@ public class ReplyBoardController {
         model.addAttribute("list",list);
         model.addAttribute("listSize",listSize);
         model.addAttribute("sort", sort);
+        model.addAttribute("pageNo",pageNo);
         
         return "replyBoard/replyBoardList";
     }
@@ -215,6 +216,7 @@ public class ReplyBoardController {
         model.addAttribute("listSize",listSize);
         model.addAttribute("department",department);
         model.addAttribute("boardSearch",boardSearch);
+        model.addAttribute("pageNo", pageNo);
         return "replyBoard/replyBoardList";
     }
     

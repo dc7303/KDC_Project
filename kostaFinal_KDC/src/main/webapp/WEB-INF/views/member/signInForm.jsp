@@ -10,7 +10,7 @@
     <script>
     const jq = jQuery.noConflict();
     jq(function() {
-      jq("input[value=비밀번호찾기]").click(function() {
+      jq("#password-search").click(function() {
         window.open("${pageContext.request.contextPath}/member/passwordSearch", "pop", "left=500,top=200,width=600,height=300,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no");
       });  
     });
@@ -42,7 +42,7 @@
        <span class="singin-form-line"></span>
        
        <div class="singin-form">
-            <a href="#"> 비밀번호 찾기 </a>
+            <a href="#" id="password-search"> 비밀번호 찾기 </a>
        </div>
     
         

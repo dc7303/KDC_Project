@@ -26,6 +26,12 @@
 <!-- MetisMenu CSS -->
     <link href="${pageContext.request.contextPath }/resources/lib/test/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
+<style type="text/css">
+  
+
+</style>
+
+
 </head>
 
 <body>
@@ -37,7 +43,7 @@
       <!-- /.dropdown -->
       <sec:authorize access="isAnonymous()">
         <li class="dropdown" id="logoutState">
-          <a id="loginToggle" href="${pageContext.request.contextPath }/member/signInForm">
+          <a id="loginToggle" href="${pageContext.request.contextPath }/member/signInForm" style="color: #337ab7; font-size: 25px;">
             <i class="fa fa-sign-in fa-fw"></i> Login </a></li>
         <!-- /.dropdown -->
       </sec:authorize>
@@ -51,7 +57,7 @@
         <!-- 로그인 상태 -->
         <!-- /.dropdown -->
         <li class="dropdown" id="loginState" style="display: inline-block;">
-          <a class="dropdown-toggle" id="messageDropToggle" data-toggle="dropdown" href="#" style="color: #ffb03a; font-size: 30px;">
+          <a class="dropdown-toggle" id="messageDropToggle" data-toggle="dropdown" href="#" style="color: #337ab7; font-size: 30px;">
             <i class="fa fa-envelope fa-fw"></i>
             <sup><span class="badge badge-danger" id="header-unReadMessage" style="background-color: red;"></span></sup>
           </a>
@@ -82,7 +88,7 @@
         </li> <!-- /.dropdown -->
         
         <li class="dropdown" id="myInfoState" style="display: inline-block; height: 65px;">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #ffb03a; font-size: 30px;"> 
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #337ab7; font-size: 30px;"> 
             <i class="fa fa-user fa-fw"></i> 
             <i class="fa fa-caret-down" ></i>
           </a>
