@@ -133,11 +133,11 @@
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/tech?classification=tech&pageNo=1"> Tech Q&A </a>
+                    <a href="${pageContext.request.contextPath}/reply/tech?classification=tech&pageNo=1"><i class="ion-ios-list-outline"></i> Tech Q&A </a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/lib?classification=lib&pageNo=1"> Tech 공유 게시판</a>
+                    <a href="${pageContext.request.contextPath}/reply/lib?classification=lib&pageNo=1"><i class="ion-ios-list-outline"></i> Tech 공유 게시판</a>
                   </li>
                   
                   <sec:authorize access="hasAnyRole('ROLE_STUDENT','ROLE_TEACHER')">
@@ -162,11 +162,11 @@
                   </sec:authorize>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath}/reply/study?classification=study&pageNo=1">  스터디모집 </a>
+                    <a href="${pageContext.request.contextPath}/reply/study?classification=study&pageNo=1"><i class="ion-ios-list-outline"></i>  스터디모집 </a>
                   </li>
       
                   <li class="nav-item ">
-                    <a href="${pageContext.request.contextPath }/portfolio/selectAll"><i class="ion-ios-browsers-outline"></i> 포트폴리오</a>
+                    <a href="${pageContext.request.contextPath }/portfolio/selectAll"><i class="ion-ios-browsers-outline"></i>  포트폴리오 </a>
                   </li>
                 </ul>
               </nav>

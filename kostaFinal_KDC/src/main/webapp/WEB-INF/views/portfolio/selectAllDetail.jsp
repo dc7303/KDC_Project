@@ -37,8 +37,35 @@
       initialValue : contents
     });
   }
+  
+//답장시, 쪽지 보낸사람(senderId) 유효성 체크 및 메세지 팝업창
+  jq(document).on('click','.add-portfolio',function(){
     
+    var senderId = jq('input[name=portFolioMemberId]').val();
+    
+    jq.ajax({
+      url:"${pageContext.request.contextPath}/message/checkId" , //서버요청주소
+      type:"post" , //전송방식(get or post)
+      dataType:"text", //서버가 보내주는 데이터타입(text,html,xml,json)
+      data:"senderId="+senderId, //서버에게 보낼 parameter정보
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('${_csrf.headerName}', '${_csrf.token}');
+      },
+      success:function(result){
+        if(result === null || result === ''){
+          alert("삭제된 아이디 혹은 없는 아이디 입니다.");
+          self.close();
+        }else{
+          window.open("${pageContext.request.contextPath}/message/messageReplyPage?senderId=" + result, "pop", "left=500,top=200,width=700,height=600,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no");
+        }
+      } , //성공했을때
+      error:function(err){
+        alert(err+" => 오류 발생")
+      }  //실패했을때
+    });
   });
+  
+});
 </script>
 <style>
   .nickname-card{
@@ -123,7 +150,8 @@
   </div>
 </div>
 <div class="send-btn">
-  <a class="add-portfolio button" href="${pageContext.request.contextPath }/message/messageReplyPage?senderId=${portfolio.portFolioMemberId}">쪽지보내기</a>
+  <a class="add-portfolio button" href="#none">쪽지보내기</a>
+  <input type="hidden" name="portFolioMemberId" value="${portfolio.portFolioMemberId}">
 </div>
 
 <c:choose>

@@ -9,6 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" />
+
     <noscript><link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/main.css" /></noscript>
 
   <script src="${pageContext.request.contextPath }/resources/lib/tui-editor/tui-code-snippet/dist/tui-code-snippet.js"></script>
@@ -199,7 +200,15 @@ jq(function() {
 <c:when test="${replyBoardDTO.replyBoardReplyNo==0}">
     <tr>
       <td>
-        <span>${replyBoardDTO.member.memberNickName}</span>
+        
+        <a id="mentionNickName${state.count}" style="cursor: pointer;">${replyBoardDTO.member.memberNickName}</a>
+        <script>
+              jq("#mentionNickName${state.count}").click(function() {
+                window.open("${pageContext.request.contextPath }/message/messageReplyPage?senderId=${replyBoardDTO.replyBoardWriterId}", "pop", "left=500,top=200,width=900,height=700,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
+              });
+        </script>
+        
+        <!-- <span>${replyBoardDTO.member.memberNickName}</span> -->
       </td>
       
       <td colspan="4">
@@ -321,6 +330,7 @@ jq(function() {
                 window.open("${pageContext.request.contextPath }/message/messageReplyPage?senderId=${replyBoardDTO.replyBoardMention}", "pop", "left=500,top=200,width=900,height=700,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no")
               });
         </script>
+
         </td>
         <td colspan="4">
          <span id="replyBoardContents" style="float: left; padding-right:10px">${replyBoardDTO.replyBoardContents }</span>
@@ -500,6 +510,7 @@ jq(function() {
             jq(document).on('click', "#mentionNickName", function() {
               var senderId = jq(this).parent().children().eq(0).val();
               window.open("${pageContext.request.contextPath}/message/messageReplyPage?senderId="+senderId, "pop", "left=500,top=200,width=700,height=600,history=no,location=no,resizable=no,status=no,scrollbars=no,menubar=no");
+              
             });
 </script>
 </body>
